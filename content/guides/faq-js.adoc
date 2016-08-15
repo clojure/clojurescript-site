@@ -669,7 +669,7 @@ In addition, persistent data structures allow for global optimizations
 that are not possible with mutable data structures. In particular,
 ClojureScript has been known to significantly improve the performance of
 React apps by using persistent data structures for caching
-(http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/).
+(http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs).
 
 [[learning-clojurescript]]
 == Learning ClojureScript
