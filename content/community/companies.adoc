@@ -10,6 +10,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://www.8thlight.com[8thlight]
 * http://www.active-group.de/[Active Group]
 * http://www.adaptly.com[Adaptly]
+* http://www.adgoji.com[AdGoji]
 * http://adzerk.com/[Adzerk]
 * http://akvo.org/[Akvo]
 * http://audio.audyx.com/[Audyx]
