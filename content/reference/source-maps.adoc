@@ -1,0 +1,84 @@
+= Source maps
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+ClojureScript now supports HTML source maps so that you can debug
+ClojureScript directly in the browser, using the configuration option
+`:source-map`.
+
+`:source-map` can be either a boolean, or if optimizations are enabled,
+a path to a file for the map.
+
+Using the `bin/cljsc` script herein, you can run something like the
+following on the command line, adjusted for your project:
+
+[source,shell]
+----
+ $ cljsc src '{:optimizations :whitespace :output-dir "out" :output-to "main.js" :source-map "main.js.map"}'
+----
+
+If you are building using leiningen, a similar section in `project.clj`
+would look something like:
+
+[source,clojure]
+----
+ :cljsbuild { 
+    :builds [{:id "main"
+              :source-paths ["src"]
+              :compiler {
+                :output-to "main.js"
+                :output-dir "out"
+                :optimizations :none
+                :source-map true}}]})
+----
+
+After compilation, you may then open a HTML file linking to the
+generated js file in Chrome. Make sure that source maps in
+https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[Chrome
+are enabled via the Chrome Developer Tools settings].
+
+Source maps also work with `:optimizations` set to `:none`. In this case
+the `:source-map` value doesn't control file names. So long as the value
+is truth-y (cf. the leiningen example above), an individual source map
+file will be generated for every ClojureScript source file.
+
+It's important to note there are some source map option restrictions
+when using an `:optimizations` setting other than `:none`. In these
+cases `:output-to`, `:output-dir`, and `:source-map` must all share the
+exact same parent directory. The generated JavaScript file
+(`:output-to`) will contain a line at the end linking it to its source
+map like so:
+
+[source,js]
+----
+//# sourceMapping=<sourceMapURL>
+----
+
+The `sourceMapURL` is the `:source-map` path, relative to `:output-to`,
+since that is how the browser will then resolve it. For example, when
+given:
+
+[source,clojure]
+----
+{:output-to "resources/public/js/compiled/main.js"
+ :output-dir "resources/public/js/compiled"
+ :optimizations :simple
+ :source-map "resources/public/js/compiled/main.js.map"}
+----
+
+The resulting `sourceMapURL` will be: `main.js.map`.
+
+[[web-server-integration]]
+=== Web Server integration
+
+All source files will get copied into `:output-dir` so that they can be
+resolved, however this is not useful in the case where you have a web
+server. `:source-map-path` can be used to define an arbitrary path
+prefix. So instead of source map file references resolving to something
+like `resources/public/js/out` you can instead instead specify
+`:source-map-path "js/out"`.

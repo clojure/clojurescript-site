@@ -1,0 +1,11 @@
+= Sublime Text 2
+David Nolen
+2016-08-02
+:type: tools
+:toc: macro
+:icons: font
+
+Install Sublime Text 2, install Sublime Text Package Control, use that to install the SublimeREPL package, 
+and install the latest Leiningen.
+
+We recommend installing https://github.com/odyssomay/paredit[paredit], https://github.com/odyssomay/sublime-lispindent[lispindent], and http://github.com/wuub/SublimeREPL[SublimeREPL] which ships with support for ClojureScript.

@@ -1,0 +1,50 @@
+= Reporting Bootstrap Issues
+David Nolen
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[ticket-entry]]
+== Ticket Entry
+
+Please enter issues with self-hosted / bootstrapped ClojureScript *
+marked as having Minor priority * title prefixed with "Self-host: " *
+marked with `bootstrap` label
+
+[[minimal-repro]]
+== Minimal Repro
+
+Do not rely on downstream bootstrapped environments to report or
+demonstrate issues.
+
+Oftentimes, a new unit test can be written that fails when
+`script/test-self-parity` is run. (This runs the compiler unit tests,
+but in a bootstrap environment).
+
+Otherwise, reproduction steps generally need to involve minimal code
+that exercises `cljs.js`, demonstrating the issue.
+
+Frequently it is possible to do this with a couple of lines in a REPL.
+Here is an example exercising the `cljs.js/eval-str` API by simply
+issuing a couple forms in the shipping Nashorn REPL:
+
+[source,console]
+----
+$ java -jar cljs.jar -m cljs.repl.nashorn
+To quit, type: :cljs/quit
+cljs.user=> (require 'cljs.js)
+nil
+cljs.user=> (cljs.js/eval-str (cljs.js/empty-state) 
+  "(+ 1 2)" nil {:eval cljs.js/js-eval :context :expr} identity)
+{:ns cljs.user, :value 3}
+----
+
+(Note: If you have Node installed, you can do the same by replacing
+`cljs.repl.nashorn` with `cljs.repl.node` in the above.)
+
+For more complex situations, reproduction could involve additional code,
+or even a new self-host unit test that exhibits the problem. Information
+on self-host unit tests is <<running-tests#,here>>.

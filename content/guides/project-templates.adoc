@@ -1,0 +1,41 @@
+= Project Templates
+David Nolen
+2016-07-29
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[leiningen]]
+== Leiningen
+
+* https://github.com/swannodette/mies[mies] Minimal ClojureScript
+project template
+* https://github.com/bhauman/figwheel-template[figwheel-template] A
+Leinigen template for live coding with figwheel (includes Reagent and Om
+varients)
+* https://github.com/plexus/chestnut[chestnut] Application template for
+ClojureScript/Om with live reloading
+* https://github.com/magomimmo/cljs-start[cljs-start] A lein template
+for creating ClojureScript lib with batteries included
+* https://github.com/priyatam/mala[mala] A lein template for building
+UIs in 100% Clojurescript, with Om, Garden, and curated libs
+* https://github.com/reagent-project/reagent-template[reagent-template]
+A Leiningen template for projects using Reagent
+* https://github.com/Day8/re-frame-template[re-frame-template] Leiningen
+template for reagent web app based on the re-frame pattern. Includes
+figwheel and optionally re-com and secretary
+* https://github.com/karad/lein_template_descjop[descjop] A Leiningen
+template for Web based desktop application with Electron(atom-shell) and
+others
+* https://github.com/ducky427/electron-template[electron-template] A
+Leiningen template for creating Electron based ClojureScript projects
+with support for Reagent
+
+[[boot]]
+== Boot
+
+* https://github.com/martinklepsch/tenzing[tenzing] Clojurescript application template using Boot
+* https://github.com/pandeiro/jamal[jamal] Basic ClojureScript frontend repo with testing using Boot
+* https://github.com/Deraen/saapas[saapas] A complete frontend and backend example using Boot

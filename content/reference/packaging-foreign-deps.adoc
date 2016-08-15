@@ -1,0 +1,78 @@
+= Packaging Foreign Dependencies
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This page explains how to package non-Closure compatible JavaScript
+libraries for ClojureScript consumption. Before packaging a library make
+sure that it has not already been packaged by someone else.
+http://cljsjs.github.io[CLJSJS] is a promising community driven effort
+to provide a curated set of dependencies. To avoid duplication of effort
+and dependency conflicts it's recommended to contribute to a combined
+effort such as CLJSJS.
+
+When packaging a non-Closure compatible library for ClojureScript
+consumption make sure to include the development version of the library,
+the production version of the library, and an externs file. For example
+if you were packaging React for consumption the directory structure
+should probably look like the following:
+
+[source]
+----
+src/deps.cljs
+src/react/react.js
+src/react/react.min.js
+src/react/externs.js
+----
+
+Note that you must specify *deps.cljs*
+
+A *deps.cljs* file for React might look like the following:
+
+[source,clojure]
+----
+{:foreign-libs 
+  [{:file "react/react.js"
+    :file-min "react/react.min.js"
+    :provides ["com.facebook.React"]}]
+ :externs ["react/externs.js"]}
+----
+
+Now users can simply add your JAR like any other dependency in their
+*pom.xml* or *project.clj* and require the `com.facebook.React`
+namespace in their ClojureScript source to import React. It's important
+to understand the namespace in this case is completely synthetic -
+foreign dependencies are always loaded globally.
+
+JARs may contain as many foreign libraries as you like just add more
+entries to the `:foreign-libs` vector.
+
+`:file-min` is completely optional but the above pattern is recommended
+for the best experience for library consumers.
+
+For a full example see
+https://github.com/swannodette/react-cljs[react-cljs].
+
+If your foreign library has dependencies then you must enumerate them in
+a `:requires` vector.
+
+[source,clojure]
+----
+{:foreign-libs 
+  [{:file "jquery/jquery.js"
+    :file-min "jquery/jquery.min.js"
+    :provides ["org.jquery.jQuery"]}
+   {:file "jquery/ui/core.js"
+    :file-min "jquery/ui/core.min.js"
+    :provides ["org.jquery.ui.Core"]
+    :requires ["org.jquery.jQuery"]}
+   {:file "jquery/ui/autocomplete.js"
+    :file-min "jquery/ui/autocomplete.min.js"
+    :provides ["org.jquery.ui.Autocomplete"]
+    :requires ["org.jquery.ui.Core"]}]
+ :externs ["jquery/jquery.js" "jquery/jquery.ui.js"]}
+----

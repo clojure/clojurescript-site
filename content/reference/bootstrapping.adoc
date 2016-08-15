@@ -1,0 +1,59 @@
+= Bootstrapping the Compiler
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+See https://github.com/swannodette/cljs-bootstrap
+
+Current status:
+
+* ClojureScript can now compile both its analyzer & compiler w/o errors.
+Can eval non-trivial ClojureScript exprs from within the JS host.
+* Performance reading, analysis & compilation within bootstrapped
+ClojureScript has been optimized to be roughly within a factor of 2 of
+ClojureScript JVM (varying perf between engines).
+
+* Master is successfully being used in various contexts:
+* https://github.com/swannodette/cljs-bootstrap[cljs-bootstrap]
+* https://twitter.com/bus_kanaka/status/616026801412804608[Node.js REPL]
+* http://clojurescript.net[Browser REPL]
+* https://github.com/mfikes/replete[iOS REPL: Replete]
+* https://github.com/tahmidsadik112/Replicator[Android REPL: Replicator]
+* https://github.com/mfikes/planck[OS X REPL: Planck]
+* http://jellea.github.io/QuilFiddle/[QuilFiddle]
+* http://session-repl.com[SessionRepl]
+* http://roman01la.github.io/threejs-cljs-playground/[Threejs
+playground]
+* https://github.com/ScalaConsultants/replumb[Library for bootstrapped
+REPLs: Replumb]
+
+The following enumerates the remaining tasks:
+
+* Ensure perf is good.
+* Ensure defects are addressed. Many have `bootstrap` label:
+http://dev.clojure.org/jira/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+10040+AND+labels+%3D+bootstrap[JIRA
+Query]
+* Determine if shared bootstrap REPL code will be included and
+implement.
+
+_* you can use the
+https://github.com/cljsinfo/api-refs/tree/catalog#-clojurescript-api-reference[CLJS
+API reference] to help identify imported macros and related Clojure
+types_
+
+[[cljs-in-cljs-from-2012]]
+=== cljs-in-cljs from 2012
+
+As a point of reference, https://github.com/kanaka/clojurescript is a
+previous project to bootstrap the ClojureScript compiler. It is fairly
+dated since it was forked from the main tree on Nov 16th, 2012, however,
+it was self-hosting and allowed for a fully browser-based REPL (original
+version of http://clojurescript.net/). A presentation of the project
+from Clojure West 2013 is here:
+http://www.infoq.com/presentations/cljs-in-cljs

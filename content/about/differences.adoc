@@ -1,0 +1,326 @@
+= Differences from Clojure
+Rich Hickey
+2016-07-29
+:type: about
+:toc: macro
+:icons: font
+:navlinktext: Differences from Clojure
+:prevpagehref: rationale
+:prevpagetitle: Rationale
+:nextpagehref: closure
+:nextpagetitle: Google Closure
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+What follows is a section-by-section review of sections on the left-hand navigation panels of http://clojure.org/about and http://clojure.org/reference, enumerating what is different in ClojureScript and in some cases the similarities.
+
+== Rationale
+
+The rationale for ClojureScript is much the same as for Clojure, with JavaScript in the role of platform, and additional emphasis on the reach of JS, as it is obviously not as rich a platform.
+
+A <<rationale#,deeper discussion on ClojureScript's rationale>> can be found elsewhere on this site.
+
+== State and Identity
+
+Same as Clojure. Clojure's identity model is simpler and more robust than mutable state, even in single threaded environments.
+
+== Dynamic Development
+
+ClojureScript's REPL can be launched from within the Clojure REPL. See <<xref/../../guides/quick-start#,Quick Start>> for details.
+
+Additionally, ClojureScript's self-hosting capability supports extending the dynamic nature to 
+pure JavaScript environments where third-party REPLs and other dynamic facilities can be created.
+
+== Functional Programming
+
+ClojureScript has the same immutable persistent collections as Clojure on the JVM.
+
+== Lisp
+
+Unlike in Clojure, ClojureScript macro definitions and their use cannot be intermixed in the same compilation stage. See the Macros section below.
+
+== Runtime Polymorphism
+
+* ClojureScript protocols have the same semantics as Clojure protocols.
+
+== Concurrent Programming
+
+Clojure's model of values, state, identity, and time is valuable even in single-threaded environments.
+
+* Atoms work as in Clojure
+* No Refs nor STM
+* The user experience of `binding` is similar to that in Clojure
+** Vars
+*** not reified at runtime
+*** many development time uses of reification are obviated by access to Clojure data structures via the analyzer
+** `def` produces ordinary JS variables
+* Agents are currently not implemented
+
+== Hosted on the JVM
+
+* ClojureScript is hosted on JavaScript VMs
+* Optionally, it may use Google's Closure compiler for optimization
+* It is [designed to leverage Google's Closure library](./Google-Closure), and participates in its dependency/require/provide mechanism
+
+== Getting Started
+
+See <<xref/../../guides/quick-start#,Quick Start>>
+
+== The Reader
+
+* Numbers
+** ClojureScript currently only supports integer and floating point literals that map to JavaScript primitives
+*** Ratio, BigDecimal, and BigInteger literals are currently not supported
+*** Equality on numbers works like JavaScript, not Clojure: `(= 0.0 0) => true`
+
+* Characters
+** ClojureScript does not have character literals. Instead characters are the same as in JavaScript (i.e. single-character strings)
+* Lists, Vectors, Maps, and Set literals are the same as in Clojure
+* Macro characters
+** Because there is no character type in ClojureScript, ``\`` produces a single-character string.
+* `read`
+** The `read` and `read-string` functions are located in the `cljs.reader` namespace
+
+== The REPL and main
+
+* See <<xref/../../guides/quick-start#,Quick Start>> for instructions the ClojureScript REPL.
+* `main` support is currently not implemented
+
+== Evaluation
+
+* ClojureScript has the same evaluation rules as Clojure
+* `load` is planned 
+* `load-file` exists, but only as a REPL special function
+* While Clojure performs locals clearing, ClojureScript does not
+
+== Special Forms
+
+The following ClojureScript special forms are identical to their Clojure
+cousins: `if`, `do`, `let`, `letfn`, `quote`, `loop`, `recur`, `throw`, and `try`.
+
+* `var` notes
+** Vars are not reified at runtime. When the compiler encounters the `var` special form it emits a `Var` instance reflecting *compile time* metadata. (This satisfies many common *static* use cases.)
+* `def` notes
+** `def` produces ordinary JS variables
+** `:private` metadata is not enforced by the compiler
+** `:const` metadata in ClojureScript disallows re-`def` and supports `case`. In Clojure `:const` allows re-`def` but value inlined at use site.
+** A `def` form evaluates to the value of the init form (instead of the var), unless the `:def-emits-var` compiler option is set (which defaults to `true` for REPLs) 
+* `if` notes
+** the section about Java's boolean boxes is irrelevant in ClojureScript
+* `fn` notes
+** There is currently no runtime enforcement of arity when calling a fn
+* `monitor-enter`, `monitor-exit`, and `locking` are not implemented
+
+== Macros
+
+ClojureScript's macros must be defined in a different _compilation stage_ than the one from 
+where they are consumed. One way to achieve this is to define them in one namespace and use them from another. 
+
+Macros are referenced via the `:require-macros` keyword in 
+namespace declarations:
+
+[source,clojure]
+----
+(ns my.namespace
+  (:require-macros [my.macros :as my]))
+----
+      
+Sugared and other `ns` variants can be employed in lieu of using the `:require-macros` primitive; see Namespaces below for details.
+
+Macros are written in `*.clj` or `*.cljc` files and are compiled either as Clojure when 
+using regular ClojureScript or as ClojureScript when using bootstrapped / self-host 
+ClojureScript. One point of note is that the code generated by Clojure-based 
+ClojureScript macros must target the capabilities in ClojureScript.
+
+----
+ClojureScript namespaces _can_ require macros from the selfsame namespace, so long as they
+are kept in different compilation stages. So, for example a `foo.cljs` or `foo.cljc` file can make 
+use of a `foo.cljc` or `foo.clj` file for its macros.
+----
+
+Unlike in Clojure, in ClojureScript a macro and a function can have the same name (for example the `cljs.core/+` macro and `cljs.core/+` function can coexist).
+
+[NOTE]
+====
+You may be wondering: “If that's the case, which one do I get?” ClojureScript (unlike Clojure) has two distinct stages that make use of two separate non-interacting namespaces. Macroexpansion occurs first, so a form like `(+ 1 1)` initially involves the `cljs.core/+` macro. On the other hand, in a form like `(reduce + [1 1])`, the `+` symbol is not in operator position, and passes untouched through macroexpansion to analysis/compilation where it is resolved as the `cljs.core/+` function.
+====
+
+== Other Functions
+
+* printing
+** `*out*` and `*err*` is currently not implemented
+* regex support
+** ClojureScript https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp[regular expression support is that of JavaScript]
+* asserts
+** In JVM ClojureScript it is not possible to dynamically set `*assert*` to false at runtime. Instead the `:elide-asserts` compiler option must be used to effect elision. (On the other hand, in self-hosted ClojureScript `*assert*` behaves identically to Clojure.)
+
+== Data Structures
+
+* Numbers
+** Currently ClojureScript numbers are just JavaScript numbers
+* Coercions are not implemented, since there are currently no types to coerce to
+* Characters
+** JavaScript has no character type. Clojure characters are represented internally as single-character strings
+* Keywords
+** ClojureScript keywords are not guaranteed to be `identical?`, for fast equality testing use `keyword-identical?`
+* Collections
+** Persistent collections available
+*** Ports of Clojure's implementations
+** Transient support in place for persistent vectors, hash maps and hash sets
+** Most but not all collection fns are implemented
+
+== Seqs
+
+* Seqs have the same semantics as in Clojure, and almost all Seq library functions are available in ClojureScript.
+
+== Protocols
+
+* `defprotocol` and `deftype`, `extend-type`, `extend-protocol` work as in Clojure
+* Protocols are not reified as in Clojure, there are no runtime protocol objects
+* Some reflective capabilities (`satisfies?`) work as in Clojure
+** `satisfies?` is a macro and must be passed a protocol name
+* `extend` is not currently implemented
+* `specify`, extend immutable values to protocols - instance level `extend-type` without wrappers
+
+== Metadata
+
+Works as in Clojure.
+
+== Namespaces
+
+Namespaces in ClojureScript are compiled to Google Closure namespaces which are represented as nested JavaScript objects. Importantly this means that namespaces and vars have the potential to clash - however the compiler can detect these problematic cases and will emit a warning when this occurs.
+
+* You must currently use the `ns` form only with the following caveats
+** You must use the `:only` form of `:use`
+** `:require` supports `:as` and `:refer`
+*** both options can be skipped
+*** in this case a symbol can be used as a libspec directly
+**** * that is, `(:require lib.foo)` and `(:require [lib.foo])` are both supported and mean the same thing
+*** http://clojure.github.io/clojure/clojure.core-api.html#clojure.core/require[prefix lists] are not supported
+** The only option for `:refer-clojure` is `:exclude`
+** `:import` is available only for importing Google Closure classes
+*** ClojureScript types and records should be brought in with `:use` or `:require :refer`, not `:import`ed
+* Macros must be defined in a different _compilation stage_ than the one from 
+where they are consumed. One way to achieve this is to define them in one namespace and use them from another. They are referenced via the `:require-macros` / `:use-macros` options to `ns`
+** `:require-macros` and `:use-macros` support the same forms that `:require` and `:use` do
+
+_Implicit macro loading_: If a namespace is required or used, and that namespace _itself_ requires or uses macros from its own namespace, then the macros will be implicitly required or used using the same specifications. This oftentimes leads to simplified library usage, such that the consuming namespace need not be concerned about explicitly distinguishing between whether certain vars are functions or macros.
+
+_Inline macro specification_: As a convenience, `:require` can be given either `:include-macros true` or `:refer-macros
+[syms...]`. Both desugar into forms which explicitly load the matching Clojure file containing macros. (This works independently of whether the namespace being required internally requires or uses its own macros.) For example:
+
+[source,clojure]
+----
+(ns testme.core
+  (:require [foo.core :as foo :refer [foo-fn] :include-macros true]
+            [woz.core :as woz :refer [woz-fn] :refer-macros [apple jax]]))
+----
+
+is sugar for
+
+[source,clojure]
+----
+(ns testme.core
+  (:require [foo.core :as foo :refer [foo-fn]]
+            [woz.core :as woz :refer [woz-fn]])
+  (:require-macros [foo.core :as foo]
+                   [woz.core :as woz :refer [apple jax]]))
+----
+
+== Libs
+
+Existing Clojure libs will have to conform to the ClojureScript subset in order to work in ClojureScript.
+
+Additionally, macros in Clojure libs must be compilable as ClojureScript in order to be consumable in
+self-host / bootstrapped ClojureScript via its `cljs.js/*load-fn*` capability.
+
+== Vars and the Global Environment
+
+* `def` and `binding` work as in Clojure
+** but on ordinary js variables
+** Clojure can represent unbound vars. In ClojureScript `(def x)` results in `(nil? x)` being true.
+** In Clojure, `def` yields the _var itself_. In ClojureScript `def` yields the _value_, unless the REPL option <<xref/../../../reference/repl-options#def-emits-var#,:def-emits-var>> is set (this defaults to `true` for REPLs).  
+* Atoms work as in Clojure
+* Refs and Agents are not currently implemented
+* Validators work as in Clojure
+* `intern` not implemented - no reified Vars
+
+== Refs and Transactions
+
+Refs and transactions are not currently supported.
+
+== Agents
+
+Agents are not currently supported.
+
+== Atoms
+
+Atoms work as in Clojure.
+
+== Host Interop
+
+The host language interop features (`new`, `/`, `.`, etc.) work as in Clojure where possible, e.g.:
+
+[source,clojure]
+----
+goog/LOCALE
+=> "en"
+
+(let [sb (goog.string.StringBuffer. "hello, ")]
+ (.append sb "world")
+ (.toString sb))
+    => "hello, world"
+----
+    
+In ClojureScript `Foo/bar` always means that `Foo` is a namespace. It cannot be used for the Java static field access pattern common in Clojure as there's no reflection information in JavaScript to determine this.
+
+The special namespace `js` provides access to global properties:
+
+[source,clojure]
+----
+js/Infinity
+=> Infinity
+----
+
+To access object properties (including functions that you want as a value, rather than to execute) use a leading hyphen:
+
+[source,clojure]
+----
+(.-NEGATIVE_INFINITY js/Number)
+=> -Infinity
+----
+
+=== Hinting
+
+While `^long` and `^double`—when used on function parameters—are type _declarations_ in Clojure, they are type _hints_ in ClojureScript.
+
+Type hinting is primarily used to avoid reflection in Clojure. In ClojureScript, the only type hint of significance is the `^boolean` type hint: It is used to avoid checked `if` evaluation (which copes with the fact that, for example, `0` and `""` are false in JavaScript and true in ClojureScript). 
+
+== Compilation and Class Generation
+
+Compilation is different from Clojure:
+
+* All ClojureScript programs are compiled into (optionally optimized) JavaScript.
+* Individual files can be compiled into individual JS files for analysis of output
+* Production compilation is whole-program compilation via Google Closure compiler
+* `gen-class`, `gen-interface`, etc. are unnecessary and unimplemented in ClojureScript
+
+== Other Libraries
+
+ClojureScript currently includes the following non-core namespaces ported from Clojure:
+
+* `clojure.set`
+* `clojure.string`
+* `clojure.walk`
+* `clojure.zip`
+* `clojure.data`
+* `clojure.core.reducers`
+** `fold` is currently an alias for `reduce`
+* `cljs.pprint` (port of `clojure.pprint`)
+* `cljs.test` (port of `clojure.test`)
+
+== Contributing
+
+Clojure and ClojureScript share the same http://clojure.org/contributing[Contributor Agreement and development process].

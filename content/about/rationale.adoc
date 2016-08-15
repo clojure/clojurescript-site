@@ -1,0 +1,45 @@
+= Rationale
+Rich Hickey
+2016-07-29
+:type: about
+:toc: macro
+:icons: font
+:navlinktext: Rationale
+:nextpagehref: differences
+:nextpagetitle: Differences from Clojure
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+== JavaScript's Reach
+
+There are many environments (e.g. browsers) in which JavaScript is the only programmable technology. There are others (e.g. mobile) where JavaScript is the most portable development approach. And JavaScript is widely used as an extension or scripting language, e.g. as an extension or indexing language in a database.
+
+== JavaScript is not Robust
+
+However, even JavaScript's proponents will acknowledge its shortcomings. There are many dark corners in the language semantics.  It is not particularly concise, and it's not well suited for metaprogramming or extension. Most troubling is that writing robust JavaScript programs, while possible, requires a combination of extensive discipline and convention, and conventions differ between development shops, communities and libraries.
+
+== Client-service Applications are on the Rise
+
+Initial use of JavaScript was oriented towards adding interaction to document/page oriented sites closely aligned to the linked hypertext design of the web. Increasingly JavaScript is being used to construct client-service applications (e.g. Google's apps), where the JavaScript represents an ongoing piece of logic, data, and UI connected to one or more network accessible services. Such applications place much greater demands on their JavaScript hosted portions.
+
+== JavaScript Engines Gain Power
+
+As JavaScript has been called upon to do more and more, JavaScript engines have moved from simple interpreters to quite sophisticated and high performance execution platforms involving native code generation and classic and novel dynamic language optimizations. The engines, in the large, are specifically oriented towards JavaScript semantics and execution, i.e. they are not as general as the JVM and CLR.
+
+== Google Leads the Way
+
+As the leading purveyor of client-service applications, with tremendous resources and a vested interest in web-hosted applications, Google has cutting-edge technology in this area. From the V8 JS engine to the whole-program optimizing symbiotic pair of Closure library and the Closure compiler, Google has open sourced the most advanced technology available in this area. It is worthwhile to understand and leverage what they have provided.
+
+== The Library Problem
+
+As applications are asked to do more, developers will seek to use more, and larger, libraries. But many of the target platforms are memory constrained, or network connected, and there is much pressure to reduce code size. Minification makes each library smaller, but minification alone still dictates a code size equal to the sum of the minified library sizes. However, applications rarely use all of the code in the libraries they consume. Whole program optimization can be used to construct an application whose code size footprint consists only of the code actually used, regardless of the number or size of the libraries utilized. This is the strategy pursued by the Google Closure library and compiler pair.
+
+= Opportunity
+
+A development platform with extensive reach, portability, multi-vendor support, an optimization arms race, sophisticated tools, implemented on all new devices, and a call for richer and more sophisticated applications - what more could developers want? A different language, that's what. While efforts are underway to improve JavaScript, you can't significantly improve something with extensive reach in a timely manner - your improved version won't have the same reach for a long time, if ever. Thus JavaScript _as it currently exists_ is a given, and becomes the target, rather than the source language.
+
+== ClojureScript
+
+ClojureScript seeks to address the weak link in the client/embedded application development story by replacing JavaScript with Clojure, a robust, concise and powerful programming language. In its implementation, ClojureScript adopts the strategy of the Google Closure library and compiler, and is able to effectively leverage both tools, gaining a large, production-quality library and whole-program optimization. ClojureScript brings the rich data structure set, functional programming, macros, reader, destructuring, polymorphism constructs, state discipline and many other features of Clojure to every place JavaScript reaches.

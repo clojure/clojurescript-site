@@ -1,0 +1,28 @@
+= Building the compiler
+David Nolen
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Checkout this git repository and run:
+
+[source,sh]
+----
+script/build
+----
+
+At the end of the build output you will see a line similar to the one
+below, but with different version numbers.
+
+[source,sh]
+----
+[INFO] Installing <...>/clojurescript/target/clojurescript-1.7.164-aot.jar to /Users/username/.m2/repository/org/clojure/clojurescript/1.7.164/clojurescript-1.7.164-aot.jar
+----
+
+This shows that ClojureScript 1.7.164 has been built, and is installed
+in your local Maven repo. To use it, specify your ClojureScript
+dependency as `[org.clojure/clojurescript "1.7.164"]` (but with the
+version number that you built).

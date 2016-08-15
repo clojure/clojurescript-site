@@ -1,0 +1,333 @@
+= REPL and Evaluation
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+One of the reasons for creating ClojureScript is that JavaScript
+reaches. There are many interesting environments in which JavaScript can
+run. Each of these environments has something unique about it. One of
+the reasons that Clojure rocks is that it has a REPL which gives
+developers the most dynamic development experience possible. We would
+like to support this dynamic development experience in every environment
+where JavaScript runs. To accomplish this, we have created an
+abstraction around the JavaScript environment and disconnected the REPL
+from any particular implementation. This gives the REPL the same reach
+as JavaScript as well as allowing evaluation environment implementations
+to be used independently for things like automated testing and
+cross-environment testing.
+
+Most projects will target a specific environment. These changes will
+allow developers to have the full benefit of a REPL in their target
+environment. Currently there are implementations for multiple
+environments: Rhino, Node.js, and the browser. By implementing one
+protocol, one may easily support additional environments.
+
+[[using-the-repl]]
+== Using the REPL
+
+The basic usage of the REPL is always the same:
+
+1. require `cljs.repl`
+2. require the namespace which implements the desired evaluation
+environment
+3. create a new evaluation environment
+4. start the REPL with the created environment
+
+Using the REPL will also feel the same in each environment; forms are
+entered, results are printed and side-effects happen where they make the
+most sense.
+
+[[using-the-rhino-environment]]
+=== Using the Rhino Environment
+
+[source,clojure]
+----
+(require '[cljs.repl :as repl])
+(require '[cljs.repl.rhino :as rhino]) ;; require the rhino implementation of IJavaScriptEnv
+(def env (rhino/repl-env)) ;; create a new environment
+(repl/repl env) ;; start the REPL
+----
+
+This is very much the same as it was before and will behave the same as
+the old ClojureScript REPL.
+
+[[using-the-browser-as-an-evaluation-environment]]
+=== Using the browser as an Evaluation Environment
+
+A browser-connected REPL works in much the same way as a normal REPL:
+forms are read from the console, evaluated and return values are
+printed. A major and useful difference from normal REPL usage is that
+all side-effects occur in the browser. You can show alerts, manipulate
+the dom and interact with a running application.
+
+There is a sample project under `samples/repl` which shows how to set up
+a minimal browser-connected REPL. The example below will walk through
+doing the same thing, step-by-step.
+
+The first step is to create the browser side of the connection. This is
+done by requiring one file and adding one line of code, as shown below
+in a file named `foo.cljs`.
+
+[source,clojure]
+----
+(ns foo
+  (:require [clojure.browser.repl :as repl]))
+(repl/connect "http://localhost:9000/repl")
+----
+
+The most interesting use case for a browser-connected REPL is to connect
+it to a project and use the REPL to drive and develop an application
+while it is running. To accomplish this, add the code above to any
+namespace in the project.
+
+Next, compile the file in either development mode or with simple
+optimizations. No advanced optimizations please.
+
+[source,bash]
+----
+./bin/cljsc foo.cljs > foo.js
+----
+
+Create a host html page named index.html like the one shown below.
+
+[source,html]
+----
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Browser-connected REPL</title>
+  </head>
+  <body>
+    <div id="content">
+      <script type="text/javascript" src="out/goog/base.js"></script>
+      <script type="text/javascript" src="foo.js"></script>
+      <script type="text/javascript">
+        goog.require('foo');
+      </script>
+    </div>
+  </body>
+</html>
+----
+
+There is nothing different about this and what one would do for any
+other browser-based ClojureScript project.
+
+Start the REPL using the pattern described above, but with the browser
+as the evaluation environment.
+
+[source,clojure]
+----
+(require '[cljs.repl :as repl])
+(require '[cljs.repl.browser :as browser])  ;; require the browser implementation of IJavaScriptEnv
+(def env (browser/repl-env)) ;; create a new environment
+(repl/repl env) ;; start the REPL
+----
+
+Once the REPL has started, you will see the message "Starting server on
+port 9000". At this point, open the html page by going to
+http://localhost:9000 to complete the connection. Once the page is open
+and the connection is made, the REPL prompt will be displayed.
+
+Port 9000 is the default. Notice that we point the browser to this port
+in the client code above. To use a different port, pass a :port option
+when creating a new evaluation environment.
+
+[source,clojure]
+----
+(def env (browser/repl-env :port 8090)) ;; listen on port 8090
+----
+
+Just in case you can't think of anything interesting to do, here are
+some ideas.
+
+[source,clojure]
+----
+;; the basics
+(+ 1 1)
+(:a {:a :b})
+(reduce + [1 2 3 4 5])
+(defn sum [coll] (reduce + coll))
+(sum [2 2 2 2])
+
+;; load a ClojureScript file and use it
+(load-file "clojure/string.cljs")
+(clojure.string/reverse "ClojureScript")
+
+;; browser specific
+(js/alert "I am an evil side-effect")
+
+(ns test.dom (:require [clojure.browser.dom :as dom]))
+(dom/append (dom/get-element "content")
+            (dom/element "ClojureScript is all up in your DOM."))
+
+;; load and use goog code we haven't used yet
+(ns test.crypt (:require [goog.crypt :as c]))
+(c/stringToByteArray "ClojureScript")
+
+(load-namespace 'goog.date.Date)
+(goog.date.Date.)
+----
+
+There is currently no `require` function but `ns` forms can be used to
+load, require and alias new namespaces. The functions `load-file` and
+`load-namespace` can be used to load code with any environment and are
+described in more detail below.
+
+[[browser-connected-repl-options]]
+==== Browser-connected REPL Options
+
+There are currently two options which may be used to configure the
+browser evaluation environment.
+
+* `:port` set the port to listen on - defaults to 9000
+* `:working-dir` set the working directory for compiling REPL related
+code - defaults to ".repl"
+
+[[loading-code]]
+=== Loading code
+
+The code above shows examples of three ways to load code into an
+evaluation environment: `load-file`, `load-namespace` and within a `ns`
+form. `load-file` is the most low level method of loading code. It may
+only be used to load ClojureScript files. It will compile them and
+evaluate the compiled JavaScript. `load-namespace` loads any file,
+ClojureScript or JavaScript, with all of its dependencies, which have
+not already been loaded, in dependency order. When a namespace is
+required in an `ns` form, each required namespace will be loaded using
+`load-namespace`.
+
+These functions are available in every evaluation environment.
+
+[[implementation]]
+== Implementation
+
+If you would like to work on this code then the following notes about
+implementation will be helpful.
+
+[[goals]]
+=== Goals
+
+* No additional dependencies
+* Should work *now* in all browsers
+* Security is a non-goal, this is for development and testing
+
+[[the-ijavascriptenv-protocol]]
+=== The IJavaScriptEnv Protocol
+
+To create a new environment, implement the IJavaScriptEnv protocol.
+
+[source,clojure]
+----
+(defprotocol IJavaScriptEnv
+  (-setup [this opts])
+  (-evaluate [this filename line js])
+  (-load [this ns url])
+  (-tear-down [this]))
+----
+
+`setup` and `tear-down` do any work which is required to create and
+destroy the JavaScript evaluation environment. These functions will have
+side-effects and will return nil.
+
+`evaluate` takes a file name, line number and a JavaScript string and
+evaluates the string returning a map with the keys `:status` and
+`:value`. The value of status may be `:success`, `:error` or
+`:exception`. `:value` will be the return value or an error message. In
+the case of an exception, there may be a `:stacktrace` key containing
+the stack trace.
+
+The `load` function takes a list of namespaces which are provided by a
+JavaScript file and the URL for the file and will load JavaScript from
+the given URL into the environment. The implementation is not
+responsible for ensuring that each namespace is loaded once and only
+once, as this is <<xref/../../../guides/custom-repls#eliminating-loaded-libs-tracking,managed
+by the infrastructure>>.
+
+[[browser-as-evaluation-environment]]
+=== Browser as Evaluation Environment
+
+To create the browser-connected REPL and meet the goals described above,
+we use long-polling and Google's CrossPageChannel. Long-polling allows
+us to treat the browser as the server and CrossPageChannel helps us get
+around the same-origin policy.
+
+The model for a browser-connected REPL is that the REPL is the client
+and the browser is the server which evaluates JavaScript code. How do we
+implement this without resorting to WebSockets? If we think of the
+connection as a series of messages being passed between the browser and
+the REPL, and we ignore the first message sent from the browser, then we
+have what we need. When the browser initially connects, the REPL will
+hold that connection until is has something to send for evaluation. Once
+the next form is read and compiled, it will be sent to the browser using
+that saved connection. The browser will evaluate it and send the result
+with a new connection. And the cycle repeats...
+
+Browsers enforce a same-origin policy for JavaScript code. This means
+that the JavaScript which is evaluated in a page can come from only one
+origin domain. This is a problem for the browser-connected REPL because
+FireFox and Chrome both view opening a file from the file system and
+connecting to localhost:9000 as different domains. It may also be a
+valid use case to want to connect to an application served from a
+totally different domain, which would be prohibited in all browsers.
+
+Fortunately, Google has also run into this problem and has created
+something called a CrossPageChannel. Without going into the details,
+this allows an iframe served from one domain (the REPL) to communicate
+with the parent page which was served from another domain (the
+application server). This is accomplished in a way that is supported by
+all modern browsers.
+
+[[code-loading-in-the-browser]]
+=== Code loading in the Browser
+
+Google Closure has a technique for loading dependencies. It uses a
+dependency file to create a dependency graph and to map namespaces to
+files. The ClojureScript `build` function creates this kind of
+dependency file when compiling a project in development mode. Google
+Closure makes the assumption that everything that needs to known about
+dependencies will be known when the application starts. This assumption
+is not valid when using a REPL and leads to two limitations.
+
+The first limitation is that all dependencies need to be included in
+these files before the application starts. We cannot add new
+dependencies later for new ClojureScript or JavaScript namespaces that
+we would like to use.
+
+Another limitation is that Google's method of loading dependencies
+assumes that all dependencies will be loaded when the application
+starts. The implementation of `goog.writeScriptTag_` uses
+`document.write` to add new script tags to a page. This works when it is
+used during the initial page load but if used after the page is loaded,
+it will remove the document's content. This means that even if the
+dependency file contains the dependency that we would like to load, it
+cannot be loaded. This can be fixed. See
+https://github.com/ibdknox/brepl/blob/master/out/brepl.js for an
+example.
+
+The ClojureScript REPL already has a `load-file` function which can be
+used to load a single ClojureScript file. This function does not account
+for dependencies and cannot be used to load third-party JavaScript
+files.
+
+This suggests that we need one unified way to load things which will
+work for anything that we may want to load. The `load-namespace`
+function was created for this purpose. It uses the build system to
+calculate all dependencies for the given namespace. This includes
+anything that we can currently build into a project: ClojureScript
+files, JavaScript files as well as third-party ClojureScript and
+JavaScript. Each dependency is then passed to the `-load` function in
+dependency order. The `-load` function is responsible to determining if
+the namespace has already been loaded and, if it has not, evaluating the
+JavaScript.
+
+When the REPL compiles a namespace form, it will check for required
+namespaces and call `load-namespace` on each of them.
+
+Note: conveying the :libs option to the REPL so that it can find
+third-party JavaScript libraries has not yet been implemented.

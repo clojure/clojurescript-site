@@ -1,0 +1,74 @@
+= Community Resources
+David Nolen
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[tutorials]]
+== Tutorials
+
+* http://github.com/magomimmo/modern-cljs[modern-cljs]
+* http://funcool.github.io/clojurescript-unraveled/[ClojureScript
+Unraveled] (book)
+* http://clojurescriptmadeeasy.com/[ClojureScript Made Easy] (blog)
+* https://github.com/bhauman/lein-figwheel/wiki/Quick-Start[Getting
+started with Figwheel]
+* https://github.com/vvvvalvalval/reagent-phonecat-tutorial/wiki[Reagent
+Phonecat] : official AngularJS 1.X tutorial, re-written for
+ClojureScript + Reagent.
+
+[[learning-tools]]
+== Learning Tools
+
+* http://planck-repl.org[Planck] Stand-alone OS X ClojureScript REPL
+* https://itunes.apple.com/us/app/replete/id1013465639?ls=1&mt=8[Replete]
+ClojureScript REPL iOS app
+* https://github.com/priyatam/replify[Replify] Standalone Clojurescript
+REPL and minimalist build tool
+* https://github.com/princejwesley/Mancy[Mancy] Electron based NodeJS
+REPL with ClojureScript Support + (Data Visualisation, Transpiled JS
+View & more…)
+
+[[online-clojurescript-repls]]
+== Online Clojurescript REPLs
+
+* http://app.klipse.tech[KLIPSE]
+* http://clojurescript.io/[clojurescript.io]
+* http://clojurescript.net/[clojurescript.net]
+
+[[getting-help]]
+== Getting Help
+
+[[chat]]
+=== Chat
+
+* IRC: `#clojurescript` on https://freenode.net/[freenode.net]
+* Slack: `#clojurescript` on http://clojurians.slack.com/[clojurians]
+* http://clojurians.net/[you can get invite here]
+* http://clojurians-log.mantike.pro/clojurescript/index.html[searchable
+chat logs]
+
+[[mailing-lists]]
+=== Mailing Lists
+
+* http://groups.google.com/group/clojurescript[ClojureScript user
+mailing list]
+* http://groups.google.com/group/clojure[Clojure mailing list]
+
+[[feedback]]
+=== Feedback
+
+ClojureScript does not take pull requests. Please follow the links below
+to contribute to ClojureScript.
+
+* http://dev.clojure.org/jira/browse/CLJS[Bug Reports]
+* http://dev.clojure.org/display/design/Home[Design Docs]
+* http://groups.google.com/group/clojure-dev[Dev Mailing List] -
+membership restricted to those who have submitted a signed
+http://clojure.org/contributing[Clojure CA] (Contributor Agreement)
+* http://groups.google.com/group/clojurescript[ClojureScript Mailing
+List]
+* Become a http://clojure.org/contributing[Contributor]

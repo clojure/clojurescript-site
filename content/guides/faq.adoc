@@ -1,0 +1,17 @@
+= Frequently Asked Questions
+David Nolen
+2016-08-01
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+== Builds
+
+[[slow_dev]]
+**<<faq#slow_dev,Why are my dev builds slow?>>**
+
+Make sure that your development classpath does not unnecessarily include test directories. ClojureScript now always recompiles child namespaces and changing a file could easily unintentionally trigger recompilation of all of your tests. Passing `:verbose true` is a simple way to check that the compiler isn't compiling more than it should.

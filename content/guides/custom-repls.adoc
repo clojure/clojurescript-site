@@ -1,0 +1,121 @@
+= Custom REPLs
+David Nolen
+2016-08-01
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This page documents recent changes to requirements for custom REPLs that
+use the functionality provided in
+https://github.com/clojure/clojurescript/blob/master/src/clj/cljs/repl.clj[cljs.repl].
+These changes have been made towards the goal of dramatically
+diminishing the start time of _all_ ClojureScript REPLs and simplifying
+the synchronization of REPL state with compiled source. This is
+accomplished by reusing the globally available compilation caching
+infrastructure. In fact it is currently possible to launch a REPL with
+`:output-dir` set to an existing compilation cache and incur no analysis
+or compilation.
+
+Under the new infrastructure all the builtin REPLs are capable of
+booting on modern hardware in a second or less.
+
+[[expectations]]
+=== Expectations
+
+In order to boot REPLs as quickly as possible REPLs must implement the
+new 2-arg arity of `-setup` which take the typical compiler build
+options. In the past `-setup` was permitted to be asynchronous - this is
+no longer supported, REPLs must now compile and load cljs.core and all
+of its dependencies during `-setup`. In `-setup` REPLs should use the
+build options to cache compiled JavaScript and analysis information to
+the expected location. Note, while it is OK to stream compiled forms the
+user has entered this should be avoided at all costs for loading
+namespaces - REPLs should rely on the target environment to interpret
+`goog.require`. This has many benefits including precise source mapping
+information.
+
+The new Node.js REPL is a good example of the
+https://github.com/clojure/clojurescript/blob/master/src/clj/cljs/repl/node.clj#L67[new
+pattern]. The Node.js REPL is short because it relies on the Node.js
+runtime itself to interpret `goog.require`.
+
+Examining `cljs.repl/load-file` and `cljs.repl/load-namespace` will
+clarify the new approach:
+
+* Given a namespace ensure that it's compiled.
+* Compute the `goog.addDependency` string for the file and evaluate it.
+* Emit `goog.require` statement for the namespace and evaluate it.
+
+REPLs should override the global `CLOSURE_IMPORT_SCRIPT` function to get
+custom `goog.require` behavior.
+
+[[eliminating-loaded-libs-tracking]]
+=== Eliminating Loaded Libs tracking
+
+Under the new changes REPLs no longer need to bother with explicitly
+tracking loaded libs directly within their Clojure implementation.
+Instead, REPLs should arrange to ensure that the JavaScript evaluation
+environment honors `cljs.core/*loaded-libs*`, embedding the required
+logic in `CLOSURE_IMPORT_SCRIPT` if need be.
+
+History: This was only previously done because `goog.provide` throws if
+the namespace has already been loaded. This is a completely bogus error
+intended to teach "beginners". By monkey-patching `goog.isProvided_` to
+be a function that always returns false - the error can be suppressed.
+Again the Node.js REPL is a good example of such patching as well as
+honoring `*loaded-libs*` in the `CLOSURE_IMPORT_SCRIPT` implementation.
+
+[[special-functions]]
+=== Special Functions
+
+All REPLs support several "special functions". Special functions must
+take the REPL environment, an analysis environment, the form, and
+(optionally) compiler build options. Out of the box `in-ns`, `require`,
+`load-file`, and `load-namespace` are provided.
+
+[[output]]
+=== Output
+
+Custom REPLs should not call `println`, `print`, or `flush` directly,
+but should instead honor values associated with `:print`,
+`:print-no-newline`, and `:flush` in the `opts` (second argument) passed
+to `-setup`. Also note that the functions associated with `:print` and
+`:print-no-newline` take exactly one argument.
+
+[[source-mapping]]
+=== Source Mapping
+
+All REPLs can now implement a new protocol in order to get source
+mapping support for "free". In the case of an `:exception` result from
+evaluation the REPL infrastructure will invoke `-parse-stacktrace` if
+the REPL evaluation environment satisfies `cljs.repl/IParseStacktrace`.
+The REPL evaluation environment will receive the original JavaScript
+stacktrace string, the entire original error value, as well as all build
+options passed into the REPL. The REPL evaluation environment may then
+return a canonical stacktrace which must take the form of:
+
+[source,clojure]
+----
+[{:function <string>
+  :file <string>
+  :line <integer>
+  :column <integer>}*]
+----
+
+`:file` must be a URL style path (forward slashes) without a URI
+protocol relative to `:output-dir`.
+
+With
+https://github.com/clojure/clojurescript/commit/de15ba8f756457f9cb4f5758848147911665e56b[this
+commit], the contract has been relaxed slightly to accommodate
+REPL-defined functions: The `:file` value may begin with `<` to indicate
+that no source is present, and `"NO_SOURCE_FILE"` will be emitted in the
+trace.
+
+Custom REPLs may still want to further customize or control printing of
+stacktraces. A hook is provided, the REPL evaluation environment may
+implement `cljs.repl/IPrintStacktrace`. `-print-stacktrace` takes the
+mapped canonical stacktrace, the entire original error value, and all
+build options passed to the REPL.

@@ -1,0 +1,110 @@
+= Running the Tests
+David Nolen
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[testing-the-compiler-infrastructure]]
+== Testing the Compiler Infrastructure
+
+[source,shell]
+----
+lein test
+----
+
+Will run the tests for the analyzer, compiler, and closure components.
+
+[[testing-javascript-engines]]
+== Testing JavaScript Engines
+
+How to setup the the four important JavaScript runtimes.
+
+[[google-v8]]
+=== Google V8
+
+http://code.google.com/p/v8/[Checkout the V8 project]. Following the
+build instructions https://developers.google.com/v8/build[here]
+
+Set the V8_HOME environment variable to the path where d8 lives.
+
+`export V8_HOME="$HOME/v8/out/native"`
+
+[[spidermonkey]]
+=== Spidermonkey
+
+Get the js-shell from here
+http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-central/.
+Set your SPIDERMONKEY_HOME environment variable.
+
+[[javascriptcore]]
+=== JavaScriptCore
+
+On OS X download a http://webkit.org[WebKit nightly] and put it in your
+Applications folder. Update your shell profile to include the following:
+
+[source,shell]
+----
+DYLD_FRAMEWORK_PATH=/Applications/WebKit.app/Contents/Frameworks/10.10/
+export DYLD_FRAMEWORK_PATH
+PATH=$PATH:/Applications/WebKit.app/Contents/Frameworks/10.10/JavaScriptCore.framework/Resources
+----
+
+_NOTE:_ Sub in the correct OSX version if you're not running `10.10`
+
+[[nashorn]]
+=== Nashorn
+
+Setup the `$NASHORN_HOME` environment variable so that
+
+`$NASHORN_HOME/jjs`
+
+prompts a JavaScript Console. Nashorn is usually under `$JAVA_HOME/bin`,
+so you can write:
+
+`export NASHORN_HOME="$JAVA_HOME/bin/"`
+
+[[setting-up-dependencies]]
+=== Setting up dependencies
+
+[source,shell]
+----
+./script/bootstrap
+----
+
+[[running-the-tests]]
+=== Running the tests
+
+[source,shell]
+----
+./script/test
+----
+
+[[running-bootstrapped-clojurescript-tests]]
+=== Running bootstrapped ClojureScript tests
+
+If you have Node.js installed, you can run the bootstrapped
+ClojureScript test suite (located at
+`src/test/self/self_host/test.cljs`):
+
+[source,shell]
+----
+./script/test-self-host
+----
+
+You can also build and run the ClojureScript compiler test suite in
+bootstrapped mode within Node.js by running
+
+[source,shell]
+----
+./script/test-self-parity
+----
+
+[[dont-forget]]
+=== Don't forget
+
+Besides the tests it's important to make sure that the Browser REPL
+hasn't accidentally been broken. Double-check using the sample found in
+the repository.

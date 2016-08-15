@@ -1,0 +1,142 @@
+= ClojureScript Libraries
+David Nolen
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[compatible-clojure-contrib-libraries]]
+== Compatible Clojure Contrib libraries
+
+* https://github.com/clojure/core.async[core.async], Communicating
+Sequential Processes
+* https://github.com/clojure/core.logic[core.logic], miniKanren
+implementation
+* https://github.com/clojure/core.match[core.match], Efficient pattern
+matching
+* https://github.com/clojure/core.rrb-vector[core.rrb-vector],
+concatenation and non-view slicing for vectors
+* https://github.com/clojure/data.avl[data.avl], sorted maps and sets
+with O(log n) rank queries and splits
+* https://github.com/clojure/test.check[test.check], QuickCheck style
+property based testing
+* https://github.com/clojure/tools.reader[tools.reader], portable
+Clojure(Script) reader
+
+== Libraries
+
+=== Dom Manipulation
+
+* https://github.com/levand/domina[domina], DOM utilities
+* https://github.com/Prismatic/dommy[dommy], DOM utilities
+* https://github.com/aaronc/freactive[freactive], reactive DOM library
+
+=== React Wrappers
+
+* https://github.com/omcljs/om/[om], React bindings and state management
+* https://github.com/Prismatic/om-tools[om-tools], Om extensions
+* https://github.com/reagent-project/reagent[reagent], React bindings
+* https://github.com/yogthos/reagent-forms[reagent-forms], Forms for Reagent
+* https://github.com/levand/quiescent[quiescent], React bindings
+* https://github.com/active-group/reacl[reacl], React bindings
+* https://github.com/tonsky/rum[rum], React bindings
+* https://github.com/weavejester/brutha[brutha] Simple ClojureScript interface to React
+* https://github.com/r0man/sablono[sablono] Hiccup style wrapper for React DOM Elements
+* https://github.com/bhauman/cljs-react-reload[cljs-react-reload] Writing reloadable React Classes
+
+=== HTML Templating
+
+* https://github.com/r0man/sablono[sablono], Hiccup style HTML generation for React
+* https://github.com/framed-data/sablono-tools[sablono-tools], Enlive-style selector-based templating and transformations for Sablono 
+* https://github.com/ckirkendall/kioo[kioo], Enlive style HTML generation
+* https://github.com/jeluard/hipo/[hipo], Hiccup style templating
+* https://github.com/ckirkendall[enfocus], Enlive templating for ClojureScript
+* https://github.com/davidsantiago/hickory[hickory] parses HTML into Hiccup vectors
+
+=== CSS Generation
+
+* https://github.com/noprompt/garden[garden], CSS generation
+* https://github.com/facjure/mesh[mesh], Responsive Grid & Typography library built on Garden
+
+=== Graphics
+
+* https://github.com/liebke/apogee[apogee] SVG charting
+* https://github.com/kovasb/gamma[gamma] GLSL DSL
+* https://clojars.org/quil[quil], Processing for Clojure & ClojureScript
+* https://github.com/thi-ng/geom[Geometry primitives, mesh operations, SVG & WebGL rendering]
+* https://github.com/thi-ng/color[Color space conversion & manipulation]
+* https://github.com/thi-ng/tweeny[Interpolation of arbitrary nested value maps]
+
+=== Client-side Routing
+
+* https://github.com/gf3/secretary[secretary], Routing
+* https://github.com/juxt/bidi[bidi], Routing
+* https://github.com/DomKM/silk[silk], Routing
+
+=== Networking
+
+* https://github.com/ashercoren/klozzer[klozzer], Http Caching and File System Api with core.async
+* https://github.com/viebel/s3-cljs[s3-cljs], aws s3 sdk wrapper
+* https://github.com/ptaoussanis/sente[sente], core.async + websockets
+* https://github.com/JulianBirch/cljs-ajax[cljs-ajax] simple Ajax client for ClojureScript
+* https://github.com/r0man/cljs-http[cljs-http] a ClojureScript HTTP library
+* https://github.com/jeluard/happy) a Clojure(Script[happy] HTTP async client library
+* https://github.com/diligenceengine/clj-browserchannel[clj-browserchannel] Real-time, bi-directional communication between ClojureScript and Clojure
+* https://github.com/james-henderson/chord[chord], core.async + WebSockets
+* https://github.com/crisptrutski/matchbox), Firebase client for Clojure(Script[matchbox]
+
+=== Data formats
+
+* https://github.com/cognitect/transit-cljs[transit-cljs], efficient, extensible data exchange format
+
+=== Datastores
+
+* https://github.com/tonsky/datascript[datascript], Datomic-like in-memory database
+* https://github.com/ghubber/konserve[konserve], KV store protocol
+* https://github.com/dialelo/hodgepodge[hodgepodge] A idiomatic interface to local and session storage
+* http://thi.ng/trio) Non-RDF triplestores & SPARQL like query engine (CLJX[thi.ng/trio]
+
+=== iOS/Android
+
+* https://github.com/omcljs/ambly[Ambly]
+* https://github.com/dmotz/natal[natal]
+* https://github.com/mfikes/goby[goby]
+
+=== FRP
+
+* https://github.com/weavejester/reagi[reagi] An FRP library for Clojure and ClojureScript
+* https://github.com/jamesmacaulay/zelkova[zelkova] Elm-style FRP for Clojure and ClojureScript
+* https://github.com/Day8/re-frame[re-frame] A Reagent Framework For Writing SPAs, in Clojurescript.
+
+=== Misc
+
+* https://github.com/purnam/purnam[purnam] is a clojurescript library designed to provide better clojurescript/javascript interop, testing and documentation tools to the programmer.
+* https://github.com/funcool/cuerdas[cuerdas], string manipulation
+* https://github.com/prismatic/schema[schema], Validation & contracts 
+* https://github.com/pleasetrythisathome/bardo[bardo], transitions
+* https://github.com/jeluard/lucuma/[lucuma], WebComponents
+* https://github.com/Skinney/differ[differ], data structure diffing
+* https://github.com/quile/component-cljs[component-cljs], port of Stuart Sierra's Component library
+* https://github.com/niwibe/cats[cats], Monads
+* https://github.com/immoh/lively[lively], Client-side live programming support
+* http://wilker-dev.com/patterny/[patterny], Extract imagine patterns
+* https://github.com/spellhouse/phalanges[phalanges], Keyboard events
+* https://github.com/piranha/keybind[keybind], Key bindings
+* https://github.com/andrewmcveigh/cljs-time), Date/time lib (almost[cljs-time] consistent API with clj-time
+* https://github.com/jamesmacaulay/cljs-promises[cljs-promises], Promises
+* https://github.com/yogthos/markdown-clj[markdown-clj] extensible Clojure/Script Markdown parser
+* https://github.com/yogthos/json-html[json-html] generates a DOM node with a human representation of the JSON/EDN encoded data
+* https://github.com/reagent-project/historian) a drop-in atom-state-management (UNDOs!![historian] for your clojurescript projects
+* https://github.com/thi-ng/validate) Schema based validation of nested data (CLJX[thi.ng/validate]
+* https://github.com/rbrush/clara-rules[clara] Rete-based rule engine
+
+=== Testing
+
+* https://github.com/clojure/clojurescript/blob/master/src/main/cljs/cljs/test.cljs[cljs.test], a port of clojure.test built-in to the standard library
+* DEPRECATED: http://github.com/cemerick/clojurescript.test[clojurescript.test] a port of clojure.test that pre-dates the built-in version
+* https://github.com/spellhouse/clairvoyant[clairvoyant], tracing
+* http://purnam.github.io/purnam/#purnam-test[purnam.test], provides macros for testing with the karma test runner, works with async tests.
+* https://github.com/slagyr/speclj[speclj] A TDD/BDD framework for Clojure and Clojurescript, based on RSpec.
+

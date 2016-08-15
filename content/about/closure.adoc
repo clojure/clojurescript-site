@@ -1,0 +1,45 @@
+= Google Closure
+Rich Hickey
+2016-07-29
+:type: about
+:toc: macro
+:icons: font
+:navlinktext: Google Closure
+:prevpagehref: differences
+:prevpagetitle: Differences from Clojure
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+== Motivations for using Google's Closure Tools
+
+Clojure is nothing if not practical and ClojureScript is no different.  As more and more applications target web and mobile environments, the role and reach of JavaScript likewise expands beyond the confines of the browser into even more constrained environments such as mobile with ubiquitous networked paths between nodes.  The Google Closure tools provides a robust set of http://code.google.com/closure/library/[libraries], a strong http://code.google.com/closure/library/docs/introduction.html#deps[dependency management system], and a sophisticated http://code.google.com/closure/compiler/[compiler] each working toward an ultimate goal of reducing JavaScript code size.  For ClojureScript, Google Closure provides a solution to the "library problem" for JavaScript in three distinct ways:
+
+* Libraries
+* Dependency management
+* Aggressive code minification
+
+Each of these features represents thousands of hours of research, design, development, and testing.  Therefore ClojureScript leverages them in its implementation, allowing the Clojure/core team and contributors to focus on enabling the power of Clojure wherever JavaScript is found.
+
+=== Libraries
+
+ClojureScript is written in Clojure and ClojureScript interoperating with the Google Closure JavaScript libraries.  However, ClojureScript can interoperate with *any* JavaScript library or framework.  The use of the https://developers.google.com/closure/library/docs/overview[Google Closure] libraries in the ClojureScript core is an implementation strategy allowing us to reduce dependencies and ensure compatibility with advanced mode compilation (see below).
+
+=== Dependency Management
+
+Google Closure's dependency management system offers three primitives `addDependency`, `provide`, and `require` that enable compile-time dependency inclusions.  ClojureScript encapsulates these, providing access through the `ns` form. This capability is leveraged to allow fine-grained imports and exports of ClojureScript namespaces and functions and also external JavaScript libraries for interoperability purposes.
+
+=== Compiler
+
+Google's Closure Tools provide a http://en.wikipedia.org/wiki/Minification_(programming)[minification compiler] available to the ClojureScript compilation process via command-line flags.  In summary, the minification compiler receives generated JavaScript produced by the ClojureScript compiler and renames variables to shorter names, removes whitespace, removes comments, etc. in an effort to reduce the source size while maintaining the program semantics.  
+
+==== Dead code analysis
+
+http://code.google.com/closure/compiler/[Google's Closure compiler] provides an http://code.google.com/closure/compiler/docs/api-tutorial3.html[advanced setting] allowing a much more aggressive minification strategy than that outlined above.  In fact, the Google Closure compiler uses highly sophisticated techniques for identifying and eliminating dead code (i.e. code that is never called nor reachable).  The downside of this fact is that the style of the JavaScript code must http://code.google.com/closure/compiler/docs/limitations.html[conform to a strict standard] in order to achieve maximum minification potential.  Therefore, it is the goal of the ClojureScript team to ensure that the generated JavaScript code is maximally minifiable through an observance to said idioms and through the use of the Closure libraries and dependency system.
+
+=== Learn More
+
+image:http://covers.oreilly.com/images/0636920001416/cat.gif[Closure: The Definitive Guide]
+
+The primary reference for the Google Closure tools is O'Reilly's *http://oreilly.com/catalog/0636920001416[Closure: The Definitive Guide]* written by Michael Bolin.  This book is highly recommended for anyone hoping to leverage the full power of ClojureScript interoperability, for ClojureScript contributors, and for those simply curious about advanced JavaScript techniques and tools.

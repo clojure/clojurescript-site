@@ -1,0 +1,65 @@
+= Vim
+David Nolen
+2016-08-02
+:type: tools
+:toc: macro
+:icons: font
+
+[[paredit]]
+== Paredit
+
+Emacs users are used to the paredit plugin that makes it easy to keep
+parenthesis balanced. Vim users can get the same effect with
+http://www.vim.org/scripts/script.php?script_id=3998[paredit.vim].
+
+[[multi-repl-single-environment-evaluating-forms-from-vim]]
+== Multi-repl, single environment, evaluating forms from Vim
+
+[[dependencies]]
+=== Dependencies
+
+* Install Tmux
+* Install
+http://www.vim.org/scripts/script.php?script_id=3023[tslime.vim]
+* Install Leiningen plugin:
+https://github.com/franks42/lein-repls[lein-repls]
+* Also install the `cljsh` script on your path
+
+[[configure-lein-repl]]
+=== Configure Lein repl
+
+In `project.clj` add:
+
+[source,clojure]
+----
+  :repl-init myapp.repl
+----
+
+In `src/clj/myapp/repl.clj`:
+
+[source,clojure]
+----
+(ns myapp.repl
+  (:use [cljs.repl.browser :only (repl-env)])
+  (:require [cljs.repl]))
+
+(defn repljs []
+  (cljs.repl/repl (repl-env)))
+----
+
+[[run-repls]]
+=== Run repls
+
+* Open two TMux sessions in your project root directory
+* Run `lein repls` in one of them
+* This is your "server" or "macros" or "clj" repl
+* Run `cljsh` in the other one
+* This is your "client" or "cljs" repl
+* Eval `(repljs)`
+
+[[connect-vim]]
+=== Connect VIM
+
+* Open two instances of Vim
+* One in your `src/clj` directory and one in `src/cljs` directory
+* Press `^c^c` in each, selecting the right TMux session when prompted

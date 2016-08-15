@@ -1,0 +1,8 @@
+= Cursive
+David Nolen
+2016-08-02
+:type: tools
+:toc: macro
+:icons: font
+
+https://cursive-ide.com[Cursive] is a plugin for IntelliJ that offers syntax highlighting, structural editing and navigation (paredit), code indexing / symbol lookup, refactoring, debugging, and static analysis / arity warnings. In addition, it includes an integrated REPL environment.

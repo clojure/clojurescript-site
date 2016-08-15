@@ -1,0 +1,143 @@
+= Testing
+David Nolen
+2016-08-01
+:type: tools
+:toc: macro
+:icons: font
+
+ClojureScript now ships with a port of `clojure.test` in the form of
+`cljs.test`. It attempts to preserve most of the functionality provided
+by `clojure.test` along with enhancements for asynchronous testing in a
+single threaded environment.
+
+Most of the functionality is provided via macros as `cljs.test` relies
+on compiler reflection and static vars to provide most of its
+functionality.
+
+For example your testing ns form will probably look something like the
+following:
+
+[source,clojure]
+----
+(ns my-project.tests
+  (:require [cljs.test :refer-macros [deftest is testing run-tests]]))
+----
+
+[[writing-tests]]
+=== Writing Tests
+
+You can write tests with `cljs.test/deftest` and `cljs.test/is` same as
+with `clojure.test`.
+
+For example here is a trivial test with one assertion:
+
+[source,clojure]
+----
+(deftest test-numbers
+  (is (= 1 1)))
+----
+
+[[running-tests]]
+=== Running Tests
+
+You can run tests by using the `cljs.test/run-tests` macro. This may be
+done in your REPL or at the end of your file. If you have many test
+namespaces it's idiomatic to create a test runner namespace which
+imports all of your test namespaces and then invokes `run-tests`.
+
+You may have to add `(enable-console-print!)` before calling `run-tests`
+
+[[fixtures]]
+=== Fixtures
+
+You can declare fixtures with the `cljs.test/use-fixtures` macro. You
+can declare either `:once` fixtures or `:each` fixtures. `:once`
+fixtures are run only around all tests within a namespace. `:each`
+fixtures are run around each test. Unlike `clojure.test` fixtures are
+split into two parts `:before` and `:after`. This is so that fixtures
+will work correctly even when used asynchronously.
+
+[source,clojure]
+----
+(use-fixtures :once
+  {:before (fn [] ...)
+   :after  (fn [] ...)})
+----
+
+[[async-testing]]
+=== Async Testing
+
+As client-side code tends to be highly asynchronous and JavaScript is
+single-threaded, it's important that `cljs.test` provide asynchronous
+testing support. You can use the `cljs.test/async` macro to create an
+asynchronous block. If you write an asynchronous test the last value you
+return _must_ be the async block.
+
+[source,clojure]
+----
+(deftest test-async
+  (async done
+    (http/get "http://foo.com/api.edn"
+      (fn [res]
+        (is (= res :awesome))
+        (done)))))
+----
+
+`done` is a function that you may invoke when you are ready to
+relinquish control and allow the next test to run. `done` can be called
+anything, but it probably makes sense to keep to the convention. All of
+your testing code must be in the async block. If you launch multiple
+asychronous processes in your async block you will need to coordinate
+them. This is a good reason to use `cljs.core.async`:
+
+[source,clojure]
+----
+(deftest test-async
+  (let [url0 "http://foo.com/api.edn"
+        url1 "http://bar.com/api.edn"
+        res0 (http/get url0)
+        res1 (http/get url1)]
+    (async done
+      (go
+        (is (= (<! res0) :awesome))
+        (is (= (<! res1) :cool))
+        (done)))))
+----
+
+[[async-fixtures]]
+=== Async Fixtures
+
+Often establishing your testing environment means you need your fixtures
+to be asynchronous too. This is easily accomplished:
+
+[source,clojure]
+----
+(use-fixtures :once
+  {:before
+   #(async done
+      ...
+      (done))
+   :after
+   #(do ...)})
+----
+
+In this case `:before` will need to complete before any test can run.
+`:after` will complete immediately after all tests have run since it
+does not use an async block.
+
+[[detecting-test-completion-success]]
+=== Detecting Test Completion & Success
+
+Often it's useful to be able to run some code after all tests have
+completed successfully (or unsuccessfully). Because tests may run async
+`cljs.test/run-tests` does not return a meaningful value. You can
+however add a test report event listener by adding a method to the
+`cljs.test/report` multimethod.
+
+[source,clojure]
+----
+(defmethod cljs.test/report [:cljs.test/default :end-run-tests] [m]
+  (if (cljs.test/successful? m)
+    (println "Success!")
+    (println "FAIL")))
+----

@@ -1,0 +1,90 @@
+= Optional self-hosting
+David Nolen
+2016-07-29
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This page documents advice for people wanting to build ClojureScript
+projects that want or need to leverage `cljs.js/eval-str` and other
+self-hosted functionality.
+
+[WARNING]
+====
+If you are building a web application where the final size
+of the deployed artifact matters significantly, you should not be using
+any of the functionality outlined on this page.
+====
+
+[[production-builds]]
+=== Production Builds
+
+You can leverage up to `:optimization :simple` with builds that include
+the `cljs.js` namespace. Other recommended settings:
+
+[source,clojure]
+----
+:pretty-print false
+:optimize-constants true
+:static-fns true
+----
+
+`:optimize-constants` is significant for code size, all literal keywords
+and symbols in your source will be compiled into a single lookup table.
+
+`:static-fns true` is especially important if you are targeting Safari /
+JavaScriptCore. (See
+http://dev.clojure.org/jira/browse/CLJS-1381[CLJS-1381] for details.)
+
+By default for ease of use `cljs.js/empty-state` will dump the analysis
+cache for `cljs.core` directly into the `cljs.js` namespace. This
+doubles the size of the final artifact. You can disable this with
+setting `:dump-core false` in your compiler build options.
+
+This means you will need to load the analysis for core yourself. It's
+easy to dump the core analysis cache. In your ClojureScript project load
+a _Clojure_ REPL and do something like the following:
+
+[source,clojure]
+----
+(require '[clojure.java.io :as io]
+         '[cognitect.transit :as transit])
+(import [java.io ByteArrayOutputStream])
+
+(def out-path
+  "../../assets/js/cljs/core.cljs.cache.aot.json")
+(def out (ByteArrayOutputStream. 1000000))
+(def writer (transit/writer out :json))
+
+(def cache
+  (read-string
+    (slurp (io/resource "cljs/core.cljs.cache.aot.edn"))))
+
+(transit/write writer cache)
+
+(spit (io/file out-path) (.toString out))
+----
+
+Then in your _ClojureScript_ source you can load this cache - for
+example that might look something like this:
+
+[source,clojure]
+----
+(def st (cljs.js/empty-state))
+
+;; path to Transit encoded analysis cache
+(def cache-url "/assets/js/cljs/core.cljs.cache.aot.json")
+
+(defn main []
+  (http/get cache-url
+    (fn [json]
+      (let [rdr   (transit/reader :json)
+            cache (transit/read rdr json)]
+        (cljs.js/load-analysis-cache! st 'cljs.core cache)
+        ;; ...
+        ))))
+----
+
+This simple optimization eliminates about 2.7mb of generated JavaScript.

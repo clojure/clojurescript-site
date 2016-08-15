@@ -1,0 +1,43 @@
+= Patches
+David Nolen
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[creating-patches]]
+=== Creating patches
+
+Make a branch off master and write the code for the patch and commit it.
+Please write the commit message starting with `CLJS-NNNN: TICKET TITLE`,
+followed by an empty line, followed by a few sentences explaining the
+changes. Please squash multiple commits into a single commit. Then
+produce the patch with the following:
+
+[source,console]
+----
+git format-patch master --stdout > CLJS-NNNN.patch
+----
+
+[[testing-patches]]
+=== Testing patches
+
+In order to test ClojureScript patches in your own project, apply the
+patch to a local clone of the ClojureScript repo. Run `script/build`,
+this will install a version of ClojureScript - note the version number.
+Change your projects `:dependencies` to use this version number and
+confirm the patch works for you.
+
+[[submitting-patches]]
+=== Submitting patches
+
+Attach `CLJS-NNNN.patch` to the associated JIRA ticket, providing
+additional commentary that may be useful for understanding the patch.
+
+Edit the ticket's Patch field to indicate either "Code" or "Code and
+Test". This makes it easier for others to find patches in need of review
+(appearing in the
+http://dev.clojure.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=10707[CLJS
+Screenable] preset filter).

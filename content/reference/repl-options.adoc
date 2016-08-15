@@ -1,0 +1,93 @@
+= REPL Options
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+ClojureScript REPLs can take nearly all the same options that can be
+supplied to `cljs.closure/build`, for details see <<compiler-options#,Compiler Options>>.
+This page documents additional supported options.
+
+[[analyze-path]]
+=== analyze-path
+
+Sets a source path to analyze upon REPL initialization so that, if it
+connects to an already-running JavaScript environment, symbols for any
+previously loaded namespaces are available. May also be set to a vector
+of paths to analyze.
+
+[source,clojure]
+----
+:analyze-path "src"
+----
+
+[[def-emits-var]]
+=== def-emits-var
+
+Sets whether `def` (and derived) forms evaluated at the REPL return
+either a Var (if set to `true`) or the `def` init value (if `false`).
+Only affects forms evaluated at the REPL; compiled source behaves as if
+set to `false`. Default is `true`.
+
+[source,clojure]
+----
+:def-emits-var false
+----
+
+[[repl-requires]]
+=== repl-requires
+
+Specifies a set of lib specs (per the `require` REPL special) to be
+automatically loaded when launching a REPL. Defaults to specs that refer
+`doc` _etc._ along with `pp`.
+
+[source,clojure]
+----
+:repl-requires ['[cljs.repl :refer-macros [source doc find-doc apropos dir pst]]
+                '[cljs.pprint :refer [pprint] :refer-macros [pp]]]
+----
+
+[[repl-verbose]]
+=== repl-verbose
+
+Enable verbose reporting for the REPL. Useful for debugging. Defaults to
+`false`.
+
+[source,clojure]
+----
+:repl-verbose true
+----
+
+This prints the compiled JavaScript before printing its evaluation:
+
+....
+cljs.user=> (+ 1 2)
+((1) + (2))
+3
+....
+
+[[watch]]
+=== watch
+
+Watch a source directory for recompilation to avoid spinning up an
+additional JVM.
+
+[source,clojure]
+----
+:watch "src"
+----
+
+[[watch-fn]]
+=== watch-fn
+
+[source,clojure]
+----
+:watch-fn (fn [] (println "built!"))
+----
+
+A function of no arguments to run after a successful build.

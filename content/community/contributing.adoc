@@ -1,0 +1,26 @@
+= Contributing to ClojureScript
+Rich Hickey
+2016-08-01
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Following the lead of other open source projects, the ClojureScript project requires contributors to jointly assign their copyright on contributed code. The https://secure.echosign.com/public/hostedForm?formid=95YMDL576B336E[Contributor Agreement] (CA) gives Rich Hickey and the contributor joint copyright interests in the code: the contributor retains copyrights while also granting those rights to Rich Hickey as the open source project sponsor.
+
+The CA is derived from the Oracle Contributor Agreement (OCA), used for OpenJDK, Netbeans and OpenSolaris projects and others. There is a good http://www.oracle.com/technetwork/oca-faq-405384.pdf[OCA FAQ] answering many questions.
+
+The CA does not change the rights or responsibilities of the Clojure community under the http://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License (EPL)]. By executing the CA, contributors protect the Clojure code base, enable alternative licensing models, and protect the flexibility to adapt the project to the changing demands of the community. In order for the CA to be effective, the Clojure project must obtain an assignment for all contributions. Please review the CA for a complete understanding of its terms and conditions. By contributing source code or other material to Clojure, you represent that you have a CA with Rich Hickey for such contributions. In order to track contributors, you understand that your full name and username may be posted on a web page listing authorized contributors that is accessible via a public URL.
+
+== Instructions for submitting the agreement
+
+* Fill out and submit the https://secure.echosign.com/public/hostedForm?formid=95YMDL576B336E[Contributor Agreement] (an online e-form)
+
+== Making a contribution
+
+Before you invest time working on a change, discuss what you're trying to do with others on the http://groups.google.com/group/clojure-dev[Clojure Dev Google group]. They're likely to be able to offer comments and suggestions that will result in a higher-quality change and a smoother submission process. Announcing that you're working on a particular item can also help to avoid wasted effort in case someone else is already working on it. Once you've submitted the CA, you can http://dev.clojure.org/jira/browse/CLJS[submit patches via JIRA]. Frequent and trusted contributors of more substantial libraries may be granted committer membership in the Clojure contrib projects.
+
+Please see the http://dev.clojure.org/display/community/Contributing[Contributing] wiki for a collection of resources on tickets, builds, patches, source, and more. If you'd like to submit a patch, please follow these guidelines on the http://dev.clojure.org/display/community/JIRA+workflow[preferred process for submitting].
+
+_**Many thanks for your contributions to ClojureScript!**_

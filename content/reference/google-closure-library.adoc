@@ -1,0 +1,159 @@
+= Google Closure Library
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+ClojureScript projects always auto-include the
+https://developers.google.com/closure/library/[Google Closure Library],
+a massive library built and used by Google on many of their products
+(Gmail, Docs, etc). It has low-level utilities for DOM manipulation,
+server communication, animation, data structures, unit testing,
+rich-text editing, and UI widgets/controls.
+
+* http://google.github.io/closure-library/api/[Google Closure Library
+API Reference]
+* http://www.closurecheatsheet.com/[Closure Cheatsheet] - abridged API
+with usage examples
+
+[[try-the-wrapper-libraries-first]]
+=== Try the wrapper libraries first!
+
+You may first want to consider the following ClojureScript libraries
+which wrap some functionality from Google Closure Library. Their source
+code also serves as good examples of how to use Closure directly.
+
+[cols="<*,", options="header", role="table"]
+|=======================================================================
+|ClojureScript wrapper |Closure Libraries
+|https://github.com/andrewmcveigh/cljs-time[cljs-time]
+|http://google.github.io/closure-library/api/namespace_goog_date.html[goog.date]
+
+|https://github.com/r0man/cljs-http[cljs-http]
+|http://google.github.io/closure-library/api/namespace_goog_net.html[goog.net],
+http://google.github.io/closure-library/api/class_goog_Uri.html[goog.uri]
+
+|https://github.com/JulianBirch/cljs-ajax[cljs-ajax]
+|http://google.github.io/closure-library/api/namespace_goog_net.html[goog.net],
+http://google.github.io/closure-library/api/class_goog_Uri.html[goog.uri],
+http://google.github.io/closure-library/api/namespace_goog_json.html[goog.json]
+
+|https://funcool.github.io/cuerdas/latest/[cuerdas]
+|http://google.github.io/closure-library/api/namespace_goog_string.html[goog.string]
+|=======================================================================
+
+_* included in ClojureScript's core library_
+
+[[using-google-closure-directly]]
+=== Using Google Closure directly
+
+Some helpful blog posts:
+
+* http://clojurescriptmadeeasy.com/blog/do-not-forget-about-google-closure.html[ClojureScript
+Made Easy - Don't forget about Google Closure]
+* http://clojurescriptmadeeasy.com/blog/when-do-i-use-require-vs-import.html[ClojureScript
+Made Easy - When do I use :require vs :import?]
+
+To use Google Closure in your ClojureScript code, the rule is to use:
+
+* `:import` for Closure classes (which are also namespaces, like
+`goog.Uri`) and enums
+* `:require` for everything else
+
+[[import-a-class]]
+=== Import a class
+
+This is only for when you would like to refer directly to a class which
+is _also_ a namespace, otherwise just use `:require` in your `ns` form
+or use the `require` REPL helper.
+
+[source,clojure]
+----
+(ns example.core
+  (:import goog.Uri))
+----
+
+[source,clojure]
+----
+;; in REPL
+(import 'goog.Uri)
+(Uri. "http://example.com")
+;;=> #<http://example.com>
+----
+
+[[import-an-enum]]
+=== Import an enum
+
+[source,clojure]
+----
+(ns example.core
+  (:import [goog.events EventType]))
+----
+
+[source,clojure]
+----
+;; in REPL
+(import '[goog.events EventType])
+EventType.CLICK
+;;=> "click"
+----
+
+[[requiring-a-function]]
+=== Requiring a function
+
+[source,clojure]
+----
+(ns example.core
+  (:require [goog.math :as math]))
+----
+
+[source,clojure]
+----
+;; in REPL
+(require '[goog.math :as math])
+(math/clamp -1 0 5)
+;;=> 0
+----
+
+[WARNING]
+====
+Sometimes symbols are *not auto-included* when requiring their parent
+namespace. This happens when those symbols are in their own file and
+require specific inclusion
+====
+
+[source,clojure]
+----
+(ns example.core
+  (:require
+    [goog.string :as gstring]
+    goog.string.format))
+----
+
+[source,clojure]
+----
+;; in REPL
+(require '[goog.string :as gstring])
+(require 'goog.string.format)
+
+(goog.string.format "%05d" 123)
+;;=> 00123
+
+;; or use the alias
+(gstring/format "%05d" 123)
+;;=> 00123
+----
+
+[[searching-for-examples]]
+=== Searching for Examples
+
+You can look for `cljs` files on Github that use `goog.dom` with the
+following search:
+
+Or you can search Google Closure Library on Github for keywords
+pertaining to a function it might have:

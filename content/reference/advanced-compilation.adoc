@@ -1,0 +1,84 @@
+= Advanced Compilation
+David Nolen
+2016-07-29
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+If you are targeting traditional JavaScript clients (web browsers) it's
+important to think about advanced compilation from the very beginning.
+Otherwise you will inevitably find yourself going through issues that
+could have been easily avoided with a little bit of up front
+preparation. In general do not wait to try an advanced build, you should
+always periodically generate a production build to catch issues sooner.
+
+[[avoid-foreign-libraries]]
+== Avoid Foreign Libraries
+
+It's best to simply avoid foreign libraries if a solution exists either
+in Google Closure Library or in an existing ClojureScript library.
+Foreign libraries must supply externs for advanced compilation to work
+consistently.
+
+Of course, in some cases foreign libraries cannot be avoided.
+
+[[using-foreign-libraries]]
+== Using Foreign Libraries
+
+If you must use a foreign library use a curated one like those provided
+by http://cljsjs.github.io[CLJSJS]. These come packaged with externs so
+that you do not have to supply them yourself.
+
+Occasionally you may find yourself needing a foreign library which has
+not been prepackaged.
+
+[[providing-externs]]
+== Providing externs
+
+When working with a foreign library which does not supply externs take
+the time to write an externs file for the API you intend to use. Externs
+files are surprisingly simple to provide. For example if the foreign
+library has some property `Foo.bar` that you wish to access your externs
+file should have the following entry:
+
+[source,js]
+----
+Foo.bar;
+----
+
+If the foreign library has some method `Foo.baz` that you wish to invoke
+your externs file should have the following entry:
+
+[source,js]
+----
+Foo.baz = function() {};
+----
+
+Sometimes there will not be a top level API but rather some method
+naming convention, that is, an ad-hoc Interface / Protocol. In these
+cases define your externs using Object:
+
+[source,js]
+----
+Object.foo = function() {};
+Object.bar = function() {};
+----
+
+Of course sometimes you will miss an extern entry and the the production
+file will produce a cryptic error. Thanks to a couple of Closure
+compiler options these issues are no longer difficult to debug.
+
+[[fixing-advanced-compilation-issues]]
+== Fixing Advanced Compilation Issues
+
+Change your production build to use two additional options
+`:pseudo-names true` and `:pretty-print true`. Now your error will show
+a name that corresponds to the name in the original source. Add an
+externs entry for this missed case.
+
+For more information about the specifics of `:foreign-libs` compiler
+option syntax consult <<Dependencies#,dependencies>>.
