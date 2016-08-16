@@ -88,8 +88,7 @@ manage it. Here's an example:
 
 *JavaScript:*
 
-[source,javascript]
-----
+....
 // declaring the state
 var state = {
   count: 0
@@ -100,7 +99,7 @@ var state = {
 // updating the state :
 
 state.count = state.count + 1;
-----
+....
 
 *ClojureScript:*
 
@@ -219,10 +218,9 @@ Indeed, transitioning from JavaScript syntax to Clojure syntax is
 
 JavaScript:
 
-[source,javascript]
-----
+....
 myFun(x, y, z);
-----
+....
 
 ClojureScript:
 
@@ -245,11 +243,10 @@ This is fun, let’s do this again for data structure literals:
 
 JavaScript:
 
-[source,javascript]
-----
+....
 {a : “b”,
  c : [d, e]}
-----
+....
 
 ClojureScript:
 
@@ -604,19 +601,17 @@ your code, but this quickly gets tedious and intrusive.
 For example, let’s assume you have this code, and suspect the myFun
 function is faulty:
 
-[source,javascript]
-----
+....
 var result = x + myFun(y);
-----
+....
 
 What you would have to do is:
 
-[source,javascript]
-----
+....
 var z = myFun(y);
 console.log("myFun(y) : ", z);
 var result = x + z;
-----
+....
 
 In ClojureScript, you can define a `spy` macro that does the same thing
 in a very lightweight manner. So the equivalent ClojureScript code:

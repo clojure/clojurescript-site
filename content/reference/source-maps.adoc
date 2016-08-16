@@ -54,10 +54,9 @@ exact same parent directory. The generated JavaScript file
 (`:output-to`) will contain a line at the end linking it to its source
 map like so:
 
-[source,js]
-----
+....
 //# sourceMapping=<sourceMapURL>
-----
+....
 
 The `sourceMapURL` is the `:source-map` path, relative to `:output-to`,
 since that is how the browser will then resolve it. For example, when

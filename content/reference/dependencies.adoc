@@ -131,12 +131,11 @@ library, and is used by Google Closure Compiler to determine which
 symbols must not be renamed. Here's a minimal externs file for our
 yayQuery library:
 
-[source,js]
-----
+....
 var yayQuery = function() {}
 yayQuery.sayHello = function(message) {}
 yayQuery.getMessage = function() {}
-----
+....
 
 Assuming this file is named as `yayquery-externs.js`, you can reference
 it as follows in your `build.clj` file:
@@ -204,8 +203,7 @@ mode compilation, renaming symbols in the external JavaScript library
 and eliminating dead code. Let's adapt our yayQuery library from
 previous examples, as below:
 
-[source,js]
-----
+....
 goog.provide('yq');
     
 yq.debugMessage = 'Dead Code';
@@ -220,7 +218,7 @@ yq.yayQuery = function() {
     };
     return yay;
 };
-----
+....
 
 This code is mostly identical to the previous inline version, but is now
 packaged within a "namespace" exposed using `goog.provide`. The library
