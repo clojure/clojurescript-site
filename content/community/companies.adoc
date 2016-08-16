@@ -44,7 +44,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://fincite.com[Fincite]
 * http://www.formcept.com/[Formcept]
 * http://framed.io[Framed Data]
-* https://intros.io[Functional Works]
+* https://jobs.functionalworks.com[Functional Works]
 * https://www.fundingcircle.com[Funding Circle]
 * https://greative.jp/[Greative]
 * http://www.getcontented.com.au[GetContented] (for content editor, not on public site)
