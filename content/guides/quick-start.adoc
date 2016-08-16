@@ -190,12 +190,11 @@ script tags in dependency order for you.
 So what went wrong? If you look at `out/main.js` you will see some
 dependency graph building calls:
 
-[source,js]
-----
+....
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ...);
 goog.addDependency("../hello_world/core.js", ['hello_world.core'], ...);
-----
+....
 
 But wait, where is this `goog` object coming from?
 
