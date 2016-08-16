@@ -1,4 +1,4 @@
-= Emacs & Inferior Clojure Interaction Mode
+= Emacs and Inferior Clojure Interaction Mode
 David Nolen
 2016-08-02
 :type: tools
