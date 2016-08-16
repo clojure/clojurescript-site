@@ -96,8 +96,7 @@ optimizations. No advanced optimizations please.
 
 Create a host html page named index.html like the one shown below.
 
-[source,html]
-----
+....
 <html>
   <head>
     <meta charset="UTF-8">
@@ -113,7 +112,7 @@ Create a host html page named index.html like the one shown below.
     </div>
   </body>
 </html>
-----
+....
 
 There is nothing different about this and what one would do for any
 other browser-based ClojureScript project.

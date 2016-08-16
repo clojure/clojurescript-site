@@ -75,8 +75,7 @@ JavaScript as normal. Whether the file is loaded externally or inline
 makes no difference, both will be applied in the same fashion at
 runtime. To make things simple, we'll define this library inline:
 
-[source,html]
-----
+....
 <script type="text/javascript">
     yayQuery = function() {
         var yay = {};
@@ -89,7 +88,7 @@ runtime. To make things simple, we'll define this library inline:
        return yay;
     };
 </script>
-----
+....
 
 To use this library from ClojureScript, we can simply refer to the
 symbols directly. If you build the following code using
@@ -263,8 +262,7 @@ Foreign libraries are included in your final output, but are not passed
 through advanced compilation. Let's consider a version of yayQuery which
 does not include a `goog.provide`:
 
-[source,js]
-----
+....
 yayQuery = function() {
     var yay = {};
     yay.sayHello = function(message) {
@@ -275,7 +273,7 @@ yayQuery = function() {
     };
     return yay;
 };
-----
+....
 
 Using code in foreign libraries from ClojureScript is very similar to
 using code that's been included directly in the page via a `<script>`
@@ -404,13 +402,10 @@ you need:
 (ns cljsjs.react)
 ----
 
-[source,html]
-----
-...
+....
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
 <script src="resources/public/js/compiled/your_cljs_code.js" type="text/javascript"></script>
-...
-----
+....
 
 [[consuming-clojurescript-code]]
 == Consuming ClojureScript Code

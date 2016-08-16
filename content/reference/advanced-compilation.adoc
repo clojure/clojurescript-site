@@ -53,20 +53,18 @@ Foo.bar;
 If the foreign library has some method `Foo.baz` that you wish to invoke
 your externs file should have the following entry:
 
-[source,js]
-----
+....
 Foo.baz = function() {};
-----
+....
 
 Sometimes there will not be a top level API but rather some method
 naming convention, that is, an ad-hoc Interface / Protocol. In these
 cases define your externs using Object:
 
-[source,js]
-----
+....
 Object.foo = function() {};
 Object.bar = function() {};
-----
+....
 
 Of course sometimes you will miss an extern entry and the the production
 file will produce a cryptic error. Thanks to a couple of Closure

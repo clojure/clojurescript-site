@@ -147,14 +147,13 @@ let's see how you can easily include the compiled output on a web page.
 
 Create a file `index.html` and include the following:
 
-[source,html]
-----
+....
 <html>
     <body>
         <script type="text/javascript" src="out/main.js"></script>
     </body>
 </html>
-----
+....
 
 Open this file in your favorite browser and find the JavaScript
 developer console so you can see the output. (Note that nothing will
@@ -204,15 +203,14 @@ Oops. We never loaded it! In order for GCL to bootstrap we must at least
 load `goog/base.js`. You'll see this is available in `out/goog/base.js`.
 Let's add this to your page now:
 
-[source,html]
-----
+....
 <html>
     <body>
         <script type="text/javascript" src="out/goog/base.js"></script>
         <script type="text/javascript" src="out/main.js"></script>
     </body>
 </html>
-----
+....
 
 Refresh the page.
 
@@ -226,8 +224,7 @@ ClojureScript standard library `cljs.core` and our namespace.
 Ah. The last step we missed was actually requiring our namespace to kick
 things off. Change `index.html` to the following.
 
-[source,html]
-----
+....
 <html>
     <body>
         <script type="text/javascript" src="out/goog/base.js"></script>
@@ -238,7 +235,7 @@ things off. Change `index.html` to the following.
         </script>
     </body>
 </html>
-----
+....
 
 Refresh your `index.html` and you should finally see `"Hello world!"`
 printing to the browser JavaScript console. If you're using a
@@ -269,14 +266,13 @@ specifying a `:main` entry point in the options that we pass to
 
 Change your HTML to the following:
 
-[source,html]
-----
+....
 <html>
     <body>
         <script type="text/javascript" src="out/main.js"></script>
     </body>
 </html>
-----
+....
 
 Rebuild on Mac or GNU/Linux:
 

@@ -166,8 +166,7 @@ which is _as if_ you had written:
 
 which you would have (painfully) written in JavaScript:
 
-[source,javascript]
-----
+....
 var myDate = (function(){
   var d = new Date();
   d.setDate(7);
@@ -175,7 +174,7 @@ var myDate = (function(){
   d.setFullYear(1991);
   return d;
 }());
-----
+....
 
 More profoundly, macros make it trivial to separate 2 important
 concerns: making well-structured programs, and making them practical
