@@ -62,7 +62,7 @@ Clojure's model of values, state, identity, and time is valuable even in single-
 
 * ClojureScript is hosted on JavaScript VMs
 * Optionally, it may use Google's Closure compiler for optimization
-* It is [designed to leverage Google's Closure library](./Google-Closure), and participates in its dependency/require/provide mechanism
+* It is <<closure#,designed to leverage Google's Closure library>>, and participates in its dependency/require/provide mechanism
 
 == Getting Started
 
