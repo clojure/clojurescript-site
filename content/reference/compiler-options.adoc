@@ -603,7 +603,7 @@ Compiler Warning wiki] for detailed descriptions.
 === :closure-defines
 
 Set the values of Closure libraries' variables annotated with
-[@define](https://developers.google.com/closure/compiler/docs/js-for-compiler#tag-define)
+https://developers.google.com/closure/compiler/docs/js-for-compiler#tag-define[@define]
 or with the `cljs.core/goog-define` helper macro. A common usage is
 setting `goog.DEBUG` to false:
 
