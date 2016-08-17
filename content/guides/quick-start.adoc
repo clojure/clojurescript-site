@@ -43,7 +43,7 @@ The standalone ClojureScript JAR bundles http://clojure.org[Clojure]
 1.8.0. This supports simple scripting of the ClojureScript compiler and
 the bundled REPLs without an overly complicated command line interface.
 
-https://github.com/clojure/clojurescript/releases/download/r1.9.89/cljs.jar[Download
+https://github.com/clojure/clojurescript/releases/download/r1.9.216/cljs.jar[Download
 the standalone ClojureScript JAR].
 
 [NOTE]
