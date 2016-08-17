@@ -342,6 +342,7 @@ ClojureScript currently includes the following non-core namespaces ported from C
 * `clojure.core.reducers`
 ** `fold` is currently an alias for `reduce`
 * `cljs.pprint` (port of `clojure.pprint`)
+* `cljs.spec` (port of `clojure.spec`)
 * `cljs.test` (port of `clojure.test`)
 
 == Contributing
