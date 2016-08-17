@@ -37,7 +37,7 @@ Defaults to "out".
 ----
 
 [[optimizations]]
-=== optimizations
+=== :optimizations
 
 The optimization level. May be `:none`, `:whitespace`, `:simple`, or
 `:advanced`. Only `:none` and `:simple` are supported for bootstrapped
