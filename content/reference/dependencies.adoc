@@ -109,7 +109,7 @@ advanced optimizations. Try compiling the same code with
 an error message similar to the following (it may not be exactly as
 below):
 
-[source]
+[source,javascript]
 ----
 Uncaught TypeError: sa.B is not a function
 ----
