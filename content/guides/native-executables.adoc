@@ -1,0 +1,75 @@
+= Native executables
+Craig Andera
+2016-09-23
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This guide illustrates how to produce native executables
+from ClojureScript source. The basic idea is to produce a
+JavaScript file using the ClojureScript compiler, and then use a
+Node.js tool called https://github.com/jaredallard/nexe[nexe] to
+compile that into an executable. The resulting file can be run
+without requiring a node install on the target machine, which can
+be handy.
+
+nexe works by compiling the v8 engine into an exe that also
+contains your Javascript. So, strictly speaking, your program
+itself is not being compiled ahead of time. But if what you're
+after is the packaging convenience of an EXE, this is still pretty
+handy.
+
+Setup:
+
+[source,shell]
+----
+# Install node and nexe
+brew install node
+npm install nexe -g
+----
+
+Make a little hello world file:
+
+[source,shell]
+----
+mkdir -p /tmp/nexe-test/src
+cd /tmp/nexe-test
+cat > src/hello.cljs <<EOF
+(ns hello)
+(enable-console-print!)
+(println "Hello world!")
+EOF
+----
+
+Fire up a REPL and compile the ClojureScript:
+
+[source,shell]
+----
+wget https://github.com/clojure/clojurescript/releases/download/r1.9.229/cljs.jar
+java -cp cljs.jar clojure.main <<EOF
+(require 'cljs.build.api)
+(cljs.build.api/build "src" {:optimizations :advanced :output-to "out/main.js"})
+EOF
+----
+
+Use nexe to compile the js into a native exe. This will take a while
+the first time, but will be reasonably fast for subsequent runs:
+
+[source,shell]
+----
+nexe -i out/main.js -o hello.exe
+
+# Run it
+time ./hello.exe
+
+# It's reasonably fast:
+# Hello world!
+#
+# real   	0m0.095s
+# user   	0m0.070s
+# sys    	0m0.025s
+----
+
+Enjoy!
