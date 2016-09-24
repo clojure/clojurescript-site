@@ -1,0 +1,36 @@
+= JavaScript Library Preprocessing
+Maria Geller
+2016-10-03
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+ClojureScript allows you to add a custom transformation step for JavaScript libraries. This means that you are able to include JavaScript libraries in your project which are written in a dialect or make use of a JavaScript syntax extension. In order to effect the desired code transformation a `defmethod` which satisfies `cljs.closure/js-transforms` must be provided to the `:preprocess` option of the foreign library. For example, you can transform a JavaScript library using JSX into regular React function calls as follows:
+
+[source,clojure]
+----
+(require '[cljs.build.api :as b]
+         '[clojure.java.io :as io])
+(refer 'cljs.closure :only '[js-transforms])
+(import 'javax.script.ScriptEngineManager)
+
+(defmethod js-transforms :jsx [ijs opts]
+  (let [engine (doto (.getEngineByName (ScriptEngineManager.) "nashorn")
+                 (.eval (io/reader (io/file "babel.min.js")))
+                 (.put "input" (:source ijs)))]
+    (assoc ijs :source
+      (.eval engine (str "Babel.transform(input, {presets: ['react']}).code")))))
+
+(b/build "src"
+  {:main 'my-project.core
+   :output-to "out/my_project.js"
+   :output-dir "out"
+   :foreign-libs [{:file "libs/example.js"
+   :provides ["my.example"]
+   :preprocess :jsx}]})
+----
+
+The example above uses Babel to transform the JavaScript code by loading a minified version of https://github.com/Daniel15/babel-standalone[babel-standalone] using Nashorn. The `js-transforms` method gets and returns an object which satisfies the `IJavaScript` protocol. The object can be a plain map or a record with keys like `:url`, `:provides`, `:requires` and `:source`. The second argument which is passed to `js-transforms` is a map with the compiler options.
+The JavaScript preprocessing happens before <<xref/../javascript-module-support#,module conversion>>, however, both steps are independent of each other and can be used in disjunction.
