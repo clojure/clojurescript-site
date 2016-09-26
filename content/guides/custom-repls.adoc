@@ -9,7 +9,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 This page documents recent changes to requirements for custom REPLs that
 use the functionality provided in
-https://github.com/clojure/clojurescript/blob/master/src/clj/cljs/repl.clj[cljs.repl].
+https://github.com/clojure/clojurescript/blob/master/src/main/clojure/cljs/repl.cljc[cljs.repl].
 These changes have been made towards the goal of dramatically
 diminishing the start time of _all_ ClojureScript REPLs and simplifying
 the synchronization of REPL state with compiled source. This is
@@ -37,7 +37,7 @@ namespaces - REPLs should rely on the target environment to interpret
 information.
 
 The new Node.js REPL is a good example of the
-https://github.com/clojure/clojurescript/blob/master/src/clj/cljs/repl/node.clj#L67[new
+https://github.com/clojure/clojurescript/blob/master/src/main/clojure/cljs/repl/node.clj#L69[new
 pattern]. The Node.js REPL is short because it relies on the Node.js
 runtime itself to interpret `goog.require`.
 
