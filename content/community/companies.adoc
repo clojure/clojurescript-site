@@ -13,6 +13,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://www.adgoji.com[AdGoji]
 * http://adzerk.com/[Adzerk]
 * http://akvo.org/[Akvo]
+* https://attendify.com/[Attendify]
 * http://audio.audyx.com/[Audyx]
 * https://www.balboa.io[Balboa]
 * http://www.bevuta.com/[bevuta]
