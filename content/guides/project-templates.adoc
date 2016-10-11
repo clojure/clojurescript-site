@@ -14,7 +14,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 project template
 * https://github.com/bhauman/figwheel-template[figwheel-template] A
 Leinigen template for live coding with figwheel (includes Reagent and Om
-varients)
+variants)
 * https://github.com/plexus/chestnut[chestnut] Application template for
 ClojureScript/Om with live reloading
 * https://github.com/magomimmo/cljs-start[cljs-start] A lein template
