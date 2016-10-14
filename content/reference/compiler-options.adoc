@@ -190,11 +190,11 @@ Google Closure libraries).
 sort honoring dependencies.
 * `:module-type` (Optional) indicates that the foreign lib uses a given
 module system. Can be one of `:commonjs`, `:amd`, `:es6`. Note that if
-supplied, `:requires` is not used (as it is implicitly determined).
+supplied, `:requires` is not used (as it is implicitly determined). For more info see <<xref/../javascript-module-support#,JavaScript Module Support (Alpha)>>.
 * `:preprocess` (Optional) Used to preprocess / transform code in other
 dialects (JSX, etc.). A `defmethod` for `cljs.clojure/js-transforms`
 must be provided that matches the supplied value in order to effect the
-desired code transformation.
+desired code transformation. For more info see <<xref/../javascript-library-preprocessing#,JavaScript Library Preprocessing>>.
 
 [[externs]]
 === :externs
