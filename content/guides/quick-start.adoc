@@ -654,7 +654,7 @@ work.
 
 ClojureScript supports a wide variety of options for including
 ClojureScript and JavaScript dependencies (see
-<<xref/../../../reference/dependencies,Dependencies>>
+<<xref/../../../reference/dependencies#,Dependencies>>
 for details). However the simplest
 approach is to include a properly packaged JAR on the classpath.
 http://cljsjs.github.io[CLJSJS] provides a nice set of curated
@@ -707,7 +707,7 @@ java -cp 'cljs.jar:lib/*:src' clojure.main build.clj
 
 As your dependency graph becomes more sophisticated it may make sense to
 rely on Maven or Leiningen to manage dependencies for you. Please refer
-to <<xref/../../../reference/dependencies,Dependencies>> for a comprehensive tutorial. What
+to <<xref/../../../reference/dependencies#,Dependencies>> for a comprehensive tutorial. What
 follows is just the basics.
 
 [[leiningen]]
