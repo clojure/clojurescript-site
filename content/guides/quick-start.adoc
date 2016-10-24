@@ -27,15 +27,6 @@ https://maven.apache.org/what-is-maven.html[Maven] based workflow this
 Quick Start is essential reading. It covers the fundamentals regardless
 of what tooling you decide to end up using.
 
-_**Dear Reader**: Do not submit edits to this page without first consulting an
-experienced member of the ClojureScript community. This is one of the
-most important resources for beginners and it has been extensively
-verified on a variety of environments. If you believe you have found a
-mistake, there's a 99.9% chance you have not found a mistake. If you
-truly believe you have found an error in this document, please come find
-help on the IRC or Slack channels and we can help determine if this page
-needs edits. Thank you._
-
 [[clojurescript-compiler]]
 === ClojureScript Compiler
 
