@@ -9,7 +9,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 Checkout this git repository and run:
 
-[source,sh]
+[source,bash]
 ----
 script/build
 ----
@@ -17,7 +17,7 @@ script/build
 At the end of the build output you will see a line similar to the one
 below, but with different version numbers.
 
-[source,sh]
+[source,bash]
 ----
 [INFO] Installing <...>/clojurescript/target/clojurescript-1.7.164-aot.jar to /Users/username/.m2/repository/org/clojure/clojurescript/1.7.164/clojurescript-1.7.164-aot.jar
 ----

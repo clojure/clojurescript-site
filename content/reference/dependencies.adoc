@@ -154,7 +154,7 @@ have placed the above externs file under a `resources` directory. Then
 when using the standalone ClojureScript JAR you must launch your build
 script with the following:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:resources:src clojure.main build.clj
 ----
@@ -325,7 +325,7 @@ Let's say we've outgrown our beloved yayQuery library, and want to use
 jQuery instead. This is one of the many popular libraries which has been
 pre-packaged. We can fetch a copy as below:
 
-[source,shell]
+[source,bash]
 ----
 curl -O https://clojars.org/repo/cljsjs/jquery/1.9.0-0/jquery-1.9.0-0.jar
 ----
@@ -370,7 +370,7 @@ Compile the code as below (note the addition of the JAR in our class
 path), and you should see the message display when you load your
 browser:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:jquery-1.9.0-0.jar:src clojure.main build.clj
 ----
@@ -420,7 +420,7 @@ Let's make use of https://github.com/Prismatic/schema[Schema], a
 ClojureScript library which enables us to validate complex data types.
 First, we need to procure a copy of the library:
 
-[source,shell]
+[source,bash]
 ----
 curl -O https://clojars.org/repo/prismatic/schema/0.4.0/schema-0.4.0.jar
 ----
@@ -454,7 +454,7 @@ Our build script is even simpler:
 
 Now, we can run the build. Simply reference the JAR as below:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:schema-0.4.0.jar:src clojure.main build.clj
 ----
@@ -513,7 +513,7 @@ Let's modify our `core.cljs` file to make use of our library:
 Now, we are ready to build! http://leiningen.org/#install[Install
 Leiningen] and run the following command:
 
-[source,shell]
+[source,bash]
 ----
 $ lein cljsbuild auto
 ----
@@ -539,7 +539,7 @@ through http://brew.sh/[brew].
 Once installed you can create a skeleton project template with the
 following:
 
-[source,shell]
+[source,bash]
 ----
 mvn archetype:generate
 ----
@@ -582,14 +582,14 @@ a dependency:
 
 Then we can use Maven to compute the classpath for us:
 
-[source,shell]
+[source,bash]
 ----
 mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
 ----
 
 We can launch Clojure now with the following:
 
-[source,shell]
+[source,bash]
 ----
 java -cp `< cp.txt` clojure.main
 ----

@@ -17,7 +17,7 @@ a path to a file for the map.
 Using the `bin/cljsc` script herein, you can run something like the
 following on the command line, adjusted for your project:
 
-[source,shell]
+[source,bash]
 ----
  $ cljsc src '{:optimizations :whitespace :output-dir "out" :output-to "main.js" :source-map "main.js.map"}'
 ----

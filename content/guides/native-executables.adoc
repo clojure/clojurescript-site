@@ -23,7 +23,7 @@ handy.
 
 Setup:
 
-[source,shell]
+[source,bash]
 ----
 # Install node and nexe
 brew install node
@@ -32,7 +32,7 @@ npm install nexe -g
 
 Make a little hello world file:
 
-[source,shell]
+[source,bash]
 ----
 mkdir -p /tmp/nexe-test/src
 cd /tmp/nexe-test
@@ -45,7 +45,7 @@ EOF
 
 Fire up a REPL and compile the ClojureScript:
 
-[source,shell]
+[source,bash]
 ----
 wget https://github.com/clojure/clojurescript/releases/download/r1.9.293/cljs.jar
 java -cp cljs.jar clojure.main <<EOF
@@ -57,7 +57,7 @@ EOF
 Use nexe to compile the js into a native exe. This will take a while
 the first time, but will be reasonably fast for subsequent runs:
 
-[source,shell]
+[source,bash]
 ----
 nexe -i out/main.js -o hello.exe
 

@@ -50,14 +50,14 @@ cljs(1).jar.
 Create a directory `hello_world` and copy the JAR into that directory,
 then from _inside_ the `hello_world` directory:
 
-[source,shell]
+[source,bash]
 ----
 mkdir -p src/hello_world;touch src/hello_world/core.cljs
 ----
 
 For Windows:
 
-[source,shell]
+[source,bash]
 ----
 md src\hello_world & type nul >>core.cljs & move core.cljs src\hello_world
 ----
@@ -103,14 +103,14 @@ directory to compile and a map of options. In our case a simple
 
 Let's build some ClojureScript:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:src clojure.main build.clj
 ----
 
 On Windows:
 
-[source,shell]
+[source,bash]
 ----
 java -cp "cljs.jar;src" clojure.main build.clj
 ----
@@ -153,7 +153,7 @@ appear in the main browser window—no content is being rendered.)
 You will not see `"Hello world!"` but instead you will likely see an
 error like the following:
 
-[source,shell]
+[source,bash]
 ----
 Uncaught ReferenceError: goog is not defined
 ----
@@ -266,14 +266,14 @@ Change your HTML to the following:
 
 Rebuild on Mac or GNU/Linux:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:src clojure.main build.clj
 ----
 
 On Windows:
 
-[source,shell]
+[source,bash]
 ----
 java -cp "cljs.jar;src" clojure.main build.clj
 ----
@@ -302,14 +302,14 @@ recompile as needed. Let's make a new helper script `watch.clj`:
 
 Let's start auto building:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:src clojure.main watch.clj
 ----
 
 You should see output like the following:
 
-[source,shell]
+[source,bash]
 ----
 Building ...
 Reading analysis cache for jar:file:/.../cljs.jar!/cljs/core.cljs
@@ -406,7 +406,7 @@ needs to build. You will also see innocuous `WARNING`s from the Google
 Closure Compiler that can be ignored. You should eventually see the
 following message:
 
-[source,shell]
+[source,bash]
 ----
 Waiting for browser to connect ...
 ----
@@ -582,21 +582,21 @@ to the way that Node.js resolves JavaScript source files.
 Node.js has great source mapping support, in order to enable it just
 install `source-map-support`:
 
-[source,shell]
+[source,bash]
 ----
 npm install source-map-support
 ----
 
 Let's build your Node project:
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:src clojure.main node.clj
 ----
 
 You can run your file with:
 
-[source,shell]
+[source,bash]
 ----
 node main.js
 ----
@@ -641,7 +641,7 @@ previous section.
 
 Let's start the REPL:
 
-[source,shell]
+[source,bash]
 ----
 rlwrap java -cp cljs.jar:src clojure.main node_repl.clj
 ----
@@ -668,7 +668,7 @@ Let's see how to include it.
 
 Grab the JAR from https://clojars.org[Clojars]:
 
-[source,shell]
+[source,bash]
 ----
 curl -O https://clojars.org/repo/cljsjs/react/0.12.2-8/react-0.12.2-8.jar
 ----
@@ -689,7 +689,7 @@ is properly required:
 Let's rebuild our project, all we need to do is extend our classpath to
 include the CLJSJS React JAR.
 
-[source,shell]
+[source,bash]
 ----
 java -cp cljs.jar:src:react-0.12.2-8.jar clojure.main build.clj
 ----
@@ -700,7 +700,7 @@ indicating that React was successfully loaded.
 If you have a few dependencies, one convention is to put them into a
 folder called `lib`. Then you can launch your scripts like so:
 
-[source,shell]
+[source,bash]
 ----
 java -cp 'cljs.jar:lib/*:src' clojure.main build.clj
 ----
@@ -718,7 +718,7 @@ Leiningen. With Leiningen you do not need to specify the classpath. For
 example for a REPL you would do something like the following from your
 project directory:
 
-[source,shell]
+[source,bash]
 ----
 lein run -m clojure.main repl.clj
 ----
@@ -763,7 +763,7 @@ your `pom.xml`:
 
 Then you can start a repl with the `clojure:run` task:
 
-[source,shell]
+[source,bash]
 ----
 mvn clojure:run -Dclojure.script=repl.clj
 ----

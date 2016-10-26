@@ -10,7 +10,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 [[testing-the-compiler-infrastructure]]
 == Testing the Compiler Infrastructure
 
-[source,shell]
+[source,bash]
 ----
 lein test
 ----
@@ -45,7 +45,7 @@ Set your SPIDERMONKEY_HOME environment variable.
 On OS X download a http://webkit.org[WebKit nightly] and put it in your
 Applications folder. Update your shell profile to include the following:
 
-[source,shell]
+[source,bash]
 ----
 DYLD_FRAMEWORK_PATH=/Applications/WebKit.app/Contents/Frameworks/10.10/
 export DYLD_FRAMEWORK_PATH
@@ -69,7 +69,7 @@ so you can write:
 [[setting-up-dependencies]]
 === Setting up dependencies
 
-[source,shell]
+[source,bash]
 ----
 ./script/bootstrap
 ----
@@ -77,7 +77,7 @@ so you can write:
 [[running-the-tests]]
 === Running the tests
 
-[source,shell]
+[source,bash]
 ----
 ./script/test
 ----
@@ -89,7 +89,7 @@ If you have Node.js installed, you can run the bootstrapped
 ClojureScript test suite (located at
 `src/test/self/self_host/test.cljs`):
 
-[source,shell]
+[source,bash]
 ----
 ./script/test-self-host
 ----
@@ -97,7 +97,7 @@ ClojureScript test suite (located at
 You can also build and run the ClojureScript compiler test suite in
 bootstrapped mode within Node.js by running
 
-[source,shell]
+[source,bash]
 ----
 ./script/test-self-parity
 ----

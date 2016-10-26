@@ -16,7 +16,7 @@ followed by an empty line, followed by a few sentences explaining the
 changes. Please squash multiple commits into a single commit. Then
 produce the patch with the following:
 
-[source,console]
+[source,bash]
 ----
 git format-patch master --stdout > CLJS-NNNN.patch
 ----

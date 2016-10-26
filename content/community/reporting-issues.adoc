@@ -45,7 +45,7 @@ Bootstrap issues may require special consideration. Please see <<reporting-boots
 Make a checkout of the ClojureScript repository. From the root of the
 project run the following:
 
-[source,shell]
+[source,bash]
 ----
 ./script/uberjar    
 ----
@@ -61,7 +61,7 @@ method, it's only for convenience when verifying master yourself__. Make
 a checkout of the ClojureScript repository. From the root of the project
 run the following:
 
-[source,shell]
+[source,bash]
 ----
 ./script/build        
 ----

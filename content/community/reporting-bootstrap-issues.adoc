@@ -31,7 +31,7 @@ Frequently it is possible to do this with a couple of lines in a REPL.
 Here is an example exercising the `cljs.js/eval-str` API by simply
 issuing a couple forms in the shipping Nashorn REPL:
 
-[source,console]
+[source,bash]
 ----
 $ java -jar cljs.jar -m cljs.repl.nashorn
 To quit, type: :cljs/quit
