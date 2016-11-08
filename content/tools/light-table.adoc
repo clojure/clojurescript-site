@@ -5,13 +5,13 @@ David Nolen
 :toc: macro
 :icons: font
 
-[Light Table]http://www.lighttable.com is an extensible IDE that offers
+http://www.lighttable.com[Light Table] is an extensible IDE that offers
 instant evaluation of your code, realtime feedback, and a ClojureScript
 plugin ecosystem.
 
 To get started, check out this concise
 http://docs.lighttable.com/#start[introduction] or the
-[full tutorial]http://docs.lighttable.com/tutorials/full/.
+http://docs.lighttable.com/tutorials/full/[full tutorial].
 
 Once you feel comfortable navigating Light Table's interface and using
 basic commands, it is advisable to install the official Paredit plugin.
