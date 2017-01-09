@@ -68,7 +68,7 @@ to contribute to ClojureScript.
 * http://dev.clojure.org/display/design/Home[Design Docs]
 * http://groups.google.com/group/clojure-dev[Dev Mailing List] -
 membership restricted to those who have submitted a signed
-http://clojure.org/contributing[Clojure CA] (Contributor Agreement)
+https://clojure.org/contributing[Clojure CA] (Contributor Agreement)
 * http://groups.google.com/group/clojurescript[ClojureScript Mailing
 List]
-* Become a http://clojure.org/contributing[Contributor]
+* Become a https://clojure.org/contributing[Contributor]

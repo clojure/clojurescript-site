@@ -30,7 +30,7 @@ of what tooling you decide to end up using.
 [[clojurescript-compiler]]
 === ClojureScript Compiler
 
-The standalone ClojureScript JAR bundles http://clojure.org[Clojure]
+The standalone ClojureScript JAR bundles https://clojure.org[Clojure]
 1.8.0. This supports simple scripting of the ClojureScript compiler and
 the bundled REPLs without an overly complicated command line interface.
 

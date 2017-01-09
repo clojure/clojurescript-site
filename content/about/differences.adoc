@@ -14,7 +14,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-What follows is a section-by-section review of sections on the left-hand navigation panels of http://clojure.org/about and http://clojure.org/reference, enumerating what is different in ClojureScript and in some cases the similarities.
+What follows is a section-by-section review of sections on the left-hand navigation panels of https://clojure.org/about and https://clojure.org/reference, enumerating what is different in ClojureScript and in some cases the similarities.
 
 == Rationale
 
@@ -347,4 +347,4 @@ ClojureScript currently includes the following non-core namespaces ported from C
 
 == Contributing
 
-Clojure and ClojureScript share the same http://clojure.org/contributing[Contributor Agreement and development process].
+Clojure and ClojureScript share the same https://clojure.org/contributing[Contributor Agreement and development process].

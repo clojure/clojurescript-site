@@ -320,7 +320,7 @@ expression-based (compare `(fn [x y] (+ x y))` to
 lightweight function syntax (`#(+ %1 %2)`).
 
 |Classes |ClojureScript is not class-based
-http://clojure.org/datatypes#toc5[by design]; use data types and
+https://clojure.org/datatypes#toc5[by design]; use data types and
 protocols to get the good parts of Object-Orientation. See
 link:#why-are-there-no-classes-[next section] for more details.
 
@@ -366,7 +366,7 @@ for octal and hexadecimal (and of course decimal)
 [[why-are-there-no-classes]]
 **<<faq-js#why-are-there-no-classes,Why are there no classes ?>>**
 
-In no small part, Clojure was http://clojure.org/rationale#toc5[born] as
+In no small part, Clojure was https://clojure.org/rationale#toc5[born] as
 an answer to the limitations of Object Orientation as embodied by
 class-based languages like Java and Ruby.
 
