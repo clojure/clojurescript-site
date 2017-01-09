@@ -142,7 +142,7 @@ it as follows in your `build.clj` file:
 
 [source,clojure]
 ----
-(cljs.closure/build "src" 
+(cljs.build.api/build "src" 
   {:output-to "out/main.js"
    :externs ["yayquery-externs.js"]
    :optimizations :advanced})
@@ -237,7 +237,7 @@ To build the bundled output, use the following in your `build.clj` file.
 
 [source,clojure]
 ----
-(cljs.closure/build "src" 
+(cljs.build.api/build "src" 
   {:output-to "out/main.js"
    :libs ["yayquery.js"]
    :optimizations :advanced})
@@ -295,7 +295,7 @@ across referenced libraries, you can name it anything you please:
 
 [source,clojure]
 ----
-(cljs.closure/build "src" 
+(cljs.build.api/build "src" 
   {:output-to "out/main.js"
    :externs ["yayquery-externs.js"]
    :foreign-libs [{:file "yayquery.js"
@@ -361,7 +361,7 @@ invoke the script:
 
 [source,clojure]
 ----
-(cljs.closure/build "src" 
+(cljs.build.api/build "src" 
   {:output-to "out/main.js"
    :optimizations :advanced})
 ----
@@ -447,7 +447,7 @@ Our build script is even simpler:
 
 [source,clojure]
 ----
-(cljs.closure/build "src" 
+(cljs.build.api/build "src" 
   {:output-to "out/main.js"
    :optimizations :advanced})
 ----
