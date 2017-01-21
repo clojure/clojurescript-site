@@ -18,6 +18,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://audio.audyx.com/[Audyx]
 * https://www.balboa.io[Balboa]
 * http://www.bevuta.com/[bevuta]
+* https://www.blossom.co[Blossom]
 * http://www.brightnorth.co.uk[Bright North]
 * https://www.brightin.nl[Brightin]
 * http://www.butterbutt.com/[Butterbutt]
