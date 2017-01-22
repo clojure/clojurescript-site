@@ -9,12 +9,17 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-This page explains how to include a JavaScript module into a ClojureScript project. Please keep in mind that the functionalities described in this guide are still considered to be in alpha.
+This page explains how to include a JavaScript module into a ClojureScript
+project. Please keep in mind that the functionalities described in this guide
+are still considered to be in alpha.
 
 [[motivation]]
 == Motivation
 
-In addition to code optimization and dependency management, the Google Closure compiler can also convert common JavaScript modules into Google Closure modules. Having a Google Closure module instead of a JavaScript module has the following advantages:
+In addition to code optimization and dependency management, the Google Closure
+compiler can also convert common JavaScript modules into Google Closure modules.
+Having a Google Closure module instead of a JavaScript module has the following
+advantages:
 
 * Google Closure modules are included into source code optimizations
 * no need to specify externs
@@ -22,7 +27,8 @@ In addition to code optimization and dependency management, the Google Closure c
 [[including-a-javascript-module]]
 == Including a JavaScript module
 
-Following, we will see how we can include the following simple CommonJS module into a ClojureScript project.
+Following, we will see how we can include the following simple CommonJS module
+into a ClojureScript project.
 
 [source,javascript]
 ----
@@ -42,7 +48,12 @@ module.exports = calculator;
 [[adding-a-javascript-module-to-your-project-configuration]]
 === Adding a JavaScript module to your project configuration
 
-If you want to include a JavaScript module into your project you need to add it as a foreign library and specify its module type using the `:module-type` compiler option. The module types that are currently supported are *CommonJS*, *AMD* and *ECMAScript 6*. Respectively, the values that can be specified for the `:module-type` compiler option are `:commonjs`, `:amd` and `:es6`. For example, the compiler options for the CommonJS module shown above are as follows:
+If you want to include a JavaScript module into your project you need to add it
+as a foreign library and specify its module type using the `:module-type`
+compiler option. The module types that are currently supported are *CommonJS*,
+*AMD* and *ECMAScript 6*. Respectively, the values that can be specified for the
+`:module-type` compiler option are `:commonjs`, `:amd` and `:es6`. For example,
+the compiler options for the CommonJS module shown above are as follows:
 
 [source,clojure]
 ----
@@ -54,7 +65,11 @@ If you want to include a JavaScript module into your project you need to add it 
 [[using-a-javascript-module-in-your-code]]
 === Using a JavaScript module in your code
 
-You can include a JavaScript module into a ClojureScript namespace by using the name that you've specified for the module with the `:provides` compiler option. For the CommonJS module shown above we've specified the name `calculator`. We can now use the module in our ClojureScript code in the same way as we would use modules from the <<xref/../google-closure-library#,Google Closure Library>>.
+You can include a JavaScript module into a ClojureScript namespace by using the
+name that you've specified for the module with the `:provides` compiler option.
+For the CommonJS module shown above we've specified the name `calculator`. We
+can now use the module in our ClojureScript code in the same way as we would use
+modules from the <<xref/../google-closure-library#,Google Closure Library>>.
 
 [source,clojure]
 ----
@@ -72,13 +87,29 @@ You can include a JavaScript module into a ClojureScript namespace by using the 
 [[restrictions-imposed-by-the-google-closure-compiler]]
 === Restrictions imposed by the Google Closure compiler
 
-The Google Closure compiler expects its JavaScript input to conform to a few restrictions when using optimization levels `:simple` or `:advanced`. This means if you would like to use either of those optimization levels your JavaScript module has to conform to the restrictions imposed by the Google Closure compiler. See https://developers.google.com/closure/compiler/docs/limitations for more details about the restrictions.
+The Google Closure compiler expects its JavaScript input to conform to a few
+restrictions when using optimization levels `:simple` or `:advanced`. This means
+if you would like to use either of those optimization levels your JavaScript
+module has to conform to the restrictions imposed by the Google Closure
+compiler. See https://developers.google.com/closure/compiler/docs/limitations
+for more details about the restrictions.
 
 [[specifying-module-dependencies]]
 === Specifying module dependencies
 
-If your JavaScript module depends on other modules you need to add those modules to the project configuration as well. This can be infeasible for larger projects with many different modules. In this case you might want to try to bundle your project first and then include it as a single module.
+If your JavaScript module depends on other modules you need to add those modules
+to the project configuration as well. This can be infeasible for larger projects
+with many different modules. In this case you might want to try to bundle your
+project first and then include it as a single module.
 
 [[node.js-module]]
 === Node.js modules
-The https://nodejs.org/api/modules.html[Node.js module specification] varies slightly from the http://wiki.commonjs.org/wiki/Modules/1.1#Module_Identifiers[CommonJS specification] in that the module identifier that is passed to `require()` doesn't always need to be an absolute or relative path. This makes it difficult for the Google Closure compiler to resolve the dependencies of a node module since th compiler was implemented following the standard CommonJS specification. Therefore, it might not be possible for a node module to be converted to a Google Closure module.
+The https://nodejs.org/api/modules.html[Node.js module specification] varies
+slightly from the
+http://wiki.commonjs.org/wiki/Modules/1.1#Module_Identifiers[CommonJS
+specification] in that the module identifier that is passed to `require()`
+doesn't always need to be an absolute or relative path. This makes it difficult
+for the Google Closure compiler to resolve the dependencies of a node module
+since th compiler was implemented following the standard CommonJS specification.
+Therefore, it might not be possible for a node module to be converted to a
+Google Closure module.
