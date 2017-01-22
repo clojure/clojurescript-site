@@ -1,0 +1,70 @@
+= Writing Externs (Alpha)
+David Nolen
+2017-01-22
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+This page documents how to write externs for third party JavaScript libraries
+that do not conform to Google Closure Compiler conventions
+https://developers.google.com/closure/compiler/docs/limitations. The features
+described should be considered of alpha quality and subject to change.
+
+[[motivation]]
+== Motivation
+
+Many useful libraries cannot go through Google Closure Compiler advanced
+compilation. Thus they cannot be a part of the build and are considered
+"foreign". Still Closure must know something about these libraries, otherwise
+properties may be unintentionally renamed. Unfortunately, often this accidental
+renaming won't be apparent until the least opportune time - production.
+
+For libraries that already have mature externs this type of mistake is easily
+avoided. However, this requirement adds an incredible amount of friction to the
+adoption of newer or less popular but equally useful libraries. With the arrival
+of externs inference, the ClojureScript compiler can now automatically generate
+missing externs as well as greatly aid the process of writing comprehensive
+externs.
+
+[[externs-inference]]
+== Externs Inference
+
+Imagine that we have specified a foreign library `some.fooLib`. We would like
+to write interop against this library but have certainty that the correct
+externs will be automatically generated.
+
+First we must supply the `:infer-externs true` in our compiler configuration:
+
+[source,clojure]
+----
+(require '[cljs.build.api :as b])
+
+(b/build "src"
+  {:main 'my-project.core
+   :output-to "out/main.js"
+   :output-dir "out"
+   :optimizations :none
+   :infer-externs true})
+----
+
+Then in our source file we wan the compiler to help us as we interop with the
+foreign dependency. There is a new file local dynamic var `*warn-on-infer`. Once
+set the compiler will warn for the remainder of the file anytime it cannot
+determine the types involved in a dot form, whether property access or method
+invocation.
+
+[source,clojure]
+----
+(ns my-project.core
+  (:require [some.fooLib]))
+
+(set! *warn-on-infer* true)
+
+(defn wrap-bar [x]
+  (.bar x))
+----
+
