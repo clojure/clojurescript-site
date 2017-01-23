@@ -97,3 +97,51 @@ Foo.Bar = function() {};
 Foo.Bar.prototype.baz = function() {};
 ----
 
+[[writing-externs]]
+== Writing Externs
+
+Local type hints goes a long way to automating the process of writing externs.
+However for interop heavy code this will lead to a lot of type hinting
+particularly for the return values of commonly used functions. In this case it's
+probably better to provide the externs file. However, even in this case the
+ClojureScript compiler can ease the process:
+
+[source,clojure]
+----
+(ns my-project.core
+  (:require [some.fooLib]))
+
+(set! *warn-on-infer* true)
+
+(defn some-fn [^js/Foo.Bar x]
+  (let [z (.baz x)]
+    (.-wozz z)))
+----
+
+Imagine that our externs file looks something like the following:
+
+[source,javascript]
+----
+var Foo = {};
+Foo.Bar = function() {};
+Foo.Bar.prototype.baz = function() {};
+var Foo.Boo = {};
+Foo.Boo.prototype.woz = function() {};
+----
+
+However this isn't sufficient for knowing the type of `z` in the ClojureScript
+program.
+
+We simply need to add the return type information to the externs file:
+
+[source,javascript]
+----
+var Foo = {};
+Foo.Bar = function() {};
+/**
+ * @return [Foo.Boo]
+ */
+Foo.Bar.prototype.baz = function() {};
+var Foo.Boo = {};
+Foo.Boo.prototype.woz = function() {};
+----
