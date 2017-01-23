@@ -1,0 +1,40 @@
+= JavaScript Modules (Alpha)
+David Nolen
+2017-01-22
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+This page documents how to mix modern JavaScript source files seamlessly into
+an existing ClojureScript project. The features documented should be considered
+of alpha quality and subject to change.
+
+[[motivation]]
+== Motivation
+
+Integrating modern JavaScript into a ClojureScript project presents many
+challenges. Source to source compilation of JavaScript has become increasingly
+popular whether embedded HTML as with React JSX or the new ECMAScript standards
+that address many of JavaScript old weaknesses.
+
+However, integrating these kinds of source files previously required deferring to
+JavaScript build tools, thus losing all of the benefits of the Google Closure
+compiler.
+
+Fortunately Google Closure has not only kept abreast of many of the various
+enhancements to the JavaScript language, they've also provided transformation
+from the various popular JavaScript module formats (CommonJS, AMD, ES6) into the
+Google Closure namespace convention.
+
+[[es6]]
+== ES6
+
+[[Babel]]
+== Babel
+
+[[REPL]]
+== REPL
