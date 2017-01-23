@@ -98,9 +98,9 @@ Foo.Bar.prototype.baz = function() {};
 ----
 
 [[writing-externs]]
-== Writing Externs
+== Hand Written Externs
 
-Local type hints goes a long way to automating the process of writing externs.
+Local type hints go a long way to automating the process of writing externs.
 However for interop heavy code this will lead to a lot of type hinting
 particularly for the return values of commonly used functions. In this case it's
 probably better to provide the externs file. However, even in this case the
@@ -123,9 +123,15 @@ Imagine that our externs file looks something like the following:
 [source,javascript]
 ----
 var Foo = {};
+/**
+ * @constructor
+ */
 Foo.Bar = function() {};
 Foo.Bar.prototype.baz = function() {};
-var Foo.Boo = {};
+/**
+ * @constructor
+ */
+var Foo.Boo = function() {};
 Foo.Boo.prototype.woz = function() {};
 ----
 
@@ -137,11 +143,17 @@ We simply need to add the return type information to the externs file:
 [source,javascript]
 ----
 var Foo = {};
+/**
+ * @constructor
+ */
 Foo.Bar = function() {};
 /**
  * @return [Foo.Boo]
  */
 Foo.Bar.prototype.baz = function() {};
-var Foo.Boo = {};
+/**
+ * @constructor
+ */
+var Foo.Boo = function() {};
 Foo.Boo.prototype.woz = function() {};
 ----
