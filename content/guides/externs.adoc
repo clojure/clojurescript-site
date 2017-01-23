@@ -51,11 +51,9 @@ First we must supply the `:infer-externs true` in our compiler configuration:
    :infer-externs true})
 ----
 
-Then in our source file we wan the compiler to help us as we interop with the
-foreign dependency. There is a new file local dynamic var `*warn-on-infer`. Once
-set the compiler will warn for the remainder of the file anytime it cannot
-determine the types involved in a dot form, whether property access or method
-invocation.
+There is a new file local dynamic var `*warn-on-infer*`. Once set the compiler
+will warn for the remainder of the file anytime it cannot determine the types
+involved in a dot form, whether property access or method invocation.
 
 [source,clojure]
 ----
@@ -64,7 +62,38 @@ invocation.
 
 (set! *warn-on-infer* true)
 
-(defn wrap-bar [x]
-  (.bar x))
+(defn wrap-baz [x]
+  (.baz x))
+----
+
+The above code would trigger a warning message:
+
+----
+Cannot infer target type in expression (.bar x) ...
+----
+
+We simply need to type-hint x with the foreign type for this interop call:
+
+[source,clojure]
+----
+(ns my-project.core
+  (:require [some.fooLib]))
+
+(set! *warn-on-infer* true)
+
+(defn wrap-baz [^js/Foo.Bar x]
+  (.baz x))
+----
+
+The compiler now has enough information to automatically generate the required
+externs. When you run your build you will see a new file in your output
+directory `inferred_externs.js`. If you examine its content it will probably
+look similar to the following:
+
+[source,javascript]
+----
+var Foo = {};
+Foo.Bar = function() {};
+Foo.Bar.prototype.baz = function() {};
 ----
 
