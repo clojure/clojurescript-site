@@ -34,10 +34,12 @@ externs.
 == Externs Inference
 
 Imagine that we have specified a foreign library `some.fooLib`. We would like
-to write interop against this library but have certainty that the correct
-externs will be automatically generated.
+to write interop against this library but have certainty that either the correct
+externs will be automatically generated or the compiler will notify us of
+externs we must additionally supply.
 
-First we must supply the `:infer-externs true` in our compiler configuration:
+To enable externs inference, we specify the `:infer-externs true` in our compiler
+configuration:
 
 [source,clojure]
 ----
@@ -51,7 +53,11 @@ First we must supply the `:infer-externs true` in our compiler configuration:
    :infer-externs true})
 ----
 
-There is a new file local dynamic var `*warn-on-infer*`. Once set the compiler
+However this alone isn't enough to have the compiler generate warnings around
+externs. Because of the large number of libraries written before this
+feature existed, we cannot enable this capability in a global way. Instead there is a new
+file local compiler flag `\*warn-on-infer*` which is somewhat analogous to
+`\*warn-on-reflection*` in Clojure. Once set the compiler
 will warn for the remainder of the file anytime it cannot determine the types
 involved in a dot form, whether property access or method invocation.
 
@@ -72,7 +78,7 @@ The above code would trigger a warning message:
 Cannot infer target type in expression (.bar x) ...
 ----
 
-We simply need to type-hint x with the foreign type for this interop call:
+We simply need to type-hint `x` with the foreign type for this interop call:
 
 [source,clojure]
 ----
@@ -101,9 +107,9 @@ Foo.Bar.prototype.baz = function() {};
 == Hand Written Externs
 
 Local type hints go a long way to automating the process of writing externs.
-However for interop heavy code this will lead to a lot of type hinting
+However, for interop heavy code this will lead to a lot of type hinting
 particularly for the return values of commonly used functions. In this case it's
-probably better to provide the externs file. However, even in this case the
+probably better to provide the externs file. Even in this case the
 ClojureScript compiler can ease the process:
 
 [source,clojure]
@@ -113,7 +119,7 @@ ClojureScript compiler can ease the process:
 
 (set! *warn-on-infer* true)
 
-(defn some-fn [^js/Foo.Bar x]
+(defn my-fn [^js/Foo.Bar x]
   (let [z (.baz x)]
     (.-wozz z)))
 ----
@@ -131,14 +137,18 @@ Foo.Bar.prototype.baz = function() {};
 /**
  * @constructor
  */
-var Foo.Boo = function() {};
+Foo.Boo = function() {};
 Foo.Boo.prototype.woz = function() {};
 ----
 
 However this isn't sufficient for knowing the type of `z` in the ClojureScript
-program.
+program. The ClojureScript compiler will issue the following warning:
 
-We simply need to add the return type information to the externs file:
+----
+WARNING: Adding extern to Object for property wozz due to ambiguous expression (. z -wozz) ...
+----
+
+We need to add the return type information to the externs file:
 
 [source,javascript]
 ----
@@ -148,12 +158,22 @@ var Foo = {};
  */
 Foo.Bar = function() {};
 /**
- * @return [Foo.Boo]
+ * @return {Foo.Boo} <-- CHANGED
  */
 Foo.Bar.prototype.baz = function() {};
 /**
  * @constructor
  */
-var Foo.Boo = function() {};
+Foo.Boo = function() {};
 Foo.Boo.prototype.woz = function() {};
 ----
+
+Touching your source file and re-running build will result in a different
+warning:
+
+----
+WARNING: Cannot resolve property wozz for inferred type js/Foo.Boo in expression (. z -wozz)
+----
+
+As we can see the ClojureScript used the return type information to clarify
+the problem.
