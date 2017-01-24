@@ -147,11 +147,80 @@ node out/main.js
 Hello world!
 ----
 
-[[REPL]]
-== REPL
+[[using-the-repl]]
+== Using the REPL
 
-[[Babel]]
-== Babel
+Since JavaScript modules simply get compiled into Google Closure namespaces, all
+of the generic ClojureScript REPL features just work. If you want hot-loading of
+your ES6 source files just use Figwheel.
+
+We'll demonstrate manual hot-loading with the standard Node.js REPL.
+
+Create a repl file:
+
+----
+touch repl.clj
+----
+
+Edit `repl.clj` to look like the following:
+
+[source,clojure]
+----
+(require '[cljs.repl :as repl])
+(require '[cljs.repl.node :as node])
+
+(repl/repl* (node/repl-env)
+  {:output-dir "out"
+   :foreign-libs [{:file "src"
+                   :module-type :es6}])
+----
+
+Start the REPL:
+
+----
+rlwrap lein trampoline run -m clojure.main repl.clj
+----
+
+Require the `js.hello` namespace and try it out:
+
+----
+user> (require '[js.hello :as hello])
+true
+user> (hello/sayHello)
+Hello world!
+----
+
+Without quitting your REPL, edit your `js/hello.js` to the following:
+
+[source,javascript]
+----
+export let sayHello = function() {
+    console.log("Hello, world!");
+};
+export let sayThings = function(xs) {
+    for(let x of xs) {
+        console.log(x);
+    }
+};
+----
+
+Reload your JavaScript module and try the new functionality:
+
+----
+user> (require '[js.hello :as hello] :reload)
+true
+user> (hello/sayThings ["ClojureScript", "+", "JavaScript", "Rocks!"])
+ClojureScript
++
+JavaScript
+Rocks!
+----
+
+Since ClojureScript vectors support the ES6 iteration protocol
+ES6 `for...of` just works.
+
+[[babel-transforms]]
+== Babel Transforms
 
 Download `babel.min.js` into your project directory:
 
