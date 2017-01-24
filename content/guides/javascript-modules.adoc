@@ -22,8 +22,8 @@ source to source compilation of JavaScript has become increasingly popular,
 whether embedded HTML as with React JSX, or the new ECMAScript standards that
 address many of JavaScript's old weaknesses. But integrating these new kinds of
 source files required deferring to JavaScript build tools which still lack
-the more advanced features of the Google Closure compiler like dead code
-elimination and precise code splitting.
+the more advanced features of the Google Closure compiler like precise dead code
+elimination and code splitting.
 
 Fortunately Google Closure has not only kept abreast of many of the various
 enhancements to the JavaScript language, they've also provided transformation
@@ -32,8 +32,8 @@ Google Closure namespace convention. ClojureScript now exposes all of this
 functionality and with the help of Java 8's Nashorn JavaScript engine can
 provide even the most cutting edge JavaScript source transforms with ease.
 
-[[pre-requisitess]]
-== Pre-requisites
+[[prerequisites]]
+== Prerequisites
 
 This guide assumes you have the latest release of JDK 8 as well as Leiningen
 installed. The instructions are easily adaptable to Boot or Maven. You should
@@ -95,7 +95,15 @@ Edit this file to look like the following:
 [source,clojure]
 ----
 (ns hello-es6.core
-  (:require [js.hello :as hello]))
+  (:require [cljs.nodejs :as nodejs]
+            [js.hello :as hello]))
+
+(nodejs/enable-util-print!)
+
+(defn -main [& args]
+  (hello/sayHello))
+
+(set! *main-cli-fn* -main)
 ----
 
 Now let's write some JavaScript:
@@ -119,6 +127,12 @@ Let's check that our watch script works:
 lein trampoline run -m clojure.main watch.clj
 ----
 
+You can verify the script works as intended by invoking Node on `out/main.js`:
+
+----
+node out/main.js
+----
+
 [[REPL]]
 == REPL
 
@@ -135,8 +149,22 @@ Change your `watch.clj` to look like the following:
 
 [source,clojure]
 ----
+(require '[clojure.java.io :as io])
 (require '[cljs.build.api :as b])
 (require '[cljs.closure :as closure])
+(import 'javax.script.ScriptEngineManager)
+
+;; Create a shared Nashorn instance and eval Babel
+(def engine
+  (doto (.getEngineByName (ScriptEngineManager.) "nashorn")
+    (.eval (io/reader (io/file "babel.min.js")))))
+
+;; Add a custom transform
+(defmethod js-transforms :jsx [ijs opts]
+  (let [code (str (gensym))]
+    (.put engine code (:source ijs))
+    (assoc ijs :source
+      (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
 
 (b/watch "src"
   {:output-to    "out/main.js"
@@ -144,6 +172,7 @@ Change your `watch.clj` to look like the following:
    :main         'hello-es6.core
    :target       :nodejs
    :foreign-libs [{:file "src"
-                   :module-type :es6}
+                   :module-type :es6
+                   :preprocess :jsx}
    :verbose      true])
 ----
