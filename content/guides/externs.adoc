@@ -93,7 +93,7 @@ We simply need to type-hint `x` with the foreign type for this interop call:
 
 The compiler now has enough information to automatically generate the required
 externs. When you run your build you will see a new file in your output
-directory `inferred_externs.js`. If you examine its content it will probably
+directory `inferred_externs.js`. If you examine its contents it will probably
 look similar to the following:
 
 [source,javascript]
@@ -103,14 +103,22 @@ Foo.Bar = function() {};
 Foo.Bar.prototype.baz = function() {};
 ----
 
-[[writing-externs]]
-== Hand Written Externs
+Quickly integrating foreign JavaScript libraries without complete externs is now
+considerably easier and less error prone.
+
+In some cases you may still want to write externs or you may be a consumer of a
+popular JavaScript library with mature externs and you would like a bit more
+validation. The following section describes an additional useful feature
+provided by externs inference.
+
+[[return-types]]
+== Return Types
 
 Local type hints go a long way to automating the process of writing externs.
 However, for interop heavy code this will lead to a lot of type hinting
 particularly for the return values of commonly used functions. In this case it's
-probably better to provide the externs file. Even in this case the
-ClojureScript compiler can ease the process:
+probably better to provide the externs file. Even here the ClojureScript
+compiler can ease the process:
 
 [source,clojure]
 ----
