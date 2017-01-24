@@ -16,29 +16,21 @@ of alpha quality and subject to change.
 [[motivation]]
 == Motivation
 
-Integrating modern JavaScript into a ClojureScript project previously presented
-several challenges. Source to source compilation of JavaScript has become
-increasingly popular whether embedded HTML as with React JSX or the new
-ECMAScript standards that address many of JavaScript's old weaknesses. But
-integrating these new kinds of source files previously required deferring to
-JavaScript build tools, thus losing all of the benefits of the Google Closure
-compiler.
+When ClojureScript was initially released, compilation to JavaScript was still a
+novelty and source transformation beyond minification was rare. More recently,
+source to source compilation of JavaScript has become increasingly popular,
+whether embedded HTML as with React JSX, or the new ECMAScript standards that
+address many of JavaScript's old weaknesses. But integrating these new kinds of
+source files required deferring to JavaScript build tools which still lack
+the more advanced features of the Google Closure compiler like dead code
+elimination and precise code splitting.
 
 Fortunately Google Closure has not only kept abreast of many of the various
 enhancements to the JavaScript language, they've also provided transformation
 from the various popular JavaScript module formats (CommonJS, AMD, ES6) into the
 Google Closure namespace convention. ClojureScript now exposes all of this
 functionality and with the help of Java 8's Nashorn JavaScript engine can
-provide even the most cutting edge transforms with ease.
-
-If your designers are more comfortable with ES6 and JSX, integrating their
-components is trivial. Or if for some reason you would prefer to write some
-library in ES6 to encourage open source collaboration, this decision will not
-hinder your ability to dead code eliminate all the unused portions of that
-library in your ClojureScript applications. No doubt other interesting use cases
-will arise that we have not foreseen, but important point is that deep
-JavaScript module support eliminates incidental complexity from these
-possibilities.
+provide even the most cutting edge JavaScript source transforms with ease.
 
 [[pre-requisitess]]
 == Pre-requisites
