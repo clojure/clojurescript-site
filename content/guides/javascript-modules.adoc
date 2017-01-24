@@ -36,9 +36,9 @@ relative ease.
 [[prerequisites]]
 == Prerequisites
 
-This guide assumes you have the latest release of JDK 8 and the latest stable
-version of Node.js installed for the REPL portion of the guide. This guide only
-uses Leiningen for managing dependencies and is easily adapted to Boot or Maven.
+Like the QuickStart, this guide assumes you have the latest release of JDK 8,
+Node.js and rlwrap installed. This guide only uses Leiningen for managing
+dependencies and is easily adapted to Boot or Maven.
 
 [[es6]]
 == ES6
@@ -87,7 +87,7 @@ Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
 In this case the ClojureScript compiler will recursive search this directory
 for `.js` files and automatically create the `:foreign-libs` entries for you
 with the supplied options. The `:provides` namespace for each entry will
-automatically be created from the the directory structure.
+automatically be created from the directory structure.
 
 Let's create the main ClojureScript namespace:
 
@@ -121,9 +121,10 @@ Let's write the JavaScript:
 mkdir -p src/js/hello.js
 ----
 
-JavaScript files do not declare namespaces, so we compute one based on the
-location of entry. Since the `:foreign-libs` entry specified `"src"` the
-namespace of this JavaScript file for usage from ClojureScript will be `js.hello`.
+JavaScript files do not declare namespaces, so the ClojureScript compiler will
+compute one based on the location of entry. Since the `:foreign-libs` entry
+specified `"src"` the namespace of this JavaScript file for usage from
+ClojureScript will be `js.hello`.
 
 Edit this file to look like the following:
 
@@ -151,8 +152,8 @@ Hello world!
 == Using the REPL
 
 Since JavaScript modules simply get compiled into Google Closure namespaces, all
-of the generic ClojureScript REPL features just work. If you want hot-loading of
-your ES6 source files just use Figwheel.
+of the generic ClojureScript REPL features just work. For example, if you want
+automatic hot-loading of your ES6 source files just use Figwheel.
 
 We'll demonstrate manual hot-loading with the standard Node.js REPL.
 
