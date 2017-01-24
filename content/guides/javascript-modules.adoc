@@ -19,26 +19,26 @@ of alpha quality and subject to change.
 When ClojureScript was initially released, compilation to JavaScript was still a
 novelty and source transformation beyond minification was rare. More recently,
 source to source compilation of JavaScript has become increasingly popular,
-whether embedded HTML as with React JSX, or the new ECMAScript standards that
+whether embedded HTML DSLs as with React JSX, or the new ECMAScript standards that
 address many of JavaScript's old weaknesses. But integrating these new kinds of
 source files required deferring to JavaScript build tools which still lack
 the more advanced features of the Google Closure compiler like precise dead code
 elimination and code splitting.
 
-Fortunately Google Closure has not only kept abreast of many of the various
+Fortunately, Google Closure has not only kept abreast of many of the various
 enhancements to the JavaScript language, they've also provided transformation
 from the various popular JavaScript module formats (CommonJS, AMD, ES6) into the
 Google Closure namespace convention. ClojureScript now exposes all of this
-functionality and with the help of Java 8's Nashorn JavaScript engine can
-provide even the most cutting edge JavaScript source transforms with ease.
+functionality and, with the help of Java 8's Nashorn JavaScript engine, can
+provide even the most cutting edge JavaScript source transforms with
+relative ease.
 
 [[prerequisites]]
 == Prerequisites
 
-This guide assumes you have the latest release of JDK 8 as well as Leiningen
-installed. The instructions are easily adaptable to Boot or Maven. You should
-also have the latest stable version of Node.js installed for the REPL portion of
-the guide.
+This guide assumes you have the latest release of JDK 8 and the latest stable
+version of Node.js installed for the REPL portion of the guide. This guide only
+uses Leiningen for managing dependencies and is easily adapted to Boot or Maven.
 
 [[es6]]
 == ES6
@@ -83,7 +83,13 @@ Edit it to look like the following:
    :verbose      true])
 ----
 
-Then create the main namespace:
+Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
+In this case the ClojureScript compiler will recursive search this directory
+for `.js` files and automatically create the `:foreign-libs` entries for you
+with the supplied options. The `:provides` namespace for each entry will
+automatically be created from the the directory structure.
+
+Let's create the main ClojureScript namespace:
 
 ----
 mkdir -p src/hello_es6
@@ -106,11 +112,18 @@ Edit this file to look like the following:
 (set! *main-cli-fn* -main)
 ----
 
-Now let's write some JavaScript:
+Note that our JavaScript file can imported like any other Google Closure
+namespace.
+
+Let's write the JavaScript:
 
 ----
 mkdir -p src/js/hello.js
 ----
+
+JavaScript files do not declare namespaces, so we compute one based on the
+location of entry. Since the `:foreign-libs` entry specified `"src"` the
+namespace of this JavaScript file for usage from ClojureScript will be `js.hello`.
 
 Edit this file to look like the following:
 
@@ -131,6 +144,7 @@ You can verify the script works as intended by invoking Node on `out/main.js`:
 
 ----
 node out/main.js
+Hello world!
 ----
 
 [[REPL]]
@@ -139,7 +153,7 @@ node out/main.js
 [[Babel]]
 == Babel
 
-Download babel.min.js into your project directory:
+Download `babel.min.js` into your project directory:
 
 ----
 curl -O https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.1/babel.min.js
@@ -160,7 +174,7 @@ Change your `watch.clj` to look like the following:
     (.eval (io/reader (io/file "babel.min.js")))))
 
 ;; Add a custom transform
-(defmethod js-transforms :jsx [ijs opts]
+(defmethod closure/js-transforms :jsx [ijs opts]
   (let [code (str (gensym))]
     (.put engine code (:source ijs))
     (assoc ijs :source
@@ -176,3 +190,8 @@ Change your `watch.clj` to look like the following:
                    :preprocess :jsx}
    :verbose      true])
 ----
+
+First we create the Nashorn engine and evaluate the Babel script. To add custom
+name preprocessers we simply add a `defmethod` case to
+`cljs.closure/js-transforms`. Then in our `:foreign-libs` entry we can specify
+`:preprocess` and use this named transform.
