@@ -1,0 +1,187 @@
+= Writing Externs (Alpha)
+David Nolen
+2017-01-22
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+This page documents how to write externs for third party JavaScript libraries
+that do not conform to Google Closure Compiler conventions
+https://developers.google.com/closure/compiler/docs/limitations. The features
+described should be considered of alpha quality and subject to change.
+
+[[motivation]]
+== Motivation
+
+Many useful libraries cannot go through Google Closure Compiler advanced
+compilation. Thus they cannot be a part of the build and are considered
+"foreign". Still Closure must know something about these libraries, otherwise
+properties may be unintentionally renamed. Unfortunately, often this accidental
+renaming won't be apparent until the least opportune time - production.
+
+For libraries that already have mature externs this type of mistake is easily
+avoided. However, this requirement adds an incredible amount of friction to the
+adoption of newer or less popular but equally useful libraries. With the arrival
+of externs inference, the ClojureScript compiler can now automatically generate
+missing externs as well as greatly aid the process of writing comprehensive
+externs.
+
+[[externs-inference]]
+== Externs Inference
+
+Imagine that we have specified a foreign library `some.fooLib`. We would like
+to write interop against this library but have certainty that either the correct
+externs will be automatically generated or the compiler will notify us of
+externs we must additionally supply.
+
+To enable externs inference, we specify the `:infer-externs true` in our compiler
+configuration:
+
+[source,clojure]
+----
+(require '[cljs.build.api :as b])
+
+(b/build "src"
+  {:main 'my-project.core
+   :output-to "out/main.js"
+   :output-dir "out"
+   :optimizations :none
+   :infer-externs true})
+----
+
+However this alone isn't enough to have the compiler generate warnings around
+externs. Because of the large number of libraries written before this
+feature existed, we cannot enable this capability in a global way. Instead there is a new
+file local compiler flag `\*warn-on-infer*` which is somewhat analogous to
+`\*warn-on-reflection*` in Clojure. Once set the compiler
+will warn for the remainder of the file anytime it cannot determine the types
+involved in a dot form, whether property access or method invocation.
+
+[source,clojure]
+----
+(ns my-project.core
+  (:require [some.fooLib]))
+
+(set! *warn-on-infer* true)
+
+(defn wrap-baz [x]
+  (.baz x))
+----
+
+The above code would trigger a warning message:
+
+----
+Cannot infer target type in expression (.bar x) ...
+----
+
+We simply need to type-hint `x` with the foreign type for this interop call:
+
+[source,clojure]
+----
+(ns my-project.core
+  (:require [some.fooLib]))
+
+(set! *warn-on-infer* true)
+
+(defn wrap-baz [^js/Foo.Bar x]
+  (.baz x))
+----
+
+The compiler now has enough information to automatically generate the required
+externs. When you run your build you will see a new file in your output
+directory `inferred_externs.js`. If you examine its contents it will probably
+look similar to the following:
+
+[source,javascript]
+----
+var Foo = {};
+Foo.Bar = function() {};
+Foo.Bar.prototype.baz = function() {};
+----
+
+Quickly integrating foreign JavaScript libraries without complete externs is now
+considerably easier and less error prone.
+
+In some cases you may still want to write externs or you may be a consumer of a
+popular JavaScript library with mature externs and you would like a bit more
+validation. The following section describes an additional useful feature
+provided by externs inference.
+
+[[return-types]]
+== Return Types
+
+Local type hints go a long way to automating the process of writing externs.
+However, for interop heavy code this will lead to a lot of type hinting
+particularly for the return values of commonly used functions. In this case it's
+probably better to provide the externs file. Even here the ClojureScript
+compiler can ease the process:
+
+[source,clojure]
+----
+(ns my-project.core
+  (:require [some.fooLib]))
+
+(set! *warn-on-infer* true)
+
+(defn my-fn [^js/Foo.Bar x]
+  (let [z (.baz x)]
+    (.-wozz z)))
+----
+
+Imagine that our externs file looks something like the following:
+
+[source,javascript]
+----
+var Foo = {};
+/**
+ * @constructor
+ */
+Foo.Bar = function() {};
+Foo.Bar.prototype.baz = function() {};
+/**
+ * @constructor
+ */
+Foo.Boo = function() {};
+Foo.Boo.prototype.woz = function() {};
+----
+
+However this isn't sufficient for knowing the type of `z` in the ClojureScript
+program. The ClojureScript compiler will issue the following warning:
+
+----
+WARNING: Adding extern to Object for property wozz due to ambiguous expression (. z -wozz) ...
+----
+
+We need to add the return type information to the externs file:
+
+[source,javascript]
+----
+var Foo = {};
+/**
+ * @constructor
+ */
+Foo.Bar = function() {};
+/**
+ * @return {Foo.Boo} <-- CHANGED
+ */
+Foo.Bar.prototype.baz = function() {};
+/**
+ * @constructor
+ */
+Foo.Boo = function() {};
+Foo.Boo.prototype.woz = function() {};
+----
+
+Touching your source file and re-running build will result in a different
+warning:
+
+----
+WARNING: Cannot resolve property wozz for inferred type js/Foo.Boo in expression (. z -wozz)
+----
+
+As we can see the ClojureScript used the return type information to clarify
+the problem.
