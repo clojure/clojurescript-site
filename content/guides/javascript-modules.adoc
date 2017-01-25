@@ -179,9 +179,8 @@ Edit `repl.clj` to look like the following:
 (require '[cljs.repl.node :as node])
 
 (repl/repl* (node/repl-env)
-  {:output-dir "out"
-   :foreign-libs [{:file "src"
-                   :module-type :es6}])
+  {:watch "src"
+   :foreign-libs [{:file "src" :module-type :es6}])
 ----
 
 Start the REPL:
