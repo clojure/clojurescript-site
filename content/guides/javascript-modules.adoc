@@ -17,30 +17,36 @@ of alpha quality and subject to change.
 == Motivation
 
 When ClojureScript was initially released, compilation to JavaScript was still a
-novelty and source transformation beyond minification was rare. More recently,
+novelty and source transformation beyond minification was rare. Since then,
 source to source compilation of JavaScript has become increasingly popular,
-whether embedded HTML DSLs as with React JSX, or the new ECMAScript standards that
+whether embedded HTML DSLs as with
+https://facebook.github.io/react/docs/introducing-jsx.html[React JSX], or the
+https://www.ecma-international.org/ecma-262/7.0/[new ECMAScript standards] that
 address many of JavaScript's old weaknesses. But integrating these new kinds of
-source files required deferring to JavaScript build tools which still lack
-the more advanced features of the Google Closure compiler like precise dead code
-elimination and code splitting.
+source files into a ClojureScript project required deferring to JavaScript build
+tools which still lack the more advanced features of the Google Closure compiler
+like precise dead code elimination and code splitting.
 
 Fortunately, Google Closure has not only kept abreast of many of the various
 enhancements to the JavaScript language, they've also provided transformation
 from the various popular JavaScript module formats (CommonJS, AMD, ES6) into the
 Google Closure namespace convention. ClojureScript now exposes all of this
-functionality and, with the help of Java 8's Nashorn JavaScript engine, can
-provide even the most cutting edge JavaScript source transforms with
+functionality and, with the help of
+http://openjdk.java.net/projects/nashorn/[Java 8's Nashorn JavaScript engine],
+can provide even the most cutting edge JavaScript source transforms with
 relative ease.
 
 [[prerequisites]]
 == Prerequisites
 
-Like the QuickStart, this guide assumes you have the latest release of JDK 8,
-Node.js and rlwrap installed. This guide only uses Leiningen for managing
-dependencies and is easily adapted to Boot or Maven.
+Like the link:quickstart.html[Quick Start], this guide assumes you have the
+latest release of
+https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK
+8], https://nodejs.org[Node.js] and rlwrap installed. This guide only uses
+https://leiningen.org[Leiningen] for managing dependencies and is easily adapted
+to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
 
-[[JavaScript Modules]]
+[[javaScript-modules]]
 == JavaScript Modules
 
 First let's see how JavaScript modules can be a part of your build. We'll focus
@@ -57,7 +63,7 @@ Edit the `project.clj` file to look like the following:
 [source,clojure]
 ----
 (defproject hello-es6 "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha13"]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/clojurescript "1.9.NNN"]]
   :jvm-opts ^:replace ["-Xmx1g" "-server"])
 ----
@@ -85,10 +91,10 @@ Edit it to look like the following:
 ----
 
 Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
-In this case the ClojureScript compiler will recursive search this directory
+In this case, the ClojureScript compiler will recursive search this directory
 for `.js` files and automatically create the `:foreign-libs` entries for you
 with the supplied options. The `:provides` namespace for each entry will
-automatically be created from the directory structure.
+be automatically computed from the directory structure.
 
 Let's create the main ClojureScript namespace:
 
@@ -119,7 +125,8 @@ namespace.
 Let's write the JavaScript:
 
 ----
-mkdir -p src/js/hello.js
+mkdir -p src/js
+touch src/js/hello.js
 ----
 
 JavaScript files do not declare namespaces, so the ClojureScript compiler will
@@ -154,7 +161,7 @@ Hello world!
 
 Since JavaScript modules simply get compiled into Google Closure namespaces, all
 of the generic ClojureScript REPL features just work. For example, if you want
-automatic hot-loading of your ES6 source files just use Figwheel.
+automatic hot-loading of your ES6 source files just use https://github.com/bhauman/lein-figwheel[Figwheel].
 
 We'll demonstrate manual hot-loading with the standard Node.js REPL.
 
@@ -192,7 +199,7 @@ user> (hello/sayHello)
 Hello world!
 ----
 
-Without quitting your REPL, edit your `js/hello.js` to the following:
+Without quitting your REPL, edit `src/js/hello.js` to the following:
 
 [source,javascript]
 ----
@@ -221,8 +228,14 @@ Rocks!
 Since ClojureScript vectors support the ES6 iteration protocol
 ES6 `for...of` just works.
 
+While Google Closure can handle ES6 you may want to use other preprocessors from
+the JavaScript ecosystem - for example http://babeljs.io[Babel's JSX transform].
+In this case we will want to leverage Nashorn.
+
 [[babel-transforms]]
 == Babel Transforms
+
+Lets change
 
 Download `babel.min.js` into your project directory:
 
