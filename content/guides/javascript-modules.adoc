@@ -234,7 +234,18 @@ In this case we will want to leverage Nashorn.
 [[babel-transforms]]
 == Babel Transforms
 
-Lets change
+Change your project.clj to the following:
+
+[source,clojure]
+----
+(defproject hello-es6 "0.1.0-SNAPSHOT"
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
+                 [org.clojure/clojurescript "1.9.429"]
+                 [cljsjs/react "15.4.2-0"]
+                 [cljsjs/react-dom "15.4.2-0"]
+                 [cljsjs/react-dom-server "15.4.2-0"]]
+  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+----
 
 Download `babel.min.js` into your project directory:
 
@@ -270,7 +281,7 @@ Change your `watch.clj` to look like the following:
    :target       :nodejs
    :foreign-libs [{:file "src"
                    :module-type :es6
-                   :preprocess :jsx}
+                   :preprocess :jsx} ;; CHANGED
    :verbose      true])
 ----
 
