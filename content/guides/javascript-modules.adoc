@@ -1,0 +1,347 @@
+= JavaScript Modules (Alpha)
+David Nolen
+2017-01-22
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+This page documents how to mix modern JavaScript source files seamlessly into
+an existing ClojureScript project. The features documented should be considered
+of alpha quality and subject to change.
+
+[[motivation]]
+== Motivation
+
+When ClojureScript was initially released, compilation to JavaScript was still a
+novelty and source transformation beyond minification was rare. Since then,
+source to source compilation of JavaScript has become increasingly popular,
+whether embedded HTML DSLs as with
+https://facebook.github.io/react/docs/introducing-jsx.html[React JSX], or the
+https://www.ecma-international.org/ecma-262/7.0/[new ECMAScript standards] that
+address many of JavaScript's old weaknesses. But integrating these new kinds of
+source files into a ClojureScript project required deferring to JavaScript build
+tools which still lack the more advanced features of the Google Closure compiler
+like precise dead code elimination and code splitting.
+
+Fortunately, Google Closure has not only kept abreast of many of the various
+enhancements to the JavaScript language, they've also provided transformation
+from the various popular JavaScript module formats (CommonJS, AMD, ES6) into the
+Google Closure namespace convention. ClojureScript now exposes all of this
+functionality and, with the help of
+http://openjdk.java.net/projects/nashorn/[Java 8's Nashorn JavaScript engine],
+can provide even the most cutting edge JavaScript source transforms with
+relative ease.
+
+[[prerequisites]]
+== Prerequisites
+
+Like the link:quickstart.html[Quick Start], this guide assumes you have the
+latest release of
+https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK
+8], https://nodejs.org[Node.js] and rlwrap installed. This guide only uses
+https://leiningen.org[Leiningen] for managing dependencies and is easily adapted
+to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
+
+[[javaScript-modules]]
+== JavaScript Modules
+
+First let's see how JavaScript modules can be a part of your build. We'll focus
+on ES6, but the instructions are the same for CommonJS and AMD.
+
+----
+mkdir -p hello-es6
+cd hello-es6
+touch project.clj
+----
+
+Edit the `project.clj` file to look like the following:
+
+[source,clojure]
+----
+(defproject hello-es6 "0.1.0-SNAPSHOT"
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
+                 [org.clojure/clojurescript "1.9.NNN"]]
+  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+----
+
+Create a watch script:
+
+----
+touch watch.clj
+----
+
+Edit it to look like the following:
+
+[source,clojure]
+----
+(require '[cljs.build.api :as b])
+
+(b/watch "src"
+  {:output-to    "main.js"
+   :output-dir   "out"
+   :main         'hello-es6.core
+   :target       :nodejs
+   :foreign-libs [{:file "src"
+                   :module-type :es6} ;; or :commonjs / :amd
+   :verbose      true])
+----
+
+Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
+In this case, the ClojureScript compiler will recursive search this directory
+for `.js` files and automatically create the `:foreign-libs` entries for you
+with the supplied options. The `:provides` namespace for each entry will
+be automatically computed from the directory structure.
+
+Let's create the main ClojureScript namespace:
+
+----
+mkdir -p src/hello_es6
+touch src/hello_es6/core.cljs
+----
+
+Edit this file to look like the following:
+
+[source,clojure]
+----
+(ns hello-es6.core
+  (:require [cljs.nodejs :as nodejs]
+            [js.hello :as hello]))
+
+(nodejs/enable-util-print!)
+
+(defn -main [& args]
+  (hello/sayHello))
+
+(set! *main-cli-fn* -main)
+----
+
+Note that our JavaScript file can imported like any other Google Closure
+namespace.
+
+Let's write the JavaScript:
+
+----
+mkdir -p src/js
+touch src/js/hello.js
+----
+
+JavaScript files do not declare namespaces, so the ClojureScript compiler will
+compute one based on the location of entry. Since the `:foreign-libs` entry
+specified `"src"` the namespace of this JavaScript file for usage from
+ClojureScript will be `js.hello`.
+
+Edit this file to look like the following:
+
+[source,javascript]
+----
+export let sayHello = function() {
+    console.log("Hello, world!");
+};
+----
+
+Let's check that our watch script works:
+
+----
+lein trampoline run -m clojure.main watch.clj
+----
+
+You can verify the script works as intended by invoking Node on `out/main.js`:
+
+----
+node main.js
+Hello world!
+----
+
+[[using-the-repl]]
+== Using the REPL
+
+Since JavaScript modules simply get compiled into Google Closure namespaces, all
+of the generic ClojureScript REPL features just work. For example, if you want
+automatic hot-loading of your ES6 source files just use https://github.com/bhauman/lein-figwheel[Figwheel].
+
+We'll demonstrate manual hot-loading with the standard Node.js REPL.
+
+Create a repl file:
+
+----
+touch repl.clj
+----
+
+Edit `repl.clj` to look like the following:
+
+[source,clojure]
+----
+(require '[cljs.repl :as repl])
+(require '[cljs.repl.node :as node])
+
+(repl/repl* (node/repl-env)
+  {:watch "src"
+   :foreign-libs [{:file "src" :module-type :es6}])
+----
+
+Start the REPL:
+
+----
+rlwrap lein trampoline run -m clojure.main repl.clj
+----
+
+Require the `js.hello` namespace and try it out:
+
+----
+user> (require '[js.hello :as hello])
+true
+user> (hello/sayHello)
+Hello world!
+----
+
+Without quitting your REPL, edit `src/js/hello.js` to the following:
+
+[source,javascript]
+----
+export let sayHello = function() {
+    console.log("Hello, world!");
+};
+export let sayThings = function(xs) {
+    for(let x of xs) {
+        console.log(x);
+    }
+};
+----
+
+Reload your JavaScript module and try the new functionality:
+
+----
+user> (require '[js.hello :as hello] :reload)
+true
+user> (hello/sayThings ["ClojureScript", "+", "JavaScript", "Rocks!"])
+ClojureScript
++
+JavaScript
+Rocks!
+----
+
+Since ClojureScript vectors support the ES6 iteration protocol
+ES6 `for...of` just works.
+
+While Google Closure can handle ES6 you may want to use other preprocessors from
+the JavaScript ecosystem - for example http://babeljs.io[Babel's JSX transform].
+In this case we will want to leverage Nashorn.
+
+[[babel-transforms]]
+== Babel Transforms
+
+Change your project.clj to the following:
+
+[source,clojure]
+----
+(defproject hello-es6 "0.1.0-SNAPSHOT"
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
+                 [org.clojure/clojurescript "1.9.429"]
+                 [cljsjs/react "15.4.2-0"]
+                 [cljsjs/react-dom "15.4.2-0"]
+                 [cljsjs/react-dom-server "15.4.2-0"]]
+  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+----
+
+Download `babel.min.js` into your project directory:
+
+----
+curl -O https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.1/babel.min.js
+----
+
+Change your `watch.clj` to look like the following:
+
+[source,clojure]
+----
+(require '[clojure.java.io :as io])
+(require '[cljs.build.api :as b])
+(require '[cljs.closure :as closure])
+(import 'javax.script.ScriptEngineManager)
+
+;; Create a shared Nashorn instance and eval Babel
+(def engine
+  (doto (.getEngineByName (ScriptEngineManager.) "nashorn")
+    (.eval (io/reader (io/file "babel.min.js")))))
+
+;; Add a custom transform
+(defmethod closure/js-transforms :jsx [ijs opts]
+  (let [code (str (gensym))]
+    (.put engine code (:source ijs))
+    (assoc ijs :source
+      (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
+
+(b/watch "src"
+  {:output-to    "main.js"
+   :output-dir   "out"
+   :main         'hello-es6.core
+   :target       :nodejs
+   :foreign-libs [{:file "src"
+                   :module-type :es6
+                   :preprocess :jsx} ;; CHANGED
+   :verbose      true])
+----
+
+First we create the Nashorn engine and evaluate the Babel script. To add custom
+name preprocessers we simply add a `defmethod` case to
+`cljs.closure/js-transforms`. Then in our `:foreign-libs` entry we can specify
+`:preprocess` and use this named transform. Don't miss this part.
+
+Let's add a React JSX component to `src/js/hello.js`:
+
+[source,javascript]
+----
+export let sayHello = function() {
+    console.log("Hello, world!");
+};
+export let sayThings = function(xs) {
+    for(let x of xs) {
+        console.log(x);
+    }
+};
+export let reactHello = function() {
+    return <div>Hello world!</div>
+};
+----
+
+Let's change our ClojureScript:
+
+[source,clojure]
+----
+(ns hello-es6.core
+  (:require [cljsjs.react]
+            [cljsjs.react.dom]
+            [cljsjs.react.dom.server]
+            [cljs.nodejs :as nodejs]
+            [js.hello :as hello]))
+
+(nodejs/enable-util-print!)
+
+(defn -main [& args]
+  (hello/sayHello)
+  (println (.renderToString js/ReactDOMServer (hello/reactHello))))
+
+(set! *main-cli-fn* -main)
+----
+
+Run the watch script:
+
+----
+lein trampoline run -m clojure.main watch.clj
+----
+
+When the build finishes run the code
+
+----
+node main.js
+----
+
+You should see output like the following:
+
+----
+Hello, world!
+<div data-reactroot="" data-reactid="1" data-react-checksum="1334186935">Hello world!</div>
+----
