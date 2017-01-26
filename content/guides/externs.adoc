@@ -185,4 +185,3 @@ WARNING: Cannot resolve property wozz for inferred type js/Foo.Boo in expression
 
 As we can see the ClojureScript used the return type information to clarify
 the problem.
-
