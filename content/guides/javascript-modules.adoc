@@ -337,6 +337,11 @@ When the build finishes run the code
 
 ----
 node main.js
+----
+
+You should see output like the following:
+
+----
 Hello, world!
 <div data-reactroot="" data-reactid="1" data-react-checksum="1334186935">Hello world!</div>
 ----
