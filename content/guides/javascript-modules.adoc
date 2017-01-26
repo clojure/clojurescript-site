@@ -46,7 +46,7 @@ https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.
 https://leiningen.org[Leiningen] for managing dependencies and is easily adapted
 to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
 
-[[javaScript-modules]]
+[[javascript-modules]]
 == JavaScript Modules
 
 First let's see how JavaScript modules can be a part of your build. We'll focus
