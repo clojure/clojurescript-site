@@ -68,7 +68,7 @@ Edit the `project.clj` file to look like the following:
 ----
 (defproject hello-es6 "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.454"]]
+                 [org.clojure/clojurescript "1.9.456"]]
   :jvm-opts ^:replace ["-Xmx1g" "-server"])
 ----
 
@@ -244,7 +244,7 @@ Change your project.clj to the following:
 ----
 (defproject hello-es6 "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.454"]
+                 [org.clojure/clojurescript "1.9.456"]
                  [cljsjs/react "15.4.2-0"]
                  [cljsjs/react-dom "15.4.2-0"]
                  [cljsjs/react-dom-server "15.4.2-0"]]
@@ -386,7 +386,7 @@ Edit `project.clj` to look like the following:
 ----
 (defproject hello-cjs "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.454"]
+                 [org.clojure/clojurescript "1.9.456"]
                  [cljsjs/react "15.4.2-0"]
                  [cljsjs/react-dom "15.4.2-0]
                  [cljsjs/react-dom-server "15.4.2-0]]
