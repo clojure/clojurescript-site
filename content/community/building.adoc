@@ -7,7 +7,7 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-Checkout this git repository and run:
+Checkout https://github.com/clojure/clojurescript[the git repository] and run:
 
 [source,bash]
 ----
