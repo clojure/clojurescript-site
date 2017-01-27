@@ -90,8 +90,8 @@ Edit it to look like the following:
    :main         'hello-es6.core
    :target       :nodejs
    :foreign-libs [{:file "src"
-                   :module-type :es6} ;; or :commonjs / :amd
-   :verbose      true])
+                   :module-type :es6}] ;; or :commonjs / :amd
+   :verbose      true})
 ----
 
 Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
