@@ -95,7 +95,7 @@ Edit it to look like the following:
 ----
 
 Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
-In this case, the ClojureScript compiler will recursive search this directory
+In this case, the ClojureScript compiler will recursively search this directory
 for `.js` files and automatically create the `:foreign-libs` entries for you
 with the supplied options. The `:provides` namespace for each entry will
 be automatically computed from the directory structure.
