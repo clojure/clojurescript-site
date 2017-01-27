@@ -531,6 +531,7 @@ We're now ready to build our project:
 lein trampoline run -m clojure.main build.clj
 ----
 
+You might see a couple of warnings about the CommonJS files that can be ignored.
 Once the compilation process is complete run `main.js`:
 
 ----
