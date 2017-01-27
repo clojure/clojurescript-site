@@ -494,10 +494,10 @@ Edit `build.clj` to look like the following:
 (System/exit 0)
 ----
 
-Notice that a new helper, `cljs.build.api/node-inputs`. Given a CommonJS
-foreign lib entry, the ClojureScript compiler will now invoke a Node.js script
-to figure out all the `node_module` dependencies needed by this entry point and
-return a vector of CommonJS foreign lib entries.
+Notice that the new helper `cljs.build.api/node-inputs` which takes a sequence
+of JavaScript entry points. The ClojureScript compiler will now invoke a Node.js
+script to figure out all the `node_module` dependencies needed by these entry
+points and return a vector of CommonJS foreign lib entries.
 
 Also notice the presence of two extern files. To get `process.js`:
 
