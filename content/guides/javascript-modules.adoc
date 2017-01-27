@@ -440,7 +440,7 @@ Edit `src/hello_cjs/core.cljs` to look like the following:
 (println (npm-stuff/renderSomething))
 ----
 
-No let's make a CommonJS file that will load deps from `node_modules`:
+Now let's make a CommonJS file that will load deps from `node_modules`:
 
 ----
 mkdir src/libs
@@ -521,7 +521,7 @@ Object.SelectEventPlugin;
 Object.BeforeInputEventPlugin;
 ----
 
-We need this two additional externs because internally React refers to the
+We need these two additional externs because internally React refers to the
 `process` module and React internally relies on the string names of the plugins.
 `:pseudo-names true` is a good way to figure out cases like this.
 
