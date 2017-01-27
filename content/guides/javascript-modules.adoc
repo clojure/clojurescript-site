@@ -134,8 +134,8 @@ touch src/js/hello.js
 ----
 
 JavaScript files do not declare namespaces, so the ClojureScript compiler will
-compute one based on the location of entry. Since the `:foreign-libs` entry
-specified `"src"` the namespace of this JavaScript file for usage from
+compute one based on the location of the entry. Since the `:foreign-libs` entry
+specified `"src"`, the namespace of this JavaScript file for usage from
 ClojureScript will be `js.hello`.
 
 Edit this file to look like the following:
@@ -289,8 +289,8 @@ Change your `watch.clj` to look like the following:
    :verbose      true])
 ----
 
-First we create the Nashorn engine and evaluate the Babel script. To add custom
-name preprocessers we simply add a `defmethod` case to
+First we create the Nashorn engine and evaluate the Babel script. To add a custom
+preprocessor we simply add a `defmethod` case to
 `cljs.closure/js-transforms`. Then in our `:foreign-libs` entry we can specify
 `:preprocess` and use this named transform. Don't miss this part.
 
@@ -388,8 +388,8 @@ Edit `project.clj` to look like the following:
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/clojurescript "1.9.456"]
                  [cljsjs/react "15.4.2-0"]
-                 [cljsjs/react-dom "15.4.2-0]
-                 [cljsjs/react-dom-server "15.4.2-0]]
+                 [cljsjs/react-dom "15.4.2-0"]
+                 [cljsjs/react-dom-server "15.4.2-0"]]
   :jvm-opts ^:replace ["-Xmx1g" "-server"])
 ----
 
@@ -412,8 +412,8 @@ Edit `package.json` to look like the following:
 }
 ----
 
-The ClojureScript needs the `JSONStream` and `module-deps` packages to
-build the project.
+The ClojureScript compiler needs the `JSONStream` and `module-deps`
+development time packages to build the project.
 
 Install the deps:
 
@@ -477,24 +477,24 @@ Edit `build.clj` to look like the following:
          '[cljs.build.api :as b])
 
 (b/build (b/inputs "src")
-  {:optimizations :advanced
-   :main 'hello-cjs.core
-   :target :nodejs
-   :output-to "main.js"
+  {:main       'hello-cjs.core
+   :target     :nodejs
+   :output-to  "main.js"
    :output-dir "out"
-   :verbose true
+   :verbose    true
+   :externs    ["process.js" "externs.js"]
    :foreign-libs (let [entry {:file (.getAbsolutePath (io/file "src/libs/npm_stuff.js"))
                               :provides ["libs.npm-stuff"]
                               :module-type :commonjs}]
                    (into [entry] (b/node-inputs [entry])))
-   :externs ["process.js" "externs.js"]
+   :optimizations :advanced
    :closure-warnings {:non-standard-jsdoc :off
                       :global-this :off}})
 
 (System/exit 0)
 ----
 
-Notice that the new helper `cljs.build.api/node-inputs` which takes a sequence
+Notice the new helper, `cljs.build.api/node-inputs`, which takes a sequence
 of JavaScript entry points. The ClojureScript compiler will now invoke a Node.js
 script to figure out all the `node_module` dependencies needed by these entry
 points and return a vector of CommonJS foreign lib entries.
@@ -523,7 +523,8 @@ Object.BeforeInputEventPlugin;
 
 We need these two additional externs because internally React refers to the
 `process` module and React internally relies on the string names of the plugins.
-`:pseudo-names true` is a good way to figure out cases like this.
+`:pseudo-names true` is a good way to figure out cases like this. In future
+hopefully these externs will be covered by CLJSJS.
 
 We're now ready to build our project:
 
