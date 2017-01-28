@@ -184,7 +184,7 @@ Edit `repl.clj` to look like the following:
 
 (repl/repl* (node/repl-env)
   {:watch "src"
-   :foreign-libs [{:file "src" :module-type :es6}])
+   :foreign-libs [{:file "src" :module-type :es6}]})
 ----
 
 Start the REPL:
