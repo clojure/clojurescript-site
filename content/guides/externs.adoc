@@ -75,7 +75,7 @@ involved in a dot form, whether property access or method invocation.
 The above code would trigger a warning message:
 
 ----
-Cannot infer target type in expression (.bar x) ...
+Cannot infer target type in expression (.baz x) ...
 ----
 
 We simply need to type-hint `x` with the foreign type for this interop call:
