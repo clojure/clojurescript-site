@@ -28,8 +28,8 @@ ClojureScript allows you to add a custom transformation step for JavaScript libr
    :output-to "out/my_project.js"
    :output-dir "out"
    :foreign-libs [{:file "libs/example.js"
-   :provides ["my.example"]
-   :preprocess :jsx}]})
+                   :provides ["my.example"]
+                   :preprocess :jsx}]})
 ----
 
 The example above uses Babel to transform the JavaScript code by loading a minified version of https://github.com/Daniel15/babel-standalone[babel-standalone] using Nashorn. The `js-transforms` method gets and returns an object which satisfies the `IJavaScript` protocol. The object can be a plain map or a record with keys like `:url`, `:provides`, `:requires` and `:source`. The second argument which is passed to `js-transforms` is a map with the compiler options.
