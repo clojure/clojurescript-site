@@ -285,8 +285,8 @@ Change your `watch.clj` to look like the following:
    :target       :nodejs
    :foreign-libs [{:file "src"
                    :module-type :es6
-                   :preprocess :jsx} ;; CHANGED
-   :verbose      true])
+                   :preprocess :jsx}] ;; CHANGED
+   :verbose      true})
 ----
 
 First we create the Nashorn engine and evaluate the Babel script. To add a custom
