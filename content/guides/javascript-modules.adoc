@@ -46,7 +46,7 @@ from NPM.
 Like the link:quickstart.html[Quick Start], this guide assumes you have the
 latest release of
 https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK
-8], https://nodejs.org[Node.js] and rlwrap installed. This guide only uses
+8], https://nodejs.org[Node.js >= 6.9.4] and rlwrap installed. This guide only uses
 https://leiningen.org[Leiningen] for managing dependencies and is easily adapted
 to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
 
