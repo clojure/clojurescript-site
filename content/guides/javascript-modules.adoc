@@ -514,11 +514,11 @@ touch externs.js
 Edit this file to look like the following:
 
 ----
-Object.SimpleEventPlugin;
-Object.EnterLeaveEventPlugin;
-Object.ChangeEventPlugin;
-Object.SelectEventPlugin;
-Object.BeforeInputEventPlugin;
+var SimpleEventPlugin;
+var EnterLeaveEventPlugin;
+var ChangeEventPlugin;
+var SelectEventPlugin;
+var BeforeInputEventPlugin;
 ----
 
 We need these two additional externs because internally React refers to the
