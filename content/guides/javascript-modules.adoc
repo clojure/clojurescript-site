@@ -123,7 +123,7 @@ Edit this file to look like the following:
 (set! *main-cli-fn* -main)
 ----
 
-Note that our JavaScript file can imported like any other Google Closure
+Note that our JavaScript file can be imported like any other Google Closure
 namespace.
 
 Let's write the JavaScript:
@@ -368,7 +368,7 @@ caveats around Google Closure Compiler apply. You may in some cases, as we will
 see, need to supply externs for library internals in order to compile
 successfully.
 
-We will see how can successfully compile React and ReactDOM server NPM
+We will see how we can successfully compile React and ReactDOM server NPM
 module packages.
 
 First lets create a new project:
@@ -463,7 +463,7 @@ module.exports = {
 };
 ----
 
-Now lets make our build file.
+Now let's make our build file.
 
 ----
 touch build.clj
@@ -522,8 +522,8 @@ var BeforeInputEventPlugin;
 ----
 
 We need these two additional externs because internally React refers to the
-`process` module and React internally relies on the string names of the plugins.
-`:pseudo-names true` is a good way to figure out cases like this. In future
+`process` module and on the string names of the plugins.
+`:pseudo-names true` is a good way to figure out cases like this. In the future
 hopefully these externs will be covered by CLJSJS.
 
 We're now ready to build our project:
