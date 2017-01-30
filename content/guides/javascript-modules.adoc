@@ -477,7 +477,7 @@ Edit `build.clj` to look like the following:
          '[cljs.build.api :as b])
 
 (b/build (b/inputs "src")
-  {:main       'hello-cjs.core
+  {:main       'hello-cljs.core
    :target     :nodejs
    :output-to  "main.js"
    :output-dir "out"
