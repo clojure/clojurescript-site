@@ -387,9 +387,9 @@ Edit `project.clj` to look like the following:
 (defproject hello-cjs "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/clojurescript "1.9.456"]
-                 [cljsjs/react "15.4.2-0"]
-                 [cljsjs/react-dom "15.4.2-0"]
-                 [cljsjs/react-dom-server "15.4.2-0"]]
+                 [cljsjs/react "15.4.2-2"]
+                 [cljsjs/react-dom "15.4.2-2"]
+                 [cljsjs/react-dom-server "15.4.2-2"]]
   :jvm-opts ^:replace ["-Xmx1g" "-server"])
 ----
 
@@ -482,7 +482,7 @@ Edit `build.clj` to look like the following:
    :output-to  "main.js"
    :output-dir "out"
    :verbose    true
-   :externs    ["process.js" "externs.js"]
+   :externs    ["process.js"]
    :foreign-libs (let [entry {:file (.getAbsolutePath (io/file "src/libs/npm_stuff.js"))
                               :provides ["libs.npm-stuff"]
                               :module-type :commonjs}]
@@ -499,30 +499,14 @@ of JavaScript entry points. The ClojureScript compiler will now invoke a Node.js
 script to figure out all the `node_module` dependencies needed by these entry
 points and return a vector of CommonJS foreign lib entries.
 
-Also notice the presence of two extern files. To get `process.js`:
+Also notice the presence of a extern file. To get `process.js`:
 
 ----
 curl -O https://raw.githubusercontent.com/dcodeIO/node.js-closure-compiler-externs/master/process.js
 ----
 
-We need to write the other one ourselves.
-
-----
-touch externs.js
-----
-
-Edit this file to look like the following:
-
-----
-var SimpleEventPlugin;
-var EnterLeaveEventPlugin;
-var ChangeEventPlugin;
-var SelectEventPlugin;
-var BeforeInputEventPlugin;
-----
-
-We need these two additional externs because internally React refers to the
-`process` module and on the string names of the plugins.
+We need these additional externs because internally React refers to the
+`process` module.
 `:pseudo-names true` is a good way to figure out cases like this. In the future
 hopefully these externs will be covered by CLJSJS.
 
