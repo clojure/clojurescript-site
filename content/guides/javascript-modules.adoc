@@ -153,7 +153,7 @@ Let's check that our watch script works:
 lein trampoline run -m clojure.main watch.clj
 ----
 
-You can verify the script works as intended by invoking Node on `out/main.js`:
+You can verify the script works as intended by invoking `node main.js` from the project's root:
 
 ----
 node main.js
