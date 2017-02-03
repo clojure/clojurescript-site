@@ -142,7 +142,7 @@ Edit this file to look like the following:
 
 [source,javascript]
 ----
-export let sayHello = function() {
+export var sayHello = function() {
     console.log("Hello, world!");
 };
 ----
@@ -206,10 +206,10 @@ Without quitting your REPL, edit `src/js/hello.js` to the following:
 
 [source,javascript]
 ----
-export let sayHello = function() {
+export var sayHello = function() {
     console.log("Hello, world!");
 };
-export let sayThings = function(xs) {
+export var sayThings = function(xs) {
     for(let x of xs) {
         console.log(x);
     }
@@ -298,15 +298,15 @@ Let's add a React JSX component to `src/js/hello.js`:
 
 [source,javascript]
 ----
-export let sayHello = function() {
+export var sayHello = function() {
     console.log("Hello, world!");
 };
-export let sayThings = function(xs) {
+export var sayThings = function(xs) {
     for(let x of xs) {
         console.log(x);
     }
 };
-export let reactHello = function() {
+export var reactHello = function() {
     return <div>Hello world!</div>
 };
 ----
