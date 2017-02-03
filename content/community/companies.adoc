@@ -11,6 +11,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://www.active-group.de/[Active Group]
 * http://www.adaptly.com[Adaptly]
 * http://www.adgoji.com[AdGoji]
+* https://www.adstage.io/[AdStage]
 * http://adzerk.com/[Adzerk]
 * http://akvo.org/[Akvo]
 * https://journals.aps.org/[American Physical Society]
