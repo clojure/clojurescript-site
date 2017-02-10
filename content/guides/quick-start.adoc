@@ -12,7 +12,7 @@ toc::[]
 The only dependencies required for this tutorial are an installation of
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Java
 8] and the
-https://github.com/clojure/clojurescript/releases/download/r1.9.456/cljs.jar[standalone
+https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar[standalone
 ClojureScript JAR]. ClojureScript itself only requires Java 7 but the
 standalone JAR comes bundled with useful
 http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html[Nashorn]
@@ -34,7 +34,7 @@ The standalone ClojureScript JAR bundles https://clojure.org[Clojure]
 1.8.0. This supports simple scripting of the ClojureScript compiler and
 the bundled REPLs without an overly complicated command line interface.
 
-https://github.com/clojure/clojurescript/releases/download/r1.9.456/cljs.jar[Download
+https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar[Download
 the standalone ClojureScript JAR].
 
 [NOTE]

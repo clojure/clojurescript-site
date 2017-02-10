@@ -47,7 +47,7 @@ Fire up a REPL and compile the ClojureScript:
 
 [source,bash]
 ----
-wget https://github.com/clojure/clojurescript/releases/download/r1.9.456/cljs.jar
+wget https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar
 java -cp cljs.jar clojure.main <<EOF
 (require 'cljs.build.api)
 (cljs.build.api/build "src" {:optimizations :advanced :output-to "out/main.js"})
