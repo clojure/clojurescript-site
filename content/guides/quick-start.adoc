@@ -79,12 +79,12 @@ namespace and this namespace must match a path on disk. We then enable
 direct printing to the commonly available JavaScript `console` object
 and print the famous message.
 
-In order to compile this we need a simple build script. ClojureScript is
-just a Clojure library and can be easily scripted in a few lines of
-__Clojure__. Create a file called `build.clj` in the current directory
-not in `src`. Note the name of this file does not matter. In this
-tutorial we'll always make our compiler helper scripts at the root of
-the project directory.
+In order to compile this we need a simple build script. ClojureScript is 
+just a Clojure library and can be easily scripted in a few lines of 
+__Clojure__. Create a file called `build.clj` next to the `src` directory 
+and the `cljs.jar` file. Note the name of this file does not matter. In 
+this tutorial we'll always make our compiler helper scripts at the root 
+of the project directory.
 
 Add the following Clojure code:
 
@@ -136,7 +136,8 @@ let's see how you can easily include the compiled output on a web page.
 [[using-clojurescript-on-a-web-page]]
 == Using ClojureScript on a Web Page
 
-Create a file `index.html` and include the following:
+Create a file `index.html` at the root of the project and include the 
+following:
 
 ....
 <html>
