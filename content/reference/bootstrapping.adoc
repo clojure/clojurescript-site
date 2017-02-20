@@ -32,6 +32,7 @@ ClojureScript JVM (varying perf between engines).
 playground]
 * https://github.com/ScalaConsultants/replumb[Library for bootstrapped
 REPLs: Replumb]
+* http://crepl.thegeez.net[crepl: collaborative repl]
 
 The following enumerates the remaining tasks:
 
