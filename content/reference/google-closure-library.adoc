@@ -155,5 +155,13 @@ require specific inclusion
 You can look for `cljs` files on Github that use `goog.dom` with the
 following search:
 
+----
+Search GitHub: "goog.dom extension:cljs"
+----
+
 Or you can search Google Closure Library on Github for keywords
 pertaining to a function it might have:
+
+----
+Search Closure Library on Github: "hours minutes"
+----
