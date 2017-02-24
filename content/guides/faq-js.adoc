@@ -267,7 +267,7 @@ Clojure libraries use them to embed HTML templating in the language:
 [source,clojure]
 ----
 [:div.text-right
-  [span “Click here: "] 
+  [:span “Click here: "] 
   [:button {:class “btn" :on-click #(do something)} “Click me!"]]
 ----
 
