@@ -59,7 +59,7 @@ Clojure(Script) reader
 
 * https://github.com/noprompt/garden[garden], CSS generation
 * https://github.com/facjure/mesh[mesh], Responsive Grid & Typography library built on Garden
-* https://github.com/azizzaeny/boot-atomizer, Parse and Generate Atomic CSS.
+* https://github.com/azizzaeny/boot-atomizer[boot-atomizer], Parse and Generate Atomic CSS
 === Graphics
 
 * https://github.com/liebke/apogee[apogee] SVG charting
