@@ -44,6 +44,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://www.facjure.com[Facjure]
 * http://fikesfarm.com/cc/[FikesFarm] (iOS app)
 * http://fincite.com[Fincite]
+* https://floatingpoint.io/[Floating Point]
 * http://www.formcept.com/[Formcept]
 * http://framed.io[Framed Data]
 * https://jobs.functionalworks.com[Functional Works]
