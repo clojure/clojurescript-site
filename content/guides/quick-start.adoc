@@ -342,7 +342,7 @@ for Node.js, Rhino, Nashorn, and browsers.
 Let's hook up a browser REPL to our project.
 
 First it is recommended (but not required) that you install
-https://github.com/hanslub42/rlwrap[rlwrap].
+https://github.com/hanslub42/rlwrap[rlwrap]. Under OS X the easiest way is to use http://brew.sh[brew] and `brew install rlwrap`.
 
 Let's create a REPL script `repl.clj`:
 
