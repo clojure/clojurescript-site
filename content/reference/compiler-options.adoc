@@ -165,20 +165,34 @@ targeted. Have a look <<xref/../../../guides/quick-start#running-clojurescript-o
 === :foreign-libs
 
 Adds dependencies on foreign libraries. Be sure that the url returns a
-HTTP Code 200
+HTTP Code 200.
 
 Defaults to the empty vector `[]`
 
 [source,clojure]
 ----
 :foreign-libs [{ :file "http://example.com/remote.js"
-                 :provides  ["my.example"]}]
+                 :provides  ["my.example"]}
+               { :file "./resources/js/local.js"
+                 :provides ["my.other.example"]}
+               { :file "./path/to/directory/"
+                 ;; :provides will be automatically generated based on
+                 ;; each .js filename. E.g: your.dep.js file will
+                 ;; provides ["your.dep"]. Custom defined :provides in
+                 ;; this case will be overwritten.
+                }]
 ----
 
 Each element in the `:foreign-libs` vector should be a map, where the
 keys have these semantics:
 
-* `:file` Indicates the URL to the library
+* `:file` Indicates the URL to the library. This can be either local
+path or remote url to the dependency file. If local path is a
+directory instead of a file, the compiler will recursively go through
+all `.js` files within the directory and automatically assign a
+`:provides` values based on the `.js` filename. E.g: `your.js.deps.js`
+results in computed `:provides` `["your.js.deps"]`, and your custom
+`:provides` will be overwritten by the generated `:provides`.
 * `:file-min` (Optional) Indicates the URL to the minified variant of
 the library.
 * `:provides` A synthetic namespace that is associated with the library.
@@ -229,14 +243,14 @@ optimizations. An example follows:
  :source-map true
  :output-dir "resources/public/js"
  :modules {
-   :common 
-     {:output-to "resources/public/js/common.js"  
+   :common
+     {:output-to "resources/public/js/common.js"
       :entries #{"com.foo.common"}}
-   :landing 
-     {:output-to "resources/public/js/landing.js" 
+   :landing
+     {:output-to "resources/public/js/landing.js"
       :entries #{"com.foo.landing"}
       :depends-on #{:common}}
-   :editor 
+   :editor
      {:output-to "resources/public/js/editor.js"
       :entries #{"com.foo.editor"}
       :depends-on #{:common}}}}
@@ -669,7 +683,7 @@ which only contains the translation messages relevant for the locale:
 
 [source,clojure]
 ----
-(def messages 
+(def messages
   (cond
     (identical? js/goog.LOCALE "nl") i18n.nl/messages
     (identical? js/goog.LOCALE "fr") i18n.fr/messages
