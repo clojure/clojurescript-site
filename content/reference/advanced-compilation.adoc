@@ -78,4 +78,4 @@ a name that corresponds to the name in the original source. Add an
 externs entry for this missed case.
 
 For more information about the specifics of `:foreign-libs` compiler
-option syntax consult <<Dependencies#,dependencies>>.
+option syntax consult <<dependencies#,dependencies>>.
