@@ -10,9 +10,11 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 [[ticket-entry]]
 == Ticket Entry
 
-Please enter issues with self-hosted / bootstrapped ClojureScript *
-marked as having Minor priority * title prefixed with "Self-host: " *
-marked with `bootstrap` label
+Please enter issues with self-hosted / bootstrapped ClojureScript
+
+* marked as having Minor priority
+* title prefixed with "Self-host: "
+* marked with `bootstrap` label
 
 [[minimal-repro]]
 == Minimal Repro
