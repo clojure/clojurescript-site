@@ -554,10 +554,15 @@ Defaults to `false`.
 [[language-in-and-language-out]]
 === :language-in and :language-out
 
-Configure the input and output languages for the closure library. May be
-`:ecmascript3`, `ecmascript5`, `ecmascript5-strict`,
-`:ecmascript6-typed`, `:ecmascript6-strict`, `:ecmascript6` or
-`:no-transpile`.
+Configure the input and output languages for the closure library. May be:
+
+* `:ecmascript6` identical to `:es6`
+* `:ecmascript6-strict` identical to `:es6-strict`
+* `:ecmascript6-typed` identical to `:es6-typed`
+* `:ecmascript5` identical to `:es5`
+* `:ecmascript5-strict` identical to `:es5-strict`
+* `:ecmascript3` identical to `:es3`
+* `:no-transpile`
 
 Defaults to `:ecmascript3`
 
@@ -565,6 +570,20 @@ Defaults to `:ecmascript3`
 ----
 :language-in  :ecmascript3
 :language-out :ecmascript3
+----
+
+[[rewrite-polyfills]]
+=== :rewrite-polyfills
+
+If set to true, the google closure compiler will add polyfills
+(for example when you use native javascript `Promise`s).
+*This requires `:language-in` to be set to `:es6` or higher or it will
+silently be ignored!*
+
+[source,clojure]
+----
+:language-in  :es6
+:rewrite-polyfills true
 ----
 
 [[closure-warnings]]
@@ -727,8 +746,8 @@ of the assignment.
 === :optimize-constants
 
 When set to `true`, constants, such as keywords and symbols, will only
-be created once and will be written to a separate file called
-`constants_table.js`. The compiler will emit a reference to the constant
+be created once and will be written to a separate file
+(`cljs/core/constants.js`). The compiler will emit a reference to the constant
 as defined in the constants table instead of creating a new object for
 it. This option is mainly intended to be used for a release build since
 it can increase performance due to decreased allocation. Defaults to
