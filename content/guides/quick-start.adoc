@@ -34,8 +34,9 @@ The standalone ClojureScript JAR bundles https://clojure.org[Clojure]
 1.8.0. This supports simple scripting of the ClojureScript compiler and
 the bundled REPLs without an overly complicated command line interface.
 
-https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar[Download
-the standalone ClojureScript JAR].
++++
+<a href="https://github.com/clojure/clojurescript/releases/latest" rel="latest-version">Download the standalone ClojureScript JAR</a>
++++
 
 [NOTE]
 ====
@@ -79,11 +80,11 @@ namespace and this namespace must match a path on disk. We then enable
 direct printing to the commonly available JavaScript `console` object
 and print the famous message.
 
-In order to compile this we need a simple build script. ClojureScript is 
-just a Clojure library and can be easily scripted in a few lines of 
-__Clojure__. Create a file called `build.clj` next to the `src` directory 
-and the `cljs.jar` file. Note the name of this file does not matter. In 
-this tutorial we'll always make our compiler helper scripts at the root 
+In order to compile this we need a simple build script. ClojureScript is
+just a Clojure library and can be easily scripted in a few lines of
+__Clojure__. Create a file called `build.clj` next to the `src` directory
+and the `cljs.jar` file. Note the name of this file does not matter. In
+this tutorial we'll always make our compiler helper scripts at the root
 of the project directory.
 
 Add the following Clojure code:
@@ -136,7 +137,7 @@ let's see how you can easily include the compiled output on a web page.
 [[using-clojurescript-on-a-web-page]]
 == Using ClojureScript on a Web Page
 
-Create a file `index.html` at the root of the project and include the 
+Create a file `index.html` at the root of the project and include the
 following:
 
 ....
@@ -222,7 +223,7 @@ things off. Change `index.html` to the following.
         <script type="text/javascript" src="out/main.js"></script>
         <script type="text/javascript">
             goog.require("hello_world.core");
-            // Note the underscore "_"! 
+            // Note the underscore "_"!
         </script>
     </body>
 </html>
@@ -383,7 +384,7 @@ We also need to modify our source to load the browser REPL:
   (:require [clojure.browser.repl :as repl]))
 
 (defonce conn
-  (repl/connect "http://localhost:9000/repl")) 
+  (repl/connect "http://localhost:9000/repl"))
 
 (enable-console-print!)
 
