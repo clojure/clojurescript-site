@@ -576,7 +576,7 @@ Defaults to `:ecmascript3`
 === :rewrite-polyfills
 
 If set to true, the google closure compiler will add polyfills
-(for example when you use native javascript `Promise`s).
+(for example when you use native javascript `Promise`).
 *This requires `:language-in` to be set to `:es6` or higher or it will
 silently be ignored!*
 
