@@ -121,6 +121,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://www.uhn.ca/[University Health Network]
 * http://www.upworthy.com[Upworthy]
 * http://www.uswitch.com[uSwitch]
+* https://www.vincit.com[Vincit]
 * http://vitallabs.co[Vital Labs]
 * http://yetanalytics.com[Yet Analytics]
 * http://xnlogic.com[XN Logic]
