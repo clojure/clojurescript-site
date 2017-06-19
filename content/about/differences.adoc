@@ -91,7 +91,7 @@ See <<xref/../../guides/quick-start#,Quick Start>>
 == Evaluation
 
 * ClojureScript has the same evaluation rules as Clojure
-* `load` is planned 
+* `load` exists, but only as a REPL special function 
 * `load-file` exists, but only as a REPL special function
 * While Clojure performs locals clearing, ClojureScript does not
 
