@@ -1,0 +1,9 @@
+= Welcome to ClojureScript News!
+Alex Miller
+2017-06-26
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Welcome to the new ClojureScript news area! We'll have posts available here about important releases, features, and news.
+
