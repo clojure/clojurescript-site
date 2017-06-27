@@ -37,3 +37,5 @@ Many correctness fixes have been made, several of them bringing ClojureScript mo
 * You can use `js/Promise` and many more ES features and have google closure compiler generate polyfills (new `:rewrite-polyfills` compiler option)
 
 You should definitely give this release a try on your code to see how it performs! Hope you enjoy this release!
+
+For a complete list of updates in ClojureScript 1.9.660 see https://github.com/clojure/clojurescript/blob/master/changes.md#19660[Changes].
