@@ -165,20 +165,34 @@ targeted. Have a look <<xref/../../../guides/quick-start#running-clojurescript-o
 === :foreign-libs
 
 Adds dependencies on foreign libraries. Be sure that the url returns a
-HTTP Code 200
+HTTP Code 200.
 
 Defaults to the empty vector `[]`
 
 [source,clojure]
 ----
 :foreign-libs [{ :file "http://example.com/remote.js"
-                 :provides  ["my.example"]}]
+                 :provides  ["my.example"]}
+               { :file "./resources/js/local.js"
+                 :provides ["my.other.example"]}
+               { :file "./path/to/directory/"
+                 ;; :provides will be automatically generated based on
+                 ;; each .js filename. E.g: your.dep.js file will
+                 ;; provides ["your.dep"]. Custom defined :provides in
+                 ;; this case will be overwritten.
+                }]
 ----
 
 Each element in the `:foreign-libs` vector should be a map, where the
 keys have these semantics:
 
-* `:file` Indicates the URL to the library
+* `:file` Indicates the URL to the library. This can be either local
+path or remote url to the dependency file. If local path is a
+directory instead of a file, the compiler will recursively go through
+all `.js` files within the directory and automatically assign a
+`:provides` values based on the `.js` filename. E.g: `your.js.deps.js`
+results in computed `:provides` `["your.js.deps"]`, and your custom
+`:provides` will be overwritten by the generated `:provides`.
 * `:file-min` (Optional) Indicates the URL to the minified variant of
 the library.
 * `:provides` A synthetic namespace that is associated with the library.
@@ -229,14 +243,14 @@ optimizations. An example follows:
  :source-map true
  :output-dir "resources/public/js"
  :modules {
-   :common 
-     {:output-to "resources/public/js/common.js"  
+   :common
+     {:output-to "resources/public/js/common.js"
       :entries #{"com.foo.common"}}
-   :landing 
-     {:output-to "resources/public/js/landing.js" 
+   :landing
+     {:output-to "resources/public/js/landing.js"
       :entries #{"com.foo.landing"}
       :depends-on #{:common}}
-   :editor 
+   :editor
      {:output-to "resources/public/js/editor.js"
       :entries #{"com.foo.editor"}
       :depends-on #{:common}}}}
@@ -378,6 +392,20 @@ compiled with `:static-fns` implicitly set to true.
 :static-fns true
 ----
 
+[[fn-invoke-direct]]
+=== :fn-invoke-direct
+
+Requires `:static-fns true`.
+This option emits slightly different code that can speed up your code
+around 10-30%. Higher order function that don't implement the `IFn` protocol 
+are normally called with `f.call(null, arg0, arg1 ...)`. With this option
+enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
+
+[source,clojure]
+----
+:fn-invoke-direct true
+----
+
 [[warnings]]
 === :warnings
 
@@ -396,6 +424,7 @@ with associated booleans. Defaults to true.
 The following warnings are supported:
 
 * `:preamble-missing`, missing preamble
+* `:unprovided`, required namespace not provided
 * `:undeclared-var`, undeclared var
 * `:undeclared-ns`, var references non-existent namespace
 * `:undeclared-ns-form`, namespace reference in ns form that does not
@@ -417,7 +446,17 @@ exist
 * `:protocol-invalid-method`, protocol method does not match declaration
 * `:protocol-duped-method`, duplicate protocol method implementation
 * `:protocol-multiple-impls`, protocol implemented multiple times
+* `:protocol-with-variadic-method`, protocol declares variadic signature
+* `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
+* `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
 * `:single-segment-namespace`, single segment namespace
+* `:munged-namespace`, namespace name contains a reserved JavaScript keyword
+* `:ns-var-clash`, namespace clashes with var
+* `:extend-type-invalid-method-shape`, method arities must be grouped together
+* `:unsupported-js-module-type`, unsupported JavaScript module type
+* `:unsupported-preprocess-value`, unsupported foreign lib preprocess value
+* `:js-shadowed-by-local`, name shadowed by a local
+* `:infer-warning`, warnings related to externs inference
 
 [[elide-asserts]]
 === :elide-asserts
@@ -540,10 +579,15 @@ Defaults to `false`.
 [[language-in-and-language-out]]
 === :language-in and :language-out
 
-Configure the input and output languages for the closure library. May be
-`:ecmascript3`, `ecmascript5`, `ecmascript5-strict`,
-`:ecmascript6-typed`, `:ecmascript6-strict`, `:ecmascript6` or
-`:no-transpile`.
+Configure the input and output languages for the closure library. May be:
+
+* `:ecmascript6` identical to `:es6`
+* `:ecmascript6-strict` identical to `:es6-strict`
+* `:ecmascript6-typed` identical to `:es6-typed`
+* `:ecmascript5` identical to `:es5`
+* `:ecmascript5-strict` identical to `:es5-strict`
+* `:ecmascript3` identical to `:es3`
+* `:no-transpile`
 
 Defaults to `:ecmascript3`
 
@@ -551,6 +595,20 @@ Defaults to `:ecmascript3`
 ----
 :language-in  :ecmascript3
 :language-out :ecmascript3
+----
+
+[[rewrite-polyfills]]
+=== :rewrite-polyfills
+
+If set to true, the google closure compiler will add polyfills
+(for example when you use native javascript `Promise`).
+*This requires `:language-in` to be set to `:es6` or higher or it will
+silently be ignored!*
+
+[source,clojure]
+----
+:language-in  :es6
+:rewrite-polyfills true
 ----
 
 [[closure-warnings]]
@@ -669,7 +727,7 @@ which only contains the translation messages relevant for the locale:
 
 [source,clojure]
 ----
-(def messages 
+(def messages
   (cond
     (identical? js/goog.LOCALE "nl") i18n.nl/messages
     (identical? js/goog.LOCALE "fr") i18n.fr/messages
@@ -713,8 +771,8 @@ of the assignment.
 === :optimize-constants
 
 When set to `true`, constants, such as keywords and symbols, will only
-be created once and will be written to a separate file called
-`constants_table.js`. The compiler will emit a reference to the constant
+be created once and will be written to a separate file
+(`cljs/core/constants.js`). The compiler will emit a reference to the constant
 as defined in the constants table instead of creating a new object for
 it. This option is mainly intended to be used for a release build since
 it can increase performance due to decreased allocation. Defaults to

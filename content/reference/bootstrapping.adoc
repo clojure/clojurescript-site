@@ -20,18 +20,21 @@ ClojureScript has been optimized to be roughly within a factor of 2 of
 ClojureScript JVM (varying perf between engines).
 
 * Master is successfully being used in various contexts:
-* https://github.com/swannodette/cljs-bootstrap[cljs-bootstrap]
-* https://twitter.com/bus_kanaka/status/616026801412804608[Node.js REPL]
-* http://clojurescript.net[Browser REPL]
-* https://github.com/mfikes/replete[iOS REPL: Replete]
-* https://github.com/tahmidsadik112/Replicator[Android REPL: Replicator]
-* https://github.com/mfikes/planck[OS X REPL: Planck]
-* http://jellea.github.io/QuilFiddle/[QuilFiddle]
-* http://session-repl.com[SessionRepl]
-* http://roman01la.github.io/threejs-cljs-playground/[Threejs
+** https://github.com/swannodette/cljs-bootstrap[cljs-bootstrap]
+** https://twitter.com/bus_kanaka/status/616026801412804608[Node.js REPL]
+** http://clojurescript.net[Browser REPL]
+** https://github.com/mfikes/replete[iOS REPL: Replete]
+** https://github.com/tahmidsadik112/Replicator[Android REPL: Replicator]
+** https://github.com/mfikes/planck[OS X REPL: Planck]
+** http://jellea.github.io/QuilFiddle/[QuilFiddle]
+** http://roman01la.github.io/threejs-cljs-playground/[Threejs
 playground]
-* https://github.com/ScalaConsultants/replumb[Library for bootstrapped
+** https://github.com/ScalaConsultants/replumb[Library for bootstrapped
 REPLs: Replumb]
+** http://crepl.thegeez.net[crepl: collaborative repl]
+** https://github.com/anmonteiro/lumo[Desktop REPL: Lumo]
+** https://github.com/viebel/klipse[Embeddable clojurescript repl: KLIPSE]
+** http://ctford.github.io/klangmeister[Musical live coding environment: Klangmeister]
 
 The following enumerates the remaining tasks:
 

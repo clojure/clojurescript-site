@@ -104,6 +104,53 @@ them. This is a good reason to use `cljs.core.async`:
         (done)))))
 ----
 
+*NOTE:* You cannot have more than one async test per `deftest` form or
+only the first one will run.
+
+Bad:
+
+[source,clojure]
+----
+(deftest test-async
+  (testing "the API is awesome" ; <-- only this test will run
+    (let [url "http://foo.com/api.edn"
+          res (http/get url)]
+      (async done
+        (go
+          (is (= (<! res) :awesome))
+          (done)))))
+    (testing "the API is cool"
+      (let [url "http://bar.com/api.edn"
+            res (http/get url)]
+        (async done
+          (go
+            (is (= (<! res1) :cool))
+            (done))))))
+----
+
+Good:
+
+[source,clojure]
+----
+(deftest test-async-awesome
+  (testing "the API is awesome"
+    (let [url "http://foo.com/api.edn"
+          res (http/get url)]
+      (async done
+        (go
+          (is (= (<! res) :awesome))
+          (done))))))
+
+(deftest test-async-cool
+  (testing "the API is cool"
+    (let [url "http://bar.com/api.edn"
+          res (http/get url)]
+      (async done
+        (go
+          (is (= (<! res1) :cool))
+          (done))))))
+----
+
 [[async-fixtures]]
 === Async Fixtures
 

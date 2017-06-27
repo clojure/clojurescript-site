@@ -22,12 +22,4 @@ process] as Clojure.
 * <<patches#,Patches>>
 * <<running-tests#,Running the Tests>>
 * <<xref/../../../guides/custom-repls#,Custom REPLs>>
-* <<xref/../../../reference/bootstrapping#,Bootstrapping the Compiler>>, enumerates TODOs towards goal
-
-[[design-docs]]
-== Design Docs
-
-The following pages discuss compiler features under consideration:
-
-* <<js-modules#,Enhanced JavaScript Module Support>>
-* <<io-utils#,Providing IO utilities>>
+* <<xref/../../../reference/bootstrapping#,Bootstrapping the Compiler>>
