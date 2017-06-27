@@ -18,7 +18,7 @@ Goals:
 
 * concise, complete reference, parallel to https://clojure.org/reference/java_interop[Java Interop] for Clojure
 * consolidate here the interop-related info that is currently
-  scattered across this site (e.g. link:../about/differences.adoc[Differences from Clojure])
+  scattered across this site (e.g. the https://github.com/clojure/clojurescript/wiki[wiki], link:../about/differences.adoc[Differences from Clojure])
 * adapt Java-oriented language in the Clojure docs to JS-oriented language:
 ** type not class
 ** object not instance
@@ -34,6 +34,8 @@ Non-goals:
 
 * http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[ClojureScript: JavaScript Interop] (Rafal Spacjer blog)
 * http://squirrel.pl/blog/2013/03/28/two-ways-to-access-properties-in-clojurescript/[Two Ways to Access Properties in ClojureScript]
+* https://github.com/cljs/api/issues/128[aget not to be used on objects]
+* http://clojurescriptmadeeasy.com/blog/when-do-i-use-require-vs-import.html[When do I use :require vs :import]
 * http://cljs.info/cheatsheet/[cljs cheatsheet]
 * https://clojure.org/reference/java_interop[Clojure Java Interop]
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects[MDN Standard built-in objects]
@@ -314,3 +316,23 @@ Note - _you cannot assign to function params or local bindings. Only Java fields
 == Javascript to Clojurescript
 
 === Scopes and Namespaces
+
+TODO: brief overview of namespaces in Clojure and Clojurescript
+
+TODO: brief explication of Google Closure namespacing mechanism
+
+
+== Using Javascript Libraries
+
+=== Google Closure Library
+
+GCL is a massive collection of JavaScript code organized into
+namespaces much like ClojureScript code itself.  It is bundled with
+Clojurescript; thus, you can require a namespace from GCL in the same
+fashion as a ClojureScript namespace.
+
+TODO: a note on :require v. :import
+
+TODO: a few simple examples
+
+TODO: refer to Interop Guide for further info
