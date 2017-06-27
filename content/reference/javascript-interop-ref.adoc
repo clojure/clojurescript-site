@@ -7,7 +7,10 @@ Gregg Reynolds
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+WARNING: Work-in-Progress
+
 toc::[]
+
 
 [[sources]]
 == Dev Notes
