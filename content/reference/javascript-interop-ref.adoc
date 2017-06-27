@@ -160,7 +160,12 @@ Math/PI                 ;; Special namespace for object `Math`
 -> true
 ----
 
-The preferred idiomatic forms for accessing field or method members are given above. The instance member form works for both fields and methods. The instanceField form is preferred for fields and required if both a field and a 0-argument method of the same name exist. They all expand into calls to the dot operator (described below) at macroexpansion time. The expansions are as follows:
+The preferred idiomatic forms for accessing field or method members
+are given above. The object member form works for both fields and
+methods. The objectField form is preferred for fields and required
+if both a field and a 0-argument method of the same name exist. They
+all expand into calls to the dot operator (described below) at
+macroexpansion time. The expansions are as follows:
 
 [source,clojurescript]
 ----
@@ -197,15 +202,31 @@ WARNING:  `clj->js` is relatively inefficient; prefer other methods.
 
 TODO: examples
 
+=== goog.object
+
+TODO: make this readable
+
+For interacting with Javascript objects, use `goog.object` rather than `aget`
+
+Here are the types and the corresponding accessors you should be using:
+
+ILookup - get or get-in
+js/Array - aget
+js/Object - goog.object/get or goog.object/getValueByKeys
+
+Use the right function for the right type.
+
+(source: https://github.com/cljs/api/issues/128[aget is not to be used on objects]
+
 == The Dot special form
 
 TODO: this is from the Clojure interop page - adapt it to cljs
 
 [%hardbreaks]
-*(_._ instance-expr member-symbol)*
+*(_._ object-expr member-symbol)*
 *(_._ Classname-symbol member-symbol)*
-*(_._ instance-expr -field-symbol)*
-*(_._ instance-expr (method-symbol args*))* or *(_._ instance-expr method-symbol args*)*
+*(_._ object-expr -field-symbol)*
+*(_._ object-expr (method-symbol args*))* or *(_._ object-expr method-symbol args*)*
 *(_._ Classname-symbol (method-symbol args*))* or *(_._ Classname-symbol method-symbol args*)*
 
 Special form.
@@ -217,12 +238,12 @@ read as 'in the scope of'.
 If the first operand is a symbol that resolves to a class name, the
 access is considered to be to a static member of the named class. Note
 that nested classes are named EnclosingClass$NestedClass, per the JVM
-spec. Otherwise it is presumed to be an instance member and the first
+spec. Otherwise it is presumed to be an object member and the first
 argument is evaluated to produce the target object.
 
-For the special case of invoking an instance member on a Class
-instance, the first argument must be an expression that evaluates to
-the class instance - note that the preferred form at the top expands
+For the special case of invoking an object member on a Class
+object, the first argument must be an expression that evaluates to
+the class object - note that the preferred form at the top expands
 `Classname` to `(identity Classname)`.
 
 If the second operand is a symbol and no args are supplied it is taken to be a field access - the name of the field is the name of the symbol, and the value of the expression is the value of the field, _unless_ there is a no argument public method of the same name, in which case it resolves to a call to the method. If the second operand is a symbol starting with _-_, the member-symbol will resolve only as field access (never as a 0-arity method) and should be preferred when that is the intent.
@@ -236,10 +257,10 @@ The member access forms given at the top of this section are preferred for use i
 ''''
 
 [%hardbreaks]
-*(_.._ instance-expr member+)*
+*(_.._ object-expr member+)*
 *(_.._ Classname-symbol member+)*
 
-member => fieldName-symbol or (instanceMethodName-symbol args*)
+member => fieldName-symbol or (objectMethodName-symbol args*)
 
 Macro. Expands into a member access (.) of the first member on the first argument, followed by the next member on the result, etc. For instance:
 
@@ -255,9 +276,9 @@ but is easier to write, read, and understand. See also the https://clojure.githu
 
 ''''
 
-*(_doto_ instance-expr (instanceMethodName-symbol args*)*)*
+*(_doto_ object-expr (objectMethodName-symbol args*)*)*
 
-Macro. Evaluates instance-expr then calls all of the methods/functions with the supplied arguments in succession on the resulting object, returning it.
+Macro. Evaluates object-expr then calls all of the methods/functions with the supplied arguments in succession on the resulting object, returning it.
 
 [source,clojure]
 ----
@@ -298,18 +319,20 @@ Evaluates expr and tests if it is an instance of the class. Returns true or fals
 ''''
 
 [%hardbreaks]
-*(_set!_ (. instance-expr instanceFieldName-symbol) expr)*
+*(_set!_ (. object-expr objectFieldName-symbol) expr)*
 *(_set!_ (. Classname-symbol staticFieldName-symbol) expr)*
 
 Assignment special form.
 
-When the first operand is a field member access form, the assignment is to the corresponding field. If it is an instance field, the instance expr will be evaluated, then the expr.
+When the first operand is a field member access form, the assignment is to the corresponding field. If it is an object field, the object expr will be evaluated, then the expr.
 
 In all cases the value of expr is returned.
 
 Note - _you cannot assign to function params or local bindings. Only Java fields, Vars, Refs and Agents are mutable in Clojure_.
 
 ''''
+
+
 
 
 [[js-to-cljs]]
