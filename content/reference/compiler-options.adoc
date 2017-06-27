@@ -392,6 +392,20 @@ compiled with `:static-fns` implicitly set to true.
 :static-fns true
 ----
 
+[[fn-direct-invoke]]
+=== :fn-direct-invoke
+
+Requires `:static-fns true`.
+This option emits slightly different code that can speed up your code
+around 10-30%. Higher order function that don't implement the `IFn` protocol 
+are normally called with `f.call(null, arg0, arg1 ...)`. With this option
+enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
+
+[source,clojure]
+----
+:fn-direct-invoke true
+----
+
 [[warnings]]
 === :warnings
 
