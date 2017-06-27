@@ -392,8 +392,8 @@ compiled with `:static-fns` implicitly set to true.
 :static-fns true
 ----
 
-[[fn-direct-invoke]]
-=== :fn-direct-invoke
+[[fn-invoke-direct]]
+=== :fn-invoke-direct
 
 Requires `:static-fns true`.
 This option emits slightly different code that can speed up your code
@@ -403,7 +403,7 @@ enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
 
 [source,clojure]
 ----
-:fn-direct-invoke true
+:fn-invoke-direct true
 ----
 
 [[warnings]]
