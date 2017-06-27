@@ -271,10 +271,10 @@ Change your `watch.clj` to look like the following:
 ----
 
 https://github.com/cljsjs/packages/tree/master/babel-standalone[Babel-standalone] package
-from Cljsjs provides the necessary JavaScript file and implementation for
+from Cljsjs provides the necessary JavaScript file and a implementation for
 `cljsjs.closure/js-transforms` multimethod, which is used for foreign libraries using `:preprocess`
-valie `:cljsjs.babel-standalone/babel`.
-The implementation uses Nashorn to process foreign libraries.
+value `:cljsjs.babel-standalone/babel`.
+The multimethod implementation uses Nashorn JS engine to run Babel and process foreign libraries.
 Options to Babel can be provided by adding property `:cljsjs.babel-standalone/babel-opts` to the
 foreign library map.
 
@@ -341,6 +341,58 @@ resolution for ES6 source files. When this change lands this guide will updated.
 
 However CommonJS support for Node.js resolution works today. The following
 section covers this topic and will eventually apply to ES6 files as well.
+
+[[custom-transforms]]
+== Custom JavaScript transforms
+
+In previous example the Babel transformation was provided by a Cljsjs package,
+which also provided the implementation for `cljs.closure/js-transforms` multimethod.
+If you need to use different transformations you can write your own implementation
+for this multimethod. The Babel transformation can be implemented like this, without
+using the Cljsjs package:
+
+Remove `cljsjs/babel-standalone` dependency from your project.clj.
+
+Download `babel.min.js` into your project directory:
+
+----
+curl -O https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.1/babel.min.js
+----
+
+Change your `watch.clj` to look like the following:
+
+[source,clojure]
+----
+(require '[clojure.java.io :as io])
+(require '[cljs.build.api :as b])
+(require '[cljs.closure :as closure])
+(import 'javax.script.ScriptEngineManager)
+
+;; Create a shared Nashorn instance and eval Babel
+(def engine
+  (doto (.getEngineByName (ScriptEngineManager.) "nashorn")
+    (.eval (io/reader (io/file "babel.min.js")))))
+
+;; Add a custom transform
+(defmethod closure/js-transforms :jsx [ijs opts]
+  (let [code (str (gensym))]
+    (.put engine code (:source ijs))
+    (assoc ijs :source
+      (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
+
+(b/watch "src"
+  {:output-to    "main.js"
+   :output-dir   "out"
+   :main         'hello-es6.core
+   :target       :nodejs
+   :foreign-libs [{:file "src"
+                   :module-type :es6
+                   :preprocess :jsx}] ;; CHANGED
+   :verbose      true})
+----
+
+In this example the `:preprocess` key for modules is `:jsx` which refers to the
+definded multimethod.
 
 [[node-modules]]
 == Node Modules
