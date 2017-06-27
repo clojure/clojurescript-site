@@ -1,6 +1,6 @@
 = Faster Compilation/Runtime and Spec Caching Fixes
 ClojureScript Team
-2017-06-26
+2017-06-27
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
