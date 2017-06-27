@@ -1,0 +1,39 @@
+= Faster Compilation/Runtime and Spec Caching Fixes
+ClojureScript Team
+2017-06-26
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Several exciting performance improvments are in the ClojureScript 1.9.660 release. Some improvements speed up the compiler itself, while other improvements further optimize the code emitted by the compiler.
+
+# Compiler Performance
+
+With two small changes the compiler now compiles ClojureScript code much faster. Users have reported 20–40% faster compile times.
+
+Don't forget to try `:parallel-build`, which is not enabled by default. This can further cut your compile times in half.
+
+# Code Performance
+
+* `:^const` Var values are now inlined
+* `sort`, `shuffle` is now 30-40% faster (thanks to `to-array` optimization)
+* `apply` is 200-400% faster
+* `defmulti` is now much faster in case of a "miss" (200-1000%)
+* set and map equivalence is 100-200% faster
+* `reduce` on sets and maps is now ~100% faster
+
+# Correctness
+
+Many correctness fixes have been made, several of them bringing ClojureScript more in line with Clojure behavior. Other important fixes were made with respect to compilation caching; notably code defining Specs now works properly when caching is enabled.
+
+> Note that this release introduces a new warning for incorrect code which employs variadic signatures in protocol method implementations. Such code will continue to work with this release. Be sure to update any code or libraries that make use of this construct so that protocol implementations match some existing signature.
+
+# New Features
+
+* A new `resolve` macro—like Clojure's but at compile-time
+* Modules support wildcard namespaces
+* New language options ES-2017, ES-next
+* A new compiler option `:fn-invoke-direct` (an extension to  `:static-fns` behavior)
+* You can use `js/Promise` and many more ES features and have google closure compiler generate polyfills (new `:rewrite-polyfills` compiler option)
+
+You should definitely give this release a try on your code to see how it performs! Hope you enjoy this release!
