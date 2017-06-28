@@ -1,0 +1,132 @@
+= Atom
+David Nolen
+2016-08-02
+:type: tools
+:toc: macro
+:icons: font
+
+[[packages]]
+== How to Install Atom Packages
+
+You can bring up your Atom settings by pressing `Command + ,` (command + comma)
+or `Control + ,` (control + comma) on Windows. From there, you can go to the
+"Install" tab and search for the name of the package you'd like to install. If
+you prefer using the command line, you can also use `apm` to install packages
+using:
+
+----
+$ apm install [package-name]
+----
+
+[[parinfer]]
+== Parinfer
+
+Unlike Java and Javascript, the convention in ClojureScript is to place closing
+delimiters on the same line instead of on a new line. To help manage this,
+Shaun LeBron's https://atom.io/packages/parinfer[Parinfer] can automatically
+balance your closing delimiters based on your code's indentation. Chris
+Oakman's Atom package for Parinfer can be found here:
+https://atom.io/packages/parinfer
+
+[[indentation]]
+== Improved Newline Auto-Indentation
+
+Atom, by default, does not auto-indent newlines correctly for Lisp dialects. You
+can solve this by installing Jon Spalding's
+https://atom.io/packages/lisp-paredit[lisp-paredit] Atom package. If
+you're already using Parinfer and only want to use the lisp-paredit package for
+newline indentation, you can change lisp-paredit's settings to:
+
+* Enabled: checked
+* Strict: unchecked
+* Keybindings Enable: unchecked
+
+...and update your `keymap.cson` file with the following keybindings:
+
+----
+# Provides proper indentation when enter is pressed
+'atom-text-editor[data-grammar~="clojure"]':
+  'enter': 'lisp-paredit:newline'
+
+# Override newline back to original when in Proto-REPL console
+# GitHub Issue: https://github.com/jonspalding/lisp-paredit/issues/26
+'ink-console atom-text-editor[data-grammar~="clojure"]':
+  'enter': 'editor:newline'
+----
+
+NOTE: The `keymap.cson` file is found in the main menu under "Atom > Keymap...".
+
+[[linters]]
+== Joker Linter
+
+Roman Bataev's https://github.com/candid82/joker[Joker] linter can let you know
+when you've made an error in some code that you've written. Ryan De La Torre's
+Atom package for Joker can be found here: https://atom.io/packages/linter-joker
+
+[[proto-repl]]
+== Proto REPL
+
+Jason Gilman's https://atom.io/packages/proto-repl[Proto REPL] allows you to
+evaluate ClojureScript code from your editor.
+
+=== Setting Up Proto REPL with Figwheel
+
+If you're using Leiningen and Figwheel, the quickest way to connect Proto REPL
+to your application is to launch Figwheel from within Proto REPL. To do this,
+first merge `figwheel-sidecar`, `piggieback`, and `proto-repl` into your dev
+dependencies in your `project.clj`:
+
+[source,clojure]
+----
+:profiles {:dev {:dependencies [[figwheel-sidecar "0.5.9"]
+                                [com.cemerick/piggieback "0.2.1"]
+                                [proto-repl "0.3.1"]]
+----
+
+Next, add `piggieback`'s nREPL middleware for ClojureScript:
+
+[source,clojure]
+----
+:repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+----
+
+Now open Proto REPL. You can do this by pressing `Command + Shift + P` (or
+`Control + Shift + P` on Windows) to bring up the Command Palette, then using
+the Command Palette to search for the `Proto REPL: Toggle` command.
+
+After starting Proto REPL, you should see the message, "Starting REPL with lein
+in [path to your project]" at the bottom of the REPL instructions. If all went
+well, you should be able to run the following command in Proto REPL to start
+Figwheel and start a ClojureScript REPL:
+
+[source,clojure]
+----
+(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))
+----
+
+Open your locally-hosted webpage in a browser, then try typing some test code
+into Proto REPL, such as `(js/alert "Hello from Proto REPL!")` to verify that
+everything is working. (The above command should cause an alert to appear in
+your browser.)
+
+=== Saving Commands to Proto REPL
+
+If you don't want to type the command to start Figwheel every time, you can save
+a custom command to your Atom's `init.js`/`init.coffee` file:
+
+----
+atom.commands.add('atom-text-editor', 'Start Figwheel with CLJS REPL', function () {
+  protoRepl.executeCode(`
+    (when
+      (try
+        (require 'figwheel-sidecar.repl-api)
+        (resolve 'figwheel-sidecar.repl-api/start-figwheel!)
+        (catch Throwable _))
+      (eval '(do (figwheel-sidecar.repl-api/start-figwheel!)
+                 (figwheel-sidecar.repl-api/cljs-repl))))
+  `);
+});
+----
+
+More documentation on extending Proto REPL can be found here:
+https://github.com/jasongilman/proto-repl/blob/master/extending_proto_repl.md
