@@ -33,6 +33,31 @@ Non-goals:
 
 * user guide - that goes in link:../guides/javascript-interop-guide.adoc[Javascript Interop Guide]
 
+=== content
+
+checklist:
+
+* namespaces
+** cljs leverages Closure's mechanism
+** namespace does not necessarily correspond to a source path
+** js namespace
+* #js
+* js-obj
+* array, make-array, aclone
+* object property access
+** dot notation
+** aget/aset
+** goog.object
+** js-delete
+* js* ?? referenced in http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[blog]
+* `instance?` equivalents: `array?`, `fn?` etc.
+* external libs
+** "legacy" js, embedded inline and out-of-line (i.e. non-modularized)
+** modules - goog, CommonJS, AMD, ES6, etc.
+* dealing with strings?
+* debugging
+** :repl-verbose
+
 === sources
 
 * http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[ClojureScript: JavaScript Interop] (Rafal Spacjer blog)
@@ -227,10 +252,11 @@ TODO: this is from the Clojure interop page - adapt it to cljs
 
 [%hardbreaks]
 *(_._ object-expr member-symbol)*
-*(_._ Classname-symbol member-symbol)*
+*(_._ Typename-symbol member-symbol)*  ;; FIXME clj only?
 *(_._ object-expr -field-symbol)*
-*(_._ object-expr (method-symbol args*))* or *(_._ object-expr method-symbol args*)*
-*(_._ Classname-symbol (method-symbol args*))* or *(_._ Classname-symbol method-symbol args*)*
+*(_._ object-expr (method-symbol args*)) or (_._ object-expr method-symbol args)
+*(_._ Typename-symbol (method-symbol args*))* or *(_._ Typename-symbol method-symbol args**) ;; FIXME clj only?
+;; FIXME: get the asterisks right
 
 Special form.
 
@@ -238,24 +264,46 @@ The '.' special form is the basis for access to Javascript Object
 properties. It can be considered a property-access operator, and/or
 read as 'in the scope of'.
 
-If the first operand is a symbol that resolves to a class name, the
-access is considered to be to a static member of the named class. Note
-that nested classes are named EnclosingClass$NestedClass, per the JVM
-spec. Otherwise it is presumed to be an object member and the first
-argument is evaluated to produce the target object.
+WARNING: DELETE (clj only?): If the first operand is a symbol that
+resolves to a class name, the access is considered to be to a static
+member of the named class. Note that nested classes are named
+EnclosingClass$NestedClass, per the JVM spec. Otherwise it is presumed
+to be an object member and the first argument is evaluated to produce
+the target object.
 
-For the special case of invoking an object member on a Class
+WARNING: DELETE (clj only?) For the special case of invoking an object member on a Class
 object, the first argument must be an expression that evaluates to
 the class object - note that the preferred form at the top expands
 `Classname` to `(identity Classname)`.
 
-If the second operand is a symbol and no args are supplied it is taken to be a field access - the name of the field is the name of the symbol, and the value of the expression is the value of the field, _unless_ there is a no argument public method of the same name, in which case it resolves to a call to the method. If the second operand is a symbol starting with _-_, the member-symbol will resolve only as field access (never as a 0-arity method) and should be preferred when that is the intent.
+If the second operand is a symbol it will resolve as either a field
+ property reference or a method property reference.  It it starts with
+ _`-`_, it will resolve only as field property access, never as a
+ 0-arity method. Otherwise it will resolve as a method property.
 
-If the second operand is a list, or args are supplied, it is taken to be a method call. The first element of the list must be a simple symbol, and the name of the method is the name of the symbol. The args, if any, are evaluated from left to right, and passed to the matching method, which is called, and its value returned. If the method has a void return type, the value of the expression will be _**nil**_. Note that placing the method name in a list with any args is optional in the canonic form, but can be useful to gather args in macros built upon the form.
+NOTE: (Here's the original text from the clj docs) If the second
+operand is a symbol and no args are supplied it is taken to be a field
+property access - the name of the property is the name of the symbol,
+and the value of the expression is the value of the property, _unless_
+there is a no argument public method of the same name, in which case
+it resolves to a call to the method.
 
-Note that boolean return values will be turned into Booleans, chars will become Characters, and numeric primitives will become Numbers unless they are immediately consumed by a method taking a primitive.
+If the second operand is a list, or args are supplied, it is taken to
+be a method call. The first element of the list must be a simple
+symbol, and the name of the method is the name of the symbol. The
+args, if any, are evaluated from left to right, and passed to the
+matching method, which is called, and its value returned. If the
+method has a void return type, the value of the expression will be
+_**nil**_. Note that placing the method name in a list with any args
+is optional in the canonic form, but can be useful to gather args in
+macros built upon the form.
 
-The member access forms given at the top of this section are preferred for use in all cases other than in macros.
+Note that boolean return values will be turned into Booleans, chars
+will become Characters, and numeric primitives will become Numbers
+unless they are immediately consumed by a method taking a primitive.
+
+The member access forms given at the top of this section are preferred
+for use in all cases other than in macros.
 
 ''''
 
@@ -279,6 +327,8 @@ but is easier to write, read, and understand. See also the https://clojure.githu
 
 ''''
 
+WARNING:  FIXME: does doto work in cljs?
+
 *(_doto_ object-expr (objectMethodName-symbol args*)*)*
 
 Macro. Evaluates object-expr then calls all of the methods/functions with the supplied arguments in succession on the resulting object, returning it.
@@ -293,8 +343,8 @@ Macro. Evaluates object-expr then calls all of the methods/functions with the su
 ''''
 
 [%hardbreaks]
-*(Classname. args*)*
-*(_new_ Classname args*)*
+*(Typename. args*)*
+*(_new_ Typename args*)*
 
 Special form.
 
@@ -302,17 +352,21 @@ The args, if any, are evaluated from left to right, and passed to the constructo
 
 === Alternative Macro Syntax
 
+FIXME:  isn't this redundant?
+
 As shown, in addition to the canonic special form new, Clojure supports special macroexpansion of symbols containing '.':
 
-`(new Classname args*)`
+`(new Typename args*)`
 
 can be written
 
-`(Classname. args*) ;note trailing dot`
+`(Typename. args*) ;note trailing dot`
 
 the latter expanding into the former at macro expansion time.
 
 ''''
+
+FIXME: is there a cljs equivalent?  Add note about `array?` etc.
 
 *(_instance?_ Class expr)*
 
@@ -322,8 +376,8 @@ Evaluates expr and tests if it is an instance of the class. Returns true or fals
 ''''
 
 [%hardbreaks]
-*(_set!_ (. object-expr objectFieldName-symbol) expr)*
-*(_set!_ (. Classname-symbol staticFieldName-symbol) expr)*
+*(_set!_ (. object-expr fieldProperty-symbol) expr)*
+*(_set!_ (. Classname-symbol staticFieldName-symbol) expr)* ;; FIXME: not supported in cljs?
 
 Assignment special form.
 
@@ -332,6 +386,8 @@ When the first operand is a field member access form, the assignment is to the c
 In all cases the value of expr is returned.
 
 Note - _you cannot assign to function params or local bindings. Only Java fields, Vars, Refs and Agents are mutable in Clojure_.
+
+FIXME: add aset, goog.object
 
 ''''
 
@@ -362,3 +418,5 @@ TODO: a note on :require v. :import
 TODO: a few simple examples
 
 TODO: refer to Interop Guide for further info
+
+TODO: refer to https://clojurescript.org/reference/dependencies[Dependencies]
