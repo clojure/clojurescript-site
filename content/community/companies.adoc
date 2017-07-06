@@ -112,6 +112,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://socialsuperstore.com[Social Superstore]
 * http://www.solita.fi/in-english/[Solita]
 * http://www.sparrho.com[Sparrho]
+* https://status.im/[Status]
 * https://www.studyflow.nl[Studyflow]
 * https://www.style.com/[Style.com]
 * https://shop.stylefruits.de[stylefruits]
