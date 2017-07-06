@@ -9,7 +9,7 @@ Please support these fine books and videos about ClojureScript.
 
 === Books
 
-[width="80", cols="<.^30a,.^70"]
+[width="50", cols="<.^30a,.^70"]
 |===
 
 | image::http://ecx.images-amazon.com/images/I/51KgF%2B-38WL._SL160.jpg[ClojureScript: Up and Running,link="https://amzn.com/1449327435"]
