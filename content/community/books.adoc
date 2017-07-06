@@ -11,13 +11,26 @@ Please support these fine books and videos about ClojureScript.
 
 [width="80", cols="<.^30a,.^70"]
 |===
+
 | image::http://ecx.images-amazon.com/images/I/51KgF%2B-38WL._SL160.jpg[ClojureScript: Up and Running,link="https://amzn.com/1449327435"]
 | https://amzn.com/1449327435[ClojureScript: Up and Running] +
 by Stuart Sierra, Luke VanderHart +
 Nov 10, 2012
+
+| image::https://www.packtpub.com/sites/default/files/7635cov_.jpg[Learning ClojureScript, link="https://www.packtpub.com/web-development/learning-clojurescript"]
+| https://www.packtpub.com/web-development/learning-clojurescript[Learning ClojureScript] +
+by W. David Jarvis, Rafik Naccache, Allen Rohner +
+June 2016
+
+| image::https://s3.amazonaws.com/titlepages.leanpub.com/clojurescript-unraveled/hero?1437124942[ClojureScript Unraveled, link="https://leanpub.com/clojurescript-unraveled"]
+| https://leanpub.com/clojurescript-unraveled[ClojureScript Unraveled] +
+by Andrey Antukh and Alejandro Gómez +
+June 25, 2016
+
 |===
 
 === Videos
 
 * https://lambdaisland.com[Lambda Island]
 * https://purelyfunctional.tv[PurelyFunctional.tv]
+* http://shop.oreilly.com/product/0636920040316.do[Learning ClojureScript]
