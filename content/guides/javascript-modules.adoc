@@ -248,7 +248,7 @@ Change your project.clj to the following:
                  [cljsjs/react "15.4.2-0"]
                  [cljsjs/react-dom "15.4.2-0"]
                  [cljsjs/react-dom-server "15.4.2-0"]
-                 [cljsjs/babel-standalone "6.18.1-1"]]
+                 [cljsjs/babel-standalone "6.18.1-3"]]
   :jvm-opts ^:replace ["-Xmx1g" "-server"])
 ----
 
@@ -266,15 +266,14 @@ Change your `watch.clj` to look like the following:
    :target       :nodejs
    :foreign-libs [{:file "src"
                    :module-type :es6
-                   :preprocess :cljsjs.babel-standalone/babel}] ;; CHANGED
+                   :preprocess 'cljsjs.babel-standalone/transform}] ;; CHANGED
    :verbose      true})
 ----
 
 https://github.com/cljsjs/packages/tree/master/babel-standalone[Babel-standalone] package
-from Cljsjs provides the necessary JavaScript file and a implementation for
-`cljsjs.closure/js-transforms` multimethod, which is used for foreign libraries using `:preprocess`
-value `:cljsjs.babel-standalone/babel`.
-The multimethod implementation uses Nashorn JS engine to run Babel and process foreign libraries.
+from Cljsjs provides the necessary JavaScript file and a function that can be used as
+`:preprocess` handler.
+The function uses Nashorn JS engine to run Babel and process foreign libraries.
 Options to Babel can be provided by adding property `:cljsjs.babel-standalone/babel-opts` to the
 foreign library map.
 
@@ -345,11 +344,9 @@ section covers this topic and will eventually apply to ES6 files as well.
 [[custom-transforms]]
 == Custom JavaScript transforms
 
-In previous example the Babel transformation was provided by a Cljsjs package,
-which also provided the implementation for `cljs.closure/js-transforms` multimethod.
-If you need to use different transformations you can write your own implementation
-for this multimethod. The Babel transformation can be implemented like this, without
-using the Cljsjs package:
+In previous example the Babel transformation function was provided by a Cljsjs package.
+If you need to use different transformations you can write your own preprocessing function.
+The Babel transformation can be implemented like this, without the Cljsjs package:
 
 Remove `cljsjs/babel-standalone` dependency from your project.clj.
 
@@ -359,26 +356,32 @@ Download `babel.min.js` into your project directory:
 curl -O https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.1/babel.min.js
 ----
 
+Create a new `src/hello_es6/babel.clj` file:
+
+[source,clojure]
+----
+(ns hello-es6.babel
+  (:require [clojure.java.io :as io]
+            [cljs.build.api :as b])
+  (:import javax.script.ScriptEngineManager))
+
+(def engine
+  (doto (.getEngineByName (ScriptEngineManager.) "nashorn")
+    (.eval (io/reader (io/file "babel.min.js")))))
+
+(defn transform-jsx [js-module opts]
+  (let [code (str (gensym))]
+    (.put engine code (:source js-module))
+    (assoc js-module :source
+      (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
+----
+
 Change your `watch.clj` to look like the following:
 
 [source,clojure]
 ----
 (require '[clojure.java.io :as io])
 (require '[cljs.build.api :as b])
-(require '[cljs.closure :as closure])
-(import 'javax.script.ScriptEngineManager)
-
-;; Create a shared Nashorn instance and eval Babel
-(def engine
-  (doto (.getEngineByName (ScriptEngineManager.) "nashorn")
-    (.eval (io/reader (io/file "babel.min.js")))))
-
-;; Add a custom transform
-(defmethod closure/js-transforms :jsx [ijs opts]
-  (let [code (str (gensym))]
-    (.put engine code (:source ijs))
-    (assoc ijs :source
-      (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
 
 (b/watch "src"
   {:output-to    "main.js"
@@ -387,12 +390,9 @@ Change your `watch.clj` to look like the following:
    :target       :nodejs
    :foreign-libs [{:file "src"
                    :module-type :es6
-                   :preprocess :jsx}] ;; CHANGED
+                   :preprocess 'hello-es6.babel/transform-jsx}] ;; CHANGED
    :verbose      true})
 ----
-
-In this example the `:preprocess` key for modules is `:jsx` which refers to the
-definded multimethod.
 
 [[node-modules]]
 == Node Modules
