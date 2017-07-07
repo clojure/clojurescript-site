@@ -7,6 +7,7 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+[[quick-start-toc]]
 toc::[]
 
 The only dependencies required for this tutorial are an installation of
