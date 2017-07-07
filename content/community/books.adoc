@@ -27,6 +27,11 @@ June 2016
 by Andrey Antukh and Alejandro Gómez +
 June 25, 2016
 
+| image::https://covers.oreillystatic.com/images/0636920043584/cat.gif[Etudes for ClojureScript]
+| http://shop.oreilly.com/product/0636920043584.do[Etudes for ClojureScript] +
+by J. Eisenberg +
+November 2015
+
 |===
 
 === Videos
