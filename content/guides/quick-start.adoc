@@ -240,7 +240,7 @@ sufficiently modern browser you should even see the printing was invoked
 from a ClojureScript source file and not a JavaScript one thanks to
 source mapping (some browsers like Chrome require you to first enable
 source mapping, for more details
-https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[look
+https://developers.google.com/web/tools/chrome-devtools/javascript/source-maps[look
 here]).
 
 [[less-boilerplate]]
