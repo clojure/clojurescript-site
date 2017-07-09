@@ -20,7 +20,7 @@ Will run the tests for the analyzer, compiler, and closure components.
 [[testing-javascript-engines]]
 == Testing JavaScript Engines
 
-How to setup the the important JavaScript runtimes.
+How to setup the important JavaScript runtimes.
 
 [[google-v8]]
 === Google V8
