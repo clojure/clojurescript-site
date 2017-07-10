@@ -1,0 +1,193 @@
+= Enhanced Code Splitting {amp} Loading
+David Nolen
+2017-07-10
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This is the first post in the <<2017-07-07-sneak-preview#,Sneak Preview>> series.
+
+As client applications increase in size it becomes desirable to optimize the
+time to load a logical screen. Network requests should be minimized while at the
+same the loaded code should be restricted to that which is absolutely necessary
+to produce a functioning screen. While tools like
+https://webpack.github.io[Webpack] have popularized this optimization technique
+in the JavaScript mainstream, Google Closure Compiler and Library have supported
+this same optimization strategy in the form of Google Closure Modules for many
+years now.
+
+Google Closure Modules also provide some unique advantages over tools
+like Webpack or http://rollupjs.org[Rollup] which we will cover in the technical
+section of this post. In short, we optimally assign all sources to modules
+after which Google Closure Compiler employs dead code elimination (tree shaking)
+and cross module code motion to produce truly optimal splits.
+
+While ClojureScript has provided basic integration with this facility for some
+time, the next release will feature greatly enhanced and comprehensive support
+for code splitting and asynchronous loading of these splits.
+
+=== Terminology
+
+If you are familiar with Webpack terminology, in the following description
+please take note that **module** in this context refers to a **code split** or
+**chunk**.
+
+By *entry point* we mean a source file which represents a logical entry point
+into your application (login, users, admin, etc.).
+
+== Enhanced Code Splitting
+
+It is no longer necessary to hand-optimize module assignment of your sources.
+All sources will be optimally assigned to a module based upon the dependency
+graph of your application. If you have a module with many manual assignments you
+should now remove these. If you were using namespace wildcard matching, this is
+also no longer necessary. For details about how we assign an input to a
+particular module see the technical description below.
+
+Concretely, the following is now an anti-pattern:
+
+[code,clojure]
+```
+{:modules
+  {:vendor {:output-to "..."
+            :entries '#{cljsjs.react reagent.* re-frame.*}}
+   :main   {:output-to "..."
+            :entries '#{myapp.core}
+            :depends-on [:vendor]}}
+```
+
+Previously you would have to manually pin a source (`re-frame` in this case) and
+its dependencies to a module. Now all that is required is:
+
+[code,clojure]
+```
+{:modules
+  {:vendor {:output-to "..."
+            :entries '#{re-frame.core}
+   :main   {:output-to "..."
+            :entries '#{myapp.core}
+            :depends-on [:vendor]}}
+```
+
+Another significant enhancement is that `:modules` now works under all
+optimization settings. By unifying `:modules` behavior under all compilation
+modes we eliminate a bit of incidental complexity around build configuration
+between development and production.
+
+== cljs.loader
+
+Asynchronous loading of module splits is now standardized with the introduction
+of the `cljs.loader` namespace. If any entry point in your application needs
+to invoke the load of another module due to some user action, you can now do so
+with `cljs.loader`.
+
+`cljs.loader` provides a shared Google Closure
+https://google.github.io/closure-library/api/goog.module.ModuleManager.html[ModuleManager]
+singleton automatically initialized to your `:modules` graph
+regardless of the optimization level.
+
+The following is a simple short example of `cljs.loader` functionality:
+
+[code,clojure]
+```
+(ns foo.core
+ (:require [cljs.loader :as loader]
+           [goog.dom :as gdom]
+           [goog.events :as events])
+ (:import [goog.events EventType]))
+
+(events/listen (gdom/getElement "button") EventType.CLICK
+  (fn [e]
+    (loader/load :bar
+      (fn [e]
+        ((resolve 'bar.core/woz))))))
+```
+
+Note that this example shows how to call across module boundaries without
+having the compiler complain about functionality not present in this code split.
+This is possible thanks to the recent inclusion of static `resolve` to the
+standard library.
+
+For a complete walk through of the enhanced `:modules` functionality please
+refer to the <</guides/code-splitting#,new guide>>.
+
+== Technical Description
+
+The following highlights some interesting technical details of the enhanced
+modules functionality.
+
+=== Module Assignment
+
+This section briefly describes the algorithm employed to automatically assign
+every source file to a module.
+
+Assume a simplified module description like:
+
+[code,clojure]
+```
+{:modules {:module-a {:entries #'{foo.core}}
+           :module-b {:entries #'{bar.core}}}
+```
+
+This will be transformed into a module description that includes the implicit
+base module `:cljs-base`.
+
+[code,clojure]
+```
+{:modules {:cljs-base {:entries []}
+           :module-a  {:entries #'{foo.core}
+                       :depends-on [:cljs-base]}
+           :module-b  {:entries #'{bar.core}
+                       :gdepends-on [:cljs-base]}}
+```
+
+We will then compute the depth of every module in the graph:
+
+[code,clojure]
+```
+{:modules {:cljs-base {:entries [] :depth 0}
+           :module-a  {:entries #'{foo.core} :depth 1
+                       :depends-on [:cljs-base]}
+           :module-b  {:entries #'{bar.core} :depth 1
+                       :depends-on [:cljs-base]}}
+```
+
+We then use this to compute a mapping from all depended upon inputs to
+a set of possible module assignments. For example we find all dependencies of
+`foo.core` and we assume they will go into `:module-a` - even `cljs.core`, the
+standard library.
+
+But of course `:module-b` will also assign `cljs.core` to itself. So
+`cljs.core` module assignment is `[:module-a :module-b]`. However we can
+only choose one. To choose we first find all the common parent modules. Once
+found, we pick the module with the greatest `:depth` value.
+
+Finally, any orphans will be assigned to `:cljs-base`.
+
+Readers familiar with Webpack will note that this approach treats splits and
+split loading as two independent concerns. Thus split definition does not
+require editing sources nor the introduction of additional plugins.
+
+=== Cross Module Code Motion
+
+Automatic module assignment pushes code upwards to produce code splits that
+match user expectations. However if we left it at that we would be missing a
+huge opportunity. Along with dead code elimination Google Closure Complier
+employs another useful optimization - *cross module code motion*. Individual
+program values (including functions and methods) which are free of side effects
+can be moved _back down_ the module graph.
+
+A functional programming language like Clojure is well suited for this kind
+of optimization and the ClojureScript compiler carefully generates code in
+many cases to take advantage of this capability.
+
+In practice this means that if some function and its dependencies
+present in `:cljs-base` are only ever used in `:module-a`, they will all be moved
+back to `:module-a`.
+
+== Conclusion
+
+While Google documented these capabilities in
+http://shop.oreilly.com/product/0636920001416.do[Closure: The Definitive Guide]
+published in 2010, we believe they still represent the state of the art. Please
+give these enhancements a try in the next release!
