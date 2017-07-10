@@ -138,7 +138,7 @@ base module `:cljs-base`.
            :module-a  {:entries #'{foo.core}
                        :depends-on [:cljs-base]}
            :module-b  {:entries #'{bar.core}
-                       :gdepends-on [:cljs-base]}}
+                       :depends-on [:cljs-base]}}
 ```
 
 We will then compute the depth of every module in the graph:
