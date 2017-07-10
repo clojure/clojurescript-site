@@ -109,7 +109,7 @@ This is possible thanks to the recent inclusion of static `resolve` to the
 standard library.
 
 For a complete walk through of the enhanced `:modules` functionality please
-refer to the <</guides/code-splitting#,new guide>>.
+refer to the https://clojurescript.org/news/2017-07-10-code-splitting[new guide].
 
 == Technical Description
 
