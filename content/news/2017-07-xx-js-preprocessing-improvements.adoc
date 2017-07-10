@@ -1,0 +1,43 @@
+= JS Preprocessing improvements
+Juho Teperi
+2017-07-09
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Support for https://clojurescript.org/guides/javascript-modules#babel-transforms[transforming JS code]
+using ClojureScript compiler has been around since
+https://github.com/clojure/clojurescript/blob/master/changes.md#1748[version 1.7.48].
+This feature allows transformation of the JS module code before the code is passed into Closure compiler,
+which is useful for example for processing JSX which is not supported by Closure.
+
+However, the feature has not been seen much use.
+One problem has been that there has not been support in popular build tools
+for this feature.
+
+The option is enabled by providing `:preprocess` option to a foreign-lib map.
+The value is a keyword and is used as dispatch value for `cljs.closure/js-transforms`
+multimethod.  Implementing a transformation requires writing a new method for that multimethod.
+The namespace that proivdes this method has to be loaded before ClojureScript
+compiler is run.
+
+Due to how both Lein and Boot isolate the build tooling to their own classpaths, loading the namespace
+would require support from build tool. And as there is no relation between the keyword name and namespace
+that provides the multimethod, it would require configuration by the user
+to provide list of namespaces to load.
+
+Instead of making all the build tools to implement the same change, and
+requiring the users to provide additional configuration, the next version of ClojureScript
+will support symbol `:preprocess` values.
+
+== Preprocess symbol
+
+If the `:preprocess` option value is a symbol ClojureScript compiler will
+resolve the symbol to a function, and call the function to process the JS code.
+Using symbols over keywords has the benefit of there being
+relation between the symbol and the namespace where function is defined.
+This allows ClojureScript compiler to automatically load
+the namespace, thus requiring no configuration other than providing
+the `:preprocess` option on foreign-lib map.
+
+Check the https://clojurescript.org/guides/javascript-modules#babel-transforms[updated guide] for examples.
