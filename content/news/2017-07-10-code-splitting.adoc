@@ -109,7 +109,7 @@ This is possible thanks to the recent inclusion of static `resolve` to the
 standard library.
 
 For a complete walk through of the enhanced `:modules` functionality please
-refer to the new guide.
+refer to the <</guides/code-splitting#,new guide>>.
 
 == Technical Description
 
@@ -164,8 +164,9 @@ found, we pick the module with the greatest `:depth` value.
 
 Finally, any orphans will be assigned to `:cljs-base`.
 
-Readers familiar with Webpack will note that this is a simplification which
-doesn't require managing splits via source code or any additional plugins.
+Readers familiar with Webpack will note that this approach treats splits and
+split loading as two independent concerns. Thus split definition does not
+require editing sources nor the introduction of additional plugins.
 
 === Cross Module Code Motion
 
