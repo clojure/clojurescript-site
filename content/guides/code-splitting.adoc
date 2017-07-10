@@ -28,7 +28,7 @@ enhancements.
 
 Create a project folder:
 
-[code,bash]
+[source,bash]
 ```
 mkdir -p hello-modules
 cd hello-modules
@@ -39,14 +39,14 @@ Copy the `cljs.jar` into this directory.
 
 Create a REPL script:
 
-[code,bash]
+[source,bash]
 ```
 touch repl.clj
 ```
 
 Edit this script to look like the following:
 
-[code,clojure]
+[source,clojure]
 ```
 (require '[cljs.repl :as r])
 (require '[cljs.build.api :as b])
@@ -70,7 +70,7 @@ Edit this script to look like the following:
 
 Now make an `index.html` file:
 
-[code,html]
+[source,html]
 ```
 <html>
     <body>
@@ -85,7 +85,7 @@ Now make an `index.html` file:
 
 Create the `foo.core` namespace:
 
-[code,bash]
+[source,bash]
 ```
 mkdir -p src/foo
 touch src/foo/core.cljs
@@ -93,7 +93,7 @@ touch src/foo/core.cljs
 
 Edit this file to look like the following:
 
-[code,clojure]
+[source,clojure]
 ```
 (ns foo.core
   (:require [goog.dom :as gdom]
@@ -125,12 +125,12 @@ warning during compilation.
 
 Create the `bar.core` namespace:
 
-[code,bash]
+[source,bash]
 ```
 mkdir -p src/bar
 touch src/bar/core.clj
 ```
-[code,clojure]
+[source,clojure]
 
 ```
 (ns bar.core
@@ -148,7 +148,7 @@ touch src/bar/core.clj
 
 Run the REPL script:
 
-[code,bash]
+[source,bash]
 ```
 rlwrap java -cp cljs.jar:src clojure.main repl.clj
 ```
@@ -163,14 +163,14 @@ function in the other namespace gets invoked.
 
 Make a new script `release.clj`:
 
-[code,bash]
+[source,bash]
 ```
 touch release.clj
 ```
 
 Make it look like the following:
 
-[code,clojure]
+[source,clojure]
 ```
 (require '[cljs.build.api :as b])
 
@@ -189,14 +189,14 @@ Make it look like the following:
 
 Build your project:
 
-[code,bash]
+[source,bash]
 ```
 java -cp cljs.jar:src clojure.main release.clj
 ```
 
 Start a browser REPL just for serving content from current directory:
 
-[code,bash]
+[source,bash]
 ```
 java -jar cljs.jar -m cljs.repl.browser
 ```

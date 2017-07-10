@@ -46,7 +46,7 @@ particular module see the technical description below.
 
 Concretely, the following is now an anti-pattern:
 
-[code,clojure]
+[source,clojure]
 ```
 {:modules
   {:vendor {:output-to "..."
@@ -59,7 +59,7 @@ Concretely, the following is now an anti-pattern:
 Previously you would have to manually pin a source (`re-frame` in this case) and
 its dependencies to a module. Now all that is required is:
 
-[code,clojure]
+[source,clojure]
 ```
 {:modules
   {:vendor {:output-to "..."
@@ -88,7 +88,7 @@ regardless of the optimization level.
 
 The following is a simple short example of `cljs.loader` functionality:
 
-[code,clojure]
+[source,clojure]
 ```
 (ns foo.core
  (:require [cljs.loader :as loader]
@@ -123,7 +123,7 @@ every source file to a module.
 
 Assume a simplified module description like:
 
-[code,clojure]
+[source,clojure]
 ```
 {:modules {:module-a {:entries #'{foo.core}}
            :module-b {:entries #'{bar.core}}}
@@ -132,7 +132,7 @@ Assume a simplified module description like:
 This will be transformed into a module description that includes the implicit
 base module `:cljs-base`.
 
-[code,clojure]
+[source,clojure]
 ```
 {:modules {:cljs-base {:entries []}
            :module-a  {:entries #'{foo.core}
@@ -143,7 +143,7 @@ base module `:cljs-base`.
 
 We will then compute the depth of every module in the graph:
 
-[code,clojure]
+[source,clojure]
 ```
 {:modules {:cljs-base {:entries [] :depth 0}
            :module-a  {:entries #'{foo.core} :depth 1
