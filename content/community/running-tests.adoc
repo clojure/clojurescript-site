@@ -42,17 +42,17 @@ Set your SPIDERMONKEY_HOME environment variable.
 [[javascriptcore]]
 === JavaScriptCore
 
-On OS X download a http://webkit.org[WebKit nightly] and put it in your
+On macOS download a http://webkit.org[WebKit nightly] and put it in your
 Applications folder. Update your shell profile to include the following:
 
 [source,bash]
 ----
-DYLD_FRAMEWORK_PATH=/Applications/WebKit.app/Contents/Frameworks/10.10/
+DYLD_FRAMEWORK_PATH=/Applications/WebKit.app/Contents/Frameworks/10.12/
 export DYLD_FRAMEWORK_PATH
-PATH=$PATH:/Applications/WebKit.app/Contents/Frameworks/10.10/JavaScriptCore.framework/Resources
+PATH=$PATH:/Applications/WebKit.app/Contents/Frameworks/10.12/JavaScriptCore.framework/Resources
 ----
 
-_NOTE:_ Sub in the correct OSX version if you're not running `10.10`
+_NOTE:_ Sub in the correct macOS version if you're not running `10.12`
 
 [[nashorn]]
 === Nashorn
