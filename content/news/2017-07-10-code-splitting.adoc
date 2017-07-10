@@ -1,11 +1,11 @@
 = Enhanced Code Splitting {amp} Loading
 David Nolen
-2017-07-14
+2017-07-10
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-This is a post in the <<2017-07-07-sneak-preview#,Sneak Preview>> series.
+This is the first post in the <<2017-07-07-sneak-preview#,Sneak Preview>> series.
 
 As client applications increase in size it becomes desirable to optimize the
 time to load a logical screen. Network requests should be minimized while at the
