@@ -597,6 +597,25 @@ Defaults to `:ecmascript3`
 :language-out :ecmascript3
 ----
 
+[[closure-output-charset]]
+=== :closure-output-charset
+
+Configure the output character set. May be:
+
+* `iso-8859-1`
+* `us-ascii`
+* `utf-16`
+* `utf-16be`
+* `utf-16le`
+* `utf-8`
+
+Defaults to `utf-8`
+
+[source,clojure]
+----
+:closure-output-charset "iso-8859-1"
+----
+
 [[rewrite-polyfills]]
 === :rewrite-polyfills
 
