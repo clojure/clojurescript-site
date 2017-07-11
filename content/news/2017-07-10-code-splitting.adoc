@@ -90,17 +90,17 @@ The following is a simple short example of `cljs.loader` functionality:
 
 [source,clojure]
 ```
-(ns foo.core
+(ns views.user
  (:require [cljs.loader :as loader]
            [goog.dom :as gdom]
            [goog.events :as events])
  (:import [goog.events EventType]))
 
-(events/listen (gdom/getElement "button") EventType.CLICK
+(events/listen (gdom/getElement "admin") EventType.CLICK
   (fn [e]
-    (loader/load :bar
+    (loader/load :admin
       (fn [e]
-        ((resolve 'bar.core/woz))))))
+        ((resolve 'views.admin/init!))))))
 ```
 
 Note that this example shows how to call across module boundaries without
