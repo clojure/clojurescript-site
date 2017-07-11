@@ -92,7 +92,7 @@ Retrieve the content:
 
 Retrieve and install the current theme assets (these don't change very often so you don't need to do this every time):
 
-. `curl -O http://cdn.cognitect.com/clojurescript.org/cljstheme.zip` (or download this file with your browser to the clojurescript-site directory)
+. `curl -O https://clojurescript.org/cljstheme.zip` (or download this file with your browser to the clojurescript-site directory)
 . `unzip -o cljstheme.zip`
 
 Generate the pages:
