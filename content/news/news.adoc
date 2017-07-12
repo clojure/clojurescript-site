@@ -1,0 +1,9 @@
+= News
+David Nolen
+2017-06-26
+:jbake-type: news
+:toc: macro
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+

@@ -105,7 +105,9 @@ cousins: `if`, `do`, `let`, `letfn`, `quote`, `loop`, `recur`, `throw`, and `try
 * `def` notes
 ** `def` produces ordinary JS variables
 ** `:private` metadata is not enforced by the compiler
-** `:const` metadata in ClojureScript disallows re-`def` and supports `case`. In Clojure `:const` allows re-`def` but value inlined at use site.
+** `:const` metadata:
+*** will cause inlining of compile-time static EDN values
+*** causes `case` test constants which are symbols resolving to `^:const` Vars to be inlined with their values 
 ** A `def` form evaluates to the value of the init form (instead of the var), unless the `:def-emits-var` compiler option is set (which defaults to `true` for REPLs) 
 * `if` notes
 ** the section about Java's boolean boxes is irrelevant in ClojureScript

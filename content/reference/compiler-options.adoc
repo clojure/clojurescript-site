@@ -392,6 +392,20 @@ compiled with `:static-fns` implicitly set to true.
 :static-fns true
 ----
 
+[[fn-invoke-direct]]
+=== :fn-invoke-direct
+
+Requires `:static-fns true`.
+This option emits slightly different code that can speed up your code
+around 10-30%. Higher order function that don't implement the `IFn` protocol 
+are normally called with `f.call(null, arg0, arg1 ...)`. With this option
+enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
+
+[source,clojure]
+----
+:fn-invoke-direct true
+----
+
 [[warnings]]
 === :warnings
 
@@ -410,6 +424,7 @@ with associated booleans. Defaults to true.
 The following warnings are supported:
 
 * `:preamble-missing`, missing preamble
+* `:unprovided`, required namespace not provided
 * `:undeclared-var`, undeclared var
 * `:undeclared-ns`, var references non-existent namespace
 * `:undeclared-ns-form`, namespace reference in ns form that does not
@@ -431,7 +446,17 @@ exist
 * `:protocol-invalid-method`, protocol method does not match declaration
 * `:protocol-duped-method`, duplicate protocol method implementation
 * `:protocol-multiple-impls`, protocol implemented multiple times
+* `:protocol-with-variadic-method`, protocol declares variadic signature
+* `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
+* `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
 * `:single-segment-namespace`, single segment namespace
+* `:munged-namespace`, namespace name contains a reserved JavaScript keyword
+* `:ns-var-clash`, namespace clashes with var
+* `:extend-type-invalid-method-shape`, method arities must be grouped together
+* `:unsupported-js-module-type`, unsupported JavaScript module type
+* `:unsupported-preprocess-value`, unsupported foreign lib preprocess value
+* `:js-shadowed-by-local`, name shadowed by a local
+* `:infer-warning`, warnings related to externs inference
 
 [[elide-asserts]]
 === :elide-asserts
@@ -570,6 +595,25 @@ Defaults to `:ecmascript3`
 ----
 :language-in  :ecmascript3
 :language-out :ecmascript3
+----
+
+[[closure-output-charset]]
+=== :closure-output-charset
+
+Configure the output character set. May be:
+
+* `iso-8859-1`
+* `us-ascii`
+* `utf-16`
+* `utf-16be`
+* `utf-16le`
+* `utf-8`
+
+Defaults to `utf-8`
+
+[source,clojure]
+----
+:closure-output-charset "iso-8859-1"
 ----
 
 [[rewrite-polyfills]]

@@ -1,0 +1,13 @@
+= Sneak Preview
+ClojureScript Team
+2017-07-07
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+ClojureScript's sixth birthday is fast approaching and will land on the second
+day of http://2017.euroclojure.org[EuroClojure]. To celebrate we will be
+publishing a series of posts over the next two weeks covering a variety of new
+and exciting features slated for the next release.
+
+Stay tuned!
