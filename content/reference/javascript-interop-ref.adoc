@@ -63,6 +63,7 @@ checklist:
 ** :repl-verbose
 
 Add: table showing mapping from JS to CLJS?  e.g. intanceof -> instance, in -> js-in, etc.
+
 === sources
 
 * https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods]
@@ -126,9 +127,19 @@ TODO: a note about print syntax, e.g. cljs.user> #js {:a 1 :b 2} =>  #js {:a 1, 
 -> #js [1 2]
 ----
 
-=== JS Arrays
+=== js*
 
-There are four methods:
+TODO: describe
+
+=== js-*
+
+TODO: describe the js- prefixed operators: js-arguments, js-comment, etc.
+
+=== JS value construction
+
+==== JS Arrays
+
+There are four ways to construct a JS array:
 
 * `#js [ ... ]`    ;;
 * `(array & args)` ;; `(array 1 2 3)` is equiv to `#js [1 2 3]`
@@ -145,7 +156,7 @@ There are four methods:
 #js [nil nil nil]
 ----
 
-=== JS Objects
+==== JS Objects
 
 There are two basic ways to create a javascript object:
 
@@ -161,7 +172,7 @@ There are two basic ways to create a javascript object:
 -> #js {::a 1, ::b 2}
 ----
 
-==== Object Property access
+=== JS Object Property access
 
 Where Java has classes, instances, members, and methods, Javascript
 has (proto)types, objects, field properties, and method properties.
