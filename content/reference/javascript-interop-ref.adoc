@@ -41,13 +41,15 @@ checklist:
 ** cljs leverages Closure's mechanism
 ** namespace does not necessarily correspond to a source path
 ** js namespace
+* "this" - this-as, (js* "this") (see https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods])
+* goog.object as "built-in external" in ECMAScript terms
 * #js
-* js-obj
+* js- prefixed ops
 * array, make-array, aclone
 * object property access
+** goog.object/geet
 ** dot notation
-** aget/aset
-** goog.object
+** aget/aset (prefer goog.object/get)
 ** js-delete
 * js* ?? referenced in http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[blog]
 * `instance?` equivalents: `array?`, `fn?` etc.
@@ -55,11 +57,13 @@ checklist:
 ** "legacy" js, embedded inline and out-of-line (i.e. non-modularized)
 ** modules - goog, CommonJS, AMD, ES6, etc.
 * dealing with strings?
+* use of Object in deftype: it's treated as a Protocol (for arbitrary js methods)
 * debugging
 ** :repl-verbose
 
 === sources
 
+* https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods]
 * http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[ClojureScript: JavaScript Interop] (Rafal Spacjer blog)
 * http://squirrel.pl/blog/2013/03/28/two-ways-to-access-properties-in-clojurescript/[Two Ways to Access Properties in ClojureScript]
 * https://github.com/cljs/api/issues/128[aget not to be used on objects]
@@ -391,6 +395,13 @@ FIXME: add aset, goog.object
 
 ''''
 
+=== types and classes
+
+[FIXME: clarify the relation between deftype/defrecord and JS types/objects]
+
+REFS:
+* https://github.com/clojure/clojurescript/wiki/Working-with-Javascript-classes[Working with Javascript classes]
+* [REF: https://stackoverflow.com/questions/9018326/how-do-i-create-an-js-object-with-methods-and-constructor-in-clojurescript[How do I create an JS Object with methods and constructor in ClojureScript] ]
 
 
 
