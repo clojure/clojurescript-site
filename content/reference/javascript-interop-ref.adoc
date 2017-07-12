@@ -41,6 +41,7 @@ checklist:
 ** cljs leverages Closure's mechanism
 ** namespace does not necessarily correspond to a source path
 ** js namespace
+* classes, types, & prototypes - e.g. what exactly does "type" mean in cljs/js?
 * "this" - this-as, (js* "this") (see https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods])
 * goog.object as "built-in external" in ECMAScript terms
 * #js
@@ -61,6 +62,7 @@ checklist:
 * debugging
 ** :repl-verbose
 
+Add: table showing mapping from JS to CLJS?  e.g. intanceof -> instance, in -> js-in, etc.
 === sources
 
 * https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods]
@@ -331,11 +333,11 @@ but is easier to write, read, and understand. See also the https://clojure.githu
 
 ''''
 
-WARNING:  FIXME: does doto work in cljs?
-
 *(_doto_ object-expr (objectMethodName-symbol args*)*)*
 
 Macro. Evaluates object-expr then calls all of the methods/functions with the supplied arguments in succession on the resulting object, returning it.
+
+NOTE: this example is from the https://cljs.github.io/api/cljs.core/#doto[cljs api ref] but it uses java; TODO: fix the api doc
 
 [source,clojure]
 ----
@@ -370,11 +372,17 @@ the latter expanding into the former at macro expansion time.
 
 ''''
 
-FIXME: is there a cljs equivalent?  Add note about `array?` etc.
+*(_instance?_ c x)*
 
-*(_instance?_ Class expr)*
+Clojurescript analog to Javascript `instanceof`.  Evaluates x and
+tests if it is an instance of the type c. Returns true or false
 
-Evaluates expr and tests if it is an instance of the class. Returns true or false
+FIXME: what exactly does "instance of type" mean in cljs/js?  express
+this in js langauge, e.g. (from MDN):
+
+"The `instanceof` operator tests whether an object in its prototype
+chain has the prototype property of a constructor."
+
 
 [[set]]
 ''''
@@ -397,11 +405,15 @@ FIXME: add aset, goog.object
 
 === types and classes
 
-[FIXME: clarify the relation between deftype/defrecord and JS types/objects]
+FIXME: clarify the relation between deftype/defrecord and JS
+types/objects (and contrast Java classes/objects?).  What is a JS "type", exactly?
+
+FIXME: can a deftype value be passed to JS code that expects an object?
 
 REFS:
+
 * https://github.com/clojure/clojurescript/wiki/Working-with-Javascript-classes[Working with Javascript classes]
-* [REF: https://stackoverflow.com/questions/9018326/how-do-i-create-an-js-object-with-methods-and-constructor-in-clojurescript[How do I create an JS Object with methods and constructor in ClojureScript] ]
+* https://stackoverflow.com/questions/9018326/how-do-i-create-an-js-object-with-methods-and-constructor-in-clojurescript[How do I create an JS Object with methods and constructor in ClojureScript] ]
 
 
 
