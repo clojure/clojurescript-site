@@ -125,8 +125,8 @@ Assume a simplified module description like:
 
 [source,clojure]
 ```
-{:modules {:module-a {:entries #'{foo.core}}
-           :module-b {:entries #'{bar.core}}}
+{:modules {:module-a {:entries '#{foo.core}}
+           :module-b {:entries '#{bar.core}}}
 ```
 
 This will be transformed into a module description that includes the implicit
@@ -135,9 +135,9 @@ base module `:cljs-base`.
 [source,clojure]
 ```
 {:modules {:cljs-base {:entries []}
-           :module-a  {:entries #'{foo.core}
+           :module-a  {:entries '#{foo.core}
                        :depends-on [:cljs-base]}
-           :module-b  {:entries #'{bar.core}
+           :module-b  {:entries '#{bar.core}
                        :depends-on [:cljs-base]}}
 ```
 
@@ -146,9 +146,9 @@ We will then compute the depth of every module in the graph:
 [source,clojure]
 ```
 {:modules {:cljs-base {:entries [] :depth 0}
-           :module-a  {:entries #'{foo.core} :depth 1
+           :module-a  {:entries '#{foo.core} :depth 1
                        :depends-on [:cljs-base]}
-           :module-b  {:entries #'{bar.core} :depth 1
+           :module-b  {:entries '#{bar.core} :depth 1
                        :depends-on [:cljs-base]}}
 ```
 
