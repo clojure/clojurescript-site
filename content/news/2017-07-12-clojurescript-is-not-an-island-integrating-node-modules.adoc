@@ -56,7 +56,8 @@ comfort of your `ns` declaration.
 
 Gluing it all together is the `:npm-deps` compiler flag. In it, we tell the compiler
 which dependencies it should be aware of. ClojureScript will take care of installing
-those dependencies and running them through the Closure Compiler conversion.
+those dependencies and running them through the Closure Compiler conversion pipeline,
+including optimizations which we describe in more detail below.
 
 === A practical example
 
@@ -99,8 +100,8 @@ including dead code elimination and, in projects that take advantage of
 https://clojurescript.org/news/2017-07-10-code-splitting[code splitting], cross
 module code motion. For example, in our tests React is appreciable smaller (~16%)
 under Closure's advanced compilation than it would be using existing popular JavaScript
-tooling footnote:[in fact, the Reagent team already 
-https://reagent-project.github.io/reagent-site-npm-deps-test/[tweaked their website]
+tooling footnote:[in fact, the Reagent team is already testing
+https://reagent-project.github.io/reagent-site-npm-deps-test/[a version of their website]
 to consume NPM modules. They also 
 https://twitter.com/JuhoTeperi/status/885228578098601984[compared it] to the previous version]. 
 Additionally, if you have a mixed codebase of ClojureScript and JavaScript,
