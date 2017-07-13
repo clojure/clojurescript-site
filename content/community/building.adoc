@@ -7,6 +7,9 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+Make sure you have Maven and at least Java 7 installed. If you don't already
+have them, use a system specific package manager like `apt-get` or `brew`.
+
 Checkout https://github.com/clojure/clojurescript[the git repository] and run:
 
 [source,bash]
