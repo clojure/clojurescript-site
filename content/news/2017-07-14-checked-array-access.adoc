@@ -1,11 +1,11 @@
 = Checked Array Access
 Mike Fikes
-2017-07-xx
+2017-07-14
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-This is the ORDINAL_HERE post in the 
+This is the third post in the 
 https://clojurescript.org/news/2017-07-07-sneak-preview[Sneak Preview] series.
 
 Much of the history of the ClojureScript compiler can be characterized by the 
