@@ -134,8 +134,8 @@ Towards this end, the upcoming ClojureScript release includes a new
 `:checked-arrays` compiler option which you can set to either `:warn`
 or `:error`. With either setting, for non-`:advanced` builds, 
 the compiler will emit a new
-`:invalid-array-access` warning that indicates,
-when known via type inference, that `aget` or `aset` is
+`:invalid-array-access` warning that indicates—when known via type 
+inference—that `aget` or `aset` is
 operating on non-arrays or being supplied non-numeric indices.
 Additionally, the runtime values passed to `aget` and `aset`
 are checked. If `:checked-arrays` is set to `:warn`, warning
