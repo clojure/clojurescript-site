@@ -1,4 +1,4 @@
-= Enhanced Array Access Validation
+= Checked Array Access
 Mike Fikes
 2017-07-xx
 :jbake-type: post
@@ -137,9 +137,10 @@ the compiler will emit a new
 `:invalid-array-access` warning that indicates,
 when known via type inference, that `aget` or `aset` is
 operating on non-arrays or being supplied non-numeric indices.
-Additionally, the values passed to `aget` and `aset` at runtime
+Additionally, the runtime values passed to `aget` and `aset`
 are checked. If `:checked-arrays` is set to `:warn`, warning
-logs will be generated when bad values are passed, and if set to `:error`,
+logs will be generated when incorrectly typed values or
+out-of-bounds array indices are passed. If set to `:error`,
 execptions will be thrown.
 
 This new compiler option can be utilized
