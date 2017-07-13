@@ -132,8 +132,7 @@ We’d encourage you to revise code you control to to ensure that the `aget` and
 
 Towards this end, the upcoming ClojureScript release includes a new
 `:checked-arrays` compiler option which you can set to either `:warn`
-or `:error`. With either setting, for non-`:advanced` builds, 
-the compiler will emit a new
+or `:error`. With either setting, the compiler will emit a new
 `:invalid-array-access` warning that indicates—when known via type 
 inference—that `aget` or `aset` is
 operating on non-arrays or being supplied non-numeric indices.
@@ -141,11 +140,15 @@ Additionally, the runtime values passed to `aget` and `aset`
 are checked. If `:checked-arrays` is set to `:warn`, warning
 logs will be generated when incorrectly-typed values or
 out-of-bounds array indices are passed. If set to `:error`,
-execptions will be thrown.
+execptions will be thrown instead. 
+
+For maximum performance, all such checking is eliminated for 
+`:advanced` builds, with array access compiling
+down to efficient JavaScript array subscript notation.
 
 This new compiler option can be utilized
 to highlight instances where these
-APIs are used for object property access. For example, `(aget #js {:foo 1} "foo")` will trigger:
+APIs are used for object property access. For example, `(aget #js {:foo 1} "foo")` will cause this warning to be emitted:
 
 ```
 WARNING: cljs.core/aget, arguments must be an array followed by numeric indices, got [object string] instead (consider goog.object/get for object access) at line 1
