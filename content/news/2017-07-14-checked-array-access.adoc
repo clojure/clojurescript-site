@@ -139,7 +139,7 @@ when known via type inference, that `aget` or `aset` is
 operating on non-arrays or being supplied non-numeric indices.
 Additionally, the runtime values passed to `aget` and `aset`
 are checked. If `:checked-arrays` is set to `:warn`, warning
-logs will be generated when incorrectly typed values or
+logs will be generated when incorrectly-typed values or
 out-of-bounds array indices are passed. If set to `:error`,
 execptions will be thrown.
 
