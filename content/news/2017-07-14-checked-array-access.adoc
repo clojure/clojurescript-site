@@ -161,7 +161,7 @@ To enable this new facility, simply add
 :checked-arrays :warn
 ```
 
-to your ClojureScript https://clojurescript.org/reference/compiler-options#warnings[compiler options].
+to your ClojureScript https://clojurescript.org/reference/compiler-options[compiler options].
 
 By carefully using the APIs in the ClojureScript standard library as intended, 
 this facilitates evolution of the library, both with respect to correctness 
