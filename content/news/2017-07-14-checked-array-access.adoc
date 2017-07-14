@@ -12,16 +12,16 @@ Much of the history of the ClojureScript compiler can be characterized by the
 themes of pragmatic expediency, followed by successive refinement. This is 
 nicely illustrated by the history of `aget`.
 
-The first minimum viable implementation of `aget` was a simple function. If 
-implemented today, it would look like: 
+The first minimum viable implementation of `aget` was a simple function. 
+Six years ago it looked like this:
 
 [source,clojure]
 ```
 (defn aget [array i]
-  (js* "~{array}[~{i}]"))
+   (js* "return ~{array}[~{i}]"))
 ```  
 
-This employs the `js*` special form to directly emit JavaScript which uses
+This employs the internal `js*` special form to directly emit JavaScript which uses
 subscript notation for element access. It looks roughly like this:
 
 [source,javascript]
@@ -31,41 +31,35 @@ function aget(array, i) {
 }
 ```
 
-> Note that `js*` is not intended to be used in application-level ClojureScript code—it is an internal mechanism used by the compiler.
+> Note that `js*` is not intended to be used in application-level ClojureScript code.
 
-Subsequently, the `js*` form was further enhanced to support expression 
-embedding, and the very first use of this new `js*` capability was in the 
-introduction of the macro alternative of `aget`:
-
-[source,clojure]
-```
-(defmacro aget [a i]
-  (list 'js* "(~{}[~{}])" a i))
-```
-
-Interestingly, in the early history of the compiler, `js*` was employed fairly 
+In the early history of the compiler, `js*` was employed fairly 
 heavily in the runtime functions that ship with the ClojureScript standard 
-library. Over time, many uses of `js*` were backed out into macros as 
-the implementation was tuned to emit highly efficient JavaScript.
+library. Over time, raw usage of `js*` was removed entirely in the standard 
+library and hidden behind reusable macros.
 
 As time moved on, our friend `aget` (as well as `aset`) was made to more 
 closely match Clojure by allowing it to access nested array
 structures by using variadic arguments. Again, the theme of successive refinement.
 
-At some point, a surprising thing started to happen: It was discovered that 
-the implementation of `aget` could be used to access _object_ properties by 
-name. But `aget` was never designed to support this particular use. The 
+Readers familiar with JavaScript will note that the above aget implementation
+works perfectly well for JavaScript objects. This fact, like `js*` was also
+abused in the early days of the standard library. Unfortunately due to 
+insufficient documentation about alternative, users began to mimic this 
+internal detail.
+
+But `aget` was never designed to support this particular use. The 
 “`a`-” family of functions (including `aclone`, `amap`, `areduce`) are all meant 
 for _arrays_, not _objects_. The additional arguments to `aget` are numeric 
-array indices, not string property names. Nevertheless, perhaps owing to the 
-succinctness of forms like
+array indices, not string property names. Nevertheless, perhaps to the lure
+of ease, forms like
 
 [source,clojure]
 ```
 (aget #js {:foo 1} "foo")
 ```
 
-`aget` became heavily used in the wild to access JavaScript data, or to avoid the 
+`aget` became heavily used in the wild to avoid the 
 name mangling that comes with dotted property access and `:advanced` compilation. 
 It was an accident of implementation that this worked at all, but nevertheless 
 it became very popular.
