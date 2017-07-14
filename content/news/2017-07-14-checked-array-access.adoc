@@ -1,0 +1,163 @@
+= Checked Array Access
+Mike Fikes
+2017-07-14
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This is the third post in the 
+https://clojurescript.org/news/2017-07-07-sneak-preview[Sneak Preview] series.
+
+Much of the history of the ClojureScript compiler can be characterized by the 
+themes of pragmatic expediency, followed by successive refinement. This is 
+nicely illustrated by the history of `aget`.
+
+The first minimum viable implementation of `aget` was a simple function. 
+Six years ago it looked like this:
+
+[source,clojure]
+```
+(defn aget [array i]
+   (js* "return ~{array}[~{i}]"))
+```  
+
+This employs the internal `js*` special form to directly emit JavaScript which uses
+subscript notation for element access. It looks roughly like this:
+
+[source,javascript]
+```
+function aget(array, i) {
+  return array[i];
+}
+```
+
+> Note that `js*` is not intended to be used in application-level ClojureScript code.
+
+In the early history of the compiler, `js*` was employed fairly 
+heavily in the runtime functions that ship with the ClojureScript standard 
+library. Over time, raw usage of `js*` was removed entirely in the standard 
+library and hidden behind reusable macros.
+
+As time moved on, our friend `aget` (as well as `aset`) was refined to more 
+closely match Clojure by allowing it to access nested array
+structures by using variadic arguments. 
+
+Readers familiar with JavaScript will note that the above aget implementation
+works perfectly well for JavaScript objects. This fact, like `js*`, was also
+abused in the early days of the standard library. Unfortunately, due to 
+insufficient documentation about alternatives, users began to mimic this 
+internal detail.
+
+But `aget` was never designed to support this particular use. The 
+“`a`-” family of functions (including `aclone`, `amap`, `areduce`) are all meant 
+for _arrays_, not _objects_. The additional arguments to `aget` are numeric 
+array indices, not string property names. Nevertheless, perhaps to the lure
+of ease, forms like
+
+[source,clojure]
+```
+(aget #js {:foo 1} "foo")
+```
+
+`aget` became heavily used in the wild to avoid the 
+name mangling that comes with dotted property access and `:advanced` compilation. 
+It was an accident of implementation that this worked at all, but nevertheless 
+it became very popular.
+
+One problem that this creates is a challenge in further evolving `aget` to 
+match its intended purpose. A few examples that come to mind include:
+
+- In Clojure, if you pass a non-integer array index to `aget`, it will round 
+down to the nearest integer. It would be nice to make ClojureScript's `aget` 
+match this behavior. This is easily achievable by employing `int` in the 
+implementation, causing the emitted JavaScript to look like `array[ndx|0]`.
+But this would break existing code that uses `aget` for object 
+property access.
+- In Clojure, if you pass a negative array index, or one that is otherwise 
+out-of-bounds, you'll get an exception. It would be nice to consider adding such 
+safety mechanisms to ClojureScript's `aget`. But 
+again, any attempt to blindly treat the indices as numbers would run afoul of 
+`aget` being passed string indices.
+- In the future, perhaps core library functions will have specs written for 
+them. The same issues arise: The indices passed to `aget` should satisfy the 
+`number?` predicate, but if that were done, lots of code in the wild would be 
+deemed non-conformant.
+
+> This is of course not the first, nor likely the last time some language 
+mechanism's internals will be discovered to suit some purpose other than what 
+was intended. There is an interesting discussion, in _The Evolution of Lisp_ 
+by Guy L. Steele Jr. and Richard P. Gabriel, of the discovery that MacLisp's 
+`ERRSET` and `ERR` primitives could be used as a flow control mechanism, but 
+while also unfortunately trapping unexpected errors. This prompted the 
+introduction of `THROW` and `CATCH` primitives to MacLisp in 1972. The authors 
+go on to say that “the pattern of design (careful or otherwise), unintended 
+use, and later redesign is common.”
+
+What _should_ you use for object property access, if `aget` and `aset` are reserved 
+for arrays? ClojureScript makes the Google Closure library readily accessible, and 
+there are some nice facilities worth checking out in the `goog.object` namespace. In 
+particular, https://google.github.io/closure-library/api/goog.object.html#get[`goog.object/get`] and https://google.github.io/closure-library/api/goog.object.html#set[`goog.object/set`] are appropriate APIs,
+suited for this purpose. For example, this does what you'd want:
+
+[source,clojure]
+```
+(goog.object/get #js {:foo 1} "foo")
+```
+
+In fact, `goog.object/get` is safer in that it has checks that the object 
+being passed is not `nil` and that the field being accessed actually exists on 
+the object, allowing you to supply an alternative “not found” value to return 
+if not. If you need to do nested property access, there is a https://google.github.io/closure-library/api/goog.object.html#getValueByKeys[`goog.object/getValueByKeys`] 
+that can also be considered as a drop-in replacement for a 
+variadic `aget` call.
+
+The ClojureScript standard library itself had places where `aget` and `aset` 
+were being misused for object access, and these have been cleaned up. It turns 
+out that `goog.object/get` is sufficiently performant to replace nearly all 
+uses of `aget` for object access. In the relatively few places where it is not (in highly 
+performance-critical areas in the standard library implmentation), the 
+compiler makes use of a new internal `unchecked-get` macro to get the job done.
+
+We’d encourage you to revise code you control to to ensure that the `aget` and 
+`aset` are used only for array access, and to consider using the facilities in 
+`goog.object` (either directly, or indirectly via a library such as https://github.com/binaryage/cljs-oops[cljs-oops]) to access object properties.
+
+=== New Compiler Enhancements
+
+Towards this end, the upcoming ClojureScript release includes a new
+`:checked-arrays` compiler option which you can set to either `:warn`
+or `:error`. With either setting, the compiler will emit a new
+`:invalid-array-access` warning that indicates—when known via type 
+inference—that `aget` or `aset` is
+operating on non-arrays or being supplied non-numeric indices.
+Additionally, the runtime values passed to `aget` and `aset`
+are checked. If `:checked-arrays` is set to `:warn`, warning
+logs will be generated when incorrectly-typed values or
+out-of-bounds array indices are passed. If set to `:error`,
+execptions will be thrown instead. 
+
+For maximum performance, all such checking is eliminated for 
+`:advanced` builds, with array access compiling
+down to efficient JavaScript array subscript notation.
+
+This new compiler option can be utilized
+to highlight instances where these
+APIs are used for object property access. For example, `(aget #js {:foo 1} "foo")` will cause this warning to be emitted:
+
+```
+WARNING: cljs.core/aget, arguments must be an array followed by numeric indices, got [object string] instead (consider goog.object/get for object access) at line 1
+```
+
+To enable this new facility, simply add
+
+[source,clojure]
+```
+:checked-arrays :warn
+```
+
+to your ClojureScript https://clojurescript.org/reference/compiler-options[compiler options].
+
+By carefully using the APIs in the ClojureScript standard library as intended, 
+this facilitates evolution of the library, both with respect to correctness 
+and performance. This is something we can all benefit from!
+
