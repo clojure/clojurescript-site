@@ -5,32 +5,55 @@ Juho Teperi
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-Support for https://clojurescript.org/guides/javascript-modules#babel-transforms[transforming JS code]
+This is the fourth post in the link:/news/2017-07-07-sneak-preview[Sneak Preview] series.
+
+// Introduction
+
+Closure compiler can process AMD, CommonJS and ES6 modules giving a good support for
+link:/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[leveraging Node ecosystem].
+// not sure this is worth mention, as I can't find good source for what is really supported
+// footnote:[Closure also supports TypeScript, but this has not been tested with Cljs yet.]
+However, there are cases which Closure doesn't support directly, like JSX.
+footnote:[There is https://github.com/mihaip/react-closure-compiler[third-party compiler pass] for Closure to support JSX]
+Support for link:/guides/javascript-modules#babel-transforms[transforming JS code]
 using ClojureScript compiler has been around since
 https://github.com/clojure/clojurescript/blob/master/changes.md#1748[version 1.7.48].
-This feature allows transformation of the JS module code before the code is passed into Closure compiler,
-which is useful for example for processing JSX which is not supported by Closure.
+This feature allows transformation of the JS code before the code is passed into Closure compiler.
+The next ClojureScript version will improve this feature.
 
-However, the feature has not been seen much use.
-One problem has been that there has not been support in popular build tools
-for this feature.
+=== Motivation
 
-The option is enabled by providing `:preprocess` option to a foreign-lib map.
+Most of the JavaScript libraries using JSX or other https://babeljs.io/[Babel] extensions
+are packaged with already processed code, so they can be used in ClojureScript like
+vanilla JS libraries. However, there are cases where one wants to include such code in
+the project directly. For example, when converting a project from JS to Cljs it cab be useful to
+use the existing code, instead of rewriting everything in one go. Another case is
+when UI designers who want to work with JSX.
+footnote:[Though in my experience, UI designers are able to write Hiccup as easily.]
+
+// Technical Motivation
+
+== Preprocess option
+
+The option is enabled by providing `:preprocess` option to a link:/reference/compiler-options#foreign-libs[foreign-lib map].
 The value is a keyword and is used as dispatch value for `cljs.closure/js-transforms`
 multimethod.  Implementing a transformation requires writing a new method for that multimethod.
 The namespace that proivdes this method has to be loaded before ClojureScript
-compiler is run.
+compiler is run. One problem has been that there has not been support in popular build tools
+for this feature.
 
 Due to how both Lein and Boot isolate the build tooling to their own classpaths, loading the namespace
 would require support from build tool. And as there is no relation between the keyword name and namespace
 that provides the multimethod, it would require configuration by the user
 to provide list of namespaces to load.
 
+// What has changed
+
 Instead of making all the build tools to implement the same change, and
 requiring the users to provide additional configuration, the next version of ClojureScript
 will support symbol `:preprocess` values.
 
-== Preprocess symbol
+=== Preprocess symbol
 
 If the `:preprocess` option value is a symbol ClojureScript compiler will
 resolve the symbol to a function, and call the function to process the JS code.
@@ -40,4 +63,8 @@ This allows ClojureScript compiler to automatically load
 the namespace, thus requiring no configuration other than providing
 the `:preprocess` option on foreign-lib map.
 
-Check the https://clojurescript.org/guides/javascript-modules#babel-transforms[updated guide] for examples.
+https://github.com/cljsjs/packages/blob/master/babel-standalone/README.md[Cljsjs/babel-standalone]
+has been updated, and provides an easy was to use Babel with ClojureScript tooling.
+
+Check the link:/guides/javascript-modules#babel-transforms[updated guide] for examples.
+
