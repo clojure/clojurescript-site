@@ -122,7 +122,7 @@ were being misused for object access, and these have been cleaned up. It turns
 out that `goog.object/get` is sufficiently performant to replace nearly all 
 uses of `aget` for object access. In the relatively few places where it is not (in highly 
 performance-critical areas in the standard library implmentation), the 
-compiler makes use of a new internal `unsafe-get` macro to get the job done.
+compiler makes use of a new internal `unchecked-get` macro to get the job done.
 
 We’d encourage you to revise code you control to to ensure that the `aget` and 
 `aset` are used only for array access, and to consider using the facilities in 
