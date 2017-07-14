@@ -43,8 +43,8 @@ closely match Clojure by allowing it to access nested array
 structures by using variadic arguments. Again, the theme of successive refinement.
 
 Readers familiar with JavaScript will note that the above aget implementation
-works perfectly well for JavaScript objects. This fact, like `js*` was also
-abused in the early days of the standard library. Unfortunately due to 
+works perfectly well for JavaScript objects. This fact, like `js*`, was also
+abused in the early days of the standard library. Unfortunately, due to 
 insufficient documentation about alternative, users began to mimic this 
 internal detail.
 
