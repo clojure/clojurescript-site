@@ -42,7 +42,7 @@ As time moved on, our friend `aget` (as well as `aset`) was refined to more
 closely match Clojure by allowing it to access nested array
 structures by using variadic arguments. 
 
-Readers familiar with JavaScript will note that the above aget implementation
+Readers familiar with JavaScript will note that the above `aget` implementation
 works perfectly well for JavaScript objects. This fact, like `js*`, was also
 abused in the early days of the standard library. Unfortunately, due to 
 insufficient documentation about alternatives, users began to mimic this 
@@ -134,7 +134,7 @@ Additionally, the runtime values passed to `aget` and `aset`
 are checked. If `:checked-arrays` is set to `:warn`, warning
 logs will be generated when incorrectly-typed values or
 out-of-bounds array indices are passed. If set to `:error`,
-execptions will be thrown instead. 
+exceptions will be thrown instead. 
 
 For maximum performance, all such checking is eliminated for 
 `:advanced` builds, with array access compiling
