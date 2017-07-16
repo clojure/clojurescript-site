@@ -59,7 +59,7 @@ of ease, forms like
 (aget #js {:foo 1} "foo")
 ```
 
-`aget` became heavily used in the wild to avoid the 
+became heavily used in the wild to avoid the 
 name mangling that comes with dotted property access and `:advanced` compilation. 
 It was an accident of implementation that this worked at all, but nevertheless 
 it became very popular.
