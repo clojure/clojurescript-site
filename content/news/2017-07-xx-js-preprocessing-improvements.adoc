@@ -9,7 +9,7 @@ This is the fourth post in the link:/news/2017-07-07-sneak-preview[Sneak Preview
 
 // Introduction
 
-Closure compiler can process AMD, CommonJS and ES6 modules giving a good support for
+Closure compiler can process AMD, CommonJS and ES6 modules giving good support for
 link:/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[leveraging Node ecosystem].
 // not sure this is worth mention, as I can't find good source for what is really supported
 // footnote:[Closure also supports TypeScript, but this has not been tested with Cljs yet.]
@@ -37,7 +37,7 @@ footnote:[Though in my experience, UI designers are able to write Hiccup as easi
 
 The option is enabled by providing `:preprocess` option to a link:/reference/compiler-options#foreign-libs[foreign-lib map].
 The value is a keyword and is used as dispatch value for `cljs.closure/js-transforms`
-multimethod.  Implementing a transformation requires writing a new method for that multimethod.
+multimethod. Implementing a transformation requires writing a new method for that multimethod.
 The namespace that proivdes this method has to be loaded before ClojureScript
 compiler is run. One problem has been that there has not been support in popular build tools
 for this feature.
@@ -56,7 +56,7 @@ will support symbol `:preprocess` values.
 === Preprocess symbol
 
 If the `:preprocess` option value is a symbol ClojureScript compiler will
-resolve the symbol to a function, and call the function to process the JS code.
+resolve the symbol to a Clojure function, and call the function to process the JS code.
 Using symbols over keywords has the benefit of there being
 relation between the symbol and the namespace where function is defined.
 This allows ClojureScript compiler to automatically load
