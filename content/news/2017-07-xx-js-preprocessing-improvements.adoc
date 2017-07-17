@@ -1,6 +1,6 @@
 = JS Preprocessing improvements
 Juho Teperi
-2017-07-09
+2017-07-17
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -9,59 +9,54 @@ This is the fourth post in the link:/news/2017-07-07-sneak-preview[Sneak Preview
 
 // Introduction
 
-Closure compiler can process AMD, CommonJS and ES6 modules giving good support for
-link:/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[leveraging Node ecosystem].
-// not sure this is worth mention, as I can't find good source for what is really supported
-// footnote:[Closure also supports TypeScript, but this has not been tested with Cljs yet.]
+Closure compiler can process AMD, CommonJS and ES6 modules giving good support for link:/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[leveraging Node ecosystem].
 However, there are cases which Closure doesn't support directly, like JSX.
 footnote:[There is https://github.com/mihaip/react-closure-compiler[third-party compiler pass] for Closure to support JSX]
-Support for link:/guides/javascript-modules#babel-transforms[transforming JS code]
-using ClojureScript compiler has been around since
-https://github.com/clojure/clojurescript/blob/master/changes.md#1748[version 1.7.48].
+Support for link:/guides/javascript-modules#babel-transforms[transforming JS code] using ClojureScript compiler has been around since https://github.com/clojure/clojurescript/blob/master/changes.md#1748[version 1.7.48].
 This feature allows transformation of the JS code before the code is passed into Closure compiler.
-The next ClojureScript version will improve this feature.
+The next ClojureScript release will improve this feature.
 
 === Motivation
 
-Most of the JavaScript libraries using JSX or other https://babeljs.io/[Babel] extensions
-are packaged with already processed code, so they can be used in ClojureScript like
-vanilla JS libraries. However, there are cases where one wants to include such code in
-the project directly. For example, when converting a project from JS to Cljs it cab be useful to
-use the existing code, instead of rewriting everything in one go. Another case is
-when UI designers who want to work with JSX.
+Most of the JavaScript libraries using https://facebook.github.io/react/docs/introducing-jsx.html[JSX] or other extensions are packaged with the processed code, so they can be used in ClojureScript like vanilla JS libraries.
+However, there are cases where one wants to include such code in the project directly.
+For example, when converting a project from JS to Cljs it can be useful to use the existing code, instead of rewriting everything in one go.
+Another case is when UI designers want to work with JSX.
 footnote:[Though in my experience, UI designers are able to write Hiccup as easily.]
 
 // Technical Motivation
 
-== Preprocess option
+== JavaScript transformation
 
-The option is enabled by providing `:preprocess` option to a link:/reference/compiler-options#foreign-libs[foreign-lib map].
-The value is a keyword and is used as dispatch value for `cljs.closure/js-transforms`
-multimethod. Implementing a transformation requires writing a new method for that multimethod.
-The namespace that proivdes this method has to be loaded before ClojureScript
-compiler is run. One problem has been that there has not been support in popular build tools
-for this feature.
+The transformation feature is enabled by providing `:preprocess` option to a link:/reference/compiler-options#foreign-libs[foreign-lib map].
+The value is a keyword and is used as dispatch value for `cljs.closure/js-transforms` multimethod.
+Implementing a transformation requires writing a new method for the multimethod.
+The implementation can use, for example, Java built-in Nashorn JavaScript engine to run a existing JS compiler, like https://babeljs.io/[Babel].
+This allows supporting many transformations by using existing JavaScript code, instead of rewriting compilers in Java or Clojure.
 
-Due to how both Lein and Boot isolate the build tooling to their own classpaths, loading the namespace
-would require support from build tool. And as there is no relation between the keyword name and namespace
-that provides the multimethod, it would require configuration by the user
-to provide list of namespaces to load.
+One problem has been that there has not been support in the popular Clojure build tools for this feature.
+The Clojure namespace that provides this multimethod has to be loaded before ClojureScript compiler is run.
+Due to how both Lein and Boot isolate the build tooling to their own classpaths, users are not able to `require` to the namespace that provides the multimethod.
+
+// Alternative solutions
+
+There are multiple ways to solve this problem.
+
+1. Provide new configuration option to list namespaces that list the namespaces to `require` before running compiler.
+2. Create relation between the multimethod dispatch keyword, and the namespace that provides the implementation.
+For example, if the keyword is namespaced, the namespace part of the keyword could be used to `require` the namespace.
+
+Both of these solutions could be implemented at the built tools or at ClojureScript compiler.
+The second option reveals the real problem: the missing relation between the multimethod dispatch value and the namespace.
+This problem needs to be fixed in ClojureScript compiler.
+Luckily there is already a better way to refer to a code in a way that includes the namespace, and which is already used by many ClojureScript compiler options: symbols.
 
 // What has changed
 
-Instead of making all the build tools to implement the same change, and
-requiring the users to provide additional configuration, the next version of ClojureScript
-will support symbol `:preprocess` values.
-
 === Preprocess symbol
 
-If the `:preprocess` option value is a symbol ClojureScript compiler will
-resolve the symbol to a Clojure function, and call the function to process the JS code.
-Using symbols over keywords has the benefit of there being
-relation between the symbol and the namespace where function is defined.
-This allows ClojureScript compiler to automatically load
-the namespace, thus requiring no configuration other than providing
-the `:preprocess` option on foreign-lib map.
+The next version of ClojureScript will support symbols as `:preprocess` option value.
+Using a fully qualified symbol makes it obvious that the value refers to a function, and the namespace part of the symbol can be used to automatically load the namespace.
 
 https://github.com/cljsjs/packages/blob/master/babel-standalone/README.md[Cljsjs/babel-standalone]
 has been updated, and provides an easy was to use Babel with ClojureScript tooling.
@@ -69,3 +64,5 @@ has been updated, and provides an easy was to use Babel with ClojureScript tooli
 // Guide will be merged when the release is made?
 // Check the link:/guides/javascript-modules#babel-transforms[updated guide] for examples.
 
+// not sure this is worth mention, as I can't find good source for what is really supported
+// footnote:[Closure also supports TypeScript, but this has not been tested with Cljs yet.]
