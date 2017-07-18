@@ -10,17 +10,18 @@ This is the fourth post in the link:/news/2017-07-07-sneak-preview[Sneak Preview
 // Introduction
 
 Closure compiler can process AMD, CommonJS and ES6 modules giving good support for link:/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[leveraging Node ecosystem].
-However, there are cases which Closure doesn't support directly, like JSX.
+However, there are popular cases which Closure doesn't support directly, like https://facebook.github.io/react/docs/introducing-jsx.html[JSX].
 footnote:[There is https://github.com/mihaip/react-closure-compiler[third-party compiler pass] for Closure to support JSX]
 Support for link:/guides/javascript-modules#babel-transforms[transforming JS code] using ClojureScript compiler has been around since https://github.com/clojure/clojurescript/blob/master/changes.md#1748[version 1.7.48].
 This feature allows transformation of the JS code before the code is passed into Closure compiler.
 The next ClojureScript release will improve this feature.
+While we've actually had this feature for some time, the next release will clean up the API and make it considerable simpler for other tooling to leverage.
 
 === Motivation
 
-Most of the JavaScript libraries using https://facebook.github.io/react/docs/introducing-jsx.html[JSX] or other extensions are packaged with the processed code, so they can be used in ClojureScript like vanilla JS libraries.
+Most of the JavaScript libraries using JSX or other extensions are packaged with the processed code, so they can be used in ClojureScript like vanilla JS libraries.
 However, there are cases where one wants to include such code in the project directly.
-For example, when converting a project from JS to Cljs it can be useful to use the existing code, instead of rewriting everything in one go.
+For example, when converting a project from JS to ClojureScript it can be useful to use the existing code, instead of rewriting everything in one go.
 Another case is when UI designers want to work with JSX.
 footnote:[Though in my experience, UI designers are able to write Hiccup as easily.]
 
@@ -28,7 +29,7 @@ footnote:[Though in my experience, UI designers are able to write Hiccup as easi
 
 == JavaScript transformation
 
-The transformation feature is enabled by providing `:preprocess` option to a link:/reference/compiler-options#foreign-libs[foreign-lib map].
+In the original design, the preprocess option was enabled by providing `:preprocess` option to a link:/reference/compiler-options#foreign-libs[foreign-lib map].
 The value is a keyword and is used as dispatch value for `cljs.closure/js-transforms` multimethod.
 Implementing a transformation requires writing a new method for the multimethod.
 The implementation can use, for example, Java built-in Nashorn JavaScript engine to run a existing JS compiler, like https://babeljs.io/[Babel].
@@ -36,7 +37,7 @@ This allows supporting many transformations by using existing JavaScript code, i
 
 One problem has been that there has not been support in the popular Clojure build tools for this feature.
 The Clojure namespace that provides this multimethod has to be loaded before ClojureScript compiler is run.
-Due to how both Lein and Boot isolate the build tooling to their own classpaths, users are not able to `require` to the namespace that provides the multimethod.
+However, due to how both Lein and Boot isolate the build tooling to their own classpaths, users are not able to `require` to the namespace that provides the multimethod.
 
 // Alternative solutions
 
@@ -46,7 +47,7 @@ There are multiple ways to solve this problem.
 2. Create relation between the multimethod dispatch keyword, and the namespace that provides the implementation.
 For example, if the keyword is namespaced, the namespace part of the keyword could be used to `require` the namespace.
 
-Both of these solutions could be implemented at the built tools or at ClojureScript compiler.
+Both of these solutions could be implemented at the built tools or at the ClojureScript compiler.
 The second option reveals the real problem: the missing relation between the multimethod dispatch value and the namespace.
 This problem needs to be fixed in ClojureScript compiler.
 Luckily there is already a better way to refer to a code in a way that includes the namespace, and which is already used by many ClojureScript compiler options: symbols.
@@ -60,6 +61,8 @@ Using a fully qualified symbol makes it obvious that the value refers to a funct
 
 https://github.com/cljsjs/packages/blob/master/babel-standalone/README.md[Cljsjs/babel-standalone]
 has been updated, and provides an easy was to use Babel with ClojureScript tooling.
+
+// TODO: short paragraph conclusion which ties in this feature as being philosophical related to our new integration with node_modules
 
 // Guide will be merged when the release is made?
 // Check the link:/guides/javascript-modules#babel-transforms[updated guide] for examples.
