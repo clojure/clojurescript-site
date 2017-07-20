@@ -1,0 +1,131 @@
+= ClojureScript is not an Island: Integrating Node Modules
+António Nuno Monteiro
+2017-07-12
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This is the second post in the
+https://clojurescript.org/news/2017-07-07-sneak-preview[Sneak Preview] series.
+
+ClojureScript has had first class JavaScript interop since its initial release
+in 2011. Similarly to Clojure, embracing the host has always been an explicit goal.
+While the above is true from a syntax standpoint, integrating with external
+JavaScript libraries historically came at the cost of some manual work footnote:[aside
+from the https://developers.google.com/closure/library/[Google Closure Library]
+which was deeply integrated since ClojureScript's initial release.]
+(https://clojurescript.org/reference/compiler-options#foreign-libs[manually assembled]
+bundles or packaging led by http://github.com/cljsjs/packages[community efforts]).
+
+=== A step towards better interaction with external JavaScript
+
+The 2015 Google Summer of Code project for ClojureScript succeeded in making the
+interaction with  easier. Relying on the https://developers.google.com/closure/compiler/[Google Closure Compiler]'s
+then new ability to understand most widely known JavaScript module formats and
+convert them to Closure compatible JavaScript footnote:[the subset of JavaScript
+that the Closure Compiler needs to perform optimizations such as dead code elimination
+(tree shaking), variable name rewriting, constant folding and inlining, among others.],
+https://github.com/MNeise[Maria Geller] successfully integrated those module features
+into ClojureScript, along with https://clojurescript.org/guides/javascript-modules#babel-transforms[custom preprocessing]
+steps that allow using features such as the popular JavaScript compilation technology
+http://babeljs.io/[Babel] from the comfort of your ClojureScript project
+footnote:[Maria also kept a regular blog whilst working on that project that you
+can read http://mneise.github.io/[here].].
+
+Since then, the Closure Compiler team added module _resolution_ support in 2016,
+which among other things enables consuming modules directly from a `node_modules`
+installation instead of having to feed Closure handcrafted module paths for conversion.
+
+== Seamless interaction with NPM dependencies
+
+We have built on Maria's modules work to account for this new Closure feature, and
+the next release of ClojureScript represents yet another major milestone in making
+arbitrary JavaScript modules accessible to every ClojureScript project by including
+substantial improvements to the way that ClojureScript interoperates with the NPM
+ecosystem.
+
+https://anmonteiro.com/2017/03/requiring-node-js-modules-from-clojurescript-namespaces/[Requiring NPM modules from ClojureScript namespaces]
+has been possible since ClojureScript version 1.9.518. However, Node.js supports
+multiple patterns for requiring CommonJS modules, and a common painpoint was people
+looking to require modules of the form `"react-dom/server"` from ClojureScript, which
+would not be a valid symbol for the `:require` spec.
+
+In this release, we added support for string-based requires in the namespace form
+to solve the above problem. You can now require these types of modules from the
+comfort of your `ns` declaration.
+
+Gluing it all together is the `:npm-deps` compiler flag. In it, we tell the compiler
+which dependencies it should be aware of. ClojureScript will take care of installing
+those dependencies and running them through the Closure Compiler conversion pipeline,
+including optimizations which we describe in more detail below.
+
+=== A practical example
+
+Given a `build.clj` file like the following:
+
+[source,clojure]
+----
+(require '[cljs.build.api :as b])
+
+(b/build "src"
+  {:output-dir "out"
+   :output-to "out/main.js"
+   :optimizations :none
+   :main 'example.core
+   :npm-deps {:react "15.6.1"
+              :react-dom "15.6.1"}})
+----
+
+Your simplest `src/example/core.cljs` file could look like the snippet below:
+
+[source,clojure]
+----
+(ns example.core
+  (:require [react :refer [createElement]]
+            ["react-dom/server" :as ReactDOMServer :refer [renderToString]]))
+
+(js/console.log (renderToString (createElement "div" nil "Hello World!")))
+----
+
+Notice we don't have to declare `"react-dom/server"` anywhere. We can just require
+it. ClojureScript is now smart enough to find these CommonJS modules and process
+them into Google Closure Compiler compatible code.
+
+== This is a big deal
+
+The implications of consuming JavaScript modules with Google Closure are huge: the
+external libraries used in a ClojureScript project are no longer just prepended to
+the generated bundle, but can now be subjected to all of Closure Compiler's optimizations,
+including dead code elimination and, in projects that take advantage of
+https://clojurescript.org/news/2017-07-10-code-splitting[code splitting], cross
+module code motion. For example, in our tests React is appreciable smaller (~16%)
+under Closure's advanced compilation than it would be using existing popular JavaScript
+tooling footnote:[in fact, the Reagent team is already testing
+https://reagent-project.github.io/reagent-site-npm-deps-test/[a version of their website]
+to consume NPM modules. They also 
+https://twitter.com/JuhoTeperi/status/885228578098601984[compared it] to the previous version]. 
+Additionally, if you have a mixed codebase of ClojureScript and JavaScript,
+not only can you now seamlessly consume those JavaScript portions of your code
+(including e.g. JSX transformations!), but also share and bundle their vendor
+dependencies with the ones your ClojureScript part uses.
+
+=== Works on Node.js too!
+
+It's worth noting that the module processing feature in ClojureScript is mostly
+intended to be used in projects that target the browser, where dependencies will
+normally be bundled together. But that doesn't mean projects targeting Node.js can't
+also take advantage of this feature. In fact, we made it so that you can also seamlessly
+require Node modules in a local `node_modules` installation from your namespace
+declaration when targeting Node.js. ClojureScript will know that you're requiring
+a Node module and produce a `require` declaration, integrating with Node.js's own
+facilities for loading JavaScript modules.
+
+== Parting thoughts
+
+ClojureScript is, after almost 6 years, a platform relied upon by a great number of
+developers worldwide, and we want to continue to deliver on full interoperability
+with the host. By making sure that we integrate with the vast JavaScript ecosystem
+out there, we think these new features arriving in the next version of ClojureScript
+are a stepping stone in assuring ClojureScript's sustainability long term.
+
+We hope you enjoy these new features as much as we do. Thanks for reading!
