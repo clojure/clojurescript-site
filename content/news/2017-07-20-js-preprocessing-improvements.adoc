@@ -1,0 +1,92 @@
+= Simpler JavaScript Preprocessing
+Juho Teperi
+2017-07-20
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This is the fourth post in the link:/news/2017-07-07-sneak-preview[Sneak
+Preview] series.
+
+Closure compiler can process AMD, CommonJS and ES6 modules giving wide support
+for
+link:/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[the
+Node ecosystem]. Even so, there are popular cases which Closure doesn't support
+directly, such as https://facebook.github.io/react/[React's]
+https://facebook.github.io/react/docs/introducing-jsx.html[JSX]. footnote:[There
+is https://github.com/mihaip/react-closure-compiler[third-party compiler pass]
+for Closure to support JSX] Maria Geller's Google Summer of Code work also
+addressed this based on a design outlined by David Nolen and a preprocessing
+hook has been present since
+https://github.com/clojure/clojurescript/blob/master/changes.md#1748[version
+1.7.48]. However, the original design makes integration with other build tools
+challenging, and we've revised the approach to simplify such integrations.
+
+=== Motivation
+
+JavaScript libraries using JSX or other syntax extensions are usually packaged
+with the already processed code so they can be used without further ceremony.
+Still, there are practical cases where one might want to include such code in
+the project directly. For example, when converting a project from JavaScript to
+ClojureScript it's far easier to reuse the existing code than attempt to rewrite
+everything in one go. Also, building sophisticated user interfaces is a team effort
+and tools like JSX can make that process far more welcoming by giving designers
+familiar tools. By allowing ClojureScript to reach JSX and other popular
+syntactical affordances, the ClojureScript development process can be
+more inclusive.
+
+== JavaScript transformation
+
+In the original design, preprocessing was enabled by providing `:preprocess` to
+a link:/reference/compiler-options#foreign-libs[foreign-lib map]. The value is a
+keyword dispatch for the `cljs.closure/js-transforms` multimethod. Users can
+implement a new multimethod case and, for example, use Java's built-in
+http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html[Nashorn
+JavaScript] engine to run a JavaScript compiler like https://babeljs.io/[Babel].
+
+However this approach creates complications for popular Clojure and
+ClojureScript build tools. The Clojure namespace that provides the preprocess
+multimethod must be loaded by the user before the ClojureScript compiler is run.
+While this may be feasible in an explicit build script, due to how both
+https://leiningen.org[Leiningen] and http://boot-clj.com[Boot] isolate the build
+to their own classpaths, this requirement simply isn't practical.
+
+There are a few ways to work around the original design:
+
+1. Provide a new configuration option to enumerate the namespaces to `require` before
+running the compiler.
+2. Create a relation between the multimethod dispatch keyword, and the namespace
+that provides the implementation.
+For example, if the keyword is namespaced, the namespace part of the keyword
+could be used to `require` that namespace on demand.
+
+Both of these solutions could be implemented at the build tools or in the
+ClojureScript compiler directly. The first option seems circuitous from an end
+user perspective, and while the second option highlights the fundamental problem,
+using keywords for this pattern seems unidiomatic. If we simply switch
+to symbols from keywords, we can align with existing precedents.
+
+=== Preprocess symbol
+
+The next version of ClojureScript will support symbols as the `:preprocess`
+option value. Using a fully qualified symbol makes it obvious that the value
+refers to a function, and the namespace part of the symbol can be used to
+automatically load the namespace on the user's behalf.
+
+https://github.com/cljsjs/packages/blob/master/babel-standalone/README.md[cljsjs/babel-standalone]
+has been updated, and provides an easy way to use Babel with ClojureScript
+tooling following this new pattern.
+
+=== Conclusion
+
+Users familiar with Clojure's philosophy know that we prioritize simplicity
+above most other qualities. But, simplicity is not always at odds with
+ease, and in fact, has long been been a language priority with respect
+to interoperability with the host.
+
+While Clojure has boasted excellent integration with Java for some time, for
+ClojureScript, the friction between Google Closure and mainstream JavaScript
+practice have made this promise more challenging to deliver.
+
+We believe we are finally closing the gap and that the vast ecosystem of
+JavaScript libraries can now finally be close at hand.
