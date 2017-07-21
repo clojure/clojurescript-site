@@ -44,7 +44,7 @@ implement a new multimethod case and, for example, use Java's built-in
 http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html[Nashorn
 JavaScript] engine to run a JavaScript compiler like https://babeljs.io/[Babel].
 
-However this approach creates complications for popular Clojure and
+However, this approach creates complications for popular Clojure and
 ClojureScript build tools. The Clojure namespace that provides the preprocess
 multimethod must be loaded by the user before the ClojureScript compiler is run.
 While this may be feasible in an explicit build script, due to how both
@@ -88,5 +88,5 @@ While Clojure has boasted excellent integration with Java for some time, for
 ClojureScript, the friction between Google Closure and mainstream JavaScript
 practice have made this promise more challenging to deliver.
 
-We believe we are finally closing the gap and that the vast ecosystem of
-JavaScript libraries can now finally be close at hand.
+We believe we are closing the gap and that the vast ecosystem of JavaScript
+libraries can now finally be close at hand.
