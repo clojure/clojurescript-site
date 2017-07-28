@@ -20,7 +20,7 @@ Will run the tests for the analyzer, compiler, and closure components.
 [[testing-javascript-engines]]
 == Testing JavaScript Engines
 
-How to setup the the four important JavaScript runtimes.
+How to setup the important JavaScript runtimes.
 
 [[google-v8]]
 === Google V8
@@ -65,6 +65,13 @@ prompts a JavaScript Console. Nashorn is usually under `$JAVA_HOME/bin`,
 so you can write:
 
 `export NASHORN_HOME="$JAVA_HOME/bin/"`
+
+[[chakracore]]
+=== ChakraCore
+
+Get ChakraCore from here
+https://github.com/Microsoft/ChakraCore/releases.
+Set your CHAKRACORE_HOME environment variable so that `$CHAKRACORE_HOME/ch` executes ChakraCore.
 
 [[setting-up-dependencies]]
 === Setting up dependencies
