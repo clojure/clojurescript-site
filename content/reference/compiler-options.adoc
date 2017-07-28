@@ -206,9 +206,12 @@ sort honoring dependencies.
 module system. Can be one of `:commonjs`, `:amd`, `:es6`. Note that if
 supplied, `:requires` is not used (as it is implicitly determined). For more info see <<xref/../javascript-module-support#,JavaScript Module Support (Alpha)>>.
 * `:preprocess` (Optional) Used to preprocess / transform code in other
-dialects (JSX, etc.). A `defmethod` for `cljs.clojure/js-transforms`
-must be provided that matches the supplied value in order to effect the
-desired code transformation. For more info see <<xref/../javascript-library-preprocessing#,JavaScript Library Preprocessing>>.
+dialects (JSX, etc.). The value can be either a symbol or a keyword.
+If symbol is provided, it should resolve to a function that takes two
+parameters: js-module and options maps. Compiler will require the
+namespace to which the symbol refers if it is not yet loaded.
+If value is keyword, it is used as dispatch value for `cljs.clojure/js-transforms`
+multimethod. For more info see <<xref/../javascript-library-preprocessing#,JavaScript Library Preprocessing>>.
 
 [[externs]]
 === :externs
