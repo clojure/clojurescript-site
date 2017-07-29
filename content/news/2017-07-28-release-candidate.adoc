@@ -24,7 +24,7 @@ which should remove friction with popular ClojureScript build tooling.
 
 === Checked Arrays
 
-ClojureScript can now check array operations. This features encourages users
+ClojureScript can now check array operations. This feature encourages users
 to write idiomatic code while paving the way for further alignment with Clojure
 semantics.
 
