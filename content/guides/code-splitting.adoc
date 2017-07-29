@@ -7,10 +7,7 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-> **NOTE**: This guide uses the master branch of ClojureScript. Clone
-ClojureScript and from the checkout run `./script/bootstrap` and
-`./script/uberjar`. This will produce `target/cljs.jar` which you can use to
-follow this guide.
+> **NOTE**: This guide requires ClojureScript 1.9.854 or later.
 
 As client applications become larger it becomes desirable to load only the code
 actually required to run a particular logical screen. Previously ClojureScript
