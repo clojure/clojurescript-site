@@ -206,9 +206,12 @@ sort honoring dependencies.
 module system. Can be one of `:commonjs`, `:amd`, `:es6`. Note that if
 supplied, `:requires` is not used (as it is implicitly determined). For more info see <<xref/../javascript-module-support#,JavaScript Module Support (Alpha)>>.
 * `:preprocess` (Optional) Used to preprocess / transform code in other
-dialects (JSX, etc.). A `defmethod` for `cljs.clojure/js-transforms`
-must be provided that matches the supplied value in order to effect the
-desired code transformation. For more info see <<xref/../javascript-library-preprocessing#,JavaScript Library Preprocessing>>.
+dialects (JSX, etc.). The value can be either a symbol or a keyword.
+If symbol is provided, it should resolve to a function that takes two
+parameters: js-module and options maps. Compiler will require the
+namespace to which the symbol refers if it is not yet loaded.
+If value is keyword, it is used as dispatch value for `cljs.clojure/js-transforms`
+multimethod. For more info see <<xref/../javascript-library-preprocessing#,JavaScript Library Preprocessing>>.
 
 [[externs]]
 === :externs
@@ -375,6 +378,22 @@ defaults to `true`.
 :recompile-dependents false
 ----
 
+[[checked-arrays]]
+=== :checked-arrays
+
+If set to `:warn` or `:error`, checks inferred types and runtime values
+passed to `aget` and `aset`. Inferred type mismatches will result in
+the `:invalid-array-access` warning being triggered. Logs when incorrect 
+values are passed if set to `:warn`, throws if set to `:error`. May be
+set to a `false`-y value to disable this feature.
+
+This setting does not apply if `:optimizations` is set to `:advanced`.
+
+[source,clojure]
+----
+:checked-arrays :warn
+----
+
 [[static-fns]]
 === :static-fns
 
@@ -443,6 +462,7 @@ exist
 * `:extending-base-js-type`, JavaScript base type extension
 * `:invoke-ctor`, type constructor invoked as function
 * `:invalid-arithmetic`, invalid arithmetic
+* `:invalid-array-access`, invalid use of `aget` or `aset`
 * `:protocol-invalid-method`, protocol method does not match declaration
 * `:protocol-duped-method`, duplicate protocol method implementation
 * `:protocol-multiple-impls`, protocol implemented multiple times

@@ -20,7 +20,8 @@ bundles or packaging led by http://github.com/cljsjs/packages[community efforts]
 === A step towards better interaction with external JavaScript
 
 The 2015 Google Summer of Code project for ClojureScript succeeded in making the
-interaction with  easier. Relying on the https://developers.google.com/closure/compiler/[Google Closure Compiler]'s
+interaction with foreign JavaScript modules easier. Relying on the 
+https://developers.google.com/closure/compiler/[Google Closure Compiler]'s
 then new ability to understand most widely known JavaScript module formats and
 convert them to Closure compatible JavaScript footnote:[the subset of JavaScript
 that the Closure Compiler needs to perform optimizations such as dead code elimination

@@ -1,0 +1,53 @@
+= Release Candidate: 1.9.854
+ClojureScript Team
+2017-07-28
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Rather than delay further, we've decided to push out a release candidate
+containing all of the features we have announced so far and a number of features
+we simply haven't had time to cover in depth. To summarize the highlights:
+
+=== Comprehensive Node Modules Support
+
+Whether you prefer https://www.npmjs.com[npm] or http://yarnpkg.com[yarn],
+ClojureScript can now consume dependencies from `node_modules` directly. There will
+be cases that don't work, but there will be many cases that do. We're
+particularly interested in feedback around this new capability. We expect to
+widen the scope of libraries the ClojureScript compiler can consume gradually over time.
+
+=== JavaScript Module Preprocessing Enhancements
+
+The new release supports an enhanced approach to preprocessing JavaScript files
+which should remove friction with popular ClojureScript build tooling.
+
+=== Checked Arrays
+
+ClojureScript can now check array operations. This features encourages users
+to write idiomatic code while paving the way for further alignment with Clojure
+semantics.
+
+=== Overhauled Code Splitting
+
+ClojureScript now ships with overhauled code-splitting functionality
+that eliminates the need for manual optimization. This feature is also
+coupled with a standard mechanism for loading code splits.
+
+=== Global Exports for Foreign Libraries
+
+This feature has not yet received a post, but foreign libraries can now declare
+what they export. This means that foreign libraries can be treated as regular
+namespaces with all of the usual features (`:refer`, `:rename`, etc.). This
+enhancement also provides a smoother transition path from
+https://http://cljsjs.github.io[CLJSJS] dependencies to https://www.npmjs.com[npm]
+dependencies. Finally, for users bundling their JavaScript dependencies with
+http://webpack.js.org[Webpack], this feature makes consuming these foreign builds
+considerably more idiomatic.
+
+=== Fixes, Changes, Enhancements
+
+Thanks to the efforts of the ClojureScript community, this release contains a
+large number of fixes, changes, and enhancements. For a full list
+https://github.com/clojure/clojurescript/blob/master/changes.md#19854[look
+here].
