@@ -327,6 +327,22 @@ Used to install NPM dependencies on behalf of the user. See also `:install-deps`
 If `true` automatically install all declared `:npm-deps` including those
 declared in upstream dependencies.
 
+[[checked-arrays]]
+=== :checked-arrays
+
+If set to `:warn` or `:error`, checks inferred types and runtime values
+passed to `aget` and `aset`. Inferred type mismatches will result in
+the `:invalid-array-access` warning being triggered. Logs when incorrect
+values are passed if set to `:warn`, throws if set to `:error`. May be
+set to a `false`-y value to disable this feature.
+
+This setting does not apply if `:optimizations` is set to `:advanced`.
+
+[source,clojure]
+----
+:checked-arrays :warn
+----
+
 [[less-common-options]]
 == Less Common Options
 
@@ -393,22 +409,6 @@ defaults to `true`.
 [source,clojure]
 ----
 :recompile-dependents false
-----
-
-[[checked-arrays]]
-=== :checked-arrays
-
-If set to `:warn` or `:error`, checks inferred types and runtime values
-passed to `aget` and `aset`. Inferred type mismatches will result in
-the `:invalid-array-access` warning being triggered. Logs when incorrect 
-values are passed if set to `:warn`, throws if set to `:error`. May be
-set to a `false`-y value to disable this feature.
-
-This setting does not apply if `:optimizations` is set to `:advanced`.
-
-[source,clojure]
-----
-:checked-arrays :warn
 ----
 
 [[static-fns]]
