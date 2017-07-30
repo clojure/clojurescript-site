@@ -1,0 +1,76 @@
+= Global Exports for Foreign Libraries
+David Nolen
+2017-07-30
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+Integration with the https://www.npmjs.com[npm] ecosystem promises to
+greatly reduce the friction around Closure-unaware JavaScript dependencies.
+However, this work is very much in progress and in no way precludes improving
+existing solutions to the problem of "foreign" dependencies.
+
+ClojureScript's `:foreign-libs` option has long provided a way to include
+JavaScript libraries which cannot be expected to pass through Closure advanced
+compilation. Through community efforts like http://cljsjs.github.io[CLJSJS],
+ClojureScript developers can reach functionality not readily provided by
+ClojureScript or Closure Library with relative ease.
+
+However, the design of `:foreign-libs` has always had a glaring flaw - these
+libraries are assumed to be globally loaded. Any API exported by the foreign
+library had to be accessed through the global environment:
+
+[source,clojure]
+----
+(ns foo
+  (:require [cljsjs.react]))
+
+(def react js/React)
+----
+
+Thus foreign libraries supported none of the usual `:require` affordances like
+`:as`, `:refer`, `:rename`, etc.
+
+While this may seem like a minor point, over the years users have reached
+further and further into the JavaScript ecosystem for functionality not provided
+elsewhere. For many projects this meant using tools like
+https://webpack.github.io[Webpack] to package up all such dependencies into a
+single foreign library. While expedient, this approach leads to an unidiomatic
+style, and furthermore creates an obstacle should users try to migrate these
+dependencies to direct consumption from `node_modules` down the road.
+
+In the next release we are introducing a simple new enhancement to
+the `:foreign-libs` compiler option - `:global-exports`. A foreign library
+entry can now declare which namespace maps to which globally exported name:
+
+[source,clojure]
+----
+:foreign-libs [{:provides ["cljsjs.react"]
+                :global-exports '{cljsjs.react React}}
+               {:provides ["cljsjs.react.dom"]
+                :global-exports '{cljsjs.react.dom ReactDOM}}]
+----
+
+With this simple change `cljsjs.react` can now be treated as a regular
+namespace:
+
+[source,clojure]
+----
+(ns foo
+  (:require [cljsjs.react :as react :refer [createElement]))
+----
+
+Note that as `:global-exports` is a map of namespaces to global exports, users
+leveraging Webpack to make a single foreign library can easily map all the bundled
+libraries for idiomatic usage.
+
+This also provides a gradual migration path to `node_modules` if so desired. For
+example, a user could create a `cljsjs.react` artifact with a declared
+`:npm-deps` on React. Since foreign library usage is now unified with normal
+namespace usage, you can switch to `node_modules` dependencies with no actual
+changes in your source code, just changes to your dependencies in your
+dependency management tool of choice (Maven, Lein, Boot).
+
+We believe this feature addresses a long outstanding pain point and provides a
+smooth migration path to `node_modules` based dependencies. Please give it a try
+with ClojureScript 1.9.854 or later.
