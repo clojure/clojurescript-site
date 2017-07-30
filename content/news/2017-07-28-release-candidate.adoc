@@ -40,7 +40,7 @@ This feature has not yet received a post, but foreign libraries can now declare
 what they export. This means that foreign libraries can be treated as regular
 namespaces with all of the usual features (`:refer`, `:rename`, etc.). This
 enhancement also provides a smoother transition path from
-https://http://cljsjs.github.io[CLJSJS] dependencies to https://www.npmjs.com[npm]
+https://cljsjs.github.io[CLJSJS] dependencies to https://www.npmjs.com[npm]
 dependencies. Finally, for users bundling their JavaScript dependencies with
 http://webpack.js.org[Webpack], this feature makes consuming these foreign builds
 considerably more idiomatic.
