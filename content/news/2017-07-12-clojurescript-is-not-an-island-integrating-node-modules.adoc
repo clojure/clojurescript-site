@@ -73,6 +73,7 @@ Given a `build.clj` file like the following:
    :output-to "out/main.js"
    :optimizations :none
    :main 'example.core
+   :install-deps true
    :npm-deps {:react "15.6.1"
               :react-dom "15.6.1"}})
 ----
