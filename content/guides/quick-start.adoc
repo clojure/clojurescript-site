@@ -654,7 +654,7 @@ Grab the JAR from https://clojars.org[Clojars]:
 
 [source,bash]
 ----
-curl -O https://clojars.org/repo/cljsjs/react/0.12.2-8/react-0.12.2-8.jar
+curl -O https://clojars.org/repo/cljsjs/react/15.6.1-0/react-15.6.1-0.jar
 ----
 
 Let's edit our simple program to look like the following so that React
@@ -675,7 +675,7 @@ include the CLJSJS React JAR.
 
 [source,bash]
 ----
-java -cp cljs.jar:src:react-0.12.2-8.jar clojure.main build.clj
+java -cp cljs.jar:src:react-15.6.1-0.jar clojure.main build.clj
 ----
 
 If you refresh your `index.html` page you should see the usual React log
