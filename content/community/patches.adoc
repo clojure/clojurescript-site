@@ -41,3 +41,8 @@ Test". This makes it easier for others to find patches in need of review
 (appearing in the
 http://dev.clojure.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=10707[CLJS
 Screenable] preset filter).
+
+[[a-note-about-patches-for-windows-files]]
+=== A note about patches for Windows files
+
+Patches that modify files with Windows line endings may fail to apply. Running `git am --keep-cr < /path/to/CLJS-NNNN.patch` will generally apply the patch if it would otherwise apply cleanly (*i.e.* no merge conflicts).
