@@ -562,6 +562,8 @@ globals. Defaults to false.
 [[libs]]
 === :libs
 
+BROKEN. DO NOT USE. SEE: https://dev.clojure.org/jira/browse/CLJS-1559
+
 Adds dependencies on external js libraries, i.e. Google
 Closure-compatible javascript files with correct `goog.provides()` and
 `goog.requires()` calls. Note that files in these directories will be
