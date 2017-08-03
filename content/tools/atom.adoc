@@ -23,9 +23,9 @@ $ apm install [package-name]
 
 Unlike Java and Javascript, the convention in ClojureScript is to place closing
 delimiters on the same line instead of on a new line. To help manage this,
-Shaun LeBron's https://atom.io/packages/parinfer[Parinfer] can automatically
-balance your closing delimiters based on your code's indentation. Chris
-Oakman's Atom package for Parinfer can be found here:
+Shaun LeBron's https://shaunlebron.github.io/parinfer/[Parinfer] can
+automatically balance your closing delimiters based on your code's indentation.
+Chris Oakman's Atom package for Parinfer can be found here:
 https://atom.io/packages/parinfer
 
 [[indentation]]
@@ -60,8 +60,16 @@ NOTE: The `keymap.cson` file is found in the main menu under "Atom > Keymap...".
 == Joker Linter
 
 Roman Bataev's https://github.com/candid82/joker[Joker] linter can let you know
-when you've made an error in some code that you've written. Ryan De La Torre's
-Atom package for Joker can be found here: https://atom.io/packages/linter-joker
+when you've made an error in your code. Ryan De La Torre's Atom package for
+Joker can be found here: https://atom.io/packages/linter-joker
+
+To use this, you will also need to install Joker on your machine. You can
+download it https://github.com/candid82/joker/releases[here] or install it via
+Homebrew with:
+
+----
+brew install candid82/brew/joker
+----
 
 [[proto-repl]]
 == Proto REPL
@@ -83,7 +91,7 @@ dependencies in your `project.clj`:
                                 [proto-repl "0.3.1"]]
 ----
 
-Next, add `piggieback`'s nREPL middleware for ClojureScript:
+Next, add piggieback's nREPL middleware for ClojureScript in your `project.clj`:
 
 [source,clojure]
 ----
