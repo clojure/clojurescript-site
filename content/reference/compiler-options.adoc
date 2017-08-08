@@ -771,10 +771,10 @@ or
 
 Note when using Lein the quote is unnecessary due to implicit quoting.
 
-For `:optimization :none`, a `:main` option must be specified for
+For `:optimizations :none`, a `:main` option must be specified for
 defines to work, and only `goog-define` defines are affected.
 `:closure-defines` currently does not have any effect with
-`:optimization :whitespace`.
+`:optimizations :whitespace`.
 
 You can use the variables set in `:closure-defines` to eliminate parts
 of your code at compile time (DCE). However, to do so you must use `if`
