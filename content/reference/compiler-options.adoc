@@ -318,7 +318,7 @@ quoted.
 === :npm-deps
 
 Declare NPM dependencies. A map of NPM package names to the desired versions.
-Used to install NPM dependencies on behalf of the user. See also `:install-deps`.
+See also `:install-deps`.
 
 [source,clojure]
 ---
