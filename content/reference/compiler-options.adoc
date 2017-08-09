@@ -321,9 +321,9 @@ Declare NPM dependencies. A map of NPM package names to the desired versions.
 See also `:install-deps`.
 
 [source,clojure]
----
-{:npm-deps {"lodash" "4.17.4}}
----
+----
+:npm-deps {"lodash" "4.17.4}
+----
 
 [[install-deps]]
 === :install-deps
