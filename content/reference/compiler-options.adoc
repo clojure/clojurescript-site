@@ -322,7 +322,7 @@ See also `:install-deps`.
 
 [source,clojure]
 ----
-:npm-deps {"lodash" "4.17.4}
+:npm-deps {"lodash" "4.17.4"}
 ----
 
 [[install-deps]]
