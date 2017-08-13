@@ -131,6 +131,7 @@ touch src/bar/core.clj
 
 ```
 (ns bar.core
+  ; IMPORTANT: You have to require cljs.loader in modules, even if you don't directly make calls to it.
   (:require [cljs.loader :as loader]))
 
 (enable-console-print!)
