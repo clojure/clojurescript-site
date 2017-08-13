@@ -208,3 +208,9 @@ You should see that `cljs.reader` gets moved into the `:foo` module but not
 
 If you examine the split files in `out` you will see that `foo.js` is larger
 than `bar.js`.
+
+=== Common Problems
+
+The compiler can normally walk your dependency graph to find the namespaces that are needed by your module; however, there are some libraries that do their own analysis (for example, devcards) of the source and cause the compiler to be unable to see the complete graph. In those cases you will need to list all of the namespaces that are dynamically resolved in the correct module. One symptom of this problem is the following message when you try to load a module: "Assert failed: Module  does not exist" (with a blank name...it should say "Module :name does not exist"). The module system needs to be able to figure out what module the load is being executed from, and this message means it failed to do so, which means that the file that is calling `load` did not get recognized as part of a configured module. To resolve this: add the namespace issuing the `load` to the explicit `:entries` in your compiler config to make sure that namespace gets associated with the module you expect it to be a part of.
+
+Another problem that comes up is a failure for your callback to execute. If you enable full logging in your Javascript console you'll see the callback get registered, the module load, but the code won't actually execute. This happens if you fail to `require` the `cljs.loader` namespace in the *target* module. You must require it even if that module does not need to explicitly use it.
