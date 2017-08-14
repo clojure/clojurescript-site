@@ -101,6 +101,8 @@ The following is a simple short example of `cljs.loader` functionality:
     (loader/load :admin
       (fn [e]
         ((resolve 'views.admin/init!))))))
+
+(loader/set-loaded! :user)
 ```
 
 Note that this example shows how to call across module boundaries without
