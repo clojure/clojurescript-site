@@ -1,6 +1,6 @@
 = 1.9.908 Release
 ClojureScript Team
-2017-07-28
+2017-08-16
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
