@@ -107,6 +107,8 @@ Edit this file to look like the following:
     (loader/load :bar
       (fn []
         ((resolve 'bar.core/woz))))))
+
+(loader/set-loaded! :foo)
 ```
 
 Notice the unfamiliar namespace `cljs.loader`. This namespace provides a Google
@@ -119,6 +121,10 @@ that exists in the `bar.core` namespace. Notice that we use `resolve`. This is
 because we cannot directly call something we never required. If we tried to do
 this without `resolve` the ClojureScript compiler would emit an undeclared var
 warning during compilation.
+
+Finally, note that it is necessary to manually mark a module as loaded via
+`cljs.loader/set-loaded!`. Without this dependencies may be loaded multiple
+times which may lead to unpredictable behavior.
 
 Create the `bar.core` namespace:
 
@@ -139,6 +145,8 @@ touch src/bar/core.clj
 
 (defn woz []
   (println "WOZ!"))
+
+(loader/set-loaded! :bar)
 ```
 
 === Build the Project
