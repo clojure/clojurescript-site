@@ -1,0 +1,29 @@
+= 1.9.908 Release
+ClojureScript Team
+2017-07-28
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This release contains many bug fixes and addresses feedback from the 1.9.854
+release candidate.
+
+## Simpler Module Loading
+
+Besides several important fixes, a small bit of automatic configuration from the
+new module loading feature has been removed. Any module that will be loaded via
+`cljs.loader` must require it and must invoke `cljs.loader/set-loaded!` manually
+as the final statement. All existing documentation and examples from previous
+posts have been updated. This simplification now means downstream libraries can
+easily build higher level composable facilities upon `cljs.loader`.
+
+## Node Modules
+
+We're extremely excited to see users enthusiastically giving `:npm-deps` a try
+even at this early stage. Several limitations have been discovered and
+addressed, and we've even contributed patches back to Closure Compiler to push
+things forward. There's still a significant amount of work to do, so we encourage
+you to keep trying different libraries and telling us about your experiences.
+
+For a full list of enhancements, fixes, and changes
+https://github.com/clojure/clojurescript/blob/master/changes.md#19908[look here].
