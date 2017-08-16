@@ -20,7 +20,7 @@ following:
 [source,clojure]
 ----
 (ns my-project.tests
-  (:require [cljs.test :refer-macros [deftest is testing run-tests]]))
+  (:require-macros [cljs.test :refer [deftest is are testing]]))
 ----
 
 [[writing-tests]]
