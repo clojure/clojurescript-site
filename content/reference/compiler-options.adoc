@@ -173,7 +173,7 @@ Defaults to the empty vector `[]`
 ----
 :foreign-libs [{ :file "http://example.com/remote.js"
                  :provides  ["my.example"]
-                 :global-exports '{my.example MyExample}
+                 :global-exports '{my.example MyExample}}
                { :file "./resources/js/local.js"
                  :provides ["my.other.example"]}
                { :file "./path/to/directory/"
