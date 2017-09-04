@@ -582,8 +582,9 @@ Defaults to the empty vector `[]`
 [[preamble]]
 === :preamble
 
-Prepends the contents of the given files to each output file. Only valid
-with optimizations other than `:none`.
+Prepends the contents of the given files to each output file.  Files
+should reside on the classpath. Only valid with optimizations other
+than `:none`.
 
 Defaults to the empty vector `[]`
 
