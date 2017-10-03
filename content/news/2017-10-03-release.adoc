@@ -6,9 +6,9 @@ ClojureScript Team
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 This release contains many bug fixes and addresses feedback from the 1.9.908
-release. Important changes include parity with the latest updates to the Clojure
-programming language and an updated Google Closure Compiler dependency. The
-later one in particular now means that ClojureScript has a dependency on JDK 8.
+release. Important changes include parity with Clojure 1.9.0-beta1 and an
+updated Google Closure Compiler dependency. The later one in particular now
+means that ClojureScript has a dependency on JDK 8.
 
 For a full list of enhancements, fixes, and changes
 https://github.com/clojure/clojurescript/blob/master/changes.md#19946[look here].
