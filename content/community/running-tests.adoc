@@ -28,7 +28,7 @@ How to setup the important JavaScript runtimes.
 http://code.google.com/p/v8/[Checkout the V8 project]. Following the
 build instructions https://developers.google.com/v8/build[here]
 
-Set the V8_HOME environment variable to the path where d8 lives.
+Set the V8_HOME environment variable to the path where v8 lives.
 
 `export V8_HOME="$HOME/v8/out/native"`
 
