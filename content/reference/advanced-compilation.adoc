@@ -99,6 +99,16 @@ This works by including https://google.github.io/closure-library/api/goog.html#e
 calls in the emitted JavaScript wherever `:export` meta is associated 
 with a `def`.
 
+You can individually export protocol methods. In this example, `bar` and `quux` will be exported:
+
+[source,clojure]
+```
+(defprotocol IFoo
+  (^:export bar [this])
+  (baz [this x])
+  (^:export quux [this x y]))
+```  
+
 [[fixing-advanced-compilation-issues]]
 == Fixing Advanced Compilation Issues
 
