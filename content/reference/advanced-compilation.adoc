@@ -74,6 +74,7 @@ compiler options these issues are no longer difficult to debug.
 
 If you'd like to access ClojureScript code from JavaScript, then you
 will need to cope with the fact that advanced compilation will munge
+the JavaScript representation of
 your Var names. This can be easily addressed by adding `:export` metadata
 to Vars that should be consumable from JavaScript.
 
@@ -97,9 +98,18 @@ my_math.core.square(3);
 
 This works by including https://google.github.io/closure-library/api/goog.html#exportSymbol[`goog.exportSymbol`] 
 calls in the emitted JavaScript wherever `:export` meta is associated 
-with a `def`.
+with a Var.
 
-You can individually export protocol methods. In this example, `bar` and `quux` will be exported:
+[NOTE]
+====
+For each exported Var, an additional un-renamed alias is established which points to the Closure-munged name. 
+Munged names continue to be used internally within the optimized code.
+
+The `^:export` facility is for (and only for) providing external access to Vars via un-renamed aliases. 
+If instead you'd like to debug optimized code which is using shortened names, consider `:pesudo-names` and `:pretty-print`, which are described in the following section.
+====
+
+You can individually export the Vars associated with protocol methods. In this example, `bar` and `quux` will be exported:
 
 [source,clojure]
 ```
