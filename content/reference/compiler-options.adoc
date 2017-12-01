@@ -566,7 +566,18 @@ possible value types:
 
 [source,clojure]
 ----
-:output-wrapper false
+;; function
+(fn [js-output]
+  (str "(function(){" js-output "};)()"))
+
+;; string
+"(function(){%s};)()"
+
+;; truthy
+true
+
+;; falsey
+false
 ----
 
 [[libs]]
