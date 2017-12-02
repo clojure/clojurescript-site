@@ -568,10 +568,10 @@ possible value types:
 ----
 ;; function
 (fn [js-output]
-  (str "(function(){" js-output "};)()"))
+  (str "(function(){" js-output "};).call(window);"))
 
 ;; string
-"(function(){%s};)()"
+"(function(){%s};).call(window);"
 
 ;; truthy
 true
