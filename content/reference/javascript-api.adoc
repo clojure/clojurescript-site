@@ -1,0 +1,81 @@
+= JavaScript API
+Mike Fikes
+2017-12-06
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+ClojureScript defines types that have stable, publicly-consumable
+JavaScript APIs as specified below.
+
+[[indexOf]]
+=== indexOf
+
+==== Syntax
+
+[source,clojure]
+----
+(.indexOf coll search-value)
+(.indexOf coll search-value from-index)
+----
+
+==== Parameters
+
+`coll` - a collection satisfying the `sequential?` predicate.
+
+`search-value` - the value to search for.
+
+`from-index` - an optional starting index.
+
+==== Description
+
+Gets the index of a value in a sequential collection, or `-1` if
+not found. By default, search proceeds from the beginning, unless an
+optional starting index is supplied.
+
+==== Examples
+
+[source,clojure]
+----
+(.indexOf [1 2 3 5 7] 5) ;; 3
+(.indexOf [1 2 3 5 7] 4) ;; -1
+(.indexOf [1 2 3 5 2] 2 3) ;; 4
+----
+
+[[lastIndexOf]]
+=== lastIndexOf
+
+==== Syntax
+
+[source,clojure]
+----
+(.lastIndexOf coll search-value)
+(.lastIndexOf coll search-value from-index)
+----
+
+==== Parameters
+
+`coll` - a collection satisfying the `sequential?` predicate.
+
+`search-value` - the value to search for.
+
+`from-index` - an optional starting index.
+
+==== Description
+
+Gets the last index of a value in a sequential collection, or `-1` if
+not found. By default, search proceeds from the end, unless an
+optional starting index is supplied.
+
+==== Examples
+
+[source,clojure]
+----
+(.lastIndexOf [1 2 3 5 2 7] 2) ;; 4
+(.lastIndexOf [1 2 3 5 2 7] 4) ;; -1
+(.lastIndexOf [1 2 3 5 2 7] 2 3) ;; 1
+----
