@@ -64,6 +64,7 @@ Below is a partial list of some companies using ClojureScript.
 * https://lifebooker.com[Lifebooker]
 * http://lightmesh.com[LightMesh]
 * https://www.loyal3.com/[Loyal3] (only certain parts of public site, transition in progress)
+* https://www.magnet.coop[Magnet]
 * http://www.mttmarket.com/[MTTMarket]
 * http://www.mastodonc.com/[Mastodon C] (Not on public site, however)
 * https://welcome.mayvenn.com/hello[Mayvenn]
