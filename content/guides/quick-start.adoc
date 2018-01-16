@@ -14,12 +14,7 @@ The only dependencies required for this tutorial are an installation of
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Java
 8] and the
 https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar[standalone
-ClojureScript JAR]. ClojureScript itself only requires Java 7 but the
-standalone JAR comes bundled with useful
-http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html[Nashorn]
-integration that requires Java 8.
-
-You must have Java 8 installed to proceed.
+ClojureScript JAR].
 
 Even if you are interested in a http://leiningen.org[Leiningen],
 http://boot-clj.com[Boot],
