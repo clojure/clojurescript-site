@@ -220,7 +220,7 @@ when required, i.e. support for `:refer`, `:rename`, `:as`, etc.
 [[externs]]
 === :externs
 
-Configure externs files for external libraries.
+Configure externs files for external libraries. The files are searched for in the current working directory and on the classpath.
 
 For this option, and those below, you can find a very good explanation
 at:
