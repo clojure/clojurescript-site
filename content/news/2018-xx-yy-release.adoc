@@ -1,0 +1,108 @@
+= 1.10.xxx Release
+ClojureScript Team
+2018-03-12
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+## core.specs.alpha
+
+The https://github.com/clojure/core.specs.alpha[core.specs.alpha] library has been ported to ClojureScript, and is available in this release as an opt-in feature. This library contains specs that describes core macros and functions. Support for the `ns` special form is additionally included.
+
+To use this library, simply require the new `cljs.core.specs.alpha` namespace. By doing this, specs for `defn`, `let`, and other macros will be registered, and subsequent compilation of these macros will be subject to spec validation.
+
+The following illustrates its use at the REPL. Let's say you accidentally attempt to refer _all_ symbols of a library, using a Clojure-specific feature that does not exist in ClojureScript:
+
+[source,clojure]
+```
+ cljs.user=> (require '[clojure.set :refer :all])
+ clojure.lang.ExceptionInfo: Don't know how to create ISeq from: clojure.lang.Keyword at line 1 ...
+```
+
+This error is a bit cryptic. Now, let's try again, but using `core.specs.alpha`:
+
+```
+cljs.user=> (require 'cljs.core.specs.alpha)
+nil
+cljs.user=> (require '[clojure.set :refer :all])
+clojure.lang.ExceptionInfo: Call to cljs.core/require did not conform to spec:
+In: [0 1 :refer] val: :all fails spec: :cljs.core.specs.alpha/refer at: 
+[:args :spec :libspec :lib+opts :options :refer] predicate: coll?
+...
+```
+
+The resulting error is essentially indicating that `:all` is the problem and that `:refer` takes a collection as its argument.
+
+This feature is still alpha, but we encourage you to give it a try and report any defects you might find!
+
+## Reducible Sequence Generators
+
+With this ClojureScript release, the results of `iterate`, `repeat` and `cycle` are now directly reducible. This brings some great work that Alex Miller did for Clojure a http://insideclojure.org/2015/01/18/reducible-generators/[few years ago] to ClojureScript. This means that you will get much better performance when reducing over the output of these functions. 
+
+Take, for example, a benchmark involving running `(transduce (take 64) + (iterate inc 0))` a total of 10,000 times when compiled with `:advanced` optimizations. You can try this benchmark on your machine, but we are seeing this run 4.5 times faster under V8 and SpiderMonkey, and 3.3 times faster on JavaScriptCore.
+
+In addition, this provides a way to process large output without involving intermediate sequence generation, thus bypassing the lack of locals-clearing and inevitable head-holding that occurs in ClojureScript. This means you can now run programs like
+
+[source,clojure]
+```
+(transduce (comp (map inc) (filter odd?) (take 1e8)) + (iterate inc 0))
+```
+
+and they will consume very little memory. This example completes in around 10 seconds in the Node REPL, using just a few megabytes of RAM, whereas previously it would essentially never terminate, consuming gigabytes of RAM.
+
+## Map Entries
+
+As an expediency, ClojureScript has been returning 2-element vectors for non-sorted persistent map entries. For many use cases, this is OK because map entries can be used as vectors. But, the opposite is not the case, and to pull this off, ClojureScript needed to add artificial support to persistent vectors for the `key` and `val` map entry functions.
+
+In order to align with Clojure, ClojureScript now returns a dedicated map entry type for this case and eliminates the artifical vector support. One example illustrating higher fidelity with Clojure is that this allows ClojureScript to properly return `nil` when `empty` is applied to a map entry. (Since map entries have exactly two elements, it is impossible to have an empty map entry.)
+
+While this certainly cleans things up, be on the lookout for code that incorrectly treats vectors as map entries. For example, while `(key (first {:a 1}))` is perfectly valid, `(key [:a 1])` is incorrect and will result in a runtime exception.
+
+Finally, using a dedicated map entry type can lead to performance improvements in some code that works with map entries. For example, in `:advanced` mode, this code
+
+[source,clojure]
+```
+(simple-benchmark [m (zipmap (range 100) (range))]
+  (reduce (fn [a [k v]] (if (even? v) (+ a k) a)) 0 m) 100000)
+```  
+
+runs 11% faster in JavaScriptCore, 18% faster in V8, and a whopping 105% faster in SpiderMonkey. And if you use the dedicated `key` and `val` functions instead of destructuring, the V8 performance goes to 44% faster and SpiderMonkey 112%.
+
+## REPL Command Line Enhancements
+
+Support has been added to the ClojureScript REPL so that the `-e` / `--eval` and `-m` / `--main` command line arguments are honored. This can be useful if you want to execute some ClojureScript code directly from the command line, perhaps to run tests.
+
+Note that you can control the output directory used for compilation artifacts by passing `-o` and the name of a directory.
+
+Let's say you have `src/foo/core.cljs` with
+
+[source,clojure]
+```
+(ns foo.core)
+
+(println "*command-line-args*" *command-line-args*)
+
+(defn -main [& args]
+  (println "args:" args))
+```
+
+If you have `deps.edn` set up to specify the latest ClojureScript release, with the `clojure` tool you can execute the above script via
+
+[source,shell]
+```
+clojure -m cljs.repl.node -o out -e "(+ 3 4)" -m foo.core 1 2
+```
+
+and you should see
+
+[source]
+```
+ClojureScript Node.js REPL server listening on 53734
+7
+Analyzing file:/Users/.../src/foo/core.cljs
+args: (1 2)
+*command-line-args* (1 2)
+```
+
+For a complete list of updates in ClojureScript 1.10.xxx see
+https://github.com/clojure/clojurescript/blob/master/changes.md#110101010101010101010xxx[Changes].
