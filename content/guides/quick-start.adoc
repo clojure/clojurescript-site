@@ -18,7 +18,7 @@ ClojureScript JAR].
 
 Even if you are interested in a http://leiningen.org[Leiningen],
 http://boot-clj.com[Boot],
-https://github.com/bhauman/lein-figwheel[Figwheel], or
+https://github.com/bhauman/lein-figwheel[Figwheel], https://github.com/thheller/shadow-cljs[shadow-cljs], or
 https://maven.apache.org/what-is-maven.html[Maven] based workflow this
 Quick Start is essential reading. It covers the fundamentals regardless
 of what tooling you decide to end up using.
