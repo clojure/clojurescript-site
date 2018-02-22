@@ -314,6 +314,12 @@ namespaces discoverable on the classpath. Note the leading quote is not
 necessary when using Leiningen - values in `project.clj` are implicitly
 quoted.
 
+[NOTE]
+====
+For `:optimizations :none`, a `:main` option must be specified for
+preloads to work.
+====
+
 [[npm-deps]]
 === :npm-deps
 
@@ -771,10 +777,13 @@ or
 
 Note when using Lein the quote is unnecessary due to implicit quoting.
 
+[NOTE]
+====
 For `:optimizations :none`, a `:main` option must be specified for
 defines to work, and only `goog-define` defines are affected.
 `:closure-defines` currently does not have any effect with
 `:optimizations :whitespace`.
+====
 
 You can use the variables set in `:closure-defines` to eliminate parts
 of your code at compile time (DCE). However, to do so you must use `if`
