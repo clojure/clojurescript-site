@@ -1,0 +1,278 @@
+= ClojureScript Command Line
+Mike Fikes
+2018-03-12
+:jbake-type: post
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[clojurescript-command-line-toc]]
+toc::[]
+
+ClojureScript now has an exciting new command line capability which dramatically simplifies using ClojureScript for many common use cases. In this post, we'll take you through a quick tour of the capabilities being introduced with `cljs.main`.
+
+[[clojurescript-compiler]]
+=== Standalone ClojureScript JAR
+
+In order to try these examples, you will need to obtain the standalone ClojureScript JAR.
+
++++
+<a href="https://github.com/clojure/clojurescript/releases/latest" rel="latest-version">Download the standalone ClojureScript JAR</a>
++++
+
+[[starting-a-browser-repl]]
+== Starting a Browser REPL
+
+Let's jump right in! You can start up a browser REPL by running the following command
+
+[source,bash]
+----
+java -cp cljs.jar cljs.main
+----
+
+When you do this, the REPL will start, automatically launch a browser to connect back to it.
+
+image::/images/content/news/2018-03-12-clojurescript-command-line/browser.png[Browser REPL Serving Default index.html,450]
+
+You will see the following in the REPL terminal:
+
+[source,text]
+----
+Compiling client js ...
+Serving HTTP on localhost port 9000
+Listening for browser REPL connect ...
+To quit, type: :cljs/quit
+cljs.user=>
+----
+
+We are now in an interactive environment, with the ability to control the page. Try the following in the REPL to cause an alert to pop up in your browser:
+
+[source,clojure]
+----
+(js/alert "Hello CLJS!")
+----
+
+[[creating-a-browser-app]]
+== Creating a Browser App
+
+Now, let's cobble together a simple browser-based ClojureScript app and explore the ability of `cljs.main` to compile your app's source.
+
+Note that in the previous section, `cljs.main` synthetically-generated an `index.html` for us. We'll want to create a custom `index.html` for our app:
+
+[source,html]
+----
+<html>
+  <body>
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <script src="out/main.js"></script>
+  </body>
+</html>
+----
+
+Add the following source in `src/my_app/core.cljs` (or `src\my_app\core.cljs` if on Windows).
+
+[source,clojure]
+----
+(ns my-app.core)
+
+(def ctx (-> js/document
+             (.getElementById "canvas")
+             (.getContext "2d")))
+
+(defn draw-shape [x y radius color]
+  (set! (.-fillStyle ctx) color)
+  (.beginPath ctx)
+  (.arc ctx x y radius 0 (* 2 Math/PI))
+  (.fill ctx))
+
+(draw-shape 150 150 100 "blue")
+----
+
+Now, let's use `cljs.main` to first compile this source (using `-c`), and, when done, start up a browser REPL (using `-r`), and additionally watch for changes in our source (using `-w`):
+
+[source,bash]
+----
+java -cp cljs.jar:src cljs.main -w src -c my-app.core -r
+----
+
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" cljs.main -w src -c my-app.core -r
+----
+
+Note that we are also adding our `src` directory to the classpath.
+
+When this launches, you should see a blue circle in your browser. 
+
+image::/images/content/news/2018-03-12-clojurescript-command-line/blue-circle.png[Browser REPL Showing Blue Circle,400]
+
+Try interacting with the app, by drawing other circles. For exmaple, try this in the REPL:
+
+[source,clojure]
+----
+(my-app.core/draw-shape 350 200 50 "red")
+----
+
+image::/images/content/news/2018-03-12-clojurescript-command-line/blue-red-circle.png[Browser REPL Showing Blue and Red Circle,400]
+
+What if you change your source? Change the `2` to a `1` in the `draw-shape` implementation, and refresh your browser. Now instead of circles, the app will be draw semicircles.
+
+[[creating-a-node-app]]
+== Creating a Node App
+
+In the previous sections, we were relying on `cljs.main` to establish a browser REPL environment. But, `cljs.main` has a command line flag (`-re`) that allows you to specify an alternate REPL environment.
+
+For example, if have Node installed, you can use `cljs.main` to launch a Node-based REPL by supplying `-re node`:
+
+[source,bash]
+----
+java -cp cljs.jar cljs.main -re node
+----
+
+If you do this, you will be dropped directly into a Node-based REPL:
+
+[source,text]
+----
+To quit, type: :cljs/quit
+cljs.user=> (+ 2 3)
+5
+cljs.user=> (exists? js/require)
+true
+----
+
+Let's make a small Node-based app. Replace the contents of our `my-app.core` namespace with
+
+[source,clojure]
+----
+(ns my-app.core)
+
+(defn square [x]
+  (* x x))
+
+(defn -main [& args]
+  (prn (-> args first js/parseInt square)))
+----
+
+With this in place, let's run this app using `cljs.main` to run `-main` in a specified namespace (using `-m`):
+
+[source,bash]
+----
+java -cp src:cljs.jar cljs.main -re node -m my-app.core 5
+----
+
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" cljs.main -re node -m my-app.core 5
+----
+
+Running this will automatically compile our namespace, launch Node and execute our `-main`, passing our command line argument `5`, thus causing it to print `25`.
+
+What if we'd like to produce a standalone JavaScript file that we can use with Node to do the same?
+
+First, replace `-main` in our source with
+
+[source,clojure]
+----
+(prn (-> (.-argv js/process) last js/parseInt square))
+----
+
+Now we are going to compile a `simple` (using `-O`) build, targeting 
+Node (using `-t`), specifying where we'd like our final output file (using `-o`):
+
+[source, bash]
+----
+java -cp src:cljs.jar cljs.main -t node -O simple -o out/main.js -c my-app.core
+----
+
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" cljs.main -t node -O simple -o out\main.js -c my-app.core
+----
+
+With this, you can run copy `main.js` to wherever you like, and run
+
+[source,bash]
+----
+node main.js 5
+----
+
+and it will print `25`.
+
+[[running-tests-in-nashorn]]
+== Running Tests in Nashorn
+
+The built-in Nashorn environment is accessible using `cljs.main`, and with it there is no need for any external JavaScript environment. Let's use this to run some tests.
+
+First delete this line from our `my-app.core` namespace.
+
+[source,clojure]
+----
+(prn (-> (.-argv js/process) last js/parseInt square))
+----
+
+and then add a new file for a `my-app.core-test` namespace
+
+[source,clojure]
+----
+(ns my-app.core-test
+  (:require
+    [my-app.core]
+    [clojure.test :refer [deftest is]]))
+
+(deftest square-test
+  (is (== 25 (my-app.core/square 5))))
+----
+
+Let's run these tests under Nashorn (by specifying `-re nashorn`). To do things a little differently, let's use `-i` to load a resource, and `-e` to evaluate a form that will kick off our tests:
+
+[source,bash]
+----
+java -cp src:cljs.jar cljs.main -re nashorn -i src/my_app/core_test.cljs -e "(cljs.test/run-tests 'my-app.core-test)"
+----
+
+On Windows
+
+[source,bash]
+----
+java -cp "cljs.jar;src" cljs.main -re nashorn -i src\my_app\core_test.cljs -e "(cljs.test/run-tests 'my-app.core-test)"
+----
+
+With this, you will see
+
+[source,text]
+----
+Testing my-app.core-test
+
+Ran 1 tests containing 1 assertions.
+0 failures, 0 errors.
+----
+
+[[other-affordances]]
+== Other Affordances
+
+The above took you through a quick tour covering most of the options available in `cljs.main`. There are other options available, and you can get help on them by running
+
+[source,bash]
+----
+java -cp cljs.jar cljs.main -h
+----
+
+A couple of interesting options that might be useful are `-co` and `-ro`. The provide the ability to configure any compiler https://clojurescript.org/reference/compiler-options[compiler opton] or https://clojurescript.org/reference/repl-options[REPL option], (which go under `-co`) and REPL-environment-specific options (which go under `-ro`). These can act as an "escape hatch" if you need to specify something for which `cljs.main` doesn't provide a command-line flag.
+
+For example, the following will apply the `:repl-verbose` option (thus showing the JavaScript being emitted while using the REPL):
+
+[source,bash]
+----
+java -cp cljs.jar cljs.main -co "{:repl-verbose true}" -re node -r
+----
+
+With the ability to specify EDN dirctly on hte command line, you can pretty much use `cljs.main` to do anything you'd like with the ClojureScript compiler.
+
+We hope you find the new `cljs.main` feature useful and that it simplifies many of the common tasks you need to accomplish with the ClojureScript compiler! 
