@@ -25,7 +25,7 @@ Create a directory `hello_world` then from _inside_ the `hello_world` directory:
 
 [source,bash]
 ----
-mkdir -p src/hello_world;touch src/hello_world/core.cljs
+mkdir -p src/hello_world; touch src/hello_world/core.cljs
 ----
 
 For Windows:
@@ -44,7 +44,7 @@ If you're on Linux or OS X create a `deps.edn` file with the following contents:
 
 If you're on Windows simply copy `cljs.jar` into this directory.
 
-Then in your favorite text editor edit the `src/hello_world/core.cljs` to
+In your favorite text editor edit the `src/hello_world/core.cljs` to
 look like the following:
 
 [source,clojure]
@@ -54,9 +54,8 @@ look like the following:
 (println "Hello world!")
 ----
 
-First we declare our namespace. Note that if a ClojureScript file declares a
-namespace then this namespace must match the path on disk. We then print the
-famous message.
+First we declare our namespace. The namespace must correspond to the location
+of the source file. We then print the famous message.
 
 Let's build and run some ClojureScript:
 
@@ -74,15 +73,8 @@ java -cp "cljs.jar;src" -m cljs.main -c hello-word.core -r
 
 Your default web browser will open to a page that looks like the following:
 
-After a couple of seconds your terminal should show you a REPL prompt. Your
-terminal is now connected to your browser.
-
-[source,clojure]
----
-(require 'hello-world.core)
----
-
-You should see `Hello world!` print in your terminal.
+After a couple of seconds you will see `Hello world!` print and you will be
+given a REPL prompt.
 
 Change your `src/hello_world/core.cljs` source file to look like the
 following:
@@ -109,11 +101,12 @@ JavaScript ones. This makes debugging a lot nicer.
 [[production-builds]]
 == Production Builds
 
-You may have noticed that `out` contains a lot of JavaScript.
-Fortunately the ClojureScript compiler generates output optimized for
-the Google Closure Compiler. The Google Closure Compiler performs many
-optimizations, but the most significant for browser-based clients are
-minification and dead code elimination.
+You may have noticed the `out` directory which contains all of the compiled
+JavaScript, about 6 1/2 megabytes worth. This may seem unweildy but fortunately
+the ClojureScript compiler generates output optimized for the Google Closure
+Compiler. The Google Closure Compiler performs many optimizations, but the most
+significant for browser-based clients are minification and dead code
+elimination.
 
 Let's remove the dev time REPL bits from `src/hello_world/core.cljs`:
 
@@ -128,20 +121,29 @@ Let's create a release build:
 
 [source,clojure]
 ----
-clj -m cljs.main -O advanced -o out/main.js -c hello-world.core
+clj -m cljs.main -O advanced -c hello-world.core
 ----
 
 This process will take significantly longer which is why we don't use
 this compilation mode for development.
 
-Open `index.html`, you should still see `"Hello world!"` printed.
-
-Examine `out/main.js`, the file size should be around 80K. If you zip
-this file you'll see that it's around 19K. This is significantly smaller
+Examine `out/main.js`, the file size should be around 90K. If you zip
+this file you'll see that it's around 20K. This is significantly smaller
 than a jQuery dependency yet when using ClojureScript you have implicit
 dependencies on the entire ClojureScript standard library (10KLOC) and
 the Google Closure Library (300KLOC). You can thank dead code
 elimination.
+
+You can test that this file still works by running the built in webserver:
+
+[source,bash]
+----
+clj -m cljs.main -s
+----
+
+Since this not a REPL, a browser window will not be automatically opened.
+Navigate to http://localhost:9000 using your favorite browser. Check the
+JavaScript console, you should see `Hello world!` printed.
 
 [[running-clojurescript-on-node.js]]
 == Running ClojureScript on Node.js
@@ -149,37 +151,7 @@ elimination.
 First install Node.js. For instructions on installing Node.js, see the
 https://github.com/nodejs/node/blob/master/README.md[Node.js wiki]. Only
 the current stable versions of Node.js (>= `0.12.X`) are supported at
-this time. Your `src/hello_world/core.cljs` should look like the
-following:
-
-[source,clojure]
-----
-(ns hello-world.core
-  (:require [cljs.nodejs :as nodejs]))
-
-(nodejs/enable-util-print!)
-
-(defn -main [& args]
-  (println "Hello world!"))
-
-(set! *main-cli-fn* -main)
-----
-
-Make a build helper file called `node.clj`:
-
-[source,clojure]
-----
-(require 'cljs.build.api)
-
-(cljs.build.api/build "src"
-  {:main 'hello-world.core
-   :output-to "main.js"
-   :target :nodejs})
-----
-
-The only differences are that we had to specify a `:nodejs` target and
-we do not output `main.js` to the `out` directory. This is important due
-to the way that Node.js resolves JavaScript source files.
+this time.
 
 Node.js has great source mapping support, in order to enable it just
 install `source-map-support`:
@@ -193,7 +165,7 @@ Let's build your Node project:
 
 [source,bash]
 ----
-java -cp cljs.jar:src clojure.main node.clj
+clj -m cljs.main -t node -c hello-world.core
 ----
 
 You can run your file with:
@@ -218,34 +190,11 @@ externs file.
 === Node.js REPL
 
 Running a Node.js REPL is similar to running a browser REPL.
-Create a helper build file called `node_repl.clj` that looks like the
-following:
-
-[source,clojure]
-----
-(require 'cljs.repl)
-(require 'cljs.build.api)
-(require 'cljs.repl.node)
-
-(cljs.build.api/build "src"
-  {:main 'hello-world.core
-   :output-to "out/main.js"
-   :verbose true})
-
-(cljs.repl/repl (cljs.repl.node/repl-env)
-  :watch "src"
-  :output-dir "out")
-----
-
-There's no need to add any REPL specific bits to
-`src/hello_world/core.cljs`, make sure it looks as described in the
-previous section.
-
 Let's start the REPL:
 
 [source,bash]
 ----
-rlwrap java -cp cljs.jar:src clojure.main node_repl.clj
+clj -m cljs.main -re node
 ----
 
 All the previously described REPL interactions for the browser should
@@ -257,18 +206,22 @@ work.
 ClojureScript supports a wide variety of options for including
 ClojureScript and JavaScript dependencies (see
 <<xref/../../../reference/dependencies#,Dependencies>>
-for details). However the simplest
-approach is to include a properly packaged JAR on the classpath.
-http://cljsjs.github.io[CLJSJS] provides a nice set of curated
-JavaScript libraries that suffices to demonstrate how dependencies are
-handled.
+for details).
 
 http://facebook.github.io/react/[React] is a popular dependency for
 ClojureScript projects. http://cljsjs.github.io[CLJSJS] provides a
 https://github.com/cljsjs/packages/tree/master/react[bundled version].
 Let's see how to include it.
 
-Grab the JAR from https://clojars.org[Clojars]:
+On OS X and Linux modify your `deps.edn` file:
+
+[source,clojure]
+----
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.104"}
+        cljsjs/react {:mvn/version "15.6.1-0"}}}
+----
+
+Under Windows grab the JAR from https://clojars.org[Clojars]:
 
 [source,bash]
 ----
@@ -283,89 +236,22 @@ is properly required:
 (ns hello-world.core
   (:require cljsjs.react))
 
-(enable-console-print!)
-
 (println "Hello React!")
 ----
 
-Let's rebuild our project, all we need to do is extend our classpath to
-include the CLJSJS React JAR.
+On Linux or OS X:
 
 [source,bash]
 ----
-java -cp cljs.jar:src:react-15.6.1-0.jar clojure.main build.clj
+clj -m cljs.main -c hello-world.core -r
 ----
 
-If you refresh your `index.html` page you should see the usual React log
-indicating that React was successfully loaded.
-
-If you have a few dependencies, one convention is to put them into a
-folder called `lib`. Then you can launch your scripts like so:
+On Windows:
 
 [source,bash]
 ----
-java -cp 'cljs.jar:lib/*:src' clojure.main build.clj
+java -cp cljs.jar:src:react-15.6.1-0.jar -m cljs.main -c hello-world.core -r
 ----
 
-As your dependency graph becomes more sophisticated it may make sense to
-rely on Maven or Leiningen to manage dependencies for you. Please refer
-to <<xref/../../../reference/dependencies#,Dependencies>> for a comprehensive tutorial. What
-follows is just the basics.
-
-[[leiningen]]
-=== Leiningen
-
-All the commands above may be executed with the `run` feature of
-Leiningen. With Leiningen you do not need to specify the classpath. For
-example for a REPL you would do something like the following from your
-project directory:
-
-[source,bash]
-----
-lein run -m clojure.main repl.clj
-----
-
-One important thing to remember with Leiningen is the `:source-paths`
-configuration parameter. The `:source-paths`, found in the project.clj,
-are appended to the classpath. For a ClojureScript build you should
-include all the source paths to your ClojureScript sources in the
-`:source-paths` parameter. The path "src" is included by default.
-
-This is especially important if you use another path besides "src".
-
-If you have any questions about the classpath you can see it easily by
-typing `lein classpath`.
-
-[[maven]]
-=== Maven
-
-Same as Leiningen, you can use Maven to run the above scripts and you do
-not need to specify the classpath. Add the `clojure-maven-plugin` to
-your `pom.xml`:
-
-[source,xml]
-----
-<project xmlns="..."
-         xsi:schemaLocation="....">
-    <modelVersion>4.0.0</modelVersion>
-    ...
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.theoryinpractise</groupId>
-                <artifactId>clojure-maven-plugin</artifactId>
-                <version>1.7.1</version>
-                <extensions>true</extensions>
-            </plugin>
-        </plugins>
-    </build>
-    ...
-</project>
-----
-
-Then you can start a repl with the `clojure:run` task:
-
-[source,bash]
-----
-mvn clojure:run -Dclojure.script=repl.clj
-----
+Once the browser launches, check the JavaScript Console, you should see the
+usual React log indicating that React was successfully loaded.
