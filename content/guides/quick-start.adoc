@@ -124,6 +124,13 @@ Let's create a release build:
 clj -m cljs.main -O advanced -c hello-world.core
 ----
 
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" -m cljs.main -O advanced -c hello-world.core
+----
+
 This process will take significantly longer which is why we don't use
 this compilation mode for development.
 
@@ -139,6 +146,13 @@ You can test that this file still works by running the built in webserver:
 [source,bash]
 ----
 clj -m cljs.main -s
+----
+
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" -m cljs.main -s
 ----
 
 Since this not a REPL, a browser window will not be automatically opened.
@@ -171,6 +185,13 @@ Let's build your Node project:
 clj -m cljs.main -t node -o main.js -c hello-world.core
 ----
 
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" -m cljs.main -t node -o main.js -c hello-world.core
+----
+
 You can run your file with:
 
 [source,bash]
@@ -198,6 +219,13 @@ Let's start the REPL:
 [source,bash]
 ----
 clj -m cljs.main -re node
+----
+
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" -m cljs.main -re node
 ----
 
 All the previously described REPL interactions for the browser should
