@@ -10,42 +10,18 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 [[quick-start-toc]]
 toc::[]
 
-The only dependencies required for this tutorial are an installation of
+If you are using OS X or Linux the only dependencies required for this tutorial
+are an installation of https://clojure.org/guides/getting_started[Clojure]. On
+Windows you will need
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Java
 8] and the
 https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar[standalone
 ClojureScript JAR].
 
-Even if you are interested in a http://leiningen.org[Leiningen],
-http://boot-clj.com[Boot],
-https://github.com/bhauman/lein-figwheel[Figwheel], or
-https://maven.apache.org/what-is-maven.html[Maven] based workflow this
-Quick Start is essential reading. It covers the fundamentals regardless
-of what tooling you decide to end up using.
-
 [[clojurescript-compiler]]
 === ClojureScript Compiler
 
-The standalone ClojureScript JAR bundles https://clojure.org[Clojure]
-1.8.0. This supports simple scripting of the ClojureScript compiler and
-the bundled REPLs without an overly complicated command line interface.
-
-+++
-<a href="https://github.com/clojure/clojurescript/releases/latest" rel="latest-version">Download the standalone ClojureScript JAR</a>
-+++
-
-[NOTE]
-====
-**Debug Note**: If you use `curl` to download the JAR, be sure to
-specify the `-L` flag to follow redirects. (Otherwise you'll end up with
-an HTML page of
-http://stackoverflow.com/questions/28481272/clojurescript-error-could-not-find-or-load-main-class-clojure-main#comment47580543_28481272[about
-300 bytes]) Make sure the file is not renamed by your browser, eg.
-cljs(1).jar.
-====
-
-Create a directory `hello_world` and copy the JAR into that directory,
-then from _inside_ the `hello_world` directory:
+Create a directory `hello_world` then from _inside_ the `hello_world` directory:
 
 [source,bash]
 ----
@@ -59,365 +35,54 @@ For Windows:
 md src\hello_world & type nul >>core.cljs & move core.cljs src\hello_world
 ----
 
-In your favorite text editor edit the `src/hello_world/core.cljs` to
+If you're on Linux or OS X create a `deps.edn` file with the following contents:
+
+[source,clojure]
+----
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.104"}}}
+----
+
+If you're on Windows simply copy `cljs.jar` into this directory.
+
+Then in your favorite text editor edit the `src/hello_world/core.cljs` to
 look like the following:
 
 [source,clojure]
 ----
 (ns hello-world.core)
 
-(enable-console-print!)
-
 (println "Hello world!")
 ----
 
-First we declare our namespace. Every ClojureScript file must declare a
-namespace and this namespace must match a path on disk. We then enable
-direct printing to the commonly available JavaScript `console` object
-and print the famous message.
+First we declare our namespace. Note that if a ClojureScript file declares a
+namespace then this namespace must match the path on disk. We then print the
+famous message.
 
-In order to compile this we need a simple build script. ClojureScript is
-just a Clojure library and can be easily scripted in a few lines of
-__Clojure__. Create a file called `build.clj` next to the `src` directory
-and the `cljs.jar` file. Note the name of this file does not matter. In
-this tutorial we'll always make our compiler helper scripts at the root
-of the project directory.
-
-Add the following Clojure code:
-
-[source,clojure]
-----
-(require 'cljs.build.api)
-
-(cljs.build.api/build "src" {:output-to "out/main.js"})
-----
-
-We `require` the `cljs.build.api` namespace. We then invoke the standard
-function for building some ClojureScript source -
-`cljs.build.api/build`. This function only takes two arguments: the
-directory to compile and a map of options. In our case a simple
-`:output-to` will suffice for now.
-
-Let's build some ClojureScript:
+Let's build and run some ClojureScript:
 
 [source,bash]
 ----
-java -cp cljs.jar:src clojure.main build.clj
+clj -m cljs.main -c hello-word.core -r
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" clojure.main build.clj
+java -cp "cljs.jar;src" -m cljs.main -c hello-word.core -r
 ----
 
-We invoke `java` and set the classpath to our JAR and the directory
-where our ClojureScript code lives. The `clojure.main` argument in this
-case allows us to easily execute a Clojure file.
+Your default web browser will open to a page that looks like the following:
 
-[NOTE]
-====
-**Debug Note**: If you encounter an error about `cljs.build.api` not
-being found, make sure that you didn't write
-`(require 'cljs.build.api')`, many popular text editors will emit a
-matching single quote even in their Clojure mode.
-====
-
-Control should return to the shell relatively quickly and you will have
-an `out` directory with compiled JavaScript including your simple
-program. You will see that many files were produced in addition to the
-`out/main.js` we specified. We'll explain this momentarily but first
-let's see how you can easily include the compiled output on a web page.
-
-[[using-clojurescript-on-a-web-page]]
-== Using ClojureScript on a Web Page
-
-Create a file `index.html` at the root of the project and include the
-following:
-
-[source,html]
-----
-<html>
-    <body>
-        <script type="text/javascript" src="out/main.js"></script>
-    </body>
-</html>
-----
-
-Open this file in your favorite browser and find the JavaScript
-developer console so you can see the output. (Note that nothing will
-appear in the main browser window—no content is being rendered.)
-
-You will not see `"Hello world!"` but instead you will likely see an
-error like the following:
-
-[source,bash]
-----
-Uncaught ReferenceError: goog is not defined
-----
-
-In order to understand this error we must examine a few basics around
-the Google Closure Library. While the following section may seem
-somewhat roundabout, a short review on how Google Closure Library works
-will make simple bugs considerably easier to spot.
-
-[[google-closure-library]]
-=== Google Closure Library
-
-In order to abstract away JavaScript environment differences
-ClojureScript relies on the
-https://developers.google.com/closure/library/[Google Closure Library]
-(GCL). GCL supplies an important facility missing from JavaScript:
-namespaces and a way to declare dependencies between them. In fact
-ClojureScript namespaces get compiled to Google Closure namespaces.
-
-Loading dependencies correctly across various browser targets is a
-surprisingly tricky affair. GCL accomplishes this by maintaining a
-dependency graph. When you require a namespace it will write the needed
-script tags in dependency order for you.
-
-So what went wrong? If you look at `out/main.js` you will see some
-dependency graph building calls:
-
-[source,javascript]
-----
-goog.addDependency("base.js", ['goog'], []);
-goog.addDependency("../cljs/core.js", ['cljs.core'], ...);
-goog.addDependency("../hello_world/core.js", ['hello_world.core'], ...);
-----
-
-But wait, where is this `goog` object coming from?
-
-Oops. We never loaded it! In order for GCL to bootstrap we must at least
-load `goog/base.js`. You'll see this is available in `out/goog/base.js`.
-Let's add this to your page now:
-
-[source,html]
-----
-<html>
-    <body>
-        <script type="text/javascript" src="out/goog/base.js"></script>
-        <script type="text/javascript" src="out/main.js"></script>
-    </body>
-</html>
-----
-
-Refresh the page.
-
-The error will be gone but you still won't see the desired
-`"Hello world!"`.
-
-Hrm. `out/main.js` didn't appear to have any of the logic that we wrote,
-in fact it only includes the needed dependency graph information for the
-ClojureScript standard library `cljs.core` and our namespace.
-
-Ah. The last step we missed was actually requiring our namespace to kick
-things off. Change `index.html` to the following.
-
-[source,html]
-----
-<html>
-    <body>
-        <script type="text/javascript" src="out/goog/base.js"></script>
-        <script type="text/javascript" src="out/main.js"></script>
-        <script type="text/javascript">
-            goog.require("hello_world.core");
-            // Note the underscore "_"!
-        </script>
-    </body>
-</html>
-----
-
-Refresh your `index.html` and you should finally see `"Hello world!"`
-printing to the browser JavaScript console. If you're using a
-sufficiently modern browser you should even see the printing was invoked
-from a ClojureScript source file and not a JavaScript one thanks to
-source mapping (some browsers like Chrome require you to first enable
-source mapping, for more details
-https://developers.google.com/web/tools/chrome-devtools/javascript/source-maps[look
-here]).
-
-[[less-boilerplate]]
-=== Less Boilerplate
-
-The previous section explained some important fundamental concepts
-around the Google Closure Library. However it also involved a
-substantial amount of boilerplate. We can eliminate this boilerplate by
-specifying a `:main` entry point in the options that we pass to
-`cljs.build.api/build`. Let's do that now:
+After a couple of seconds your terminal should show you a REPL prompt. Your
+terminal is now connected to your browser.
 
 [source,clojure]
-----
-(require 'cljs.build.api)
+---
+(require 'hello-world.core)
+---
 
-(cljs.build.api/build "src"
-  {:main 'hello-world.core
-   :output-to "out/main.js"})
-----
-
-Change your HTML to the following:
-
-[source,html]
-----
-<html>
-    <body>
-        <script type="text/javascript" src="out/main.js"></script>
-    </body>
-</html>
-----
-
-Rebuild on Mac or GNU/Linux:
-
-[source,bash]
-----
-java -cp cljs.jar:src clojure.main build.clj
-----
-
-On Windows:
-
-[source,bash]
-----
-java -cp "cljs.jar;src" clojure.main build.clj
-----
-
-Refresh the page and you should still see `"Hello world!"` printed to
-the JavaScript console. If you examine `out/main.js` you'll see that it
-writes out the boilerplate script tags for you. The previous contents of
-`main.js` are now in `out/cljs_deps.js`, which is loaded alongside our
-namespace by the new `out/main.js`.
-
-[[auto-building]]
-=== Auto-building
-
-The ClojureScript compiler supports incremental compilation. It's
-convenient to have the ClojureScript compiler watch a directory and
-recompile as needed. Let's make a new helper script `watch.clj`:
-
-[source,clojure]
-----
-(require 'cljs.build.api)
-
-(cljs.build.api/watch "src"
-  {:main 'hello-world.core
-   :output-to "out/main.js"})
-----
-
-Let's start auto building:
-
-[source,bash]
-----
-java -cp cljs.jar:src clojure.main watch.clj
-----
-
-You should see output like the following:
-
-[source,bash]
-----
-Building ...
-Reading analysis cache for jar:file:/.../cljs.jar!/cljs/core.cljs
-Analyzing src/hello_world/core.cljs
-... done. Elapsed 1.425505401 seconds
-----
-
-Edit `src/hello_world/core.cljs`. You should see recompilation output.
-
-Terminate auto building (using `Ctrl-C`) before proceeding to the next
-section.
-
-[NOTE]
-====
-**Further Reading**: While not required for the remainder of the Quick
-Start, it's highly recommended that you familiarize yourself with basics
-of https://developers.google.com/closure/library/index[Google Closure
-Library]. Many simple errors can be avoided by reinforcing your
-understanding of how Closure Library works.
-====
-
-[[browser-repl]]
-== Browser REPL
-
-It's hard to imagine a productive Lisp experience without a REPL
-(Read-Eval-Print-Loop). ClojureScript ships with builtin REPL support
-for Node.js, Rhino, Nashorn, and browsers.
-
-Let's hook up a browser REPL to our project.
-
-First it is recommended (but not required) that you install
-https://github.com/hanslub42/rlwrap[rlwrap]. Under OS X the easiest way is to use http://brew.sh[brew] and `brew install rlwrap`.
-
-Let's create a REPL script `repl.clj`:
-
-[source,clojure]
-----
-(require 'cljs.repl)
-(require 'cljs.build.api)
-(require 'cljs.repl.browser)
-
-(cljs.build.api/build "src"
-  {:main 'hello-world.core
-   :output-to "out/main.js"
-   :browser-repl true
-   :verbose true})
-
-(cljs.repl/repl (cljs.repl.browser/repl-env)
-  :watch "src"
-  :output-dir "out")
-----
-
-We build the project at least once before constructing the REPL.
-
-REPLs are always constructed in the same way. The first argument to
-`cljs.repl/repl` is the REPL evaluation environment (Node.js, Rhino,
-Nashorn, browser), the subsequent arguments are the same arguments you
-pass to `cljs.build.api/build` in addition to several options that are
-specific to REPLs. Note that we supply a `:watch` option with a source
-directory. This conveniently starts a REPL along with an auto building
-process. The auto building process will write its activity to
-`out/watch.log` so you can easily `tail -f out/watch.log`. We also
-specify `:output-dir` so that the REPL can reuse compiled files
-generated by the build.
-
-Let's try it:
-
-[source,clojure]
-----
-java -cp cljs.jar:src clojure.main repl.clj
-----
-or
-[source,clojure]
-----
-rlwrap java -cp cljs.jar:src clojure.main repl.clj
-----
-
-The first time will be somewhat slow as the REPL communication script
-needs to build. You should eventually see the following message:
-
-[source,bash]
-----
-Waiting for browser to connect ...
-----
-
-Point your web browser at http://localhost:9000.
-
-You should get a REPL. (Note that the REPL will appear in your terminal,
-not in the browser.)
-
-Try evaluating a simple expression like `(+ 1 2)`.
-
-_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-**Debug Note**: If the REPL doesn't connect immediately try refreshing
-the browser a few times (Chrome & Firefox tend to be more stable than
-Safari). Note that eval will be slow in some browsers if you don't have
-the browser REPL tab focused. If for some reason the REPL completely
-hangs, just refresh the page.
-_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-
-Run `tail -f out/watch.log` in a fresh terminal to view auto build
-progress.
-
-Try evaluating some expressions like `(first [1 2 3])`, or
-`(doc first)`, `(source first)`.
+You should see `Hello world!` print in your terminal.
 
 Change your `src/hello_world/core.cljs` source file to look like the
 following:
@@ -426,8 +91,6 @@ following:
 ----
 (ns hello-world.core)
 
-(enable-console-print!)
-
 (println "Hello world!")
 
 ;; ADDED
@@ -435,28 +98,9 @@ following:
   (+ a b))
 ----
 
-At the REPL prompt, require your namespace by evaluating
-`(require '[hello-world.core :as hello])`. Try evaluating
+At the REPL prompt, recompile and reload your namespace by evaluating
+`(require '[hello-world.core :as hello] :reload)`. Try evaluating
 `(hello/foo 2 3)`, you should get the result `5`.
-
-Change your source file so that `foo` uses `*` instead of `+`:
-
-[source,clojure]
-----
-(ns hello-world.core)
-
-(enable-console-print!)
-
-(println "Hello world!")
-
-(defn foo [a b]
-  (* a b)) ;; CHANGED
-----
-
-We can get this new definition in our REPL by appending a `:reload`
-keyword to our require statement thereby forcing a reload. Evaluate
-`(require '[hello-world.core :as hello] :reload)` and try
-`(hello/foo 2 3)` you should get `6` this time.
 
 Lets make a mistake. Try evaluating `(ffirst [1])`. You should get a
 source mapped stack trace pointing at ClojureScript source locations not
@@ -471,32 +115,11 @@ the Google Closure Compiler. The Google Closure Compiler performs many
 optimizations, but the most significant for browser-based clients are
 minification and dead code elimination.
 
-Let's make a new helper build script `release.clj`, it should look like
-the following:
-
-[source,clojure]
-----
-(require 'cljs.build.api)
-
-(cljs.build.api/build "src"
-  {:output-to "out/main.js"
-   :optimizations :advanced})
-
-(System/exit 0)
-----
-
-Under `:advanced` optimizations `:main` is not needed as advanced
-compilation creates a single JavaScript artifact. We also add a
-`(System/exit 0)` as the Google Closure Compiler creates a thread pool
-that isn't shutdown; since we know that we're done we can just exit.
-
 Let's remove the dev time REPL bits from `src/hello_world/core.cljs`:
 
 [source,clojure]
 ----
 (ns hello-world.core)
-
-(enable-console-print!)
 
 (println "Hello world!")
 ----
@@ -505,7 +128,7 @@ Let's create a release build:
 
 [source,clojure]
 ----
-java -cp cljs.jar:src clojure.main release.clj
+clj -m cljs.main -O advanced -o out/main.js -c hello-world.core
 ----
 
 This process will take significantly longer which is why we don't use
