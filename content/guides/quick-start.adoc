@@ -90,11 +90,17 @@ following:
   (+ a b))
 ----
 
-At the REPL prompt, recompile and reload your namespace by evaluating
-`(require '[hello-world.core :as hello] :reload)`. Try evaluating
-`(hello/foo 2 3)`, you should get the result `5`.
+At the REPL prompt, recompile and reload your namespace by evaluating the following:
 
-Lets make a mistake. Try evaluating `(ffirst [1])`. You should get a
+[source,clojure]
+----
+(require '[hello-world.core :as hello] :reload)
+(hello/foo 2 3)
+----
+
+You should see the result `5`.
+
+Let's make a mistake. Try evaluating `(ffirst [1])`. You should get a
 source mapped stack trace pointing at ClojureScript source locations not
 JavaScript ones. This makes debugging a lot nicer.
 
