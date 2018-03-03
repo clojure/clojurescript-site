@@ -28,7 +28,7 @@ Create a directory `hello_world` then from _inside_ the `hello_world` directory:
 mkdir -p src/hello_world; touch src/hello_world/core.cljs
 ----
 
-For Windows:
+On Windows:
 
 [source,bash]
 ----
