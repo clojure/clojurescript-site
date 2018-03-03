@@ -35,14 +35,14 @@ For Windows:
 md src\hello_world & type nul >>core.cljs & move core.cljs src\hello_world
 ----
 
-If you're on Linux or OS X create a `deps.edn` file with the following contents:
+If you are on Linux or OS X create a `deps.edn` file with the following contents:
 
 [source,clojure]
 ----
 {:deps {org.clojure/clojurescript {:mvn/version "1.10.104"}}}
 ----
 
-If you're on Windows simply copy `cljs.jar` into this directory.
+If you are on Windows simply copy `cljs.jar` into this directory.
 
 In your favorite text editor edit the `src/hello_world/core.cljs` to
 look like the following:
@@ -54,27 +54,27 @@ look like the following:
 (println "Hello world!")
 ----
 
-First we declare our namespace. The namespace must correspond to the location
+First we declare our namespace. This namespace must correspond to the location
 of the source file. We then print the famous message.
 
-Let's build and run some ClojureScript:
+Now that we have a simple program, let's build and run some ClojureScript:
 
 [source,bash]
 ----
-clj -m cljs.main -c hello-word.core -r
+clj -m cljs.main -c hello-world.core -r
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -c hello-word.core -r
+java -cp "cljs.jar;src" -m cljs.main -c hello-world.core -r
 ----
 
 Your default web browser will open to a page that looks like the following:
 
-After a couple of seconds you will see `Hello world!` print and you will be
-given a REPL prompt.
+After a couple of seconds you will see `Hello world!` print at the terminal and
+you will be given a REPL prompt.
 
 Change your `src/hello_world/core.cljs` source file to look like the
 following:
@@ -143,7 +143,10 @@ clj -m cljs.main -s
 
 Since this not a REPL, a browser window will not be automatically opened.
 Navigate to http://localhost:9000 using your favorite browser. Check the
-JavaScript console, you should see `Hello world!` printed.
+JavaScript Console, you should see `Hello world!` printed.
+
+This server gzips JavaScript. Check your browser network tab and you should be
+able to confirm that the total JavaScript payload is now around 20K.
 
 [[running-clojurescript-on-node.js]]
 == Running ClojureScript on Node.js
@@ -165,7 +168,7 @@ Let's build your Node project:
 
 [source,bash]
 ----
-clj -m cljs.main -t node -c hello-world.core
+clj -m cljs.main -t node -o main.js -c hello-world.core
 ----
 
 You can run your file with:
@@ -213,19 +216,12 @@ ClojureScript projects. http://cljsjs.github.io[CLJSJS] provides a
 https://github.com/cljsjs/packages/tree/master/react[bundled version].
 Let's see how to include it.
 
-On OS X and Linux modify your `deps.edn` file:
+Modify your `deps.edn` file:
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.104"}
-        cljsjs/react {:mvn/version "15.6.1-0"}}}
-----
-
-Under Windows grab the JAR from https://clojars.org[Clojars]:
-
-[source,bash]
-----
-curl -O https://clojars.org/repo/cljsjs/react/15.6.1-0/react-15.6.1-0.jar
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.109"}
+        cljsjs/react-dom {:mvn/version "16.2.0-3"}}}
 ----
 
 Let's edit our simple program to look like the following so that React
@@ -234,24 +230,19 @@ is properly required:
 [source,clojure]
 ----
 (ns hello-world.core
-  (:require cljsjs.react))
+  (:require react-dom))
 
-(println "Hello React!")
+(.render js/ReactDOM
+  (.createElement js/React "h2" nil "Hello, React!")
+  (.getElementById js/document "app"))
 ----
 
-On Linux or OS X:
+Let's build and run:
 
 [source,bash]
 ----
 clj -m cljs.main -c hello-world.core -r
 ----
 
-On Windows:
-
-[source,bash]
-----
-java -cp cljs.jar:src:react-15.6.1-0.jar -m cljs.main -c hello-world.core -r
-----
-
-Once the browser launches, check the JavaScript Console, you should see the
-usual React log indicating that React was successfully loaded.
+When the browser launches you should momentarily see the default page
+which will then be quickly replaced by a `h2` tag containing `Hello React!`.
