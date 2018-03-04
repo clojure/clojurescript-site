@@ -56,7 +56,7 @@ If you are on OS X or Linux create a `deps.edn` file with the following contents
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.118"}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.126"}}}
 ----
 
 If you are on Windows simply copy the previously downloaded `cljs.jar` into this
@@ -316,7 +316,7 @@ Modify your `deps.edn` file:
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.118"}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.126"}
         cljsjs/react-dom {:mvn/version "16.2.0-3"}}}
 ----
 
