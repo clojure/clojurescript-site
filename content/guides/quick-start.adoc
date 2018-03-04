@@ -32,7 +32,7 @@ files and folders you’ll need. Note that the underscores in the names are impo
 
 [source,text]
 ----
-hello_world        # Our project folder
+hello-world        # Our project folder
 ├─ src             # The CLJS source code for our project
 │  └─ hello_world  # Our hello_world namespace folder
 │     └─ core.cljs # Our main file
