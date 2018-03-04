@@ -19,33 +19,31 @@ https://github.com/clojure/clojurescript/releases/download/r1.9.473/cljs.jar[sta
 ClojureScript JAR].
 
 [[clojurescript-compiler]]
-=== ClojureScript Compiler
+=== Hello, ClojureScript
 
-Find a good place to create a directory named `hello_world`. Then from _inside_
-this `hello_world` directory we will create a simple directory structure. Please
-note that in this directory the underscore convention in the file and directory
-names are significant and that you should follow this convention.
+In this tutorial we will guide you through compiling and running a simlple ClojureScript
+project, as well as running REPLs to interactively develop and test your code. The
+tutorial only assumes basic familiarity with the command line.
 
-[source,bash]
+First set up a project folder for our Hello World project. Here’s a list of the
+files and folders you’ll need. Note that the underscores in the names are important.
+
+[source,text]
 ----
-mkdir -p src/hello_world; touch src/hello_world/core.cljs
+hello_world        # Our project folder
+├─ src             # The CLJS source code for our project
+│  └─ hello_world  # Our hello_world namespace folder
+│     └─ core.cljs # Our main file
+├─ cljs.jar        # (Windows only) The standalone Jar you downloaded earlier
+└─ deps.edn        # (Mac/Linux only) A file for listing our dependencies
 ----
 
-On Windows:
-
-[source,bash]
-----
-md src\hello_world & type nul >>core.cljs & move core.cljs src\hello_world
-----
-
-If you are on OS X or Linux create a `deps.edn` file with the following contents:
+If you are on OS X or Linux your `deps.edn` file should contain the following:
 
 [source,clojure]
 ----
 {:deps {org.clojure/clojurescript {:mvn/version "1.10.118"}}}
 ----
-
-If you are on Windows simply copy `cljs.jar` into this directory.
 
 In your favorite text editor edit the `src/hello_world/core.cljs` to
 look like the following:
@@ -59,7 +57,8 @@ look like the following:
 
 First we declare our namespace. This namespace must correspond to the location
 of the source file. We then print the famous message. Now that we have a simple
-program, let's build and run some ClojureScript:
+program, let's build and run some ClojureScript. In a terminal run the following
+from the project directory:
 
 [source,bash]
 ----
