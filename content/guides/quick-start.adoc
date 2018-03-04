@@ -73,6 +73,13 @@ On Windows:
 java -cp "cljs.jar;src" -m cljs.main -c hello-world.core -r
 ----
 
+`-m`, which is short for `--main` invokes a Clojure function, in this case
+`cljs.main`. The `cljs.main` function supports a variety of command line
+arguments to specify common tasks. We're using `-c` for `--compile` to specify
+that we want to compile the `hello-world.core` name space. This is followed by
+`-r` for `--repl` to say that want a REPL to start immediately when compilation
+completes.
+
 Your default web browser will open to a page that looks like the following:
 
 After a couple of seconds you will see `Hello world!` print at the terminal and
@@ -123,7 +130,11 @@ Let's remove the dev time REPL bits from `src/hello_world/core.cljs`:
 (println "Hello world!")
 ----
 
-Let's create a release build:
+Let's create a release build. We can do this with `-O` for `--optimizations`.
+The default optimization level is `none`, but this time we want to use all
+optimizations provided by both ClojureScript and Google Closure Compiler - this
+can be done by specifying `advanced`. Other valid options for `-O` are
+`whitespace` and `simple` but these are less commonly used:
 
 [source,clojure]
 ----
@@ -148,7 +159,7 @@ the Google Closure Library (300KLOC). You can thank dead code
 elimination.
 
 You can test that this file still works by running the built in simple web
-server:
+server via the `-s` or `--serve` flag:
 
 [source,bash]
 ----
@@ -162,7 +173,7 @@ On Windows:
 java -cp "cljs.jar;src" -m cljs.main -s
 ----
 
-This command does not start REPL, so a browser window will not be automatically
+`-s` is for `--serve`. This command does not start REPL, so a browser window will not be automatically
 opened. Navigate to http://localhost:9000 using your favorite browser. Check the
 JavaScript Console, you should see `Hello world!` printed. The build in web
 server gzips JavaScript. Check your browser network tab and you should be able
@@ -184,7 +195,10 @@ install `source-map-support`:
 npm install source-map-support
 ----
 
-Let's build your Node project:
+Let's build your Node project. We can specify that we want to generate code for
+a specific JavaScript target via `-t` for `--target`. `-t` defaults to browser.
+Other valid but less common options are `nashorn` and `rhino`. We're also using
+`-o` for specifying the `--output-to` file:
 
 [source,bash]
 ----
