@@ -141,7 +141,7 @@ One important thing to note is that so called main options like `--compile`,
 
 You may have noticed the `out` directory which contains all of the compiled
 JavaScript. There's about 6 1/2 megabytes worth of JavaScript in there. This may
-seem unweildy but fortunately the ClojureScript compiler generates output
+seem unwieldy but fortunately the ClojureScript compiler generates output
 optimized for the Google Closure Compiler. The Google Closure Compiler performs
 many optimizations and the most significant for browser-based clients are
 minification and dead code elimination.
