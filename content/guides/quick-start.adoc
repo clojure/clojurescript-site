@@ -76,8 +76,8 @@ java -cp "cljs.jar;src" -m cljs.main -c hello-world.core -r
 `-m`, which is short for `--main` invokes a Clojure function, in this case
 `cljs.main`. The `cljs.main` function supports a variety of command line
 arguments to specify common tasks. We're using `-c` for `--compile` to specify
-that we want to compile the `hello-world.core` name space. This is followed by
-`-r` for `--repl` to say that want a REPL to start immediately when compilation
+that we want to compile the `hello-world.core` namespace. This is followed by
+`-r` for `--repl` to say that we want a REPL to start immediately when compilation
 completes.
 
 Your default web browser will open to a page that looks like the following:
@@ -115,11 +115,11 @@ JavaScript ones. This makes debugging a lot nicer.
 == Production Builds
 
 You may have noticed the `out` directory which contains all of the compiled
-JavaScript, about 6 1/2 megabytes worth. This may seem unweildy but fortunately
-the ClojureScript compiler generates output optimized for the Google Closure
-Compiler. The Google Closure Compiler performs many optimizations, but the most
-significant for browser-based clients are minification and dead code
-elimination.
+JavaScript. There's about 6 1/2 megabytes worth of JavaScript in there. This may
+seem unweildy but fortunately the ClojureScript compiler generates output
+optimized for the Google Closure Compiler. The Google Closure Compiler performs
+many optimizations, but the most significant for browser-based clients are
+minification and dead code elimination.
 
 Let's remove the dev time REPL bits from `src/hello_world/core.cljs`:
 
@@ -173,11 +173,12 @@ On Windows:
 java -cp "cljs.jar;src" -m cljs.main -s
 ----
 
-`-s` is for `--serve`. This command does not start REPL, so a browser window will not be automatically
-opened. Navigate to http://localhost:9000 using your favorite browser. Check the
-JavaScript Console, you should see `Hello world!` printed. The build in web
-server gzips JavaScript. Check your browser network tab and you should be able
-to confirm that the total JavaScript payload is now around 20K.
+`-s` is for `--serve`. This command does not start REPL, so a browser window
+will not be automatically opened. Navigate to http://localhost:9000 using your
+favorite browser. Check the JavaScript Console, you should see `Hello world!`
+printed. The builtin web server gzips JavaScript. Check your browser's
+JavaScript Console Network tab and you should be able to confirm that the total
+JavaScript payload is now around 20K.
 
 [[running-clojurescript-on-node.js]]
 == Running ClojureScript on Node.js
@@ -196,9 +197,10 @@ npm install source-map-support
 ----
 
 Let's build your Node project. We can specify that we want to generate code for
-a specific JavaScript target via `-t` for `--target`. `-t` defaults to browser.
-Other valid but less common options are `nashorn` and `rhino`. We're also using
-`-o` for specifying the `--output-to` file:
+a specific JavaScript target via `-t` for `--target`. If no `-t` is supplied,
+ClojureScript generates code for browsers. Other valid but less common options
+are `nashorn` and `rhino`. We're also using `-o` for specifying the
+`--output-to` file:
 
 [source,bash]
 ----
@@ -225,9 +227,7 @@ node main.js
 optimizations. While advanced optimizations does apply performance
 related optimizations, these are now largely obviated by optimizations
 present in modern JavaScript virtual machines like V8, SpiderMonkey, and
-JavaScriptCore. For Node.js, `:simple` or `:none` optimizations suffice
-and using them removes the need for extra steps like supplying an
-externs file.
+JavaScriptCore. For Node.js, `simple` or `none` optimizations suffice.
 ====
 
 [[node.js-repl]]
