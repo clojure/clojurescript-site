@@ -160,7 +160,8 @@ We can create a release build by setting the appropriate value for the
 `--optimizations` flag. The default optimization level is `none`, but this time
 we want to use all the optimizations provided by both ClojureScript and Google
 Closure Compiler - this can be done by specifying `advanced`. Other valid
-options for `-O` are `whitespace` and `simple` but these are less commonly used:
+options for `--optimizations` are `whitespace` and `simple` but these are less
+commonly used:
 
 [source,clojure]
 ----
@@ -222,9 +223,9 @@ npm install source-map-support
 ----
 
 Let's build your Node project. We can specify that we want to generate code for
-a specific JavaScript target via `-t`, short for `--target`. If no `-t` flag is
-supplied, ClojureScript generates code for browsers. Other valid but less common
-options are `nashorn` and `rhino`. We're also using `-o` here for specifying the
+a specific JavaScript target with `--target`. If no `--target` flag is supplied,
+ClojureScript generates code for browsers. Other valid but less common options
+are `nashorn` and `rhino`. We're also using `--output-to` here for specifying the
 `--output-to` file:
 
 [source,bash]
