@@ -61,14 +61,14 @@ Now that we have a simple program, let's build and run some ClojureScript:
 
 [source,bash]
 ----
-clj -m cljs.main -c hello-world.core -r
+clj --main cljs.main --compile hello-world.core --repl
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -c hello-world.core -r
+java -cp "cljs.jar;src" --main cljs.main --compile hello-world.core --repl
 ----
 
 Your default web browser will open to a page that looks like the following:
@@ -84,12 +84,12 @@ the following:
 (.getElementById js/document "app")
 ----
 
-Let's look a bit closer at the flags we've used here. `-m`, short
-for `--main`, invokes a _Clojure_ function, in this case `cljs.main`. The
-`cljs.main` function supports a variety of command line arguments to specify
-common tasks. We're using `-c` for `--compile` to specify that we want to
-compile the `hello-world.core` namespace. This is followed by `-r` for `--repl`
-to say that we want a REPL to launch immediately when compilation completes.
+Let's look a bit closer at the flags we've used here. `--main` invokes a
+_Clojure_ function, in this case `cljs.main`. The `cljs.main` function supports
+a variety of command line arguments to specify common tasks. We're using
+`--compile` to specify that we want to compile the `hello-world.core`
+namespace. This is followed by `--repl` to say that we want a REPL to
+launch immediately when compilation completes.
 
 Change your `src/hello_world/core.cljs` source file to look like the following:
 
@@ -100,8 +100,8 @@ Change your `src/hello_world/core.cljs` source file to look like the following:
 (println "Hello world!")
 
 ;; ADDED
-(defn foo [a b]
-  (+ a b))
+(defn average [a b]
+  (/ (+ a b) 2.0))
 ----
 
 At the REPL prompt, recompile and reload your namespace by evaluating the following:
@@ -109,7 +109,7 @@ At the REPL prompt, recompile and reload your namespace by evaluating the follow
 [source,clojure]
 ----
 (require '[hello-world.core :as hello] :reload)
-(hello/foo 2 3)
+(hello/average 20 13)
 ----
 
 You should see the result `5`.
@@ -119,18 +119,19 @@ source mapped stack trace pointing at ClojureScript source locations not
 JavaScript ones. This makes debugging a lot nicer.
 
 You can easily explore the options provided by the ClojureScript compiler
-by using `-h` or `--help`:
+by using `--help`. You will see there are abbreviated flags for all the options
+we used thus far, `-m` for `--main`, etc.
 
 [source,bash]
 ----
-clj -m cljs.main -h
+clj -m cljs.main --help
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -h
+java -cp "cljs.jar;src" -m cljs.main --help
 ----
 
 One important thing to note is that so called main options like `--compile`,
@@ -155,22 +156,22 @@ Let's remove the REPL modifications we made earlier from `src/hello_world/core.c
 (println "Hello world!")
 ----
 
-We can create a release build with the `-O` flag (for `--optimizations`). The
-default optimization level is `none`, but this time we want to use all the
-optimizations provided by both ClojureScript and Google Closure Compiler - this
-can be done by specifying `advanced`. Other valid options for `-O` are
-`whitespace` and `simple` but these are less commonly used:
+We can create a release build by setting the appropriate value for the
+`--optimizations` flag. The default optimization level is `none`, but this time
+we want to use all the optimizations provided by both ClojureScript and Google
+Closure Compiler - this can be done by specifying `advanced`. Other valid
+options for `-O` are `whitespace` and `simple` but these are less commonly used:
 
 [source,clojure]
 ----
-clj -m cljs.main -O advanced -c hello-world.core
+clj -m cljs.main --optimizations advanced -c hello-world.core
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -O advanced -c hello-world.core
+java -cp "cljs.jar;src" -m cljs.main --optimizations advanced -c hello-world.core
 ----
 
 This process will take significantly longer which is why we don't use
@@ -184,18 +185,18 @@ the Google Closure Library (300KLOC). You can thank dead code
 elimination.
 
 You can test that this file still works by running the built in simple web
-server via the `-s` or `--serve` flag:
+server via the `--serve` flag:
 
 [source,bash]
 ----
-clj -m cljs.main -s
+clj -m cljs.main --serve
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -s
+java -cp "cljs.jar;src" -m cljs.main --serve
 ----
 
 `-s` is for `--serve`. This command does not start a REPL, so a browser window
@@ -228,14 +229,14 @@ options are `nashorn` and `rhino`. We're also using `-o` here for specifying the
 
 [source,bash]
 ----
-clj -m cljs.main -t node -o main.js -c hello-world.core
+clj -m cljs.main --target node --output-to main.js -c hello-world.core
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -t node -o main.js -c hello-world.core
+java -cp "cljs.jar;src" -m cljs.main --target node --output-to main.js -c hello-world.core
 ----
 
 You can run your file with:
@@ -259,19 +260,19 @@ JavaScriptCore. For Node.js, `simple` or `none` optimizations suffice.
 
 Running a Node.js REPL is similar to running a browser REPL. In order to specify
 a REPL which uses a different JavaScript evaluation environment you supply
-`--repl-env` or `-re` for short. This value defaults to the browser REPL but in
+`--repl-env`. This value defaults to the browser REPL but in
 this case we want to specify `node`.
 
 [source,bash]
 ----
-clj -m cljs.main -re node
+clj -m cljs.main --repl-env node
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main -re node
+java -cp "cljs.jar;src" -m cljs.main --repl-env node
 ----
 
 All the previously described REPL interactions for the browser should
