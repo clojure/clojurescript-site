@@ -112,7 +112,7 @@ At the REPL prompt, recompile and reload your namespace by evaluating the follow
 (hello/average 20 13)
 ----
 
-You should see the result `5`.
+You should see the result `16.5`.
 
 Let's make a mistake. Try evaluating `(ffirst [1])`. You should get a
 source mapped stack trace pointing at ClojureScript source locations not
