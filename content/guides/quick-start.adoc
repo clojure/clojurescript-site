@@ -21,10 +21,24 @@ ClojureScript JAR].
 [[clojurescript-compiler]]
 === ClojureScript Compiler
 
-Find a good place to create a directory named `hello_world`. Then from _inside_
-this `hello_world` directory we will create a simple directory structure. Please
-note that in this directory the underscore convention in the file and directory
-names are significant and that you should follow this convention.
+Find a good place to create a directory named `hello_world`.
+
+[source,bash]
+----
+mkdir hello_world; cd hello_world
+----
+
+On Windows:
+
+[source,bash]
+----
+md hello_world & cd hello_world
+----
+
+Then from _inside_ this `hello_world` directory we will create a simple
+directory structure. Please note that in this directory the underscore
+convention in the file and directory names are significant and that you should
+follow this convention.
 
 [source,bash]
 ----
@@ -45,7 +59,8 @@ If you are on OS X or Linux create a `deps.edn` file with the following contents
 {:deps {org.clojure/clojurescript {:mvn/version "1.10.118"}}}
 ----
 
-If you are on Windows simply copy `cljs.jar` into this directory.
+If you are on Windows simply copy the previously downloaded `cljs.jar` into this
+directory.
 
 In your favorite text editor edit the `src/hello_world/core.cljs` to
 look like the following:
@@ -57,9 +72,14 @@ look like the following:
 (println "Hello world!")
 ----
 
-First we declare our namespace. This namespace must correspond to the location
-of the source file. We then print the famous message. Now that we have a simple
-program, let's build and run some ClojureScript:
+In this file first we declare our namespace. This namespace must correspond to
+the location of the source file relative to `src` - `hello-world.core` matches
+`src/hello_world/core.cljs`. While dashes are idiomatic in source files, they must
+be underscores on the file system. A common mistake is to introduce a dash in
+the actual file name.
+
+After declaring the namespace we then print a well known message. Now that we
+have a simple program, let's build and run some ClojureScript:
 
 [source,bash]
 ----
@@ -73,18 +93,27 @@ On Windows:
 java -cp "cljs.jar;src" -m cljs.main -c hello-world.core -r
 ----
 
-`-m`, which is short for `--main` invokes a Clojure function, in this case
-`cljs.main`. The `cljs.main` function supports a variety of command line
-arguments to specify common tasks. We're using `-c` for `--compile` to specify
-that we want to compile the `hello-world.core` namespace. This is followed by
-`-r` for `--repl` to say that we want a REPL to start immediately when compilation
-completes.
-
 Your default web browser will open to a page that looks like the following:
 
 After a couple of seconds you will see `Hello world!` print at the terminal and
-you will be given a REPL prompt. Change your `src/hello_world/core.cljs` source
-file to look like the following:
+you will be given a REPL prompt. Try evaluating some expressions like
+the following:
+
+[source,clojure]
+----
+(inc 1)
+(map inc [1 2 3])
+(.getElementById js/document "app")
+----
+
+Let's look a bit closer at the flags we've used here. `-m`, short
+for `--main`, invokes a _Clojure_ function, in this case `cljs.main`. The
+`cljs.main` function supports a variety of command line arguments to specify
+common tasks. We're using `-c` for `--compile` to specify that we want to
+compile the `hello-world.core` namespace. This is followed by `-r` for `--repl`
+to say that we want a REPL to launch immediately when compilation completes.
+
+Change your `src/hello_world/core.cljs` source file to look like the following:
 
 [source,clojure]
 ----
@@ -111,6 +140,24 @@ Let's make a mistake. Try evaluating `(ffirst [1])`. You should get a
 source mapped stack trace pointing at ClojureScript source locations not
 JavaScript ones. This makes debugging a lot nicer.
 
+You can easily explore the options provided by the ClojureScript compiler
+by using `-h` or `--help`:
+
+[source,bash]
+----
+clj -m cljs.main -h
+----
+
+On Windows:
+
+[source,bash]
+----
+java -cp "cljs.jar;src" -m cljs.main -h
+----
+
+One important thing to note is that so called main options like `--compile`,
+`--main`, `--repl` must always come last.
+
 [[production-builds]]
 == Production Builds
 
@@ -118,10 +165,10 @@ You may have noticed the `out` directory which contains all of the compiled
 JavaScript. There's about 6 1/2 megabytes worth of JavaScript in there. This may
 seem unweildy but fortunately the ClojureScript compiler generates output
 optimized for the Google Closure Compiler. The Google Closure Compiler performs
-many optimizations, but the most significant for browser-based clients are
+many optimizations and the most significant for browser-based clients are
 minification and dead code elimination.
 
-Let's remove the dev time REPL bits from `src/hello_world/core.cljs`:
+Let's remove the REPL modifications we made earlier from `src/hello_world/core.cljs`:
 
 [source,clojure]
 ----
@@ -130,8 +177,8 @@ Let's remove the dev time REPL bits from `src/hello_world/core.cljs`:
 (println "Hello world!")
 ----
 
-Let's create a release build. We can do this with `-O` for `--optimizations`.
-The default optimization level is `none`, but this time we want to use all
+We can create a release build with the `-O` flag (for `--optimizations`). The
+default optimization level is `none`, but this time we want to use all the
 optimizations provided by both ClojureScript and Google Closure Compiler - this
 can be done by specifying `advanced`. Other valid options for `-O` are
 `whitespace` and `simple` but these are less commonly used:
@@ -173,23 +220,22 @@ On Windows:
 java -cp "cljs.jar;src" -m cljs.main -s
 ----
 
-`-s` is for `--serve`. This command does not start REPL, so a browser window
+`-s` is for `--serve`. This command does not start a REPL, so a browser window
 will not be automatically opened. Navigate to http://localhost:9000 using your
 favorite browser. Check the JavaScript Console, you should see `Hello world!`
-printed. The builtin web server gzips JavaScript. Check your browser's
+printed. The builtin web server gzips JavaScript content. Check your browser's
 JavaScript Console Network tab and you should be able to confirm that the total
 JavaScript payload is now around 20K.
 
 [[running-clojurescript-on-node.js]]
 == Running ClojureScript on Node.js
 
-First install Node.js. For instructions on installing Node.js, see the
+First make sure you have Node.js installed. For instructions on installing Node.js, see the
 https://github.com/nodejs/node/blob/master/README.md[Node.js wiki]. Only
 the current stable versions of Node.js (>= `0.12.X`) are supported at
 this time.
 
-Node.js has great source mapping support, in order to enable it just
-install `source-map-support`:
+Before we proceed, enable source mapping:
 
 [source,bash]
 ----
@@ -197,9 +243,9 @@ npm install source-map-support
 ----
 
 Let's build your Node project. We can specify that we want to generate code for
-a specific JavaScript target via `-t` for `--target`. If no `-t` is supplied,
-ClojureScript generates code for browsers. Other valid but less common options
-are `nashorn` and `rhino`. We're also using `-o` for specifying the
+a specific JavaScript target via `-t`, short for `--target`. If no `-t` flag is
+supplied, ClojureScript generates code for browsers. Other valid but less common
+options are `nashorn` and `rhino`. We're also using `-o` here for specifying the
 `--output-to` file:
 
 [source,bash]
