@@ -54,7 +54,8 @@ On Windows:
 md src\hello_world & type nul >>core.cljs & move core.cljs src\hello_world
 ----
 
-If you are on OS X or Linux create a `deps.edn` file with the following contents:
+If you are on OS X or Linux create a `deps.edn` file in the `hello_world` project
+directory (_not_ `src/hello_world`) with the following contents:
 
 [source,clojure]
 ----
