@@ -21,7 +21,10 @@ ClojureScript JAR].
 [[clojurescript-compiler]]
 === ClojureScript Compiler
 
-Create a directory `hello_world` then from _inside_ the `hello_world` directory:
+Find a good place to create a directory named `hello_world`. Then from _inside_
+this `hello_world` directory we will create a simple directory structure. Please
+note that in this directory the underscore convention in the file and directory
+names are significant and that you should follow this convention.
 
 [source,bash]
 ----
@@ -35,11 +38,11 @@ On Windows:
 md src\hello_world & type nul >>core.cljs & move core.cljs src\hello_world
 ----
 
-If you are on Linux or OS X create a `deps.edn` file with the following contents:
+If you are on OS X or Linux create a `deps.edn` file with the following contents:
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.104"}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.118"}}}
 ----
 
 If you are on Windows simply copy `cljs.jar` into this directory.
@@ -55,9 +58,8 @@ look like the following:
 ----
 
 First we declare our namespace. This namespace must correspond to the location
-of the source file. We then print the famous message.
-
-Now that we have a simple program, let's build and run some ClojureScript:
+of the source file. We then print the famous message. Now that we have a simple
+program, let's build and run some ClojureScript:
 
 [source,bash]
 ----
@@ -74,10 +76,8 @@ java -cp "cljs.jar;src" -m cljs.main -c hello-world.core -r
 Your default web browser will open to a page that looks like the following:
 
 After a couple of seconds you will see `Hello world!` print at the terminal and
-you will be given a REPL prompt.
-
-Change your `src/hello_world/core.cljs` source file to look like the
-following:
+you will be given a REPL prompt. Change your `src/hello_world/core.cljs` source
+file to look like the following:
 
 [source,clojure]
 ----
@@ -147,7 +147,8 @@ dependencies on the entire ClojureScript standard library (10KLOC) and
 the Google Closure Library (300KLOC). You can thank dead code
 elimination.
 
-You can test that this file still works by running the built in webserver:
+You can test that this file still works by running the built in simple web
+server:
 
 [source,bash]
 ----
@@ -161,12 +162,11 @@ On Windows:
 java -cp "cljs.jar;src" -m cljs.main -s
 ----
 
-Since this not a REPL, a browser window will not be automatically opened.
-Navigate to http://localhost:9000 using your favorite browser. Check the
-JavaScript Console, you should see `Hello world!` printed.
-
-This server gzips JavaScript. Check your browser network tab and you should be
-able to confirm that the total JavaScript payload is now around 20K.
+This command does not start REPL, so a browser window will not be automatically
+opened. Navigate to http://localhost:9000 using your favorite browser. Check the
+JavaScript Console, you should see `Hello world!` printed. The build in web
+server gzips JavaScript. Check your browser network tab and you should be able
+to confirm that the total JavaScript payload is now around 20K.
 
 [[running-clojurescript-on-node.js]]
 == Running ClojureScript on Node.js
@@ -219,8 +219,10 @@ externs file.
 [[node.js-repl]]
 === Node.js REPL
 
-Running a Node.js REPL is similar to running a browser REPL.
-Let's start the REPL:
+Running a Node.js REPL is similar to running a browser REPL. In order to specify
+a REPL which uses a different JavaScript evaluation environment you supply
+`--repl-env` or `-re` for short. This value defaults to the browser REPL but in
+this case we want to specify `node`.
 
 [source,bash]
 ----
@@ -254,7 +256,7 @@ Modify your `deps.edn` file:
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.109"}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.118"}
         cljsjs/react-dom {:mvn/version "16.2.0-3"}}}
 ----
 
