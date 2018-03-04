@@ -68,7 +68,7 @@ On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" --main cljs.main --compile hello-world.core --repl
+java -cp "cljs.jar;src" cljs.main --compile hello-world.core --repl
 ----
 
 Your default web browser will open to a page that looks like the following:
@@ -131,7 +131,7 @@ On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main --help
+java -cp "cljs.jar;src" cljs.main --help
 ----
 
 One important thing to note is that so called main options like `--compile`,
@@ -171,7 +171,7 @@ On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main --optimizations advanced -c hello-world.core
+java -cp "cljs.jar;src" cljs.main --optimizations advanced -c hello-world.core
 ----
 
 This process will take significantly longer which is why we don't use
@@ -196,7 +196,7 @@ On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main --serve
+java -cp "cljs.jar;src" cljs.main --serve
 ----
 
 `-s` is for `--serve`. This command does not start a REPL, so a browser window
@@ -236,7 +236,7 @@ On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main --target node --output-to main.js -c hello-world.core
+java -cp "cljs.jar;src" cljs.main --target node --output-to main.js -c hello-world.core
 ----
 
 You can run your file with:
@@ -272,7 +272,7 @@ On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" -m cljs.main --repl-env node
+java -cp "cljs.jar;src" cljs.main --repl-env node
 ----
 
 All the previously described REPL interactions for the browser should
