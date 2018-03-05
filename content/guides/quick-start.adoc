@@ -200,7 +200,7 @@ On Windows:
 java -cp "cljs.jar;src" cljs.main --serve
 ----
 
-`-s` is for `--serve`. This command does not start a REPL, so a browser window
+This command does not start a REPL, so a browser window
 will not be automatically opened. Navigate to http://localhost:9000 using your
 favorite browser. Check the JavaScript Console, you should see `Hello world!`
 printed. The builtin web server gzips JavaScript content. Check your browser's
