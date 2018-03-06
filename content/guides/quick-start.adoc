@@ -28,7 +28,7 @@ project, as well as running REPLs to interactively develop and test your code. T
 tutorial only assumes basic familiarity with the command line.
 
 First set up a project folder for our Hello World program. Here’s a list of the
-files and folders you’ll need. Note that the underscores in the names are important.
+files and folders you’ll need. Note that the hyphens and underscores in the names (`-` vs `_`) are important.
 
 [source,text]
 ----
