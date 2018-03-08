@@ -21,8 +21,6 @@ The AOT cache logic is smart enough to deal with different compiler versions, bu
 
 By default, this feature is enabled if ClojureScript is itself a JAR dependency, and it is disabled otherwise. You can override the defaults by explicitly using a new `:aot-cache` compiler option.
 
-Note that, while the AOT cache capability is compatible with the `:parallel-build` compiler option, it is currently incompatible with running multiple ClojureScript compilers simultaneously on your dev box.
-
 Since this strategy doesn't depend on AOT artifacts being included in shipping JARS, it should be amenable to  https://clojure.org/news/2018/01/05/git-deps[Git Deps]. Perhaps that will come in a future release of ClojureScript.
 
 Our hope is that this feature is one of those that you actually don't even think about, and that it just further helps get to to your day-to-day development!
