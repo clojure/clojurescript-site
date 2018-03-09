@@ -11,7 +11,13 @@ Many enhancements have been made, including support for Java 9. Below, we'll ta
 
 ## cljs.main
 
-TODO: Short paragraph and link to the main news post for this feature.
+ClojureScript now includes `cljs.main`, which brings many of the capabilities of `clojure.main` (and popularized via the https://clojure.org/guides/deps_and_cli[new Clojure CLI tools]) to ClojureScript, along with special support for the additional considerations and capabilities of the the ClojureScript environment, allowing you to compile or run ClojureScript code directly from the command line.
+
+The `cljs.main` capability has allowed us to drastically simplify the experience for new users. Much of the complexity and ceremony in the previous version of the https://clojurescript.org/guides/quick-start[Quick Start] guide has simply evaporated.
+
+And for experienced ClojureScript users, `cljs.main` makes what should be easy operations, well… easy. Many things can now be done with just a command line flag or two, without any need for complicated setup.
+
+You can read more about `cljs.main` at https://clojurescript.org/news/2018-03-12-clojurescript-command-line[ClojureScript Command Line].
 
 ## Shared AOT Cache
 
