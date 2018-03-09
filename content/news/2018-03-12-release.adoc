@@ -5,6 +5,26 @@ ClojureScript Team
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+## cljs.main
+
+TODO: Short paragraph and link to the main news post for this feature.
+
+## Shared AOT Cache
+
+TODO: Short paragraph and link to the main news post for this feature.
+
+## Module Processing Improvements and Closure Update
+
+ClosureScript now uses the latest Closure Compiler release (v20180204), which includes many improvements for consuming Node modules. In addition to the Closure Compiler update, several changes were implemented on the ClojureScript side. Some of the improvements include:
+
+- CommonJS and ES6 modules can now require each other
+- Closure now detects and is able to remove more UMD wrappers
+- Node module support can be disabled by setting the `:npm-deps` option to `false` for cases where the `node_modules` directory exists but should not be used
+
+## Enhanced Socket REPL and alpha pREPL
+
+TODO: Content for these. pREPL Mention pREPL requires Clojure 1.10.0-alpha4
+
 ## core.specs.alpha
 
 The https://github.com/clojure/core.specs.alpha[core.specs.alpha] library has been ported to ClojureScript, and is available in this release as an opt-in feature. This library contains specs that describes core macros and functions. Support for the `ns` special form is additionally included.
@@ -67,42 +87,6 @@ Finally, using a dedicated map entry type can lead to performance improvements i
 ```  
 
 runs 11% faster in JavaScriptCore, 18% faster in V8, and a whopping 105% faster in SpiderMonkey. And if you use the dedicated `key` and `val` functions instead of destructuring, the V8 performance goes to 44% faster and SpiderMonkey 112%.
-
-## REPL Command Line Enhancements
-
-Support has been added to the ClojureScript REPL so that the `-e` / `--eval` and `-m` / `--main` command line arguments are honored. This can be useful if you want to execute some ClojureScript code directly from the command line, perhaps to run tests.
-
-Note that you can control the output directory used for compilation artifacts by passing `-o` and the name of a directory.
-
-Let's say you have `src/foo/core.cljs` with
-
-[source,clojure]
-```
-(ns foo.core)
-
-(println "*command-line-args*" *command-line-args*)
-
-(defn -main [& args]
-  (println "args:" args))
-```
-
-If you have `deps.edn` set up to specify the latest ClojureScript release, with the `clojure` tool you can execute the above script via
-
-[source,shell]
-```
-clojure -m cljs.repl.node -o out -e "(+ 3 4)" -m foo.core 1 2
-```
-
-and you should see
-
-[source]
-```
-ClojureScript Node.js REPL server listening on 53734
-7
-Analyzing file:/Users/.../src/foo/core.cljs
-args: (1 2)
-*command-line-args* (1 2)
-```
 
 For a complete list of updates in ClojureScript 1.10.xxx see
 https://github.com/clojure/clojurescript/blob/master/changes.md#110101010101010101010xxx[Changes].
