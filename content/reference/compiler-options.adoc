@@ -877,9 +877,9 @@ If set to `false` all of the stated behavior is disabled.
 [[aot-cache]]
 === :aot-cache
 
-Defaults to `true` unless ClojureScript is being used as a git dep. Controls whether a shared AOT cache is used for compiler artifacts produced from JARs.
+Defaults to `false` unless ClojureScript is being used via `cljs.main`. Controls whether the shared AOT cache is used for compiler artifacts produced from JARs.
 
 [source,clojure]
 ----
-:aot-cache false
+:aot-cache true
 ----
