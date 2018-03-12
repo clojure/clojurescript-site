@@ -23,22 +23,23 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 ** `-cf`, `--compile-opts` _edn_ Options to configure the build
 ** `-d`, `--output-dir` _path_ Set the output directory to use. If supplied, `cljsc_opts.edn` in that directory will be used to set ClojureScript compiler options
 ** `-re`, `--repl-env` _env_ The REPL environment to use. Built-in supported values: `nashorn`, `node`, `browser`, `rhino`. Defaults to `browser`
-** `-rf`, `--repl-opts` _edn_ Options to configure the repl-env
-** `-t`, `--target` _name_ The JavaScript target. Configures environment bootstrap and defaults to `browser`. Supported values: `nodejs`, `nashorn`, `webworker`, `none`
+** `-ro`, `--repl-opts` _edn_ Options to configure the repl-env
+** `-t`, `--target` _name_ The JavaScript target. Configures environment bootstrap and defaults to `browser`. Supported values: `node` or `nodejs`, `nashorn`, `webworker`, `none`
 * init options only for `--main` and `--repl`:
 ** `-e`, `--eval` _string_ Evaluate expressions in string; print non-`nil` values
 ** `-i`, `--init` _path_ Load a file or resource
 ** `-v`, `--verbose` _bool_ If `true`, will enable ClojureScript verbose logging
 * init options only for `--compile`:
-** `-O`, `--optimizations` _level_ Set optimization level, only effective with `-c` main option. Valid values are: `none`, `whitespace`, `simple`, `advanced`
+** `-O`, `--optimizations` _level_ Set optimization level, only effective with `--compile` main option. Valid values are: `none`, `whitespace`, `simple`, `advanced`
 ** `-o`, `--output-to` _file_ Set the output compiled file
-** `-w`, `--watch` _path_ Continuously build, only effective with `-c` main option
+** `-w`, `--watch` _path_ Continuously build, only effective with the `--compile` main option
 * main options:
 ** `-` Run a script from standard input
-** `-c`, `--compile` _ns_ Compile a namespace. If `-r` / `--repl` present after namespace will launch a REPL after the compile completes
+** `-c`, `--compile` _ns_ Compile a namespace. If `--repl` present after namespace will launch a REPL after the compile completes
 ** `-h`, `--help`, `-?`  Print this help message and exit
 ** `-m`, `--main` _ns_ Call the `-main` function from a namespace with args
 ** `-r`, `--repl` Run a repl
+** `-s`, `--serve` _host:port_ Start a simple web server to serve the current directory
 ** _path_ Run a script from a file or resource
 * For `--main` and `--repl`:
 ** Enters the `cljs.user` namespace
@@ -48,6 +49,8 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 
 The init options may be repeated and mixed freely, but must appear before
 any main option. 
+
+In the case of `--compile` you may supply `--repl` or `--serve` options afterwards.
 
 Paths may be absolute or relative in the filesystem or relative to
 classpath. Classpath-relative paths have prefix of @ or @/
@@ -60,18 +63,18 @@ Usage: java -cp cljs.jar cljs.main [init-opt*] [main-opt] [arg*]
 
 With no options or args, runs an interactive Read-Eval-Print Loop
 
-init option:
-  -cf, --compile-opts edn     Options to configure the build
+init options:
+  -co, --compile-opts edn     Options to configure the build
    -d, --output-dir path      Set the output directory to use. If supplied,
                               cljsc_opts.edn in that directory will be used to
                               set ClojureScript compiler options
-  -re, --repl-env             The REPL environment to use. Built-in supported
+  -re, --repl-env env         The REPL environment to use. Built-in supported
                               values: nashorn, node, browser, rhino. Defaults
-                              to nashorn
-  -rf, --repl-opts edn        Options to configure the repl-env
+                              to browser
+  -ro, --repl-opts edn        Options to configure the repl-env
    -t, --target name          The JavaScript target. Configures environment
                               bootstrap and defaults to browser. Supported
-                              values: nodejs, nashorn, webworker, none
+                              values: node or nodejs, nashorn, webworker, none
 
 init options only for --main and --repl:
    -e, --eval string          Evaluate expressions in string; print non-nil
@@ -80,21 +83,23 @@ init options only for --main and --repl:
    -v, --verbose bool         If true, will enable ClojureScript verbose logging
 
 init options only for --compile:
-   -O, --optimizations level  Set optimization level, only effective with -c
-                              main option. Valid values are: none, whitespace,
-                              simple, advanced
+   -O, --optimizations level  Set optimization level, only effective with --
+                              compile main option. Valid values are: none,
+                              whitespace, simple, advanced
    -o, --output-to file       Set the output compiled file
-   -w, --watch path           Continuously build, only effective with -c main
-                              option
+   -w, --watch path           Continuously build, only effective with the --
+                              compile main option
 
 main options:
    -                          Run a script from standard input
-   -c, --compile ns           Compile a namespace. If -r / --repl present after
+   -c, --compile ns           Compile a namespace. If --repl present after
                               namespace will launch a REPL after the compile
                               completes
    -h, --help, -?             Print this help message and exit
    -m, --main ns              Call the -main function from a namespace with args
    -r, --repl                 Run a repl
+   -s, --serve host:port      Start a simple web server to serve the current
+                              directory
    path                       Run a script from a file or resource
 
 For --main and --repl:
@@ -107,6 +112,8 @@ For --main and --repl:
 
 The init options may be repeated and mixed freely, but must appear before
 any main option.
+
+In the case of --compile you may supply --repl or --serve options afterwards.
 
 Paths may be absolute or relative in the filesystem or relative to
 classpath. Classpath-relative paths have prefix of @ or @/
