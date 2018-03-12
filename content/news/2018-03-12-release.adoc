@@ -86,7 +86,7 @@ As an expediency, ClojureScript has been returning 2-element vectors for non-sor
 
 In order to align with Clojure, ClojureScript now returns a dedicated map entry type for this case and eliminates the artifical vector support. One example illustrating higher fidelity with Clojure is that this allows ClojureScript to properly return `nil` when `empty` is applied to a map entry. (Since map entries have exactly two elements, it is impossible to have an empty map entry.)
 
-While this certainly cleans things up, be on the lookout for code that incorrectly treats vectors as map entries. For example, while `(key (first {:a 1}))` is perfectly valid, `(key [:a 1])` is incorrect and will result in a runtime exception.
+While this certainly cleans things up, be on the lookout for code that incorrectly treats vectors as map entries. For example, while `(key (first {:a 1}))` and `(val (first {:a 1}))` are perfectly valid, `(key [:a 1])` and `(val [:a 1])` are incorrect and will result in a runtime exception.
 
 Finally, using a dedicated map entry type can lead to performance improvements in some code that works with map entries. For example, in `:advanced` mode, this code
 
