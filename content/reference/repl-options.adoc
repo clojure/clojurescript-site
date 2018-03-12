@@ -13,8 +13,10 @@ ClojureScript REPLs can take nearly all the same options that can be
 supplied to `cljs.closure/build`, for details see <<compiler-options#,Compiler Options>>.
 This page documents additional supported options.
 
+== General Options
+
 [[analyze-path]]
-=== analyze-path
+=== :analyze-path
 
 Sets a source path to analyze upon REPL initialization so that, if it
 connects to an already-running JavaScript environment, symbols for any
@@ -27,7 +29,7 @@ of paths to analyze.
 ----
 
 [[def-emits-var]]
-=== def-emits-var
+=== :def-emits-var
 
 Sets whether `def` (and derived) forms evaluated at the REPL return
 either a Var (if set to `true`) or the `def` init value (if `false`).
@@ -40,7 +42,7 @@ set to `false`. Default is `true`.
 ----
 
 [[repl-requires]]
-=== repl-requires
+=== :repl-requires
 
 Specifies a set of lib specs (per the `require` REPL special) to be
 automatically loaded when launching a REPL. Defaults to specs that refer
@@ -53,7 +55,7 @@ automatically loaded when launching a REPL. Defaults to specs that refer
 ----
 
 [[repl-verbose]]
-=== repl-verbose
+=== :repl-verbose
 
 Enable verbose reporting for the REPL. Useful for debugging. Defaults to
 `false`.
@@ -72,7 +74,7 @@ cljs.user=> (+ 1 2)
 ....
 
 [[watch]]
-=== watch
+=== :watch
 
 Watch a source directory for recompilation to avoid spinning up an
 additional JVM.
@@ -83,7 +85,7 @@ additional JVM.
 ----
 
 [[watch-fn]]
-=== watch-fn
+=== :watch-fn
 
 [source,clojure]
 ----
@@ -91,3 +93,62 @@ additional JVM.
 ----
 
 A function of no arguments to run after a successful build.
+
+== Browser REPL Options
+
+These options are only applicable to the browser REPL that ships with ClojureScript.
+
+[[launch-browser]]
+=== :launch-browser
+
+By default, starting the browser REPL launches the default browser configured with your operating system to connect back to it. You can disable this behavior by setting this option to `false`, and when doing so you will be prompted to connect with a message like
+
+[source,shell]
+----
+Waiting for browser to connect to http://localhost:9000 ...
+----
+
+[source,clojure]
+----
+:launch-browser false
+----
+
+[[working-dir]]
+=== :working-dir
+
+The directory where the compiled REPL client JavaScript will
+be stored. Defaults to ".repl" with a ClojureScript version
+suffix, eg. ".repl-1.9-946".
+
+[[static-dir]]
+=== :static-dir
+
+List of directories to search for static content. Defaults to
+`["." "out/"]`.
+
+[[src]]
+=== :src
+The source directory containing user-defined cljs files. Used to
+support reflection. Defaults to `"src/"`.
+
+== Node REPL Options
+
+[[host]]
+=== :host
+
+The host that the Node subprocess listens on for REPL traffic.
+
+[source,clojure]
+----
+:host "localhost"
+----
+
+[[port]]
+=== :port
+
+The port that the Node subprocess listens on for REPL traffic.
+
+[source,clojure]
+----
+:port 49152
+----
