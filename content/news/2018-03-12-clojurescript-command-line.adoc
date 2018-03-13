@@ -39,10 +39,7 @@ You will see the following in the REPL terminal:
 
 [source,text]
 ----
-Compiling client js ...
-Serving HTTP on localhost port 9000
-Listening for browser REPL connect ...
-To quit, type: :cljs/quit
+ClojureScript 1.10.x
 cljs.user=>
 ----
 
@@ -136,7 +133,7 @@ If you do this, you will be dropped directly into a Node-based REPL:
 
 [source,text]
 ----
-To quit, type: :cljs/quit
+ClojureScript 1.10.x
 cljs.user=> (+ 2 3)
 5
 cljs.user=> (exists? js/require)
@@ -170,7 +167,7 @@ On Windows:
 java -cp "cljs.jar;src" cljs.main -re node -m my-app.core 5
 ----
 
-Running this will automatically compile our namespace, launch Node and execute our `-main`, passing our command line argument `5`, thus causing it to print `25`.
+Running this will automatically compile our namespace, launch Node, and execute our `-main`, passing our command line argument `5`, thus causing it to print `25`.
 
 What if we'd like to produce a standalone JavaScript file that we can use with Node to do the same?
 
@@ -186,14 +183,14 @@ Node (using `-t`), specifying where we'd like our final output file (using `-o`)
 
 [source, bash]
 ----
-java -cp src:cljs.jar cljs.main -t node -O simple -o out/main.js -c my-app.core
+java -cp src:cljs.jar cljs.main -t node -O simple -o main.js -c my-app.core
 ----
 
 On Windows:
 
 [source,bash]
 ----
-java -cp "cljs.jar;src" cljs.main -t node -O simple -o out\main.js -c my-app.core
+java -cp "cljs.jar;src" cljs.main -t node -O simple -o main.js -c my-app.core
 ----
 
 With this, you can run copy `main.js` to wherever you like, and run
@@ -223,8 +220,8 @@ and then add a new file for a `my-app.core-test` namespace
 ----
 (ns my-app.core-test
   (:require
-    [my-app.core]
-    [clojure.test :refer [deftest is]]))
+   [my-app.core]
+   [clojure.test :refer [deftest is]]))
 
 (deftest square-test
   (is (== 25 (my-app.core/square 5))))
@@ -273,6 +270,6 @@ For example, the following will apply the `:repl-verbose` option (thus showing t
 java -cp cljs.jar cljs.main -co "{:repl-verbose true}" -re node -r
 ----
 
-With the ability to specify EDN dirctly on hte command line, you can pretty much use `cljs.main` to do anything you'd like with the ClojureScript compiler.
+With the ability to specify EDN directly on the command line, you can pretty much use `cljs.main` to do anything you'd like with the ClojureScript compiler.
 
 We hope you find the new `cljs.main` feature useful and that it simplifies many of the common tasks you need to accomplish with the ClojureScript compiler! 
