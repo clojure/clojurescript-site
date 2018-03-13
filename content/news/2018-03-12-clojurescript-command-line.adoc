@@ -171,11 +171,11 @@ Running this will automatically compile our namespace, launch Node, and execute 
 
 What if we'd like to produce a standalone JavaScript file that we can use with Node to do the same?
 
-First, replace `-main` in our source with
+First, add one helper to the end of `my-app.core`:
 
 [source,clojure]
 ----
-(prn (-> (.-argv js/process) last js/parseInt square))
+(set! *main-cli-fn* -main)
 ----
 
 Now we are going to compile a `simple` (using `-O`) build, targeting 
@@ -207,14 +207,7 @@ and it will print `25`.
 
 The built-in Nashorn environment is accessible using `cljs.main`, and with it there is no need for any external JavaScript environment. Let's use this to run some tests.
 
-First delete this line from our `my-app.core` namespace.
-
-[source,clojure]
-----
-(prn (-> (.-argv js/process) last js/parseInt square))
-----
-
-and then add a new file for a `my-app.core-test` namespace
+First, add a new file for a `my-app.core-test` namespace
 
 [source,clojure]
 ----
