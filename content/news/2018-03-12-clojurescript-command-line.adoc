@@ -150,7 +150,7 @@ Let's make a small Node-based app. Replace the contents of our `my-app.core` nam
   (* x x))
 
 (defn -main [& args]
-  (prn (-> args first js/parseInt square)))
+  (-> args first js/parseInt square prn))
 ----
 
 With this in place, let's run this app using `cljs.main` to run `-main` in a specified namespace (using `-m`):
