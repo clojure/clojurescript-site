@@ -283,6 +283,16 @@ Source maps are fully supported, an individual one will be created for
 each module. Just supply `:source-map true` (see example) as there is no
 single source map to name.
 
+[[stable-names]]
+=== :stable-names
+
+Ensures reduced name churn between advanced builds thus proper vendorization if you’re using `:modules`.
+
+[source,clojure]
+----
+:stable-names true
+----
+
 [[preloads]]
 === :preloads
 
