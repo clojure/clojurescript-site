@@ -254,7 +254,7 @@ The above took you through a quick tour covering most of the options available i
 java -cp cljs.jar cljs.main -h
 ----
 
-A couple of interesting options that might be useful are `-co` and `-ro`. The provide the ability to configure any compiler https://clojurescript.org/reference/compiler-options[compiler opton] or https://clojurescript.org/reference/repl-options[REPL option], (which go under `-co`) and REPL-environment-specific options (which go under `-ro`). These can act as an "escape hatch" if you need to specify something for which `cljs.main` doesn't provide a command-line flag.
+A couple of interesting options that might be useful are `-co` and `-ro`. The provide the ability to configure any compiler https://clojurescript.org/reference/compiler-options[compiler option] or https://clojurescript.org/reference/repl-options[REPL option], (which go under `-co`) and REPL-environment-specific options (which go under `-ro`). These can act as an "escape hatch" if you need to specify something for which `cljs.main` doesn't provide a command-line flag.
 
 For example, the following will apply the `:repl-verbose` option (thus showing the JavaScript being emitted while using the REPL):
 
