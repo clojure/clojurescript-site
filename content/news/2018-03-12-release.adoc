@@ -31,6 +31,10 @@ ClosureScript now uses the latest Closure Compiler release (v20180204), which in
 - Closure now detects and is able to remove more UMD wrappers
 - Node module support can be disabled by setting the `:npm-deps` option to `false` for cases where the `node_modules` directory exists but should not be used
 
+## Stable Names
+
+A new compiler option, https://clojurescript.org/reference/compiler-options#stable-names[`:stable-names`] has been introcuced. This reduces name churn between advanced builds and facilitates proper vendorization if you’re using https://clojurescript.org/reference/compiler-options#modules[`:modules`].
+
 ## Enhanced Socket REPL and alpha pREPL
 
 TODO: Content for these. pREPL Mention pREPL requires Clojure 1.10.0-alpha4
