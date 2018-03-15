@@ -25,7 +25,7 @@ TODO: Short paragraph and link to the main news post for this feature.
 
 ## Module Processing Improvements and Closure Update
 
-ClosureScript now uses the latest Closure Compiler release (v20180204), which includes many improvements for consuming Node modules. In addition to the Closure Compiler update, several changes were implemented on the ClojureScript side. Some of the improvements include:
+ClojureScript now uses the latest Closure Compiler release (v20180204), which includes many improvements for consuming Node modules. In addition to the Closure Compiler update, several changes were implemented on the ClojureScript side. Some of the improvements include:
 
 - CommonJS and ES6 modules can now require each other
 - Closure now detects and is able to remove more UMD wrappers
