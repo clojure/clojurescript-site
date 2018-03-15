@@ -152,9 +152,14 @@ human-readable manner. Defaults to true.
 [[target]]
 === :target
 
-If targeting nodejs add this line. Takes no other options at the moment.
+Valid options are `:nodejs` and `:webworker`.
+
 The default (no `:target` specified) implies browsers are being
-targeted. Have a look <<xref/../../../guides/quick-start#running-clojurescript-on-nodejs,here>> for more information on how to run your code in nodejs.
+targeted.
+
+Have a look <<xref/../../../guides/quick-start#running-clojurescript-on-nodejs,here>> for more information on how to run your code in nodejs.
+
+`:webworker` produces a bootstrap script suitable for loading with Web Workers.
 
 [source,clojure]
 ----
