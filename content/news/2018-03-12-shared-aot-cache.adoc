@@ -15,7 +15,7 @@ The shared cache can be reused across different ClojureScript projects you might
 
 Since ClojureScript itself is a typically a JAR dependency, the shared AOT cache mechanism—in typical Lisp metacicular fashion—is applicable to ClojureScript _itself_, caching artifacts produced for `cljs.core` and other namespaces that ship with ClojureScript.
 
-This enables is a new feature of `cljs.main`: For certain use cases, like simply using it to run a script, evaluate a form with `-e`, or just fire up a REPL, `cljs.main` will use a _temporary_ output directory instead of dirtying the filesystem by creating an “out” directory where you ran `cljs.main`. The ability to use an AOT `cljs.core` makes this use case nice and zippy.
+This enables a new feature of `cljs.main`: For certain use cases, like simply using it to run a script, evaluate a form with `-e`, or just fire up a REPL, `cljs.main` will use a _temporary_ output directory instead of dirtying the filesystem by creating an “out” directory where you ran `cljs.main`. The ability to use an AOT `cljs.core` makes this use case nice and zippy.
 
 The AOT cache logic is smart enough to deal with different compiler versions, build-affecting options, and JAR names, and uses that information to store artifact variants separately in the cache. And, while the AOT cache feature is motiviated by the notion that code in shipping JARs is immutable, it recognizes that this does not hold in the case of snapshot JARs or locally deployed JAR revisions. In those cases, the change in JAR timestamp will invalidate the cache.
 
@@ -30,4 +30,4 @@ By default, this feature is disabled unless ClojureScript is being used via `clj
 
 Since this strategy doesn't depend on AOT artifacts being included in shipping JARS, it should be amenable to  https://clojure.org/news/2018/01/05/git-deps[Git Deps]. Perhaps that will come in a future release of ClojureScript.
 
-We encourage you to give this feature a try. Our hope is that this feature is one that you don't end up even thinking about, and that it just further helps get to to your day-to-day development!
+We encourage you to give this feature a try. Our hope is that this feature is one that you don't end up even thinking about, and that it just further helps get you to your day-to-day development!
