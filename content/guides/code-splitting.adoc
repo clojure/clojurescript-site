@@ -131,7 +131,7 @@ Create the `bar.core` namespace:
 [source,bash]
 ```
 mkdir -p src/bar
-touch src/bar/core.clj
+touch src/bar/core.cljs
 ```
 [source,clojure]
 
