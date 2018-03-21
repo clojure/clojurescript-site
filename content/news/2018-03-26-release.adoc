@@ -1,6 +1,6 @@
 = 1.10.xxx Release
 ClojureScript Team
-2018-03-12
+2018-03-26
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -17,7 +17,7 @@ The `cljs.main` capability has allowed us to drastically simplify the experience
 
 And for experienced ClojureScript users, `cljs.main` makes what should be easy operations, well… easy. Many things can now be done with just a command line flag or two, without any need for complicated setup.
 
-You can read more about `cljs.main` at https://clojurescript.org/news/2018-03-12-clojurescript-command-line[ClojureScript Command Line].
+You can read more about `cljs.main` at https://clojurescript.org/news/2018-03-26-clojurescript-command-line[ClojureScript Command Line].
 
 ## Shared AOT Cache
 
