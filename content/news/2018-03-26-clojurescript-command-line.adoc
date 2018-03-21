@@ -1,6 +1,6 @@
 = ClojureScript Command Line
 Mike Fikes
-2018-03-12
+2018-03-26
 :jbake-type: post
 :toc: macro
 :icons: font
@@ -33,7 +33,7 @@ java -cp cljs.jar cljs.main
 
 When you do this, the REPL will start, automatically launch a browser to connect back to it.
 
-image::/images/content/news/2018-03-12-clojurescript-command-line/browser.png[Browser REPL Serving Default index.html,450]
+image::/images/content/news/2018-03-26-clojurescript-command-line/browser.png[Browser REPL Serving Default index.html,450]
 
 You will see the following in the REPL terminal:
 
@@ -104,7 +104,7 @@ Note that we are also adding our `src` directory to the classpath.
 
 When this launches, you should see a blue circle in your browser. 
 
-image::/images/content/news/2018-03-12-clojurescript-command-line/blue-circle.png[Browser REPL Showing Blue Circle,400]
+image::/images/content/news/2018-03-26-clojurescript-command-line/blue-circle.png[Browser REPL Showing Blue Circle,400]
 
 Try interacting with the app, by drawing other circles. For exmaple, try this in the REPL:
 
@@ -113,7 +113,7 @@ Try interacting with the app, by drawing other circles. For exmaple, try this in
 (my-app.core/draw-shape 350 200 50 "red")
 ----
 
-image::/images/content/news/2018-03-12-clojurescript-command-line/blue-red-circle.png[Browser REPL Showing Blue and Red Circle,400]
+image::/images/content/news/2018-03-26-clojurescript-command-line/blue-red-circle.png[Browser REPL Showing Blue and Red Circle,400]
 
 What if you change your source? Change the `2` to a `1` in the `draw-shape` implementation, and refresh your browser. Now instead of circles, the app will be draw semicircles.
 
