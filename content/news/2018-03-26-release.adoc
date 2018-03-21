@@ -21,7 +21,9 @@ You can read more about `cljs.main` at https://clojurescript.org/news/2018-03-26
 
 ## Shared AOT Cache
 
-TODO: Short paragraph and link to the main news post for this feature.
+The shared AOT cache feature saves artifacts compiled from JARs so that they can be reused across your projects, or reused in the event that you do a clean build in a project. This can save time by avoiding recompiling code that does not change.
+
+You can read more at https://clojurescript.org/news/2018-03-26-shared-aot-cache[Shared AOT Cache].
 
 ## Module Processing Improvements and Closure Update
 
