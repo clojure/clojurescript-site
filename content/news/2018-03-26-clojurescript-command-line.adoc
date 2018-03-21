@@ -55,7 +55,7 @@ We are now in an interactive environment, with the ability to control the page. 
 
 Now, let's cobble together a simple browser-based ClojureScript app and explore the ability of `cljs.main` to compile your app's source.
 
-Note that in the previous section, `cljs.main` synthetically-generated an `index.html` for us. We'll want to create a custom `index.html` for our app:
+Note that in the previous section, `cljs.main` synthetically-generated an `index.html` for us. We'll want to create a custom `index.html` for our app in the current directory:
 
 [source,html]
 ----
