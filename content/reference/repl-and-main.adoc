@@ -1,6 +1,6 @@
 = The REPL and main entry points
 ClojureScript Team
-2018-03-12
+2018-03-26
 :type: reference
 :toc: macro
 :icons: font
@@ -20,10 +20,10 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 
 * With no options or args, runs an interactive Read-Eval-Print Loop
 * init options:
-** `-cf`, `--compile-opts` _edn_ Options to configure the build
+** `-co`, `--compile-opts` _edn_ Options to configure the build, can be an EDN string or colon separated list of EDN files / classpath resources. Options will be merged left to right.
 ** `-d`, `--output-dir` _path_ Set the output directory to use. If supplied, `cljsc_opts.edn` in that directory will be used to set ClojureScript compiler options
 ** `-re`, `--repl-env` _env_ The REPL environment to use. Built-in supported values: `nashorn`, `node`, `browser`, `rhino`. Defaults to `browser`
-** `-ro`, `--repl-opts` _edn_ Options to configure the repl-env
+** `-ro`, `--repl-opts` _edn_ Options to configure the repl-env, can be an EDN string or colon separated list of EDN files / classpath resources. Options options will be merged left to right.
 ** `-t`, `--target` _name_ The JavaScript target. Configures environment bootstrap and defaults to `browser`. Supported values: `node` or `nodejs`, `nashorn`, `webworker`, `none`
 * init options only for `--main` and `--repl`:
 ** `-e`, `--eval` _string_ Evaluate expressions in string; print non-`nil` values
@@ -35,7 +35,7 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 ** `-w`, `--watch` _path_ Continuously build, only effective with the `--compile` main option
 * main options:
 ** `-` Run a script from standard input
-** `-c`, `--compile` _ns_ Compile a namespace. If `--repl` present after namespace will launch a REPL after the compile completes
+** `-c`, `--compile` _[ns]_ Run a compile. If optional namespace specified, use as the main entry point. If `--repl` follows, will launch a REPL after the compile completes. If `--server` follows, will start a web server that serves the current directory after the compile completes.
 ** `-h`, `--help`, `-?`  Print this help message and exit
 ** `-m`, `--main` _ns_ Call the `-main` function from a namespace with args
 ** `-r`, `--repl` Run a repl
@@ -64,14 +64,20 @@ Usage: java -cp cljs.jar cljs.main [init-opt*] [main-opt] [arg*]
 With no options or args, runs an interactive Read-Eval-Print Loop
 
 init options:
-  -co, --compile-opts edn     Options to configure the build
+  -co, --compile-opts edn     Options to configure the build, can be an EDN
+                              string or colon separated list of EDN files /
+                              classpath resources. Options will be merged left
+                              to right.
    -d, --output-dir path      Set the output directory to use. If supplied,
                               cljsc_opts.edn in that directory will be used to
                               set ClojureScript compiler options
   -re, --repl-env env         The REPL environment to use. Built-in supported
                               values: nashorn, node, browser, rhino. Defaults
                               to browser
-  -ro, --repl-opts edn        Options to configure the repl-env
+  -ro, --repl-opts edn        Options to configure the repl-env, can be an EDN
+                              string or colon separated list of EDN files /
+                              classpath resources. Options options will be
+                              merged left to right.
    -t, --target name          The JavaScript target. Configures environment
                               bootstrap and defaults to browser. Supported
                               values: node or nodejs, nashorn, webworker, none
@@ -92,9 +98,12 @@ init options only for --compile:
 
 main options:
    -                          Run a script from standard input
-   -c, --compile ns           Compile a namespace. If --repl present after
-                              namespace will launch a REPL after the compile
-                              completes
+   -c, --compile [ns]         Run a compile. If optional namespace specified,
+                              use as the main entry point. If --repl follows,
+                              will launch a REPL after the compile completes.
+                              If --server follows, will start a web server that
+                              serves the current directory after the compile
+                              completes.
    -h, --help, -?             Print this help message and exit
    -m, --main ns              Call the -main function from a namespace with args
    -r, --repl                 Run a repl
