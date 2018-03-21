@@ -1,6 +1,6 @@
 = Shared AOT Cache
 Mike Fikes
-2018-03-12
+2018-03-26
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
