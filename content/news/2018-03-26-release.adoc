@@ -39,7 +39,11 @@ A new compiler option, https://clojurescript.org/reference/compiler-options#stab
 
 ## Enhanced Socket REPL and alpha pREPL
 
-TODO: Content for these. pREPL Mention pREPL requires Clojure 1.10.0-alpha4
+This release adds several `cljs.server.*` namespaces for integration with `-Dclojure.server.repl`, allowing for much richer ClojureScript Socket REPL capabilities.
+
+In addition, support for pREPL has been added. This is similar to Socket REPL, but is instead EDN-based so that tooling can programatically consume REPL output.
+
+The new Socket REPL and pREPL features require Clojure `1.10.0-alpha4` to be on the classpath.
 
 ## core.specs.alpha
 
