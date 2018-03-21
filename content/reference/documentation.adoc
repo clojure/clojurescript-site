@@ -11,6 +11,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 * http://cljs.info/cheatsheet/[ClojureScript Cheatsheet]
 * http://cljs.github.io/api/[ClojureScript Syntax and API Reference]
+* <<javascript-api#,JavaScript API>>
 
 == Reference Documentation
 
