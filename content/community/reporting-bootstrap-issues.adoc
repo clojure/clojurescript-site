@@ -40,8 +40,9 @@ To quit, type: :cljs/quit
 cljs.user=> (require 'cljs.js)
 nil
 cljs.user=> (cljs.js/eval-str (cljs.js/empty-state) 
-  "(+ 1 2)" nil {:eval cljs.js/js-eval :context :expr} identity)
+  "(+ 1 2)" nil {:eval cljs.js/js-eval :context :expr} prn)
 {:ns cljs.user, :value 3}
+nil
 ----
 
 (Note: If you have Node installed, you can do the same by replacing
