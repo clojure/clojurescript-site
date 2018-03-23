@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 ClojureScript 1.10 is finally out!
 
-Many enhancements have been made, including support for Java 9. Below, we'll take you through a quick tour of some of the major new features.
+Many enhancements have been made, including support for Java 9 and Java 10. Below, we'll take you through a quick tour of some of the major new features.
 
 ## cljs.main
 
