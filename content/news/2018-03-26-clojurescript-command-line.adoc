@@ -15,16 +15,26 @@ ClojureScript now has an exciting new command line capability which dramatically
 [[clojurescript-compiler]]
 === Standalone ClojureScript JAR
 
-In order to try these examples, you will need to obtain the standalone ClojureScript JAR.
+In order to try these examples, if you are on macOS or Linux, you can use the https://clojure.org/guides/getting_started[`clj`] command line tool, with `deps.edn` set up as:
 
-+++
-<a href="https://github.com/clojure/clojurescript/releases/latest" rel="latest-version">Download the standalone ClojureScript JAR</a>
-+++
+[source,clojure]
+----
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.217"}}}
+----
+
+On Windows, you will need to obtain the https://github.com/clojure/clojurescript/releases/latest[standalone ClojureScript JAR].
 
 [[starting-a-browser-repl]]
 == Starting a Browser REPL
 
 Let's jump right in! You can start up a browser REPL by running the following command
+
+[source,bash]
+----
+clj -m cljs.main
+----
+
+On Windows:
 
 [source,bash]
 ----
@@ -90,7 +100,7 @@ Now, let's use `cljs.main` to first compile this source (using `-c`), and, when 
 
 [source,bash]
 ----
-java -cp cljs.jar:src cljs.main -w src -c my-app.core -r
+clj -m cljs.main -w src -c my-app.core -r
 ----
 
 On Windows:
@@ -126,6 +136,13 @@ For example, if have Node installed, you can use `cljs.main` to launch a Node-ba
 
 [source,bash]
 ----
+clj -m cljs.main -re node
+----
+
+On Windows:
+
+[source,bash]
+----
 java -cp cljs.jar cljs.main -re node
 ----
 
@@ -157,7 +174,7 @@ With this in place, let's run this app using `cljs.main` to run `-main` in a spe
 
 [source,bash]
 ----
-java -cp src:cljs.jar cljs.main -re node -m my-app.core 5
+clj -m cljs.main -re node -m my-app.core 5
 ----
 
 On Windows:
@@ -181,9 +198,9 @@ First, add one helper to the end of `my-app.core`:
 Now we are going to compile a `simple` (using `-O`) build, targeting 
 Node (using `-t`), specifying where we'd like our final output file (using `-o`):
 
-[source, bash]
+[source,bash]
 ----
-java -cp src:cljs.jar cljs.main -t node -O simple -o main.js -c my-app.core
+clj -m cljs.main -t node -O simple -o main.js -c my-app.core
 ----
 
 On Windows:
@@ -224,7 +241,7 @@ Let's run these tests under Nashorn (by specifying `-re nashorn`). To do things 
 
 [source,bash]
 ----
-java -cp src:cljs.jar cljs.main -re nashorn -i src/my_app/core_test.cljs -e "(cljs.test/run-tests 'my-app.core-test)"
+clj -m cljs.main -re nashorn -i src/my_app/core_test.cljs -e "(cljs.test/run-tests 'my-app.core-test)"
 ----
 
 On Windows
@@ -251,12 +268,25 @@ The above took you through a quick tour covering most of the options available i
 
 [source,bash]
 ----
+clj -m cljs.main -h
+----
+
+On Windows:
+[source,bash]
+----
 java -cp cljs.jar cljs.main -h
 ----
 
 A couple of interesting options that might be useful are `-co` and `-ro`. The provide the ability to configure any compiler https://clojurescript.org/reference/compiler-options[compiler option] or https://clojurescript.org/reference/repl-options[REPL option], (which go under `-co`) and REPL-environment-specific options (which go under `-ro`). These can act as an "escape hatch" if you need to specify something for which `cljs.main` doesn't provide a command-line flag.
 
 For example, the following will apply the `:repl-verbose` option (thus showing the JavaScript being emitted while using the REPL):
+
+[source,bash]
+----
+clj -m cljs.main -co "{:repl-verbose true}" -re node -r
+----
+
+On Windows:
 
 [source,bash]
 ----
