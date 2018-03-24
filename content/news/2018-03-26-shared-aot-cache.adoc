@@ -2,6 +2,7 @@
 Mike Fikes
 2018-03-26
 :jbake-type: post
+:icons: font
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
