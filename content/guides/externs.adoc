@@ -1,4 +1,4 @@
-= Externs (Alpha)
+= Externs
 David Nolen
 2017-01-22
 :type: guides
@@ -11,8 +11,7 @@ toc::[]
 
 This page documents how to write externs for third party JavaScript libraries
 that do not conform to Google Closure Compiler conventions
-https://developers.google.com/closure/compiler/docs/limitations. The features
-described should be considered of alpha quality and subject to change.
+https://developers.google.com/closure/compiler/docs/limitations.
 
 [[motivation]]
 == Motivation
