@@ -21,9 +21,11 @@ The AOT cache logic is smart enough to deal with different compiler versions, bu
 
 [NOTE]
 ====
-The AOT cache logic cannot handle the case where shipping JARs employ macros that consult the ambient environment in order to affect the code generated for the source shipped in those JARs. One example might be the use of macros to cause the compiled code to reflect configuration. 
+The AOT cache logic cannot handle the case where shipping JARs employ macros that consult the ambient environment in order to affect the code generated for the source shipped in those JARs. 
 
-In those cases, it is recommended that libraries and tooling employ `goog.define` instead, perhaps with the help of https://clojurescript.org/reference/compiler-options#closure-defines[`:closure-defines`], as this makes JARs cache-friendly.
+An example might be the use of macros to cause the compiled code to reflect configuration, as is the case if you use `:external-config` with Figwheel or Dirac.
+
+In those situations, it is recommended that libraries and tooling employ `goog.define` instead, perhaps with the help of https://clojurescript.org/reference/compiler-options#closure-defines[`:closure-defines`], as this makes JARs cache-friendly.
 ====
 
 By default, this feature is disabled unless ClojureScript is being used via `cljs.main`. You can override the default by explicitly using the new https://clojurescript.org/reference/compiler-options#aot-cache[`:aot-cache`] compiler option.
