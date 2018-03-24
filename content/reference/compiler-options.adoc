@@ -191,7 +191,9 @@ all `.js` files within the directory and automatically assign a
 results in computed `:provides` `["your.js.deps"]`, and your custom
 `:provides` will be overwritten by the generated `:provides`.
 * `:file-min` (Optional) Indicates the URL to the minified variant of
-the library.
+the library. This will be used in preference to `:file` if 
+<<compiler-options#optimizations,`:optimizations`>> is set to either
+`:simple` or `:advanced`.
 * `:provides` A synthetic namespace that is associated with the library.
 This is typically a vector with a single string, but it has the
 capability of specifying multiple namespaces (typically used only by
