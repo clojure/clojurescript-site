@@ -869,3 +869,13 @@ Defaults to `true`. Automatically provide a shim for Node.js `process.env`
 containing a single Google Closure define, `NODE_ENV` with `"development"`
 as the default value. In production `NODE_ENV` will be set to `"production"`.
 If set to `false` all of the stated behavior is disabled.
+
+[[infer-externs]]
+=== :infer-externs
+
+Enables automatically generating externs for interop calls to JavaScript. Defaults to `false`. For more info see <<xref/../../guides/externs#externs-inference#,Externs (Alpha)>>
+
+[source,clojure]
+----
+:infer-externs true
+----
