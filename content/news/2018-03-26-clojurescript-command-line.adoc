@@ -293,6 +293,6 @@ On Windows:
 java -cp cljs.jar cljs.main -co "{:repl-verbose true}" -re node -r
 ----
 
-With the ability to specify EDN directly on the command line, you can pretty much use `cljs.main` to do anything you'd like with the ClojureScript compiler.
+You can specify EDN directly on the command line, as shown above, or you can supply the names of files containing EDN. With this capability, you can pretty much use `cljs.main` to do anything you'd like with the ClojureScript compiler.
 
 We hope you find the new `cljs.main` feature useful and that it simplifies many of the common tasks you need to accomplish with the ClojureScript compiler! 
