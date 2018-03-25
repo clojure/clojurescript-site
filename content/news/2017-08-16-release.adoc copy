@@ -1,0 +1,25 @@
+= 1.9.908 Release
+
+2016-08-16
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This release contains many bug fixes and ddresses a number of issues based on
+feedback from the 1.9.854 release candidate.
+
+## Simpler Module Loading
+
+A small bit of automatic configuration magic from the new module loading feature
+has been removed. Any module that will be loaded via `cljs.loader` must require
+it and must invoke `cljs.loader/set-loaded!` as the final statement. All
+existing documentation and examples from previous posts have been updated.
+This simplification means downstream users can build higher level
+composable facilities upon `cljs.loader`.
+
+## Node Modules
+
+We're extremely excited to see users enthusiastically giving `:npm-deps` a try
+even at this early stage. Several issues have been addressed and we've
