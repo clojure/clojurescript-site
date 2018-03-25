@@ -555,12 +555,33 @@ Defaults to false.
 [[output-wrapper]]
 === :output-wrapper
 
-Wrap the JavaScript output in `(function(){...};)()` to avoid clobbering
-globals. Defaults to false.
+Wrap the Javascript output to avoid clobbering globals. There are four
+possible value types:
+
+1. Function - Takes one argument, the compiled javascript output. Should
+              return some other valid javascript output. For the simplest
+              case, just string concatenate the javascript output with
+              something akin to #3 (the default wrapper)
+2. String - Some `format` interpolation compatible string. For example,
+            `"(function(){%s};)()"`. `format` receives the compiled
+            javascript output as the second argument and nothing else.
+3. Truthy - Wrap with the default `(function(){...};)()`
+4. Falsey - Don't wrap. This is the default.
 
 [source,clojure]
 ----
-:output-wrapper false
+;; function
+(fn [js-output]
+  (str "(function(){" js-output "};).call(window);"))
+
+;; string
+"(function(){%s};).call(window);"
+
+;; truthy
+true
+
+;; falsey
+false
 ----
 
 [[libs]]
