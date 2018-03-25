@@ -13,3 +13,4 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<project-templates#,Project Templates>>
 * <<self-hosting#,Optional self-hosting>>
 * <<native-executables#,Native executables>>
+* <<ns-forms#,ns Forms>>

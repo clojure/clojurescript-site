@@ -1,0 +1,265 @@
+= ns Forms
+Mike Fikes
+2018-01-28
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[ns-forms-toc]]
+toc::[]
+
+The ClojureScript `ns` form can, in most usage, be quite simple and similar to Clojure, especially with affordances that have been recenty added to ClojureScript.
+
+But, there is a rich set of options that underlie the `ns` form and you may encounter their use in the wild. This guide aims to walk through these options and provide some clarity.
+
+# Macros
+
+In ClojureScript, macros are handled a bit differently than in Clojure. In particular, the `ns` form supports `:require-macros`, along with some simplifying sugar and implicit loading behavior that we will cover here.
+
+## Primitives
+
+For the sake of an example, let's assume that we have the following in `src/foo/core.clj`:
+
+[source,clojure]
+```
+(ns foo.core)
+
+(defmacro add
+  [a b]
+  `(+ ~a ~b))
+```
+
+To use this macro in some ClojureScript source, you can employ the `:require-macros` spec as
+
+[source,clojure]
+```
+(ns bar.core
+  (:require-macros [foo.core]))
+
+(foo.core/add 2 3)
+```
+
+Now, `:require-macros` is designed to work a lot like `:require`. So, for example, you could directly refer the `add` symbol into your namespace:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require-macros [foo.core :refer [add]]))
+
+(add 2 3)
+```
+
+> An alternative to the above (which is infrequently seen, but worth covering for completeness), is `:use-macros`. In ClojureScript `:require` / `:refer` and `:use` / `:only` are essentially dual forms of each other. So, the `ns` form in the above could have just as well been written `(ns bar.core (:use-macros [foo.core :only [add]]))`.
+
+You could also set up a namespace alias `foo`:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require-macros [foo.core :as foo]))
+
+(foo/add 2 3)
+```
+
+## Sugar
+
+The examples above are all making use of the `:require-macros` primitive.
+
+Frequently, though, you will be consuming code that comes from a library that offers both runtime code (functions and other `def` s) and macros, all from the same namespace.
+
+So, continuing on our example, let's say that there is a `src/foo/core.cljs` file with
+
+[source,clojure]
+```
+(ns foo.core)
+
+(defn subtract
+  [a b]
+  (- a b))
+```
+
+Now if you wanted to use both add and subtract, you might do something like this:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require-macros [foo.core :refer [add]])
+  (:require [foo.core :refer [subtract]]))
+
+(add 2 3)
+(subtract 7 4)
+```
+
+But, there is a bit of `ns`-form sugar, `:refer-macros` that lets you write instead:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require [foo.core :refer [subtract] :refer-macros [add]]))
+
+(add 2 3)
+(subtract 7 4)
+```
+
+The `:refer-macros` above really is just sugar, and it is algorithmically desugared into the previous form by the compiler.
+
+Similarly, there is `:include-macros` sugar that you can use to signal that the macros namespace should be required using the same specifications as the runtime namespace. So for example, this works:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require [foo.core :as foo :include-macros true]))
+
+(foo/add 2 3)
+(foo/subtract 7 4)
+```
+
+The above desugars into the more repetitively verbose primitive form:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require-macros [foo.core :as foo])
+  (:require [foo.core :as foo]))
+
+(foo/add 2 3)
+(foo/subtract 7 4)
+```
+
+## Implicit Sugar
+
+In cases where a runtime namespace being required _internally_ requires its own macro namespace (meaning a namespace with the same name), then you implicitly get the `:include-macros` sugar for free.
+
+To illustrate this, let's say our `src/foo/core.cljs` file instead looked like this:
+
+[source,clojure]
+```
+(ns foo.core
+  (:require-macros foo.core))
+
+(defn subtract
+  [a b]
+  (- a b))
+```
+
+Now, you can consume things like this:
+
+[source,clojure]
+```
+(ns bar.core
+  (:require [foo.core :as foo]))
+
+(foo/add 2 3)
+(foo/subtract 7 4)
+```
+
+## Implicit Refer
+
+What about this nice-looking simplification?
+
+[source,clojure]
+```
+(ns bar.core
+  (:require [foo.core :refer [add subtract]))
+
+(add 2 3)
+(subtract 7 4)
+```
+
+In this case, the fact that `add` is a macro and that `subtract` is a function is automatically handled by the compiler, thus making it possible to uniformly refer vars, with the `ns` form looking essentially like it would in Clojure.
+
+## Docs
+
+If you are ever at a REPL and need a quick reference to the above topics, the docstring for the `ns` special form is there to help. The sugared forms are referred to as _inline macro specification_ and the implicit sugar is referred to as _implicit macro loading_. A fairly comprehensive example of desugaring is included in the docstring. In a pinch, `(doc ns)` is your friend.
+
+## The `require` and `require-macros` macros
+
+You can use `require` and `require-macros` to dynamically load code into your REPL. What's interesting is that the capability described above also works for these macros.
+
+This is an implementation detail, but it helps you see how this is accomplished: When you issue
+
+[source,clojure]
+```
+(require-macros '[foo.core :as foo :refer [add]])
+```
+
+at the REPL, this is internally converted into an `ns` form that looks like
+
+[source,clojure]
+```
+(ns cljs.user
+  (:require-macros [foo.core :as foo :refer [add]]))
+```
+
+And, importantly, when you use `require`, a similar `ns` form is employed, and it is subject to all the desugaring and inference behavior described above.
+
+# `clojure` Namespace Aliasing
+
+Some namespaces—like `clojure.string` and `clojure.set`—are available for use in ClojureScript, even though the first segment in those namespaces is `clojure`. But then others—like `cljs.pprint`, `cljs.test`, and  now `cljs.spec`—live under `cljs`.
+
+Why the difference? Ideally, there'd be none. But, if you look at, say, the port of `clojure.pprint` for use with ClojureScript, it involves a _macro_ namespace. This is where the problem lies. Since the JVM ClojureScript compiler uses Clojure for execution, there would be a namespace collision if the port were not moved to `cljs.pprint`. In short, the `clojure.pprint` namespace was taken.
+
+A consequence of this is that we have to remember to use `cljs.*` for some namespaces when writing ClojureScript. And, if you are writing portable code, you need to employ reader conditionals.
+
+There is a relatively new simplification to the `ns` form that you can employ: You can use `clojure` in lieu of `cljs` in the first segment of namespaces in the case of nonexistent `clojure.\*` namespaces that can be mapped to `cljs.*` namespaces.
+
+A simple example:
+
+[source,clojure]
+```
+(ns foo.core
+  (:require [clojure.test]))
+```
+
+can be used instead of
+
+[source,clojure]
+```
+(ns foo.core
+  (:require [cljs.test]))
+```
+
+If you do this, the ClojureScript compiler will first see if it can load the `clojure.test` namespace. Since it doesn't exist, it will fall back to loading `cljs.test`.
+
+At the same time, an alias is set up from `clojure.test` to `cljs.test`, as if you had written:
+
+[source,clojure]
+```
+(ns foo.core
+  (:require [cljs.test :as clojure.test]))
+```
+
+This is important because it allows you to have code that qualifies symbols, as in `clojure.test/test-var`.
+
+
+With this aliasing, along with the ability to infer macro vars in `:refer` specs (see “Implicit Refer” above), the following code works just fine in ClojureScript:
+
+[source,clojure]
+```
+(ns foo.core-test
+  (:require [clojure.test :as test :refer [deftest is]]))
+
+(deftest foo-test
+  (is (= 3 4)))
+
+(test/test-var #'foo-test)
+```
+
+And, more importantly: _This is the exact same code you'd write in Clojure_. No reader conditionals needed!
+
+Of course, this also works in the `require` ClojureScript macro. So for example, you can do:
+
+[source,clojure]
+```
+(require '[clojure.spec :as s])
+```
+
+Then `(s/def ::even? (s/and number? even?))` will work just fine. The reason for this is that the `require` macro is implemented in terms of the `ns` special.
+
+## Summary
+
+Hopefully these detailed examples help clarify how `ns` desugaring, inference, and aliasing work. The overall intent is to simplify ClojureScript `ns` form usage, but unpacking how these extra capabilities work leads to a better understanding for those times when you either want or need to know what is really going on.
+
+Making good use of these capabilities should go a long way towards easing the differences between ClojureScript and Clojure `ns` forms.

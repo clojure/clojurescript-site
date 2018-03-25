@@ -19,6 +19,7 @@ Below is a partial list of some companies using ClojureScript.
 * https://www.balboa.io[Balboa]
 * http://www.bevuta.com/[bevuta]
 * https://www.blossom.co[Blossom]
+* https://en.booctin.com[Booctin']
 * http://www.brightnorth.co.uk[Bright North]
 * https://www.brightin.nl[Brightin]
 * http://levelmoney.com[Capital One/Level Money]
@@ -64,6 +65,7 @@ Below is a partial list of some companies using ClojureScript.
 * https://lifebooker.com[Lifebooker]
 * http://lightmesh.com[LightMesh]
 * https://www.loyal3.com/[Loyal3] (only certain parts of public site, transition in progress)
+* https://www.magnet.coop[Magnet]
 * http://www.mttmarket.com/[MTTMarket]
 * http://www.mastodonc.com/[Mastodon C] (Not on public site, however)
 * https://welcome.mayvenn.com/hello[Mayvenn]

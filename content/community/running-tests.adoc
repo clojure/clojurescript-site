@@ -109,6 +109,18 @@ bootstrapped mode within Node.js by running
 ./script/test-self-parity
 ----
 
+[[running-clojurescript-cli-tests]]
+=== Running ClojureScript CLI (`cljs.main`) tests
+
+You can run tests exercising the ClojureScript CLI by running
+
+[source,bash]
+----
+./script/test-cli repl-env [repl-env-opts-edn]
+----
+
+where `repl-env` is any of the built-in REPL environments (`node`, `browser`, _etc._). This will be passed to `cljs.main` 's `-re` option. You can also specify a non-built-in REPL environment, but you would have to revise `script/test-cli` to include the downstream REPL environment on the classpath. You can also pass optional `repl-env-opts-edn`, which will be passed to `cljs.main` 's `-ro` option. 
+
 [[dont-forget]]
 === Don't forget
 
