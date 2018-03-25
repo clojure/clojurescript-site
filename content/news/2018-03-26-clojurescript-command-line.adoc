@@ -19,7 +19,7 @@ In order to try these examples, if you are on macOS or Linux, you can use the ht
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.217"}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.238"}}}
 ----
 
 On Windows, you will need to obtain the https://github.com/clojure/clojurescript/releases/latest[standalone ClojureScript JAR].
@@ -49,7 +49,7 @@ You will see the following in the REPL terminal:
 
 [source,text]
 ----
-ClojureScript 1.10.x
+ClojureScript 1.10.238
 cljs.user=>
 ----
 
@@ -150,7 +150,7 @@ If you do this, you will be dropped directly into a Node-based REPL:
 
 [source,text]
 ----
-ClojureScript 1.10.x
+ClojureScript 1.10.238
 cljs.user=> (+ 2 3)
 5
 cljs.user=> (exists? js/require)
