@@ -12,7 +12,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 ClojureScript has deep integration with https://github.com/google/closure-compiler[Google Closure Compiler].
 Many ClojureScript features like Node / ES6 modules processing are actually provided
-through Google Closure Compiler support. In these areas contribution to
+through Google Closure Compiler support. In these areas, contribution to
 ClojureScript is done by contributing directly to the Google Closure compiler
 project itself.
 
@@ -20,7 +20,7 @@ project itself.
 
 The Closure compiler team uses GitHub to manage the project and are particularly
 responsive to issues if they are accompanied by pull requests that provide
-resolutions. In order to contribute to the Closure Compiler project you must
+resolutions. In order to contribute to the Closure Compiler project, you must
 submit a Google Contributor Agreement.
 
 === Closure Compiler Development
@@ -28,11 +28,11 @@ submit a Google Contributor Agreement.
 While sparsely documented, the Closure Compiler Java code base is surprisingly
 approachable. Using a free Java IDE like
 https://www.jetbrains.com/idea/download/[IntelliJ Community Edition] can greatly
-simply exploring and understanding the Closure Compiler source. When locating
-the source of Closure Compiler bugs Java IDEs also have the added benefit of
+simplify exploring and understanding the Closure Compiler source. When locating
+the source of Closure Compiler bugs, Java IDEs also have the added benefit of
 robust step debugging tools.
 
-Once you believe you have a fix, create branch with your fixes and then create
+Once you believe you have a fix, create a branch with your fixes and then create
 a test case.
 
 ==== Adding a Test Case to Closure Compiler
