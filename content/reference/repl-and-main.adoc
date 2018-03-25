@@ -1,0 +1,181 @@
+= The REPL and main entry points
+ClojureScript Team
+2018-03-26
+:type: reference
+:toc: macro
+:icons: font
+:navlinktext: REPL and main
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+== The cljs.main namespace
+
+The `cljs.main` namespace provides functions that allow ClojureScript programs and interactive sessions to be launched via Java's application launcher tool `java`.
+
+== cljs.main --help
+
+The `cljs.main/main` entry point accepts a variety of arguments and flags.
+
+* With no options or args, runs an interactive Read-Eval-Print Loop
+* init options:
+** `-co`, `--compile-opts` _edn_ Options to configure the build, can be an EDN string or system-dependent path-separated list of EDN files / classpath resources. Options will be merged left to right.
+** `-d`, `--output-dir` _path_ Set the output directory to use. If supplied, `cljsc_opts.edn` in that directory will be used to set ClojureScript compiler options
+** `-re`, `--repl-env` _env_ The REPL environment to use. Built-in supported values: `nashorn`, `node`, `browser`, `rhino`. Defaults to `browser`
+** `-ro`, `--repl-opts` _edn_ Options to configure the repl-env, can be an EDN string or system-dependent path-separated list of EDN files / classpath resources. Options will be merged left to right.
+** `-t`, `--target` _name_ The JavaScript target. Configures environment bootstrap and defaults to `browser`. Supported values: `node` or `nodejs`, `nashorn`, `webworker`, `none`
+* init options only for `--main` and `--repl`:
+** `-e`, `--eval` _string_ Evaluate expressions in string; print non-`nil` values
+** `-i`, `--init` _path_ Load a file or resource
+** `-v`, `--verbose` _bool_ If `true`, will enable ClojureScript verbose logging
+* init options only for `--compile`:
+** `-O`, `--optimizations` _level_ Set optimization level, only effective with `--compile` main option. Valid values are: `none`, `whitespace`, `simple`, `advanced`
+** `-o`, `--output-to` _file_ Set the output compiled file
+** `-w`, `--watch` _path_ Continuously build, only effective with the `--compile` main option
+* main options:
+** `-` Run a script from standard input
+** `-c`, `--compile` _[ns]_ Run a compile. If optional namespace specified, use as the main entry point. If `--repl` follows, will launch a REPL after the compile completes. If `--server` follows, will start a web server that serves the current directory after the compile completes.
+** `-h`, `--help`, `-?`  Print this help message and exit
+** `-m`, `--main` _ns_ Call the `-main` function from a namespace with args
+** `-r`, `--repl` Run a repl
+** `-s`, `--serve` _host:port_ Start a simple web server to serve the current directory
+** _path_ Run a script from a file or resource
+* For `--main` and `--repl`:
+** Enters the `cljs.user` namespace
+** Binds `\*command-line-args*` to a seq of strings containing command line args that appear after any main option
+** Runs all init options in order
+** Calls a `-main` function or runs a repl or script if requested
+
+The init options may be repeated and mixed freely, but must appear before
+any main option. 
+
+In the case of `--compile` you may supply `--repl` or `--serve` options afterwards.
+
+Paths may be absolute or relative in the filesystem or relative to
+classpath. Classpath-relative paths have prefix of `@` or `@/`
+
+The same is also described in the usage message:
+
+[source,shell]
+----
+Usage: java -cp cljs.jar cljs.main [init-opt*] [main-opt] [arg*]
+
+With no options or args, runs an interactive Read-Eval-Print Loop
+
+init options:
+  -co, --compile-opts edn     Options to configure the build, can be an EDN
+                              string or system-dependent path-separated list of
+                              EDN files / classpath resources. Options will be
+                              merged left to right.
+   -d, --output-dir path      Set the output directory to use. If supplied,
+                              cljsc_opts.edn in that directory will be used to
+                              set ClojureScript compiler options
+  -re, --repl-env env         The REPL environment to use. Built-in supported
+                              values: nashorn, node, browser, rhino. Defaults
+                              to browser
+  -ro, --repl-opts edn        Options to configure the repl-env, can be an EDN
+                              string or system-dependent path-separated list of
+                              EDN files / classpath resources. Options will be
+                              merged left to right.
+   -t, --target name          The JavaScript target. Configures environment
+                              bootstrap and defaults to browser. Supported
+                              values: node or nodejs, nashorn, webworker, none
+
+init options only for --main and --repl:
+   -e, --eval string          Evaluate expressions in string; print non-nil
+                              values
+   -i, --init path            Load a file or resource
+   -v, --verbose bool         If true, will enable ClojureScript verbose logging
+
+init options only for --compile:
+   -O, --optimizations level  Set optimization level, only effective with --
+                              compile main option. Valid values are: none,
+                              whitespace, simple, advanced
+   -o, --output-to file       Set the output compiled file
+   -w, --watch path           Continuously build, only effective with the --
+                              compile main option
+
+main options:
+   -                          Run a script from standard input
+   -c, --compile [ns]         Run a compile. If optional namespace specified,
+                              use as the main entry point. If --repl follows,
+                              will launch a REPL after the compile completes.
+                              If --server follows, will start a web server that
+                              serves the current directory after the compile
+                              completes.
+   -h, --help, -?             Print this help message and exit
+   -m, --main ns              Call the -main function from a namespace with args
+   -r, --repl                 Run a repl
+   -s, --serve host:port      Start a simple web server to serve the current
+                              directory
+   path                       Run a script from a file or resource
+
+For --main and --repl:
+
+  - Enters the cljs.user namespace
+  - Binds *command-line-args* to a seq of strings containing command line
+    args that appear after any main option
+  - Runs all init options in order
+  - Calls a -main function or runs a repl or script if requested
+
+The init options may be repeated and mixed freely, but must appear before
+any main option.
+
+In the case of --compile you may supply --repl or --serve options afterwards.
+
+Paths may be absolute or relative in the filesystem or relative to
+classpath. Classpath-relative paths have prefix of @ or @/
+----
+
+== Launching a REPL
+
+The simplest way to launch a ClojureScript _repl_ is to use the following command line with the shipping `cljs.jar`:
+
+[source,shell]
+----
+java -cp cljs.jar cljs.main
+----
+
+The REPL prompt shows the name of the current namespace, which defaults to _cljs.user_.
+
+Several special vars are available when using the REPL:
+
+* `*1`, `*2`, `*3` - hold the result of the last three expressions that were evaluated
+* `*e` - holds the result of the last exception.
+
+== Launching a Script
+
+To run a file full of ClojureScript code as a script, pass the path to the script to `cljs.main` as an argument:
+
+[source,shell]
+----
+java -cp cljs.jar cljs.main /path/to/myscript.cljs
+----
+
+== Passing arguments to a Script
+
+To pass in arguments to a script, pass them in as further arguments when launching `cljs.main`:
+
+[source,shell]
+----
+java -cp cljs.jar cljs.main /path/to/myscript.cljs arg1 arg2 arg3
+----
+
+The arguments will be provided to your program as a seq of strings bound to the var `pass:[*command-line-args*]`:
+
+[source,shell]
+----
+*command-line-args* => ("arg1" "arg2" "arg3")
+----
+
+== Compiling Source
+
+To compile ClojureScript source code, pass the main namespace to `cljs.main` via the `-c` option:
+
+[source,shell]
+----
+java -cp src:cljs.jar cljs.main -c my-namespace.core
+----
+
+The output will be written to the directory specified via the `-d` option (or `out` if unspecified), or to the file specified via the `-o` option.
