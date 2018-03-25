@@ -17,7 +17,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 8] and the
 https://github.com/clojure/clojurescript/releases/download/r1.10.238/cljs.jar[standalone
 ClojureScript JAR]. Note that the requirement of a web browser excludes
-headless environments, and we then recommend skimming to the Node.js portion of the
+headless environments - for those use cases, we recommend skimming to the Node.js portion of the
 tutorial.
 
 [[clojurescript-compiler]]
