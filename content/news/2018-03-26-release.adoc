@@ -110,3 +110,17 @@ runs 11% faster in JavaScriptCore, 18% faster in V8, and a whopping 105% faster 
 
 For a complete list of updates in ClojureScript 1.10.238 see
 https://github.com/clojure/clojurescript/blob/master/changes.md#110238[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.238:
+
+* Andrea Richiardi
+* Bruce Hauman
+* Erik Assum
+* Jannis Pohlmann
+* John Newman
+* Juho Teperi
+* Mike Fikes
+* Roman Scherer
+* Tim Pote
