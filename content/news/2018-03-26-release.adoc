@@ -1,4 +1,4 @@
-= 1.10.xxx Release
+= 1.10.238 Release
 ClojureScript Team
 2018-03-26
 :jbake-type: post
@@ -108,5 +108,5 @@ Finally, using a dedicated map entry type can lead to performance improvements i
 
 runs 11% faster in JavaScriptCore, 18% faster in V8, and a whopping 105% faster in SpiderMonkey. And if you use the dedicated `key` and `val` functions instead of destructuring, the V8 performance goes to 44% faster and SpiderMonkey 112%.
 
-For a complete list of updates in ClojureScript 1.10.xxx see
-https://github.com/clojure/clojurescript/blob/master/changes.md#110101010101010101010xxx[Changes].
+For a complete list of updates in ClojureScript 1.10.238 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#110238[Changes].
