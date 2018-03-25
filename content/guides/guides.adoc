@@ -9,7 +9,9 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<quick-start#,Quick Start>>
 * <<faq#,FAQ>>
 * <<faq-js#,FAQ (for JavaScript Devs)>>
+* <<externs#,Externs>>
+* <<ns-forms#,Namespaces>>
+* <<javascript-modules#,JavaScript Modules>>
 * <<project-templates#,Project Templates>>
-* <<self-hosting#,Optional self-hosting>>
-* <<native-executables#,Native executables>>
-* <<ns-forms#,ns Forms>>
+* <<self-hosting#,Optional Self-hosting>>
+* <<native-executables#,Native Executables>>
