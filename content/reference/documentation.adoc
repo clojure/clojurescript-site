@@ -11,6 +11,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 * http://cljs.info/cheatsheet/[ClojureScript Cheatsheet]
 * http://cljs.github.io/api/[ClojureScript Syntax and API Reference]
+* <<javascript-api#,JavaScript API>>
 
 == Reference Documentation
 
@@ -18,6 +19,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<repl-options#,REPL Options>>
 * <<dependencies#,Dependencies>>
 * <<packaging-foreign-deps#,Packaging Foreign Dependencies>>
+* <<repl-and-main#,The REPL and main entry points>>
 * <<repl#,REPL and Evaluation Environments>>
 * <<advanced-compilation#,Advanced Compilation>>
 * <<bootstrapping#,Bootstrapping the Compiler>>

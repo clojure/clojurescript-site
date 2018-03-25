@@ -56,11 +56,7 @@ externs] may also serve as useful examples.
 
 When the <<compiler-options#main,`:main` option>> is not used, `:none` requires manual code loading and hence a separate HTML from the other options.
 
-Defaults to `:none`. Note: `lein cljsbuild` `1.0.5` will supply
-`:whitespace`. (See
-https://github.com/emezeske/lein-cljsbuild/issues/381[this issue].)
-
-[source,clojure]
+Defaults to `:none`. [source,clojure]
 ----
 :optimizations :none
 ----
@@ -152,9 +148,14 @@ human-readable manner. Defaults to true.
 [[target]]
 === :target
 
-If targeting nodejs add this line. Takes no other options at the moment.
+Valid options are `:nodejs` and `:webworker`.
+
 The default (no `:target` specified) implies browsers are being
-targeted. Have a look <<xref/../../../guides/quick-start#running-clojurescript-on-nodejs,here>> for more information on how to run your code in nodejs.
+targeted.
+
+Have a look <<xref/../../../guides/quick-start#running-clojurescript-on-nodejs,here>> for more information on how to run your code in nodejs.
+
+`:webworker` produces a bootstrap script suitable for loading with Web Workers.
 
 [source,clojure]
 ----
@@ -195,7 +196,9 @@ all `.js` files within the directory and automatically assign a
 results in computed `:provides` `["your.js.deps"]`, and your custom
 `:provides` will be overwritten by the generated `:provides`.
 * `:file-min` (Optional) Indicates the URL to the minified variant of
-the library.
+the library. This will be used in preference to `:file` if 
+<<compiler-options#optimizations,`:optimizations`>> is set to either
+`:simple` or `:advanced`.
 * `:provides` A synthetic namespace that is associated with the library.
 This is typically a vector with a single string, but it has the
 capability of specifying multiple namespaces (typically used only by
@@ -283,6 +286,16 @@ Source maps are fully supported, an individual one will be created for
 each module. Just supply `:source-map true` (see example) as there is no
 single source map to name.
 
+[[stable-names]]
+=== :stable-names
+
+Ensures reduced name churn between advanced builds thus proper vendorization if you’re using `:modules`.
+
+[source,clojure]
+----
+:stable-names true
+----
+
 [[preloads]]
 === :preloads
 
@@ -313,6 +326,12 @@ prior to your main namespace with the following compiler options:
 namespaces discoverable on the classpath. Note the leading quote is not
 necessary when using Leiningen - values in `project.clj` are implicitly
 quoted.
+
+[NOTE]
+====
+For `:optimizations :none`, a `:main` option must be specified for
+preloads to work.
+====
 
 [[npm-deps]]
 === :npm-deps
@@ -551,12 +570,33 @@ Defaults to false.
 [[output-wrapper]]
 === :output-wrapper
 
-Wrap the JavaScript output in `(function(){...};)()` to avoid clobbering
-globals. Defaults to false.
+Wrap the Javascript output to avoid clobbering globals. There are four
+possible value types:
+
+1. Function - Takes one argument, the compiled javascript output. Should
+              return some other valid javascript output. For the simplest
+              case, just string concatenate the javascript output with
+              something akin to #3 (the default wrapper)
+2. String - Some `format` interpolation compatible string. For example,
+            `"(function(){%s};)()"`. `format` receives the compiled
+            javascript output as the second argument and nothing else.
+3. Truthy - Wrap with the default `(function(){...};)()`
+4. Falsey - Don't wrap. This is the default.
 
 [source,clojure]
 ----
-:output-wrapper false
+;; function
+(fn [js-output]
+  (str "(function(){" js-output "};).call(window);"))
+
+;; string
+"(function(){%s};).call(window);"
+
+;; truthy
+true
+
+;; falsey
+false
 ----
 
 [[libs]]
@@ -622,20 +662,23 @@ Defaults to `false`.
 
 Configure the input and output languages for the closure library. May be:
 
-* `:ecmascript6` identical to `:es6`
-* `:ecmascript6-strict` identical to `:es6-strict`
+* `:ecmascript-next` identical to `:es-next`
+* `:ecmascript-2017` identical to `:es-2017`
+* `:ecmascript-2016` identical to `:es-2016`
+* `:ecmascript-2015` identical to `:es-2015`, `:ecmascript6`, `:es6`, `:ecmascript6-strict`, `:es6-strict`
 * `:ecmascript6-typed` identical to `:es6-typed`
 * `:ecmascript5` identical to `:es5`
 * `:ecmascript5-strict` identical to `:es5-strict`
 * `:ecmascript3` identical to `:es3`
 * `:no-transpile`
 
-Defaults to `:ecmascript3`
+`:language-in` defaults to `:ecmascript5`
+`:language-out` defaults to `:no-transpile`
 
 [source,clojure]
 ----
-:language-in  :ecmascript3
-:language-out :ecmascript3
+:language-in  :ecmascript5
+:language-out :no-transpile
 ----
 
 [[closure-output-charset]]
@@ -696,7 +739,6 @@ The following Closure warning options are exposed to ClojureScript:
 :check-useless-code
 :check-variables
 :closure-dep-method-usage-checks
-:common-js-module-load
 :conformance-violations
 :const
 :constant-property
@@ -712,13 +754,14 @@ The following Closure warning options are exposed to ClojureScript:
 :fileoverview-jsdoc
 :function-params
 :global-this
-:inferred-const-checks
 :internet-explorer-checks
 :invalid-casts
 :j2cl-checks
+:jsdoc-missing-type
 :late-provide
 :lint-checks
 :message-descriptions
+:misplaced-msg-annotation
 :misplaced-type-annotation
 :missing-getcssname
 :missing-override
@@ -727,18 +770,24 @@ The following Closure warning options are exposed to ClojureScript:
 :missing-provide
 :missing-require
 :missing-return
+:missing-sources-warnings
+:module-load
+:msg-conventions
 :non-standard-jsdoc
 :report-unknown-types
+:strict-missing-properties
 :strict-missing-require
 :strict-module-dep-check
 :strict-requires
 :suspicious-code
+:too-many-type-params
 :tweaks
 :type-invalidation
 :undefined-names
 :undefined-variables
 :underscore
 :unknown-defines
+:unnecessary-escape
 :unused-local-variable
 :unused-private-property
 :use-of-goog-base
@@ -771,10 +820,13 @@ or
 
 Note when using Lein the quote is unnecessary due to implicit quoting.
 
+[NOTE]
+====
 For `:optimizations :none`, a `:main` option must be specified for
 defines to work, and only `goog-define` defines are affected.
 `:closure-defines` currently does not have any effect with
 `:optimizations :whitespace`.
+====
 
 You can use the variables set in `:closure-defines` to eliminate parts
 of your code at compile time (DCE). However, to do so you must use `if`
@@ -886,3 +938,23 @@ Defaults to
 * `:nodejs` (`["main"]`) if the `:target` is `:nodejs`.
 
 Can also take a custom vector of entries such as `["browser", "main"]`.
+
+[[aot-cache]]
+=== :aot-cache
+
+Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false` otherwise or if ClojureScript is being used as a https://clojure.org/guides/deps_and_cli#_using_git_libraries[git dep]. Controls whether the shared AOT cache is used for compiler artifacts produced from JARs.
+
+[source,clojure]
+----
+:aot-cache true
+----
+
+[[infer-externs]]
+=== :infer-externs
+
+Enables automatically generating externs for interop calls to JavaScript. Defaults to `false`. For more info see <<xref/../../guides/externs#externs-inference#,Externs (Alpha)>>
+
+[source,clojure]
+----
+:infer-externs true
+----

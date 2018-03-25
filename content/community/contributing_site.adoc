@@ -77,7 +77,7 @@ To actively contribute to the site, it's important to keep your own fork up-to-d
 
 When working on bigger changes it's useful to build the site locally. The site is built using http://jbake.org/[JBake].
 
-To http://jbake.org/docs/2.4.0/#installation[install] JBake 2.5.0-SNAPSHOT:
+To http://jbake.org/docs/2.5.0/#installation[install] JBake 2.5.0-SNAPSHOT:
 
 . `curl -O http://cdn.cognitect.com/clojurescript.org/jbake-2.5.0-SNAPSHOT-bin.zip` (or download this file with your browser)
 . `unzip -o jbake-2.5.0-SNAPSHOT-bin.zip`
@@ -96,6 +96,8 @@ Retrieve and install the current theme assets (these don't change very often so 
 . `unzip -o cljstheme.zip`
 
 Generate the pages:
+
+> Note that `jbake` 2.5.0 requires Java 8. (It will not run properly under Java 9.)
 
 . `jbake` - this will create the static site in the output directory
 . To view the static files, open `output/index` in your browser
