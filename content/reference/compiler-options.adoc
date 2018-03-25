@@ -905,6 +905,16 @@ containing a single Google Closure define, `NODE_ENV` with `"development"`
 as the default value. In production `NODE_ENV` will be set to `"production"`.
 If set to `false` all of the stated behavior is disabled.
 
+[[aot-cache]]
+=== :aot-cache
+
+Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false` otherwise or if ClojureScript is being used as a https://clojure.org/guides/deps_and_cli#_using_git_libraries[git dep]. Controls whether the shared AOT cache is used for compiler artifacts produced from JARs.
+
+[source,clojure]
+----
+:aot-cache true
+----
+
 [[infer-externs]]
 === :infer-externs
 
@@ -914,3 +924,4 @@ Enables automatically generating externs for interop calls to JavaScript. Defaul
 ----
 :infer-externs true
 ----
+
