@@ -22,5 +22,5 @@ process] as Clojure.
 * <<patches#,Patches>>
 * <<running-tests#,Running the Tests>>
 * <<closure#,Closure Compiler Development>>
-* <<xref/../../../guides/custom-repls#,Custom REPLs>>
+* <<custom-repls#,Custom REPLs>>
 * <<xref/../../../reference/bootstrapping#,Bootstrapping the Compiler>>
