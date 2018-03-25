@@ -47,7 +47,7 @@ The new Socket REPL and pREPL features require Clojure `1.10.0-alpha4` to be on 
 
 ## core.specs.alpha
 
-The https://github.com/clojure/core.specs.alpha[core.specs.alpha] library has been ported to ClojureScript, and is available in this release as an opt-in feature. This library contains specs that describes core macros and functions. Support for the `ns` special form is additionally included.
+The https://github.com/clojure/core.specs.alpha[core.specs.alpha] library has been ported to ClojureScript, and is available in this release as an opt-in feature. This library contains specs that describe core macros and functions. Support for the `ns` special form is additionally included.
 
 To use this library, simply require the new `cljs.core.specs.alpha` namespace. By doing this, specs for `defn`, `let`, and other macros will be registered, and subsequent compilation of these macros will be subject to spec validation.
 
