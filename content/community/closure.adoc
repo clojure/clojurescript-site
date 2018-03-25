@@ -1,0 +1,75 @@
+= Dev
+David Nolen
+2018-03-25
+:type: community
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+[[closure-compiler-development]]
+== Closure Compiler Development
+
+ClojureScript has deep integration with https://github.com/google/closure-compiler[Google Closure Compiler].
+Many ClojureScript features like Node / ES6 modules processing are actually provided
+through Google Closure Compiler support. In these areas contribution to
+ClojureScript is done by contributing directly to the Google Closure compiler
+project itself.
+
+=== Contributing to Closure Compiler
+
+The Closure compiler team uses GitHub to manage the project and are particular
+responsive to issues if they are accompanied by pull requests that provide
+resolutions. In order to contribute to the Closure Compiler project you must
+submit a Google Contributor Agreement.
+
+=== Closure Compiler Development
+
+While sparsely documented, the Closure Compiler Java code base is surprisingly
+approachable. Using a free Java IDE like
+https://www.jetbrains.com/idea/download/[IntelliJ Community Edition] can greatly
+simply exploring and understanding the Closure Compiler source. When locating
+the source of Closure Compiler bugs Java IDEs also have the added benefit of
+robust step debugging tools.
+
+Once you believe you have a fix, create branch with your fixes and then create
+a test case.
+
+==== Adding a Test Case to Closure Compiler
+
+Find an appropriate test case file for your unit test. To test your specific
+test you must first build Closure Compiler:
+
+```
+mvn clean && mvn -DskipTests -pl externs/pom.xml,pom-main.xml,pom-main-shaded.xml
+```
+
+At this point unless you need to recompile your compiler changes you can simply
+compile and run your test case which takes less time. In the following replace
+`TestClass#testMethod` with the class and method that you are testing.
+
+```
+mvn -pl pom-main.xml compiler:testCompile surefire:test -Dtest=TestClass#testMethod
+```
+
+Once your tests are passing create a branch if you haven't already with your
+fixes and submit a pull request. Your pull request should probably be linked
+to a corresponding GitHub issue.
+
+The final step is to verify that your fix actually addresses the issue in
+ClojureScript.
+
+==== Testing Closure Compiler against ClojureScript
+
+Build Closure Compiler:
+
+```
+mvn clean && mvn -DskipTests -pl externs/pom.xml,pom-main.xml,pom-main-unshaded.xml
+```
+
+This will install the unshaded JAR in your local maven, take note of the
+version. In the ClojureScript repo change the dependency information for
+the Closure Compiler artifact using whichever tool your prefer (i.e. edit
+project.clj or deps.edn).
+
+Test that the ClojureScript issue is resolved via a ClojureScript specific test.
