@@ -18,7 +18,7 @@ project itself.
 
 === Contributing to Closure Compiler
 
-The Closure compiler team uses GitHub to manage the project and are particular
+The Closure compiler team uses GitHub to manage the project and are particularly
 responsive to issues if they are accompanied by pull requests that provide
 resolutions. In order to contribute to the Closure Compiler project you must
 submit a Google Contributor Agreement.
