@@ -41,7 +41,7 @@ On Windows:
 java -cp cljs.jar cljs.main
 ----
 
-When you do this, the REPL will start, automatically launch a browser to connect back to it.
+When you do this, the REPL will start and will automatically launch a browser to connect back to it.
 
 image::/images/content/news/2018-03-26-clojurescript-command-line/browser.png[Browser REPL Serving Default index.html,450]
 
@@ -116,7 +116,7 @@ When this launches, you should see a blue circle in your browser.
 
 image::/images/content/news/2018-03-26-clojurescript-command-line/blue-circle.png[Browser REPL Showing Blue Circle,400]
 
-Try interacting with the app, by drawing other circles. For exmaple, try this in the REPL:
+Try interacting with the app by drawing other circles. For example, try this in the REPL:
 
 [source,clojure]
 ----
@@ -125,7 +125,7 @@ Try interacting with the app, by drawing other circles. For exmaple, try this in
 
 image::/images/content/news/2018-03-26-clojurescript-command-line/blue-red-circle.png[Browser REPL Showing Blue and Red Circle,400]
 
-What if you change your source? Change the `2` to a `1` in the `draw-shape` implementation, and refresh your browser. Now instead of circles, the app will be draw semicircles.
+What if you change your source? Change the `2` to a `1` in the `draw-shape` implementation, and refresh your browser. Now instead of circles, the app will draw semi-circles.
 
 [[creating-a-node-app]]
 == Creating a Node App
@@ -210,7 +210,7 @@ On Windows:
 java -cp "cljs.jar;src" cljs.main -t node -O simple -o main.js -c my-app.core
 ----
 
-With this, you can run copy `main.js` to wherever you like, and run
+With this, you can copy `main.js` to wherever you'd like and run
 
 [source,bash]
 ----
@@ -277,7 +277,7 @@ On Windows:
 java -cp cljs.jar cljs.main -h
 ----
 
-A couple of interesting options that might be useful are `-co` and `-ro`. The provide the ability to configure any compiler https://clojurescript.org/reference/compiler-options[compiler option] or https://clojurescript.org/reference/repl-options[REPL option], (which go under `-co`) and REPL-environment-specific options (which go under `-ro`). These can act as an "escape hatch" if you need to specify something for which `cljs.main` doesn't provide a command-line flag.
+A couple of interesting options that might be useful are `-co` and `-ro`. They provide the ability to configure any compiler https://clojurescript.org/reference/compiler-options[compiler option] or https://clojurescript.org/reference/repl-options[REPL option], (which go under `-co`) and REPL-environment-specific options (which go under `-ro`). These can act as an "escape hatch" if you need to specify something for which `cljs.main` doesn't provide a command-line flag.
 
 For example, the following will apply the `:repl-verbose` option (thus showing the JavaScript being emitted while using the REPL):
 
