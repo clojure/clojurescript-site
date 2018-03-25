@@ -926,6 +926,19 @@ containing a single Google Closure define, `NODE_ENV` with `"development"`
 as the default value. In production `NODE_ENV` will be set to `"production"`.
 If set to `false` all of the stated behavior is disabled.
 
+[[package-json-resolution]]
+=== :package-json-resolution
+
+Configures which `package.json` entries (e.g. `"browser"`, `"module"` or `"main"`)
+are used in which order when resolving dependencies on (and between) NPM packages.
+
+Defaults to
+
+* `:webpack` (`["browser", "module", "main"]`) if no `:target` is set
+* `:nodejs` (`["main"]`) if the `:target` is `:nodejs`.
+
+Can also take a custom vector of entries such as `["browser", "main"]`.
+
 [[aot-cache]]
 === :aot-cache
 
@@ -945,4 +958,3 @@ Enables automatically generating externs for interop calls to JavaScript. Defaul
 ----
 :infer-externs true
 ----
-
