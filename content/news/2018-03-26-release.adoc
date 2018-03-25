@@ -11,7 +11,7 @@ Many enhancements have been made, including support for Java 9 and Java 10. Be
 
 ## cljs.main
 
-ClojureScript now includes `cljs.main`, which brings many of the capabilities of `clojure.main` (and popularized via the https://clojure.org/guides/deps_and_cli[new Clojure CLI tools]) to ClojureScript, along with special support for the additional considerations and capabilities of the the ClojureScript environment, allowing you to compile or run ClojureScript code directly from the command line.
+ClojureScript now includes `cljs.main`, which brings many of the capabilities of `clojure.main` (and popularized via the https://clojure.org/guides/deps_and_cli[new Clojure CLI tools]) to ClojureScript, along with special support for the additional considerations and capabilities of the ClojureScript environment, allowing you to compile or run ClojureScript code directly from the command line.
 
 The `cljs.main` capability has allowed us to drastically simplify the experience for new users. Much of the complexity and ceremony in the previous version of the https://clojurescript.org/guides/quick-start[Quick Start] guide has simply evaporated.
 
