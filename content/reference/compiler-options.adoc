@@ -647,20 +647,23 @@ Defaults to `false`.
 
 Configure the input and output languages for the closure library. May be:
 
-* `:ecmascript6` identical to `:es6`
-* `:ecmascript6-strict` identical to `:es6-strict`
+* `:ecmascript-next` identical to `:es-next`
+* `:ecmascript-2017` identical to `:es-2017`
+* `:ecmascript-2016` identical to `:es-2016`
+* `:ecmascript-2015` identical to `:es-2015`, `:ecmascript6`, `:es6`, `:ecmascript6-strict`, `:es6-strict`
 * `:ecmascript6-typed` identical to `:es6-typed`
 * `:ecmascript5` identical to `:es5`
 * `:ecmascript5-strict` identical to `:es5-strict`
 * `:ecmascript3` identical to `:es3`
 * `:no-transpile`
 
-Defaults to `:ecmascript3`
+`:language-in` defaults to `:ecmascript5`
+`:language-out` defaults to `:no-transpile`
 
 [source,clojure]
 ----
-:language-in  :ecmascript3
-:language-out :ecmascript3
+:language-in  :ecmascript5
+:language-out :no-transpile
 ----
 
 [[closure-output-charset]]
