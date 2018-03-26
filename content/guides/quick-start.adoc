@@ -10,7 +10,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 [[quick-start-toc]]
 toc::[]
 
-If you are using OS X or Linux the only dependencies required for the main
+If you are using macOS or Linux the only dependencies required for the main
 part of this tutorial are a web browser and an installation of
 https://clojure.org/guides/getting_started[Clojure]. On Windows you will need
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Java
