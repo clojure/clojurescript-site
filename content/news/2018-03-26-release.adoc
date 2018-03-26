@@ -1,0 +1,126 @@
+= 1.10.238 Release
+ClojureScript Team
+2018-03-26
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+ClojureScript 1.10 is finally out!
+
+Many enhancements have been made, including support for Java 9 and Java 10. Below, we'll take you through a quick tour of some of the major new features.
+
+## cljs.main
+
+ClojureScript now includes `cljs.main`, which brings many of the capabilities of `clojure.main` (and popularized via the https://clojure.org/guides/deps_and_cli[new Clojure CLI tools]) to ClojureScript, along with special support for the additional considerations and capabilities of the ClojureScript environment, allowing you to compile or run ClojureScript code directly from the command line.
+
+The `cljs.main` capability has allowed us to drastically simplify the experience for new users. Much of the complexity and ceremony in the previous version of the https://clojurescript.org/guides/quick-start[Quick Start] guide has simply evaporated.
+
+And for experienced ClojureScript users, `cljs.main` makes what should be easy operations, well… easy. Many things can now be done with just a command line flag or two, without any need for complicated setup.
+
+You can read more about `cljs.main` at https://clojurescript.org/news/2018-03-26-clojurescript-command-line[ClojureScript Command Line].
+
+## Shared AOT Cache
+
+The shared AOT cache feature saves artifacts compiled from JARs so that they can be reused across your projects, or reused in the event that you do a clean build in a project. This can save time by avoiding recompiling code that does not change.
+
+More information about this feature will be coming out https://clojurescript.org/news[later].
+
+## Module Processing Improvements and Closure Update
+
+ClojureScript now uses the latest Closure Compiler release (v20180204), which includes many improvements for consuming Node modules. In addition to the Closure Compiler update, several changes were implemented on the ClojureScript side. Some of the improvements include:
+
+- CommonJS and ES6 modules can now require each other
+- Closure now detects and is able to remove more UMD wrappers
+- Node module support can be disabled by setting the `:npm-deps` option to `false` for cases where the `node_modules` directory exists but should not be used
+
+## Stable Names
+
+A new compiler option, https://clojurescript.org/reference/compiler-options#stable-names[`:stable-names`] has been introcuced. This reduces name churn between advanced builds and facilitates proper vendorization if you’re using https://clojurescript.org/reference/compiler-options#modules[`:modules`].
+
+## Enhanced Socket REPL and alpha pREPL
+
+This release adds several `cljs.server.*` namespaces for integration with `-Dclojure.server.repl`, allowing for much richer ClojureScript Socket REPL capabilities.
+
+In addition, support for pREPL has been added. This is similar to Socket REPL, but is instead EDN-based so that tooling can programatically consume REPL output.
+
+The new Socket REPL and pREPL features require Clojure `1.10.0-alpha4` to be on the classpath.
+
+## core.specs.alpha
+
+The https://github.com/clojure/core.specs.alpha[core.specs.alpha] library has been ported to ClojureScript, and is available in this release as an opt-in feature. This library contains specs that describe core macros and functions. Support for the `ns` special form is additionally included.
+
+To use this library, simply require the new `cljs.core.specs.alpha` namespace. By doing this, specs for `defn`, `let`, and other macros will be registered, and subsequent compilation of these macros will be subject to spec validation.
+
+The following illustrates its use at the REPL. Let's say you accidentally attempt to refer _all_ symbols of a library, using a Clojure-specific feature that does not exist in ClojureScript:
+
+[source,clojure]
+```
+ cljs.user=> (require '[clojure.set :refer :all])
+ clojure.lang.ExceptionInfo: Don't know how to create ISeq from: clojure.lang.Keyword at line 1 ...
+```
+
+This error is a bit cryptic. Now, let's try again, but using `core.specs.alpha`:
+
+```
+cljs.user=> (require 'cljs.core.specs.alpha)
+nil
+cljs.user=> (require '[clojure.set :refer :all])
+clojure.lang.ExceptionInfo: Call to cljs.core/require did not conform to spec:
+In: [0 1 :refer] val: :all fails spec: :cljs.core.specs.alpha/refer at: 
+[:args :spec :libspec :lib+opts :options :refer] predicate: coll?
+...
+```
+
+The resulting error is essentially indicating that `:all` is the problem and that `:refer` takes a collection as its argument.
+
+This feature is still alpha, but we encourage you to give it a try and report any defects you might find!
+
+## Reducible Sequence Generators
+
+With this ClojureScript release, the results of `iterate`, `repeat` and `cycle` are now directly reducible. This brings some great work that Alex Miller did for Clojure a http://insideclojure.org/2015/01/18/reducible-generators/[few years ago] to ClojureScript. This means that you will get much better performance when reducing over the output of these functions. 
+
+Take, for example, a benchmark involving running `(transduce (take 64) + (iterate inc 0))` a total of 10,000 times when compiled with `:advanced` optimizations. You can try this benchmark on your machine, but we are seeing this run 4.5 times faster under V8 and SpiderMonkey, and 3.3 times faster on JavaScriptCore.
+
+In addition, this provides a way to process large output without involving intermediate sequence generation, thus bypassing the lack of locals-clearing and inevitable head-holding that occurs in ClojureScript. This means you can now run programs like
+
+[source,clojure]
+```
+(transduce (comp (map inc) (filter odd?) (take 1e8)) + (iterate inc 0))
+```
+
+and they will consume very little memory. This example completes in around 10 seconds in the Node REPL, using just a few megabytes of RAM, whereas previously it would essentially never terminate, consuming gigabytes of RAM.
+
+## Map Entries
+
+As an expediency, ClojureScript has been returning 2-element vectors for non-sorted persistent map entries. For many use cases, this is OK because map entries can be used as vectors. But, the opposite is not the case, and to pull this off, ClojureScript needed to add artificial support to persistent vectors for the `key` and `val` map entry functions.
+
+In order to align with Clojure, ClojureScript now returns a dedicated map entry type for this case and eliminates the artifical vector support. One example illustrating higher fidelity with Clojure is that this allows ClojureScript to properly return `nil` when `empty` is applied to a map entry. (Since map entries have exactly two elements, it is impossible to have an empty map entry.)
+
+While this certainly cleans things up, be on the lookout for code that incorrectly treats vectors as map entries. For example, while `(key (first {:a 1}))` and `(val (first {:a 1}))` are perfectly valid, `(key [:a 1])` and `(val [:a 1])` are incorrect and will result in a runtime exception.
+
+Finally, using a dedicated map entry type can lead to performance improvements in some code that works with map entries. For example, in `:advanced` mode, this code
+
+[source,clojure]
+```
+(simple-benchmark [m (zipmap (range 100) (range))]
+  (reduce (fn [a [k v]] (if (even? v) (+ a k) a)) 0 m) 100000)
+```  
+
+runs 11% faster in JavaScriptCore, 18% faster in V8, and a whopping 105% faster in SpiderMonkey. And if you use the dedicated `key` and `val` functions instead of destructuring, the V8 performance goes to 44% faster and SpiderMonkey 112%.
+
+For a complete list of updates in ClojureScript 1.10.238 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#110238[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.238:
+
+* Andrea Richiardi
+* Bruce Hauman
+* Erik Assum
+* Jannis Pohlmann
+* John Newman
+* Juho Teperi
+* Mike Fikes
+* Roman Scherer
+* Tim Pote
