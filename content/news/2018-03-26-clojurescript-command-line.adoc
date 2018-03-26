@@ -10,19 +10,28 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 [[clojurescript-command-line-toc]]
 toc::[]
 
-ClojureScript now has an exciting new command line capability which dramatically simplifies using ClojureScript for many common use cases. In this post, we'll take you through a quick tour of the capabilities being introduced with `cljs.main`.
+ClojureScript now has an exciting new command line capability called `cljs.main` which dramatically simplifies using ClojureScript for many common use cases. In this post, we'll take you through a quick tour of the capabilities being introduced.
 
 [[clojurescript-compiler]]
-=== Standalone ClojureScript JAR
 
-In order to try these examples, if you are on macOS or Linux, you can use the https://clojure.org/guides/getting_started[`clj`] command line tool, with `deps.edn` set up as:
+== Set up ClojureScript
+
+In order to run these examples, you need to set up ClojureScript. You can do that either via the `clj` command line tool or by downloading the standalone JAR.
+
+=== macOS or Linux: `clj`
+
+. https://clojure.org/guides/getting_started[Install the `clj`] command line tool.
+. In your working directory, create a https://clojure.org/guides/deps_and_cli[`deps.edn`] file with the following contents:
 
 [source,clojure]
 ----
 {:deps {org.clojure/clojurescript {:mvn/version "1.10.238"}}}
 ----
 
-On Windows, you will need to obtain the https://github.com/clojure/clojurescript/releases/latest[standalone ClojureScript JAR].
+=== Windows
+
+. Download the ClojureScript JAR https://github.com/clojure/clojurescript/releases/download/r1.10.238/cljs.jar[`cljs.jar`].
+. Place it in your working directory.
 
 [[starting-a-browser-repl]]
 == Starting a Browser REPL
