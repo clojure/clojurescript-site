@@ -74,6 +74,8 @@ java -cp "cljs.jar;src" cljs.main --compile hello-world.core --repl
 
 Your default web browser will open to a page that looks like the following:
 
+image::/images/content/guides/quick-start/browser.png[Browser REPL Serving Default index.html,450]
+
 After a couple of seconds you will see `Hello world!` print at the terminal and
 you will be given a REPL prompt. Try evaluating some expressions like
 the following:
