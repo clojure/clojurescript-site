@@ -117,10 +117,21 @@ Thanks to all of the community members who contributed to ClojureScript 1.10.238
 
 * Andrea Richiardi
 * Bruce Hauman
+* Dieter Komendera
+* Enzzo Cavallo
 * Erik Assum
+* Hendrik Poernama
 * Jannis Pohlmann
+* Jinseop Kim
 * John Newman
 * Juho Teperi
+* Levi Tan Ong
+* Mark Hepburn
+* Martin Klepsch
 * Mike Fikes
+* Oliver George
+* Paulus Esterhazy
 * Roman Scherer
+* Thomas Heller
 * Tim Pote
+* Tom Mulvaney
