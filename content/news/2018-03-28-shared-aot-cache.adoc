@@ -12,7 +12,7 @@ Since these artifacts are expensive to produce, it is tempting to include them i
 
 A new feature in ClojureScript can effectively solve this problem: When enabled, compilation artifacts produced from JARs are placed in a shared cache. This means that you can compile, say, `core.async` 0.4.474 _once_.
 
-The shared cache can be reused across different ClojureScript projects you might have on your computer. It can also be used as a source to populate your output directory if you perform a “clean” in a project and build it from scratch. This can drastically reduce the build time, as you are only compiling the source in your project proper.
+The shared cache can be reused across the different ClojureScript projects you might have on your computer. It can also be used as a source to populate your output directory if you perform a “clean” in a project and build it from scratch. This can drastically reduce the build time, as you are only compiling the source in your project proper.
 
 Since ClojureScript itself is typically a JAR dependency, the shared AOT cache mechanism—in typical Lisp meta-circular fashion—is applicable to ClojureScript _itself_, caching artifacts produced for `cljs.core` and other namespaces that ship with ClojureScript.
 
