@@ -1,0 +1,36 @@
+= Shared AOT Cache
+Mike Fikes
+2018-03-28
+:jbake-type: post
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+When you compile ClojureScript code, several artifacts are produced, including JavaScript, analysis metadata, and source maps. These are cached locally, in an output subdirectory (typically “out” or “target”).
+
+Since these artifacts are expensive to produce, it is tempting to include them in shipping library JARs. But, the artifacts vary, depending on the compiler version used as well as the build-affecting compiler options in effect (such as `:target`, `:elide-asserts`, or `:static-fns`), so this approach is infeasible.
+
+A new feature in ClojureScript can effectively solve this problem: When enabled, compilation artifacts produced from JARs are placed in a shared cache. This means that you can compile, say, `core.async` 0.4.474 _once_.
+
+The shared cache can be reused across the different ClojureScript projects you might have on your computer. It can also be used as a source to populate your output directory if you perform a “clean” in a project and build it from scratch. This can drastically reduce the build time, as you are only compiling the source in your project proper.
+
+Since ClojureScript itself is typically a JAR dependency, the shared AOT cache mechanism is—in typical Lisp meta-circular fashion—applicable to ClojureScript _itself_, caching artifacts produced for `cljs.core` and other namespaces that ship with ClojureScript.
+
+This enables a new feature of `cljs.main`: For certain use cases, like simply using it to run a script, evaluate a form with `-e`, or just fire up a REPL, `cljs.main` will use a _temporary_ output directory instead of dirtying the filesystem by creating an “out” directory where you ran `cljs.main`. The ability to use an AOT `cljs.core` makes this use case nice and zippy.
+
+The AOT cache logic is smart enough to deal with different compiler versions, build-affecting options, and JAR names, and uses that information to store artifact variants separately in the cache. And, while the AOT cache feature is motiviated by the notion that code in shipping JARs is immutable, it recognizes that this does not hold in the case of snapshot JARs or locally deployed JAR revisions. In those cases, the change in a JAR's timestamp will invalidate the cache.
+
+[NOTE]
+====
+The AOT cache logic cannot handle the case where shipping JARs employ macros that consult the ambient environment in order to affect the code generated for the source shipped in those JARs. 
+
+An example might be the use of macros to cause the compiled code to reflect configuration, as is the case if you use `:external-config` with Figwheel or Dirac.
+
+In those situations, it is recommended that libraries and tooling employ `goog.define` instead, perhaps with the help of https://clojurescript.org/reference/compiler-options#closure-defines[`:closure-defines`], as this makes JARs cache-friendly.
+====
+
+By default, this feature is disabled unless ClojureScript is being used via `cljs.main`. You can override the default by explicitly using the new https://clojurescript.org/reference/compiler-options#aot-cache[`:aot-cache`] compiler option.
+
+Since this strategy doesn't depend on AOT artifacts being included in shipping JARS, it should be amenable to  https://clojure.org/news/2018/01/05/git-deps[Git Deps]. Perhaps that will come in a future release of ClojureScript.
+
+We encourage you to give this feature a try. Our hope is that this feature is one that you don't end up even thinking about, and that it just further helps get you to your day-to-day development!
