@@ -8,7 +8,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 When you compile ClojureScript code, several artifacts are produced, including JavaScript, analysis metadata, and source maps. These are cached locally, in an output subdirectory (typically “out” or “target”).
 
-Since these artifacts are expensive to produce, it is tempting to include them in shipping library JARs. But, the artifacts vary, depending on the compiler version used as well as build-affecting compiler options in effect (such as `:target`, `:elide-asserts`, or `:static-fns`), so this approach is infeasible.
+Since these artifacts are expensive to produce, it is tempting to include them in shipping library JARs. But, the artifacts vary, depending on the compiler version used as well as the build-affecting compiler options in effect (such as `:target`, `:elide-asserts`, or `:static-fns`), so this approach is infeasible.
 
 A new feature in ClojureScript can effectively solve this problem: When enabled, compilation artifacts produced from JARs are placed in a shared cache. This means that you can compile, say, `core.async` 0.4.474 _once_.
 
