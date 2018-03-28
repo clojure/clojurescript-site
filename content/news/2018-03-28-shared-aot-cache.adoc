@@ -14,7 +14,7 @@ A new feature in ClojureScript can effectively solve this problem: When enabled,
 
 The shared cache can be reused across the different ClojureScript projects you might have on your computer. It can also be used as a source to populate your output directory if you perform a “clean” in a project and build it from scratch. This can drastically reduce the build time, as you are only compiling the source in your project proper.
 
-Since ClojureScript itself is typically a JAR dependency, the shared AOT cache mechanism—in typical Lisp meta-circular fashion—is applicable to ClojureScript _itself_, caching artifacts produced for `cljs.core` and other namespaces that ship with ClojureScript.
+Since ClojureScript itself is typically a JAR dependency, the shared AOT cache mechanism is—in typical Lisp meta-circular fashion—applicable to ClojureScript _itself_, caching artifacts produced for `cljs.core` and other namespaces that ship with ClojureScript.
 
 This enables a new feature of `cljs.main`: For certain use cases, like simply using it to run a script, evaluate a form with `-e`, or just fire up a REPL, `cljs.main` will use a _temporary_ output directory instead of dirtying the filesystem by creating an “out” directory where you ran `cljs.main`. The ability to use an AOT `cljs.core` makes this use case nice and zippy.
 
