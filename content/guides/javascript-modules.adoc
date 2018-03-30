@@ -54,47 +54,39 @@ to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
 == JavaScript Modules
 
 First let's see how JavaScript modules can be a part of your build. We'll focus
-on ES6, but the instructions are the same for CommonJS and AMD.
+on ES6, but the instructions are the same for CommonJS.
 
 ----
 mkdir -p hello-es6
 cd hello-es6
-touch project.clj
+touch deps.edn
 ----
 
 Edit the `project.clj` file to look like the following:
 
 [source,clojure]
 ----
-(defproject hello-es6 "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.908"]]
-  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.238"}}}
 ----
 
-Create a watch script:
+Create a compiler options file:
 
 ----
-touch watch.clj
+touch build.edn
 ----
 
 Edit it to look like the following:
 
 [source,clojure]
 ----
-(require '[cljs.build.api :as b])
-
-(b/watch "src"
-  {:output-to    "main.js"
-   :output-dir   "out"
-   :main         'hello-es6.core
-   :target       :nodejs
-   :foreign-libs [{:file "src"
-                   :module-type :es6}] ;; or :commonjs / :amd
-   :verbose      true})
+{:main         hello-es6.core
+ :output-to    "out/main.js"
+ :output-dir   "out"
+ :foreign-libs [{:file "src" :module-type :es6}] ;; or :commonjs
+ :verbose      true})
 ----
 
-Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
+Notice that a `:foreign-libs` entry can specify a directory for `:file`.
 In this case, the ClojureScript compiler will recursively search this directory
 for `.js` files and automatically create the `:foreign-libs` entries for you
 with the supplied options. The `:provides` namespace for each entry will
@@ -112,15 +104,9 @@ Edit this file to look like the following:
 [source,clojure]
 ----
 (ns hello-es6.core
-  (:require [cljs.nodejs :as nodejs]
-            [js.hello :as hello]))
+  (:require [js.hello :as hello]))
 
-(nodejs/enable-util-print!)
-
-(defn -main [& args]
-  (hello/sayHello))
-
-(set! *main-cli-fn* -main)
+(hello/sayHello)
 ----
 
 Note that our JavaScript file can be imported like any other Google Closure
@@ -147,58 +133,16 @@ export var sayHello = function() {
 };
 ----
 
-Let's check that our watch script works:
+Let's build and start a REPL:
 
 ----
-lein trampoline run -m clojure.main watch.clj
+clj -m cljs.main -co build.edn -c -r
 ----
 
-You can verify the script works as intended by invoking Node on `main.js`:
+When the browser loads you should see the following printed at the JavaScript
+Console (not the REPL):
 
 ----
-node main.js
-Hello world!
-----
-
-[[using-the-repl]]
-== Using the REPL
-
-Since JavaScript modules simply get compiled into Google Closure namespaces, all
-of the generic ClojureScript REPL features just work. For example, if you want
-automatic hot-loading of your ES6 source files just use https://github.com/bhauman/lein-figwheel[Figwheel].
-
-We'll demonstrate manual hot-loading with the standard Node.js REPL.
-
-Create a repl file:
-
-----
-touch repl.clj
-----
-
-Edit `repl.clj` to look like the following:
-
-[source,clojure]
-----
-(require '[cljs.repl :as repl])
-(require '[cljs.repl.node :as node])
-
-(repl/repl* (node/repl-env)
-  {:watch "src"
-   :foreign-libs [{:file "src" :module-type :es6}]})
-----
-
-Start the REPL:
-
-----
-rlwrap lein trampoline run -m clojure.main repl.clj
-----
-
-Require the `js.hello` namespace and try it out:
-
-----
-user> (require '[js.hello :as hello])
-true
-user> (hello/sayHello)
 Hello world!
 ----
 
@@ -209,7 +153,7 @@ Without quitting your REPL, edit `src/js/hello.js` to the following:
 export var sayHello = function() {
     console.log("Hello, world!");
 };
-export var sayThings = function(xs) {
+export var sayThings = function(xs) { // ADDED
     for(let x of xs) {
         console.log(x);
     }
@@ -222,6 +166,12 @@ Reload your JavaScript module and try the new functionality:
 user> (require '[js.hello :as hello] :reload)
 true
 user> (hello/sayThings ["ClojureScript", "+", "JavaScript", "Rocks!"])
+nil
+----
+
+And in the JavaScript Console (not the REPL you will see:
+
+----
 ClojureScript
 +
 JavaScript
