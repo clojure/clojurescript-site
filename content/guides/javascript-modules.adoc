@@ -188,44 +188,34 @@ In this case we will want to leverage Nashorn.
 [[babel-transforms]]
 == Babel Transforms
 
-Change your project.clj to the following:
+Change your `deps.edn` to the following:
 
 [source,clojure]
 ----
-(defproject hello-es6 "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.854"]
-                 [cljsjs/react "15.4.2-0"]
-                 [cljsjs/react-dom "15.4.2-0"]
-                 [cljsjs/react-dom-server "15.4.2-0"]
-                 [cljsjs/babel-standalone "6.18.1-3"]]
-  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.238"}
+        cljsjs/react {:mvn/version "15.4.2-0"}
+        cljsjs/react-dom {:mvn/version "15.4.2-0"}
+        cljsjs/react-dom-server {:mvn/version "15.4.2-0"}
+        cljsjs/babel-standalone {:mvn/version "6.18.1-3"}}}
 ----
 
-Change your `watch.clj` to look like the following:
+Change your `build.edn` to look like the following:
 
 [source,clojure]
 ----
-(require '[cljs.build.api :as b])
-(require '[cljsjs.babel-standalone])
-
-(b/watch "src"
-  {:output-to    "main.js"
-   :output-dir   "out"
-   :main         'hello-es6.core
-   :target       :nodejs
-   :foreign-libs [{:file "src"
-                   :module-type :es6
-                   :preprocess 'cljsjs.babel-standalone/transform}] ;; CHANGED
-   :verbose      true})
+{:main         hello-es6.core
+ :output-to    "out/main.js"
+ :output-dir   "out"
+ :foreign-libs [{:file "src" :module-type :es6
+                 :preprocess cljsjs.babel-standalone/transform}] ;; CHANGED
+ :verbose      true})
 ----
 
-https://github.com/cljsjs/packages/tree/master/babel-standalone[Babel-standalone] package
-from Cljsjs provides the necessary JavaScript file and a function that can be used as
-`:preprocess` handler.
-The function uses Nashorn JS engine to run Babel and process foreign libraries.
-Options to Babel can be provided by adding property `:cljsjs.babel-standalone/babel-opts` to the
-foreign library map.
+https://github.com/cljsjs/packages/tree/master/babel-standalone[Babel-standalone]
+package from CLJSJS provides the necessary JavaScript file and a function that
+can be used as `:preprocess` handler. The function uses Nashorn JS engine to run
+Babel and process foreign libraries. Options to Babel can be provided by adding
+property `:cljsjs.babel-standalone/babel-opts` to the foreign library map.
 
 Let's add a React JSX component to `src/js/hello.js`:
 
@@ -252,31 +242,20 @@ Let's change our ClojureScript:
   (:require [cljsjs.react]
             [cljsjs.react.dom]
             [cljsjs.react.dom.server]
-            [cljs.nodejs :as nodejs]
             [js.hello :as hello]))
 
-(nodejs/enable-util-print!)
-
-(defn -main [& args]
-  (hello/sayHello)
-  (println (.renderToString js/ReactDOMServer (hello/reactHello))))
-
-(set! *main-cli-fn* -main)
+(hello/sayHello)
+(println (.renderToString js/ReactDOMServer (hello/reactHello)))
 ----
 
-Run the watch script:
+Build and run the REPL:
 
 ----
-lein trampoline run -m clojure.main watch.clj
+clj -m cljs.main -co build.edn -c -r
 ----
 
-When the build finishes run the code
-
-----
-node main.js
-----
-
-You should see output like the following:
+When the browser loads in the JavaScript Console (not the REPL), you should see
+output like the following:
 
 ----
 Hello, world!
@@ -294,9 +273,10 @@ section covers this topic and will eventually apply to ES6 files as well.
 [[custom-transforms]]
 == Custom JavaScript transforms
 
-In previous example the Babel transformation function was provided by a Cljsjs package.
-If you need to use different transformations you can write your own preprocessing function.
-The Babel transformation can be implemented like this, without the Cljsjs package:
+In previous example the Babel transformation function was provided by a CLJSJS
+package. If you need to use different transformations you can write your own
+preprocessing function. The Babel transformation can be implemented like this,
+without the CLJSJS package:
 
 Remove `cljsjs/babel-standalone` dependency from your project.clj.
 
@@ -326,22 +306,16 @@ Create a new `src/hello_es6/babel.clj` file:
       (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
 ----
 
-Change your `watch.clj` to look like the following:
+Change your `build.edn` to look like the following:
 
 [source,clojure]
 ----
-(require '[clojure.java.io :as io])
-(require '[cljs.build.api :as b])
-
-(b/watch "src"
-  {:output-to    "main.js"
-   :output-dir   "out"
-   :main         'hello-es6.core
-   :target       :nodejs
-   :foreign-libs [{:file "src"
-                   :module-type :es6
-                   :preprocess 'hello-es6.babel/transform-jsx}] ;; CHANGED
-   :verbose      true})
+{:main         'hello-es6.core
+ :output-to    "out/main.js"
+ :output-dir   "out"
+ :foreign-libs [{:file "src" :module-type :es6
+                 :preprocess 'hello-es6.babel/transform-jsx}] ;; CHANGED
+ :verbose      true})
 ----
 
 [[node-modules]]
@@ -366,17 +340,14 @@ touch project.clj
 touch package.json
 ----
 
-Edit `project.clj` to look like the following:
+Edit `deps.edn` to look like the following:
 
 [source, clojure]
 ----
-(defproject hello-cjs "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.854"]
-                 [cljsjs/react "15.4.2-2"]
-                 [cljsjs/react-dom "15.4.2-2"]
-                 [cljsjs/react-dom-server "15.4.2-2"]]
-  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.238"}
+        cljsjs/react {:mvn/version "15.4.2-0"}
+        cljsjs/react-dom {:mvn/version "15.4.2-0"}
+        cljsjs/react-dom-server {:mvn/version "15.4.2-0"}}}
 ----
 
 Notice that we've declared a bunch of CLJSJS dependencies. We're not going to
@@ -387,7 +358,7 @@ Edit `package.json` to look like the following:
 [source,javascript]
 ----
 {
-  "devDependencies": {
+  "devDependencies": { // REMOVE
     "module-deps": "4.0.8",
     "resolve": "1.3.3",
     "browser-resolve": "1.11.2"
@@ -422,8 +393,6 @@ Edit `src/hello_cjs/core.cljs` to look like the following:
 (ns hello-cjs.core
   (:require [libs.npm-stuff :as npm-stuff]))
 
-(enable-console-print!)
-
 (println (npm-stuff/renderSomething))
 ----
 
@@ -438,7 +407,7 @@ Edit `src/libs/npm_stuff.js` to look like the following:
 
 [source,javascript]
 ----
-var React = require("react");
+var React = require("react"); // change to ES6
 var ReactDOMServer = require("react-dom/server");
 
 function renderSomething() {
@@ -466,17 +435,16 @@ Edit `build.clj` to look like the following:
 (b/build (b/inputs "src")
   {:main       'hello-cjs.core
    :target     :nodejs
-   :output-to  "main.js"
+   :output-to  "out/main.js"
    :output-dir "out"
    :verbose    true
-   :externs    ["process.js"]
+   :externs    ["process.js"] // REMOVE
    :foreign-libs (let [entry {:file (.getAbsolutePath (io/file "src/libs/npm_stuff.js"))
                               :provides ["libs.npm-stuff"]
                               :module-type :commonjs}]
-                   (into [entry] (b/node-inputs [entry])))
+                   (into [entry] (b/node-inputs [entry]))) // necessary?
    :optimizations :advanced
-   :closure-warnings {:non-standard-jsdoc :off
-                      :global-this :off}})
+   :closure-warnings {:non-standard-jsdoc :off :global-this :off}})
 
 (System/exit 0)
 ----
@@ -493,14 +461,13 @@ curl -O https://raw.githubusercontent.com/dcodeIO/node.js-closure-compiler-exter
 ----
 
 We need these additional externs because internally React refers to the
-`process` module.
-`:pseudo-names true` is a good way to figure out cases like this. In the future
-hopefully these externs will be covered by CLJSJS.
+`process` module. `:pseudo-names true` is a good way to figure out cases like
+this. In the future hopefully these externs will be covered by CLJSJS.
 
 We're now ready to build our project:
 
 ----
-lein trampoline run -m clojure.main build.clj
+clj -m cljs.main -co build.edn -c -r
 ----
 
 You might see a couple of warnings about the CommonJS files that can be ignored.
