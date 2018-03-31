@@ -46,23 +46,27 @@ from NPM.
 Like the link:quickstart.html[Quick Start], this guide assumes you have the
 latest release of
 https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK
-8], https://nodejs.org[Node.js >= 6.9.4] and rlwrap installed. This guide only uses
-https://leiningen.org[Leiningen] for managing dependencies and is easily adapted
-to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
+8], https://nodejs.org[Node.js >= 6.9.4] and https://clojure.org/guides/getting_started[Clojure] installed.
 
 [[javascript-modules]]
 == JavaScript Modules
 
 First let's see how JavaScript modules can be a part of your build. We'll focus
-on ES6, but the instructions are the same for CommonJS.
+on ES6, but the instructions are the same for CommonJS. First set up a project
+folder for our program. Here’s a list of the files and folders you’ll need. Note
+that the directory structure and the underscores in the names are important and
+should not be changed.
 
+[source,text]
 ----
-mkdir -p hello-es6
-cd hello-es6
-touch deps.edn
+hello-es6          # Our project folder
+├─ src             # The CLJS source code for our project
+│  └─ hello_es6    # Our hello_world namespace folder
+│     └─ core.cljs # Our main file
+└─ deps.edn        # A file for listing our dependencies
 ----
 
-Edit the `project.clj` file to look like the following:
+Edit the `deps.edn` file to look like the following:
 
 [source,clojure]
 ----
@@ -92,14 +96,7 @@ for `.js` files and automatically create the `:foreign-libs` entries for you
 with the supplied options. The `:provides` namespace for each entry will
 be automatically computed from the directory structure.
 
-Let's create the main ClojureScript namespace:
-
-----
-mkdir -p src/hello_es6
-touch src/hello_es6/core.cljs
-----
-
-Edit this file to look like the following:
+Edit `src/hello_es6/core.cljs` to look like the following:
 
 [source,clojure]
 ----
@@ -112,19 +109,12 @@ Edit this file to look like the following:
 Note that our JavaScript file can be imported like any other Google Closure
 namespace.
 
-Let's write the JavaScript:
+Let's write the JavaScript. JavaScript files do not declare namespaces, so the
+ClojureScript compiler will compute one based on the location of the entry.
+Since the `:foreign-libs` entry specified `"src"`, the namespace of this
+JavaScript file for usage from ClojureScript will be `js.hello`.
 
-----
-mkdir -p src/js
-touch src/js/hello.js
-----
-
-JavaScript files do not declare namespaces, so the ClojureScript compiler will
-compute one based on the location of the entry. Since the `:foreign-libs` entry
-specified `"src"`, the namespace of this JavaScript file for usage from
-ClojureScript will be `js.hello`.
-
-Edit this file to look like the following:
+Edit `src/js/hello.js` to look like the following:
 
 [source,javascript]
 ----
@@ -133,7 +123,7 @@ export var sayHello = function() {
 };
 ----
 
-Let's build and start a REPL:
+Let's compile our code and start a REPL:
 
 ----
 clj -m cljs.main -co build.edn -c -r
@@ -163,9 +153,9 @@ export var sayThings = function(xs) { // ADDED
 Reload your JavaScript module and try the new functionality:
 
 ----
-user> (require '[js.hello :as hello] :reload)
+cljs.user> (require '[js.hello :as hello] :reload)
 true
-user> (hello/sayThings ["ClojureScript", "+", "JavaScript", "Rocks!"])
+cljs.user> (hello/sayThings ["ClojureScript", "+", "JavaScript", "Rocks!"])
 nil
 ----
 
