@@ -196,8 +196,11 @@ Change your `build.edn` to look like the following:
 {:main         hello-es6.core
  :output-to    "out/main.js"
  :output-dir   "out"
+ :npm-deps     {"react" "15.4.2"
+                "react-dom" "15.4.2"}
+ :install-deps true
  :foreign-libs [{:file "src" :module-type :es6
-                 :preprocess cljsjs.babel-standalone/transform}] ;; CHANGED
+                 :preprocess cljsjs.babel-standalone/transform}]
  :verbose      true})
 ----
 
@@ -211,6 +214,9 @@ Let's add a React JSX component to `src/js/hello.js`:
 
 [source,javascript]
 ----
+import React from "react";
+import ReactDom from "react-dom";
+
 export var sayHello = function() {
     console.log("Hello, world!");
 };
@@ -229,36 +235,27 @@ Let's change our ClojureScript:
 [source,clojure]
 ----
 (ns hello-es6.core
-  (:require [cljsjs.react]
-            [cljsjs.react.dom]
-            [cljsjs.react.dom.server]
+  (:require ["react-dom/server" :as server]
             [js.hello :as hello]))
 
 (hello/sayHello)
-(println (.renderToString js/ReactDOMServer (hello/reactHello)))
+(println (server/renderToString (hello/reactHello)))
 ----
 
-Build and run the REPL:
+Compile the code and run it:
 
 ----
-clj -m cljs.main -co build.edn -c -r
+clj -m cljs.main -re node -co build.edn -t node -c
+node out/main.js
 ----
 
-When the browser loads in the JavaScript Console (not the REPL), you should see
-output like the following:
+You should see the following:
 
 ----
 Hello, world!
 <div data-reactroot="" data-reactid="1" data-react-checksum="1334186935">Hello world!</div>
 ----
 
-You may have noticed that our ES6 file does not declare its dependency
-on React, ReactDOM, or ReactDOMServer via `import`. Handling this correctly
-depends on a pending patch to Google Closure to support Node.js module
-resolution for ES6 source files. When this change lands this guide will updated.
-
-However CommonJS support for Node.js resolution works today. The following
-section covers this topic and will eventually apply to ES6 files as well.
 
 [[custom-transforms]]
 == Custom JavaScript transforms
