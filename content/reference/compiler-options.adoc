@@ -959,3 +959,13 @@ Enables automatically generating externs for interop calls to JavaScript. Defaul
 ----
 :infer-externs true
 ----
+
+[[rename-prefix]]
+=== :rename-prefix
+
+Specifies a prefix that will be prepended to all variables. Can be used when <<xref/../../guides/code-splitting#,Code Splitting>> to prevent interference with other code in JavaScript's global scope.
+
+[source,clojure]
+----
+:rename-prefix "prefix"
+----
