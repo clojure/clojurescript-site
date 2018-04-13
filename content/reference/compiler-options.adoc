@@ -299,11 +299,10 @@ Ensures reduced name churn between advanced builds thus proper vendorization if 
 [[preloads]]
 === :preloads
 
-Developing ClojureScript commonly requires development time only side
-effects such as enabling printing, logging, spec instrumentation, and
-connecting REPLs. `:preloads` permits loading such side effect
-boilerplate right after `cljs.core`. For example you can make a
-development namespace for enabling printing in browsers:
+Developing ClojureScript commonly requires development time only side effects
+such as enabling printing, logging, and connecting REPLs. `:preloads` permits
+loading such side effect boilerplate right after `cljs.core`. For example you
+can make a development namespace for enabling printing in browsers:
 
 [source,clojure]
 ----
