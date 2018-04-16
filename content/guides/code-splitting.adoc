@@ -216,3 +216,7 @@ You should see that `cljs.reader` gets moved into the `:foo` module but not
 
 If you examine the split files in `out` you will see that `foo.js` is larger
 than `bar.js`.
+
+=== Additional Notes
+
+Because the code in splits is running in JavaScript's global scope, sometimes it may interfere with other JavaScript loaded on the same page, which may result in unpredictable behaviour. To make sure this will not happen, it's recommended to prefix all variables in generated JavaScript by specifiyng `:rename-prefix` compiler option. While the output size for each split may increase significantly due to longer variable names, this cost is usually removed by gzipping the assets.
