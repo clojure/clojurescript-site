@@ -921,7 +921,12 @@ Is a function that will be called after a successful build.
 [[process-shim]]
 === :process-shim
 
-Defaults to `true`. Automatically provide a shim for Node.js `process.env`
+Defaults to
+
+* `false` if `:target` is `:nodejs`
+* `true` else
+
+Automatically provide a shim for Node.js `process.env`
 containing a single Google Closure define, `NODE_ENV` with `"development"`
 as the default value. In production `NODE_ENV` will be set to `"production"`.
 If set to `false` all of the stated behavior is disabled.
@@ -934,8 +939,8 @@ are used in which order when resolving dependencies on (and between) NPM package
 
 Defaults to
 
-* `:webpack` (`["browser", "module", "main"]`) if no `:target` is set
-* `:nodejs` (`["main"]`) if the `:target` is `:nodejs`.
+* `:nodejs` (`["main"]`) if the `:target` is `:nodejs`
+* `:webpack` (`["browser", "module", "main"]`) else
 
 Can also take a custom vector of entries such as `["browser", "main"]`.
 
