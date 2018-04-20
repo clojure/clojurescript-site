@@ -77,6 +77,7 @@ Below is a partial list of some companies using ClojureScript.
 * http://www.mphasis.com/[Mphasis]
 * http://welcome.thenavisway.com/[NAVIS]
 * http://www.nemcv.com/[NemCV] - http://www.zubairquraishi.com/zubairquraishi/case-study---nemcv.html[Details]
+* https://www.nws.ai[Newsroom AI]
 * https://nextjournal.com[Nextjournal]
 * https://nubank.com.br[Nubank]
 * https://nukomeet.com[Nukomeet]
