@@ -161,6 +161,8 @@ You may be wondering: “If that's the case, which one do I get?” ClojureScrip
 
 == Data Structures
 
+* `nil`
+** While in Clojure, `nil` is identical to Java's `null`, in ClojureScript `nil` is equivalent to JavaScript's `null` and `undefined`.
 * Numbers
 ** Currently ClojureScript numbers are just JavaScript numbers
 * Coercions are not implemented, since there are currently no types to coerce to
