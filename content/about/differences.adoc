@@ -265,7 +265,7 @@ self-host / bootstrapped ClojureScript via its `cljs.js/\*load-fn*` capability.
 
 * `def` and `binding` work as in Clojure
 ** but on ordinary js variables
-** Clojure can represent unbound vars. In ClojureScript `(def x)` results in `(nil? x)` being true.
+** Clojure can represent unbound vars. In ClojureScript `(def x)` results in `(nil? x)` being `true`. (In this case, `(identical? nil x)` is `false`, but `(identical? js/undefined x)` is `true`.)
 ** In Clojure, `def` yields the _var itself_. In ClojureScript `def` yields the _value_, unless the REPL option <<xref/../../../reference/repl-options#def-emits-var#,:def-emits-var>> is set (this defaults to `true` for REPLs).  
 * Atoms work as in Clojure
 * Refs and Agents are not currently implemented
