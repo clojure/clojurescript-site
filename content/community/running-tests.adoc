@@ -66,6 +66,13 @@ so you can write:
 
 `export NASHORN_HOME="$JAVA_HOME/bin/"`
 
+[[graalvm]]
+=== GraalVM
+
+Get GraalVM from here
+http://www.graalvm.org.
+Set your GRAALVM_HOME environment variable so that `$GRAALVM_HOME/js` executes Graal.js.
+
 [[chakracore]]
 === ChakraCore
 
