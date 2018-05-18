@@ -9,8 +9,22 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 The previous release of ClojureScript https://clojurescript.org/news/2018-03-28-shared-aot-cache[introduced] the https://clojurescript.org/reference/compiler-options#aot-cache[Shared AOT Cache] feature, which reduces compilation time for JAR dependencies. This release extends this feature to https://clojure.org/news/2018/01/05/git-deps[Git Deps].
 
+## Closure Upgrades
+
+Closure Compiler has been upgraded to v20180319.
+
+Additionally, changes have been made so that it is possible to upgrade to the latest Google Closure Library. (The revised code is are simultaneously compatible with the latest Closure Library and the version that ClojureScript 1.10.238 depends on.)
+
 For a complete list of updates in ClojureScript 1.10.xxx see
 https://github.com/clojure/clojurescript/blob/master/changes.md#110238[Changes].
+
+## Optimization `node_modules` Indexing
+
+If you use `:npm-deps`, then indexing of `node_modules` should be much faster. (One test showed a 6-fold improvement in indexing speed.)
+
+## Improvements in Testing
+
+Several improvements have been made to ensure that the compiler test suite passes on Windows. Additionally, Graal.js, the new JavaScript engine that ships with GraalVM is included in the test suite.
 
 ## Contributors
 
