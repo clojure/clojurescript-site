@@ -949,7 +949,9 @@ Can also take a custom vector of entries such as `["browser", "main"]`.
 [[aot-cache]]
 === :aot-cache
 
-Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false` otherwise or if ClojureScript is being used as a https://clojure.org/guides/deps_and_cli#_using_git_libraries[git dep]. Controls whether the shared AOT cache is used for compiler artifacts produced from JARs.
+Controls whether the shared AOT cache is used for compiler artifacts produced from JARs and https://clojure.org/guides/deps_and_cli#_using_git_libraries[git deps].
+
+Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false` otherwise or if ClojureScript is being used as a https://clojure.org/guides/deps_and_cli#_using_git_libraries[git dep].
 
 [source,clojure]
 ----
