@@ -486,6 +486,7 @@ The following warnings are supported:
 * `:preamble-missing`, missing preamble
 * `:unprovided`, required namespace not provided
 * `:undeclared-var`, undeclared var
+* `:private-var-access`, private var access from another namespace
 * `:undeclared-ns`, var references non-existent namespace
 * `:undeclared-ns-form`, namespace reference in ns form that does not
 exist
