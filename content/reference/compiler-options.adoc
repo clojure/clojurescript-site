@@ -975,3 +975,13 @@ Specifies a prefix that will be prepended to all variables. Can be used when <<x
 ----
 :rename-prefix "prefix"
 ----
+
+[[elide-strict]]
+=== :elide-strict
+
+Whether to elide `use strict` statements in JavaScript output. Defaults to `true`.
+
+[source,clojure]
+----
+:elide-strict false
+----
