@@ -160,8 +160,9 @@ a `build.edn` file with the following:
  :infer-externs true
  :npm-deps false
  :foreign-libs [{:file "dist/index_bundle.js"
-                 :provides ["react"]
-                 :global-exports {react React}}]}
+                 :provides ["react" "react-dom"]
+                 :global-exports {react React
+                                  react-dom ReactDOM}}]}
 ```
 
 We turn on externs inference and we disable reading from `node_modules` since
