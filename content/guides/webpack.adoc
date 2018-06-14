@@ -184,7 +184,6 @@ Change your source file to following:
 
 [source,clojure]
 ```
-/html/safestyle.js to out/goog/html/safestyle.js
 (ns hello-webpack.core
   (:require [goog.dom :as gdom]
             [reagent.core :as r]))
