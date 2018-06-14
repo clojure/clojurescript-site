@@ -68,7 +68,7 @@ Now we need to import and export them so that ClojureScript can use them, create
 import React from 'react';
 import ReactDOM from 'react-dom';
 window.React = React;
-window.ReactDOM = React;
+window.ReactDOM = ReactDOM;
 ```
 
 Modify your `package.json` to include the following `"scripts"` entry:
