@@ -171,7 +171,7 @@ Occasionally you may find that you need to provide a custom build of React but
 you still want to use some ClojureScript React binding like Reagent.
 ClojureScript supports this out of the box.
 
-To demonstrate this change you `deps.edn` to the following:
+To demonstrate this change your `deps.edn` to the following:
 
 [source,clojure]
 ```
