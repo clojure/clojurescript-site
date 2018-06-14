@@ -26,7 +26,7 @@ First create a project directory and initialize yarn:
 ```
 mkdir hello-webpack
 cd hello-webpack
-init yarn
+yarn init
 ```
 
 Add webpack and its command line tools:
