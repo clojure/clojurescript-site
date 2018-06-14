@@ -105,11 +105,11 @@ Create a `deps.edn` file:
  :deps {org.clojure/clojurescript {:mvn/version "1.10.308"}}}
 ```
 
-Now create `src/cljs/hello_word/core.cljs` with the following contents:
+Now create `src/cljs/hello_webpack/core.cljs` with the following contents:
 
 [source,clojure]
 ```
-(ns hello-world.core
+(ns hello-webpack.core
   (:require [react]))
 
 (.log js/console react/Component)
@@ -123,7 +123,7 @@ a `build.edn` file with the following:
 
 [source,clojure]
 ```
-{:main hello-world.core
+{:main hello-webpack.core
  :output-to "out/main.js"
  :output-dir "out"
  :infer-externs true
@@ -163,3 +163,45 @@ should see that `React.Component` got logged.
 
 Check `out/inferred_externs.js`. You should see that `Object.Component` was
 inferred.
+
+[[overriding-foreign-lib]]
+== Overriding a Foreign Library
+
+Occasionally you may find that you need to provide a custom build of React but
+you still want to use some ClojureScript React binding like Reagent.
+ClojureScript supports this out of the box.
+
+To demonstrate this change you `deps.edn` to the following:
+
+[source,clojure]
+```
+{:paths ["src/cljs"]
+ :deps {org.clojure/clojurescript {:mvn/version "1.10.309"}
+        reagent {:mvn/version "0.8.1" :exclusions [cljsjs/react]}}}
+```
+
+Change your source file to following:
+
+[source,clojure]
+```
+/html/safestyle.js to out/goog/html/safestyle.js
+(ns hello-webpack.core
+  (:require [goog.dom :as gdom]
+            [reagent.core :as r]))
+
+(defn simple-component []
+  [:div
+   [:p "I am a component!"]
+   [:p.someclass
+    "I have " [:strong "bold"]
+    [:span {:style {:color "red"}} " and red "] "text."]])
+
+(r/render [simple-component] (gdom/getElement "app"))
+```
+
+Rebuild your project, run the webserver and open http://localhost:9000:
+
+[source,bash]
+```
+clj -m cljs.main -co build.edn -v -c -s
+```
