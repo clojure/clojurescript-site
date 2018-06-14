@@ -44,38 +44,7 @@ module.exports = {
   entry: './src/js/index.js',
   output: {
     filename: 'index_bundle.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: "babel-loader"
-      }, {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: "babel-loader"
-      }
-    ]
   }
-}
-```
-
-In order to process popular React libraries we need to use babel:
-
-[source,bash]
-```
-yarn install babel-loader babel-core babel-preset-es2015 babel-preset-react --dev
-```
-
-Create a `.babelrc` file:
-
-[source,json]
-```
-{
-    "presets":[
-        "es2015", "react"
-    ]
 }
 ```
 
