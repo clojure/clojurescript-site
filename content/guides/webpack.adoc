@@ -166,11 +166,11 @@ a `build.edn` file with the following:
 
 We turn on externs inference and we disable reading from `node_modules` since
 we're managing that on our own. We then state what our foreign lib provides
-and what global JavaScript variable will have library object. This is why
+and what global JavaScript variable will have the library object. This is why
 we exported to `window` in `index.js`. Note that our foreign library can provide
 as many libraries as we like and we can define exactly where they will be found.
-This also allows use to use foreign libraries as if they were normal
-ClojureScript namespaces. However ClojureScript knows these are foreign libraries
+This also allows us to use foreign libraries as if they were normal
+ClojureScript namespaces. However, ClojureScript knows these are foreign libraries
 and will treat any function calls and property accesses as things to be considered
 for externing.
 
