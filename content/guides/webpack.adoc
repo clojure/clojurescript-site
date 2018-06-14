@@ -204,3 +204,12 @@ Rebuild your project, run the webserver and open http://localhost:9000:
 ```
 clj -m cljs.main -co build.edn -v -c -s
 ```
+
+To verify that externs inference allows advanced compilation to work,
+let's make an advanced build:
+
+[source,bash]
+```
+clj -m cljs.main -co build.edn -O advanced -v -c -s
+```
+
