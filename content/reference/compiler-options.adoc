@@ -335,9 +335,9 @@ preloads to work.
 [[npm-deps]]
 === :npm-deps
 
-Declare NPM dependencies. A map of NPM package names to the desired versions
-or the Boolean value `false`. If `false` then any existing `node_modules`
-directory will not be indexed nor used.
+Declare NPM dependencies. A map of NPM package names (keywords or strings)
+to the desired versions or the Boolean value `false`. If `false` then any 
+existing `node_modules` directory will not be indexed nor used.
 See also `:install-deps`.
 
 [source,clojure]
@@ -452,6 +452,11 @@ compiled with `:static-fns` implicitly set to true.
 :static-fns true
 ----
 
+[NOTE]
+====
+To enable static dispatch for calls to declared functions, supply `:arglists` meta. For example, if `(declare foo)` preceeds `(foo 1 2)`, dynamic dispatch will be employed. If instead `(declare ^{:arglists '([x y])} foo)` preceeds `(foo 1 2)`, static dispatch will be employed if `:static-fns` is enabled.
+====
+
 [[fn-invoke-direct]]
 === :fn-invoke-direct
 
@@ -494,6 +499,7 @@ exist
 * `:fn-var`, var previously bound to fn changed to different type
 * `:fn-arity`, invalid invoke arity
 * `:fn-deprecated`, deprecated function usage
+* `:declared-arglists-mismatch`, declared `:arglists` mismatch defined
 * `:protocol-deprecated`, deprecated protocol usage
 * `:undeclared-protocol-symbol`, undeclared protocol referred
 * `:invalid-protocol-symbol`, invalid protocol symbol
@@ -974,4 +980,14 @@ Specifies a prefix that will be prepended to all variables. Can be used when <<x
 [source,clojure]
 ----
 :rename-prefix "prefix"
+----
+
+[[elide-strict]]
+=== :elide-strict
+
+Whether to elide `use strict` statements in JavaScript output. Defaults to `true`.
+
+[source,clojure]
+----
+:elide-strict false
 ----
