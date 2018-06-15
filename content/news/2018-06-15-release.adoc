@@ -30,10 +30,12 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#110312[Changes].
 
 Thanks to all of the community members who contributed to ClojureScript 1.10.312:
 
+* Andre Rauh
 * Dieter Komendera
 * Erik Assum
 * Jannis Pohlmann
 * Juho Teperi
 * Mike Fikes
 * Petter Eriksson
+* Pieter du Toit
 * Roman Scherer
