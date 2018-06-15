@@ -110,6 +110,6 @@ http://wiki.commonjs.org/wiki/Modules/1.1#Module_Identifiers[CommonJS
 specification] in that the module identifier that is passed to `require()`
 doesn't always need to be an absolute or relative path. This makes it difficult
 for the Google Closure compiler to resolve the dependencies of a node module
-since th compiler was implemented following the standard CommonJS specification.
+since the compiler was implemented following the standard CommonJS specification.
 Therefore, it might not be possible for a node module to be converted to a
 Google Closure module.

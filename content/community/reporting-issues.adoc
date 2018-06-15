@@ -7,6 +7,8 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+To report an issue please use the http://dev.clojure.org/jira/browse/CLJS[ClojureScript issue tracker].
+
 It's important that before submitting any issue that you have a thorough
 understanding of the <<xref/../../../guides/quick-start#,Quick Start>> first. Even if you are an
 experienced ClojureScript developer this is required reading.
@@ -28,7 +30,10 @@ non-trivial ways, and the best way to isolate the issue to ClojureScript
 is to remove them from the report altogether.
 
 Please report issues by building the uberjar from master and using this
-to verify the issue. Do not use any other 3rd party tooling (Maven,
+to verify the issue. Using https://clojurescript.org/reference/repl-and-main[`cljs.main`]
+with this uberjar to create a minimal repro is ideal. Alternatively,
+using https://clojure.org/guides/getting_started[`clj`] and `deps.edn` is
+acceptable. Do not use any other 3rd party tooling (Maven,
 Leiningen, Boot). When creating issues please add all relevant
 instructions and code to reproduce to the ticket directly or via
 additional comments. Please do not attach projects, links to projects,
