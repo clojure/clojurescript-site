@@ -335,9 +335,9 @@ preloads to work.
 [[npm-deps]]
 === :npm-deps
 
-Declare NPM dependencies. A map of NPM package names to the desired versions
-or the Boolean value `false`. If `false` then any existing `node_modules`
-directory will not be indexed nor used.
+Declare NPM dependencies. A map of NPM package names (keywords or strings)
+to the desired versions or the Boolean value `false`. If `false` then any 
+existing `node_modules` directory will not be indexed nor used.
 See also `:install-deps`.
 
 [source,clojure]
