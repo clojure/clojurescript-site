@@ -1,6 +1,6 @@
-= 1.10.xxx Release
+= 1.10.312 Release
 ClojureScript Team
-2018-07-01
+2018-06-15
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -11,9 +11,6 @@ Closure Compiler has been upgraded to v20180319.
 
 Additionally, changes have been made so that it is possible to upgrade to the latest Google Closure Library. (The revised code is are simultaneously compatible with the latest Closure Library and the version that ClojureScript 1.10.238 depends on.)
 
-For a complete list of updates in ClojureScript 1.10.xxx see
-https://github.com/clojure/clojurescript/blob/master/changes.md#110238[Changes].
-
 ## Optimization `node_modules` Indexing
 
 If you use `:npm-deps`, then indexing of `node_modules` should be much faster. (One test showed a 6-fold improvement in indexing speed.)
@@ -22,9 +19,12 @@ If you use `:npm-deps`, then indexing of `node_modules` should be much faster. (
 
 Several improvements have been made to ensure that the compiler test suite passes on Windows. Additionally, Graal.js, the new JavaScript engine that ships with GraalVM is included in the test suite.
 
+For a complete list of updates in ClojureScript 1.10.312 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#110312[Changes].
+
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.10.xxx:
+Thanks to all of the community members who contributed to ClojureScript 1.10.312:
 
 * Dieter Komendera
 * Erik Assum
