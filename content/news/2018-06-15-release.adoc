@@ -7,9 +7,9 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 ## Closure Upgrades
 
-Closure Compiler has been upgraded to v20180319.
+Closure Compiler has been upgraded to v20180610.
 
-Additionally, changes have been made so that it is possible to upgrade to the latest Google Closure Library. (The revised code is are simultaneously compatible with the latest Closure Library and the version that ClojureScript 1.10.238 depends on.)
+Additionally, changes have been made so that it is possible to upgrade to the latest Google Closure Library. (The revised code is simultaneously compatible with the latest Closure Library and the version that ClojureScript 1.10.238 depends on.)
 
 ## Optimization `node_modules` Indexing
 
