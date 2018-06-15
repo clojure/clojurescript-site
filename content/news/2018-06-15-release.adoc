@@ -15,9 +15,9 @@ Closure Compiler has been upgraded to v20180610.
 
 Additionally, changes have been made so that it is possible to upgrade to the latest Google Closure Library. (The revised code is simultaneously compatible with the latest Closure Library and the version that ClojureScript 1.10.238 depends on.)
 
-## Optimization `node_modules` Indexing
+## Optimized `node_modules` Indexing
 
-If you use `:npm-deps`, then indexing of `node_modules` should be much faster. (One test showed a 6-fold improvement in indexing speed.)
+If you use `:npm-deps`, the indexing of `node_modules` should be much faster. (One test showed a 6-fold improvement in indexing speed.)
 
 ## Improvements in Testing
 
