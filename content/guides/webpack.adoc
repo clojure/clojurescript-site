@@ -1,6 +1,6 @@
 = ClojureScript with Webpack
 David Nolen
-2018-06-13
+2018-06-15
 :type: guides
 :toc: macro
 :icons: font
@@ -102,7 +102,7 @@ Create a `deps.edn` file:
 [source,clojure]
 ```
 {:paths ["src/cljs"]
- :deps {org.clojure/clojurescript {:mvn/version "1.10.308"}}}
+ :deps {org.clojure/clojurescript {:mvn/version "1.10.312"}}}
 ```
 
 Now create `src/cljs/hello_webpack/core.cljs` with the following contents:
@@ -176,7 +176,7 @@ To demonstrate this change your `deps.edn` to the following:
 [source,clojure]
 ```
 {:paths ["src/cljs"]
- :deps {org.clojure/clojurescript {:mvn/version "1.10.309"}
+ :deps {org.clojure/clojurescript {:mvn/version "1.10.312"}
         reagent {:mvn/version "0.8.1" :exclusions [cljsjs/react]}}}
 ```
 
