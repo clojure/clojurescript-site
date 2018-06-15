@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 ## Improved Externs Inference
 
-Externs inference has been significantly improved in this release. For more details on this feature, see https://clojurescript.org/guides/externs[Externs].
+Externs inference has been significantly improved in this release. See https://clojurescript.org/guides/webpack[ClojureScript with Webpack] for details on what this improved support enables.
 
 ## Closure Upgrades
 
