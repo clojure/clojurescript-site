@@ -9,8 +9,10 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-ClojureScript defines types that have stable, publicly-consumable
-JavaScript APIs as specified below.
+The implementation of ClojureScript collections define several JavaScript functions
+that can be called from ClojureScript using JavaScript interop or directly from
+JavaScript.  This page describes those functions which are officially stable and 
+publicly-consumable.
 
 [[indexOf]]
 === indexOf
