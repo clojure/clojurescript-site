@@ -5,10 +5,6 @@ ClojureScript Team
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-## Git Deps in Shared AOT Cache
-
-The previous release of ClojureScript https://clojurescript.org/news/2018-03-28-shared-aot-cache[introduced] the https://clojurescript.org/reference/compiler-options#aot-cache[Shared AOT Cache] feature, which reduces compilation time for JAR dependencies. This release extends this feature to https://clojure.org/news/2018/01/05/git-deps[Git Deps].
-
 ## Closure Upgrades
 
 Closure Compiler has been upgraded to v20180319.
