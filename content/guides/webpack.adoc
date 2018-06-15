@@ -60,7 +60,7 @@ Install react and react-dom:
 yarn add react react-dom
 ```
 
-Now we need to import and export them so that ClojureScript can use them, create
+Now we need to import and export them so that ClojureScript can use them. Create
 `src/js/index.js` with the following content:
 
 [source,json]
