@@ -5,6 +5,10 @@ ClojureScript Team
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+## Improved Externs Inference
+
+Externs inference has been significantly improved in this release. For more details on this feature, see https://clojurescript.org/guides/externs[Externs].
+
 ## Closure Upgrades
 
 Closure Compiler has been upgraded to v20180610.
