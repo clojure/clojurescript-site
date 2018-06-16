@@ -56,7 +56,9 @@ externs] may also serve as useful examples.
 
 When the <<compiler-options#main,`:main` option>> is not used, `:none` requires manual code loading and hence a separate HTML from the other options.
 
-Defaults to `:none`. [source,clojure]
+Defaults to `:none`. 
+
+[source,clojure]
 ----
 :optimizations :none
 ----
