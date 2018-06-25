@@ -18,12 +18,12 @@ regarding using ClojureScript.
 they cannot change. So what reason is there to prefer them, since they
 obviously have less capabilities?>>**
 
-Actually, you _can_ change immutable data structures, it’s just that
-‘change’ does not mean the same thing. In this case, changing means
+Actually, you _can_ change immutable data structures, it's just that
+'change' does not mean the same thing. In this case, changing means
 making a _new_ data structure, that has some differences to the one you
 started with.
 
-In JavaScript, you’re already doing this when working with strings,
+In JavaScript, you're already doing this when working with strings,
 booleans, and numbers: incrementing a number is making a new number;
 appending to a string is making a new string.
 
@@ -130,10 +130,10 @@ of having it strewn all over your programs.
 
 A lot of people define macros as an easy way to customize the first
 steps of compilation. This is the kind of definition you understand only
-once you’ve used macros, so let’s explain it differently.
+once you've used macros, so let's explain it differently.
 
 A macro lets you specify some transformation of your code; using a macro
-called `my-macro` is like saying to ClojureScript: ‘when I write
+called `my-macro` is like saying to ClojureScript: 'when I write
 `(my-macro <this nice-looking code>)`, I mean
 `(<this more tedious code>)`' . In the same way that functions factor
 out parts of the execution of your programs, macros factor out parts of
@@ -183,22 +183,22 @@ But macros are not merely a means of eliminating boilerplate. By letting
 you extend and manipulate the syntax of ClojureScript, they enable you
 to import new paradigms to your programs.
 
-Macros in ClojureScript make it possible to add these “features” to
+Macros in ClojureScript make it possible to add these "features" to
 ClojureScript __à la carte, as libraries __:
 
 * https://github.com/clojure/core.async[Golang-style CSPs] and
-‘go-routines’ for asynchrony
+'go-routines' for asynchrony
 * OCaml-style https://github.com/clojure/core.match[pattern matching]
 * an optional https://github.com/clojure/core.typed[static type checker]
 
-Let’s also note that macros have zero runtime overhead, since everything
+Let's also note that macros have zero runtime overhead, since everything
 they do happens when generating JavaScript.
 
 [[but-i-heard-macros-are-bad-practice-yielding-code-that-is-hard-to-reason-about.-why-use-a-language-that-supports-them]]
 **<<faq-js#but-i-heard-macros-are-bad-practice-yielding-code-that-is-hard-to-reason-about.-why-use-a-language-that-supports-them,... but I heard macros are bad practice, yielding code that is hard to reason about. Why use a language that supports them?>>**
 
 Indeed, even in the ClojureScript community it is considered bad style
-to use a macro when you don’t have to. ClojureScript application
+to use a macro when you don't have to. ClojureScript application
 developers very rarely write macros, because most of the time a function
 can also do the job, and is easier to reason about.
 
@@ -206,12 +206,12 @@ But from time to time, you need to make a conceptual leap that only
 macros can achieve, because the tedium in the syntax cannot be mitigated
 with functions, or because it requires code analysis.
 
-Macros are like planes. You don’t want to take a plane everyday to go to
+Macros are like planes. You don't want to take a plane everyday to go to
 work. But from time to time, planes allow you to reach another continent
-in a matter of hours, so we’re glad we have them.
+in a matter of hours, so we're glad we have them.
 
 [[ill-never-get-used-to-the-syntax]]
-**<<faq-js#ill-never-get-used-to-the-syntax,I’ll never get used to the syntax!>>**
+**<<faq-js#ill-never-get-used-to-the-syntax,I'll never get used to the syntax!>>**
 
 Indeed, transitioning from JavaScript syntax to Clojure syntax is
 **_daunting_**:
@@ -232,19 +232,19 @@ ClojureScript:
 You need to move one parenthesis from one side of the operator to the
 other, and remove the commas and semicolons.
 
-Clojure’s syntax (aka EDN - Extensible Data Notation) is what makes
+Clojure's syntax (aka EDN - Extensible Data Notation) is what makes
 writing macros in Clojure practical.
 
-It’s most likely unfamiliar to you, but it’s not unnatural. Once you get
-used to it, you’ll find it has more regularity and less clutter than
+It's most likely unfamiliar to you, but it's not unnatural. Once you get
+used to it, you'll find it has more regularity and less clutter than
 JavaScript.
 
-This is fun, let’s do this again for data structure literals:
+This is fun, let's do this again for data structure literals:
 
 JavaScript:
 
 ....
-{a : “b”,
+{a : "b",
  c : [d, e]}
 ....
 
@@ -252,7 +252,7 @@ ClojureScript:
 
 [source,clojure]
 ----
-{:a “b"
+{:a "b"
  :c [d e]}
 ----
 
@@ -261,14 +261,14 @@ As you can see, the main difference is you get rid of commas and colons.
 Interestingly, although it does not seem like much, this has big
 implications on one important part of web programming: HTML templating.
 
-Clojure’s data notation is so conveniently lightweight that several
+Clojure's data notation is so conveniently lightweight that several
 Clojure libraries use them to embed HTML templating in the language:
 
 [source,clojure]
 ----
 [:div.text-right
-  [:span “Click here: "] 
-  [:button {:class “btn" :on-click #(do something)} “Click me!"]]
+  [:span "Click here: "] 
+  [:button {:class "btn" :on-click #(do something)} "Click me!"]]
 ----
 
 Some people are bothered by the number of parentheses that Clojurescript
@@ -397,9 +397,9 @@ goes downhill, and your efforts will be rewarded.
 == Ecosystem
 
 [[whats-clojurescripts-equivalent-of-underscore.js-lodash]]
-**<<faq-js#whats-clojurescripts-equivalent-of-underscore.js-lodash,What’s ClojureScript's equivalent of Underscore.js / Lodash ?>>**
+**<<faq-js#whats-clojurescripts-equivalent-of-underscore.js-lodash,What's ClojureScript's equivalent of Underscore.js / Lodash ?>>**
 
-It’s ClojureScript itself! ClojureScript comes with an excellent
+It's ClojureScript itself! ClojureScript comes with an excellent
 collections library. All the collections functions you know and love are
 there (map, reduce, filter, remove, …), and they work on abstractions,
 which means they are not restricted to javascripts objects and
@@ -409,9 +409,9 @@ array-likes.
 **<<faq-js#what-frameworks-are-there-for-clojurescript-like-angularjs-backbone-ember-etc.,What frameworks are there for ClojureScript ? (like AngularJs, Backbone,
 Ember etc.)>>**
 
-You won’t find an equivalent of AngularJs or Backbone in ClojureScript.
+You won't find an equivalent of AngularJs or Backbone in ClojureScript.
 This is actually a good sign. In great part, what motivated these
-client-side frameworks was JavaScript’s lack of modularity, primitives
+client-side frameworks was JavaScript's lack of modularity, primitives
 and a decent standard library.
 
 ClojureScript as a platform addresses these issues, and relies on the
@@ -465,7 +465,7 @@ ClojureScript as the best way to leverage React.
 The rich collections library, advanced control flow operators (such as
 `cond`, `case`, `when`, `let`, `if-let`, pattern matching etc.), and the
 fact that _everything is an expression_ enable you to write rendering
-functions in a very direct and declarative way (you won’t have to lay
+functions in a very direct and declarative way (you won't have to lay
 out a bunch of intermediary variables).
 
 Flux is very straightforward to implement in ClojureScript, thanks to
@@ -475,7 +475,7 @@ https://github.com/omcljs/om[Om].
 
 In many respects, ClojureScript is leading the way for the wider
 React/Flux community, as shown by the progressive adoption of immutable
-data structures, the ‘all state in one place’ principle, and other
+data structures, the 'all state in one place' principle, and other
 functional techniques.
 
 [[can-i-re-use-react-components-in-clojurescript]]
@@ -494,8 +494,8 @@ all let you include React components without any effort.
 Definitely. A lot
 of people use <<xref/../../../tools/emacs-inf#,Emacs with Clojure>>, there are also excellent plugins for <<xref/../../../tools/cursive#,IntelliJ>>, <<xref/../../../tools/vim#,Vim>>, Eclipse and <<xref/../../../tools/sublime#,Sublime Text>>.
 
-You’ll probably find that structural editing is more practical than what
-you’re used to, because it naturally lets you manipulate the building
+You'll probably find that structural editing is more practical than what
+you're used to, because it naturally lets you manipulate the building
 blocks of your code (i.e expressions, not lines or words).
 
 [[are-there-build-tools-for-clojurescript]]
@@ -512,7 +512,7 @@ state-of-the-art of interactive front-end development, thanks to live
 code reloading and the ClojureScript REPL.
 
 [[i-dont-feel-very-good-about-clojurescript-relying-on-google-closure.]]
-**<<faq-js#i-dont-feel-very-good-about-clojurescript-relying-on-google-closure.,I don’t feel very good about ClojureScript relying on Google Closure.>>**
+**<<faq-js#i-dont-feel-very-good-about-clojurescript-relying-on-google-closure.,I don't feel very good about ClojureScript relying on Google Closure.>>**
 
 Google Closure offers compelling advantages for front-end JavaScript
 developers:
@@ -520,7 +520,7 @@ developers:
 * a very comprehensive, battle-tested library
 * very efficient minification
 * dead-code elimination, i.e code which is not used is removed. (This is
-what enables the library to be comprehensive: you don’t have worry about
+what enables the library to be comprehensive: you don't have worry about
 the extra bytes when adding functionality.)
 
 The majority of JavaScript developers have rejected Google Closure
@@ -528,7 +528,7 @@ because of a major drawback: for dead-code elimination to work, they had
 to follow strict discipline about the JavaScript they write (in
 particular, it ended up looking a lot like Java).
 
-You don’t have this impediment when using Google Closure from
+You don't have this impediment when using Google Closure from
 ClojureScript, because the ClojureScript compiler emits JavaScript that
 is optimized for Closure out of the box. This means you can reap the
 benefits listed above without making any compromise on your language
@@ -582,7 +582,7 @@ discipline to write portable code in ClojureScript than in vanilla JS.
 == Practical use
 
 [[whats-the-debugging-story-like]]
-**<<faq-js#whats-the-debugging-story-like,What’s the debugging story like?>>**
+**<<faq-js#whats-the-debugging-story-like,What's the debugging story like?>>**
 
 ClojureScript has excellent support for traditional JavaScript debugging
 techniques: you can set breakpoints in your source code, get
@@ -598,7 +598,7 @@ stateful programs without erasing the conditions for a bug.
 debugging technique is to insert `console.log` calls in the middle of
 your code, but this quickly gets tedious and intrusive.
 
-For example, let’s assume you have this code, and suspect the myFun
+For example, let's assume you have this code, and suspect the myFun
 function is faulty:
 
 ....
@@ -631,9 +631,9 @@ would become:
 and you would see the same information in the console. Cool, huh?
 
 [[clojurescript-looks-nice-in-theory-but-does-it-just-work]]
-**<<faq-js#clojurescript-looks-nice-in-theory-but-does-it-just-work,ClojureScript looks nice in theory, but does it ‘just work’?>>**
+**<<faq-js#clojurescript-looks-nice-in-theory-but-does-it-just-work,ClojureScript looks nice in theory, but does it 'just work'?>>**
 
-In many people’s opinion, more so than JavaScript :). The language
+In many people's opinion, more so than JavaScript :). The language
 semantics are less slippery, and the tooling is now mature enough to be
 used without worry.
 
@@ -671,10 +671,10 @@ React apps by using persistent data structures for caching
 [[is-clojurescript-hard-to-learn]]
 **<<faq-js#is-clojurescript-hard-to-learn,Is ClojureScript hard to learn?>>**
 
-This varies significantly depending on people’s programming experience
+This varies significantly depending on people's programming experience
 and aptitudes.
 
-If you’re a JavaScript developer, you’re in a good starting place to
+If you're a JavaScript developer, you're in a good starting place to
 learn Clojure(Script) - more so than if you program in a classical
 language such as Ruby or Java - because JavaScript has already educated
 you to first-class functions, dynamic typing, conveying information with
@@ -682,18 +682,18 @@ data structures (not classes), and organizing your code in namespaces
 (not class hierarchies).
 
 Conceptually, you need to learn fewer things in ClojureScript that in
-JavaScript to get productive, because you don’t have to learn to avoid
+JavaScript to get productive, because you don't have to learn to avoid
 all the traps of JavaScript. The REPL and the fact that documentation is
 included in the language play a critical role in speeding up the
 learning process.
 
 In all likelihood, the big challenge will not be to assimilate new
-concepts, but to forget old ones. As Yoda put it: ‘You must unlearn what
-you have learned [about imperative and object-oriented paradigms]’; this
-makes it harder for experienced programmers. Having said that, if you’ve
+concepts, but to forget old ones. As Yoda put it: 'You must unlearn what
+you have learned [about imperative and object-oriented paradigms]'; this
+makes it harder for experienced programmers. Having said that, if you've
 been developing with JavaScript in a near-to-functional style (as
 https://www.youtube.com/watch?v=ya4UHuXNygM[advocated] e.g by Douglas
-Crockford), this won’t really be a problem.
+Crockford), this won't really be a problem.
 
 [[is-it-only-suitable-for-academics]]
 **<<faq-js#is-it-only-suitable-for-academics,Is it only suitable for academics?>>**
@@ -701,9 +701,9 @@ Crockford), this won’t really be a problem.
 _I heard functional programming is only accessible to people who have a
 Ph.D._
 
-You don’t need to know Category Theory, Monads, etc. to use
-ClojureScript. For 99% of the work you’ll be doing, the programming
-concepts you’ll need are those you’re already using in JavaScript
+You don't need to know Category Theory, Monads, etc. to use
+ClojureScript. For 99% of the work you'll be doing, the programming
+concepts you'll need are those you're already using in JavaScript
 (dynamic typing, functions, data structures).
 
 [[community]]
@@ -712,7 +712,7 @@ concepts you’ll need are those you’re already using in JavaScript
 [[is-there-a-community-how-is-it]]
 **<<faq-js#is-there-a-community-how-is-it,Is there a community? How is it?>>**
 
-There is, and it’s growing fast. Actually, the community is often what
+There is, and it's growing fast. Actually, the community is often what
 people love most about Clojure. The Slack and various mailing lists are
 very active, and people are very responsive whenever you need help.
 
@@ -724,7 +724,7 @@ pragmatism, inventiveness, high quality standards, and wise leadership.
 [[is-the-clojurescript-community-pragmatic]]
 **<<faq-js#is-the-clojurescript-community-pragmatic,Is the ClojureScript community pragmatic?>>**
 
-_I’m wondering if the Clojure people are not just in love with some
+_I'm wondering if the Clojure people are not just in love with some
 elegant ideas, without being lucid about their actual added value in the
 real world._
 
@@ -734,7 +734,7 @@ talks like http://www.infoq.com/presentations/Simple-Made-Easy[Simple
 Made Easy] and http://www.infoq.com/presentations/Value-Values[The Value
 of Values]), and felt greatly rewarded when adopting their incarnation
 in Clojure. As a consequence, we can sometimes be enthusiastic to the
-point we don’t seem very objective.
+point we don't seem very objective.
 
 But you should know that practicality and pragmatism have always been
 core values of Clojure, which motivated fundamental decisions like
@@ -742,7 +742,7 @@ targeting the popular platforms which are the JVM and JavaScript
 runtimes, as well as the design decisions of sacrificing some functional
 purity as compared to other languages. You can tell that the Clojure
 community has kept true to this spirit by all the efforts they have put
-in developing practical tools and extending Clojure’s reach to a broad
+in developing practical tools and extending Clojure's reach to a broad
 spectrum of platforms.
 
 [[misc]]
@@ -754,7 +754,7 @@ spectrum of platforms.
 Clojure is based on the fundamental belief that aiming for simplicity
 can dramatically empower programmers. The counter-intuitive implication
 is that getting rid of sophisticated tools and techniques will actually
-make you more effective. You won’t believe it until you experience it.
+make you more effective. You won't believe it until you experience it.
 
 [[i-have-another-question]]
 **<<faq-js#i-have-another-question,I have another question!>>**
