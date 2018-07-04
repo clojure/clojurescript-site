@@ -53,36 +53,39 @@ For example, consider this predicate `foo?`:
 
 [source,clojure]
 ----
-(defn ^boolean foo? [x] 
+(defn foo? [x] 
   (or (string? x) 
       (number? x)))
 ----
 
-Because of the `^boolean` type hint, code like the following
+Previously, code like the following
 
 [source,clojure]
 ----
 (if (foo? 1) 2 3)
 ----
 
-emits efficient JavaScript with an unchecked if
-
-[source,javascript]
-----
-((cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
-----
-
-as opposed to a checked if
+emits JavaScript that checks the return value of `foo?`, coercing it to a 
+Boolean value:
 
 [source,javascript]
 ----
 (cljs.core.truth_(cljs.user.bar_QMARK_.call(null,(1)))?(2):(3))
 ----
 
-Now, with ClojureScript 1.10.xxx, the explicit `^boolean` type hint is no longer required. The compiler consults
-the body of the function and sees that it will return a Boolean value.
+Now, with ClojureScript 1.10.xxx, the compiler consults the body of `foo?`, 
+sees that it returns a Boolean and uses this to emit more efficient JavaScript:
 
-Likewise, numeric functions will be type hinted. If you have a function like
+[source,javascript]
+----
+((cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
+----
+
+Previously, this could be accomplished by adding a `^boolean` type hint to 
+`foo?`, but now this is unnecessary.
+
+In addition to the above, numeric type hints will automatically flow from the 
+body of a function outward. If you have a function like
 
 [source,clojure]
 ----
@@ -97,7 +100,7 @@ and it is used in a context where types are checked, as in
 (+ (bar 1) "a")
 ----
 
-You will now see a warning that reflects the type of the first argument to `+`:
+you will now see a warning that reflects the type of the first argument to `+`:
 
 [source]
 ----
