@@ -45,71 +45,78 @@ If instead var indirection is used, as in the following, no warning will be emit
 (#'foo.core/some-impl 3)
 ----
 
-## Outward Function Type Propagation
+## Function Return Type Inference
 
-ClojureScript now infers the type of a function and propagtes this type 
-information use sites.
+ClojureScript now infers function return types, propagating this information
+to call sites.
 
-For example, consider this predicate `foo?`:
+Consider these predicates:
 
 [source,clojure]
 ----
-(defn foo? [x] 
-  (or (string? x) 
-      (number? x)))
+(defn finite? [x]
+  (not (infinite? x)))
+
+(defn big? [x]
+  (and (pos? x)
+       (finite? x)))
 ----
 
 Previously, code like the following
 
 [source,clojure]
 ----
-(if (foo? 1) 2 3)
+(if (big? 11) 
+  "hi" 
+  "bye")
 ----
 
-emits JavaScript that checks the return value of `foo?`, coercing it to a 
-Boolean value:
+emits defensive JavaScript that checks the return value of `big?`, coercing 
+it to a Boolean value by using `cljs.core.truth_`:
 
 [source,javascript]
 ----
-(cljs.core.truth_(cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
+(cljs.core.truth_(cljs.user.big_QMARK_.call(null,(11)))?"hi":"bye")
 ----
 
-Now, with ClojureScript 1.10.xxx, the compiler consults the body of `foo?`, 
-concludes that it always returns a Boolean and uses this to emit more efficient 
-JavaScript:
+Now, the compiler instead infers that `finite?` always returns a Boolean
+value, and therefore so does `big?`, and dispenses with the check:
 
 [source,javascript]
 ----
-((cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
+((cljs.user.big_QMARK_.call(null,(11)))?"hi":"bye")
 ----
 
-Previously, this could be accomplished by manually adding a `^boolean` type 
-hint to `foo?`, but now this is unnecessary.
+With this kind of inference, it is no longer necessary to add a `^boolean`
+type hint to a predicate used in performance-critical code, so long as
+the return value can be infered from the predicate function body.
 
-In addition to the above, numeric type hints will automatically flow from the 
-body of a function outward. If you have a function like
+In general, any inferred types will automatically flow from
+function bodies outward, such as an inferred numeric type in the following
+example:
 
 [source,clojure]
 ----
-(defn bar [x]
+(defn foo [x]
   (+ x 3))
 ----
 
-and it is used in a context where types are checked, as in 
+If `foo` is used in a context where types are checked, as in 
 
 [source,clojure]
 ----
-(+ (bar 1) "a")
+(+ (foo 1) "a")
 ----
 
-you will now see a warning that reflects the type of the first argument to `+`:
+you will now see a warning that reflects the type:
 
 [source]
 ----
 WARNING: cljs.core/+, all arguments must be numbers, got [number string] instead
 ----
 
-Previously, without an explcit type hint, the compiler would produce a warning that indicate a type of `any` instead of `number`.
+Previously, without an explcit type hint, the compiler would produce a 
+warning that indicate a type of `any` instead of `number`.
 
 
 For a complete list of updates in ClojureScript 1.10.xxx see
