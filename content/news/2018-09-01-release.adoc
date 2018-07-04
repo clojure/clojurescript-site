@@ -71,8 +71,8 @@ Previously, code like the following
   "bye")
 ----
 
-emits defensive JavaScript that checks the return value of `big?`, coercing 
-it to a Boolean value by using `cljs.core.truth_`:
+would emit defensive JavaScript that coerces the return value of `big?` 
+to a Boolean by using `cljs.core.truth_`:
 
 [source,javascript]
 ----
@@ -80,14 +80,14 @@ it to a Boolean value by using `cljs.core.truth_`:
 ----
 
 Now, the compiler instead infers that `finite?` always returns a Boolean
-value, and therefore so does `big?`, and dispenses with the check:
+value, and therefore so does `big?`, and emits more efficient code:
 
 [source,javascript]
 ----
 ((cljs.user.big_QMARK_.call(null,(11)))?"hi":"bye")
 ----
 
-With this kind of inference, it is no longer necessary to add a `^boolean`
+With this inference, it is no longer necessary to manually add a `^boolean`
 type hint to a predicate used in performance-critical code, so long as
 the return value can be infered from the predicate function body.
 
@@ -108,15 +108,15 @@ If `foo` is used in a context where types are checked, as in
 (+ (foo 1) "a")
 ----
 
-you will now see a warning that reflects the type:
+you will now see a warning that properly reflects the type:
 
 [source]
 ----
 WARNING: cljs.core/+, all arguments must be numbers, got [number string] instead
 ----
 
-Previously, without an explcit type hint, the compiler would produce a 
-warning that indicate a type of `any` instead of `number`.
+Previously, without an explcit type hint on `foo`, the compiler would produce a 
+warning that indicateis a type of `any` instead of `number`.
 
 
 For a complete list of updates in ClojureScript 1.10.xxx see
