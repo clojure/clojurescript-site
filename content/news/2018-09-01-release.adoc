@@ -1,0 +1,108 @@
+= 1.10.xxx Release
+ClojureScript Team
+2018-09-01
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+## Warnings on Private Var Use
+
+ClojureScript will now warn on private var use.
+
+Let's say you have a funtion intended for private use in a namespace:
+
+[source,clojure]
+----
+(ns foo.core)
+
+(defn- some-impl [x]
+  (inc x))
+----
+
+and you inadvertently use it from some other namespace, as in
+
+[source,clojure]
+----
+(ns bar.core
+ (:require [foo.core]))
+
+(foo.core/some-impl 3)
+----
+
+The compiler will now emit a helpful diagnostic:
+
+[source]
+----
+WARNING: var: foo.core/some-impl is not public
+----
+
+This is only a warning; the ClojureScript compiler continues to not prevent private var use, but now emits a new analysis warning, controllable via `:private-var-access`.
+
+If instead var indirection is used, as in the following, no warning will be emitted:
+
+[source, clojure]
+----
+(#'foo.core/some-impl 3)
+----
+
+## Outward Function Type Hint Propagation
+
+ClojureScript now detects the type of a function and propagtes this as a type hint to use sites.
+
+For example, consider this predicate `foo?`:
+
+[source,clojure]
+----
+(defn ^boolean foo? [x] 
+  (or (string? x) 
+      (number? x)))
+----
+
+Because of the `^boolean` type hint, the JavaScript emitted for code like the following
+
+[source,clojure]
+----
+(if (foo? :a)
+  10
+  11)
+----
+
+involves an efficient unchecked if (avoiding a call to `cljs.core.truth_`).
+
+Now, with ClojureScript 1.10.xxx, the explicit `^boolean` type hint is no longer required; the compiler consults
+the body of the function and sees that it will return a Boolean value.
+
+Likewise, numeric functions will be type hinted. If you have a function like
+
+[source,clojure]
+----
+(defn bar [x]
+  (+ x 3))
+----
+
+and it is used in a context where types are checked, as in 
+
+[source,clojure]
+----
+(+ (bar 1) "a")
+----
+
+You will now see a warning that reflects the type of the first argument to `+`:
+
+[source]
+----
+WARNING: cljs.core/+, all arguments must be numbers, got [number string] instead
+----
+
+Previously, without an explcit type hint, the compiler would produce a warning that indicate a type of `any` instead of `number`.
+
+
+For a complete list of updates in ClojureScript 1.10.xxx see
+https://github.com/clojure/clojurescript/blob/master/changes.md#xxxxx[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.xxx:
+
+TODO: Populate this list
+* Mike Fikes
