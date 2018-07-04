@@ -58,18 +58,28 @@ For example, consider this predicate `foo?`:
       (number? x)))
 ----
 
-Because of the `^boolean` type hint, the JavaScript emitted for code like the following
+Because of the `^boolean` type hint, code like the following
 
 [source,clojure]
 ----
-(if (foo? :a)
-  10
-  11)
+(if (foo? 1) 2 3)
 ----
 
-involves an efficient unchecked if (avoiding a call to `cljs.core.truth_`).
+emits efficient JavaScript with an unchecked if
 
-Now, with ClojureScript 1.10.xxx, the explicit `^boolean` type hint is no longer required; the compiler consults
+[source,javascript]
+----
+((cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
+----
+
+as opposed to a checked if
+
+[source,javascript]
+----
+(cljs.core.truth_(cljs.user.bar_QMARK_.call(null,(1)))?(2):(3))
+----
+
+Now, with ClojureScript 1.10.xxx, the explicit `^boolean` type hint is no longer required. The compiler consults
 the body of the function and sees that it will return a Boolean value.
 
 Likewise, numeric functions will be type hinted. If you have a function like
