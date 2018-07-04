@@ -45,9 +45,10 @@ If instead var indirection is used, as in the following, no warning will be emit
 (#'foo.core/some-impl 3)
 ----
 
-## Outward Function Type Hint Propagation
+## Outward Function Type Propagation
 
-ClojureScript now detects the type of a function and propagtes this as a type hint to use sites.
+ClojureScript now infers the type of a function and propagtes this type 
+information use sites.
 
 For example, consider this predicate `foo?`:
 
@@ -70,19 +71,20 @@ Boolean value:
 
 [source,javascript]
 ----
-(cljs.core.truth_(cljs.user.bar_QMARK_.call(null,(1)))?(2):(3))
+(cljs.core.truth_(cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
 ----
 
 Now, with ClojureScript 1.10.xxx, the compiler consults the body of `foo?`, 
-sees that it returns a Boolean and uses this to emit more efficient JavaScript:
+concludes that it always returns a Boolean and uses this to emit more efficient 
+JavaScript:
 
 [source,javascript]
 ----
 ((cljs.user.foo_QMARK_.call(null,(1)))?(2):(3))
 ----
 
-Previously, this could be accomplished by adding a `^boolean` type hint to 
-`foo?`, but now this is unnecessary.
+Previously, this could be accomplished by manually adding a `^boolean` type 
+hint to `foo?`, but now this is unnecessary.
 
 In addition to the above, numeric type hints will automatically flow from the 
 body of a function outward. If you have a function like
