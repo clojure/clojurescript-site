@@ -200,6 +200,7 @@ Namespaces in ClojureScript are compiled to Google Closure namespaces which are 
 * You must currently use the `ns` form only with the following caveats
 ** You must use the `:only` form of `:use`
 ** `:require` supports `:as`, `:refer`, and `:rename`
+*** `:refer :all` not supported
 *** all options can be skipped
 *** in this case a symbol can be used as a libspec directly
 **** that is, `(:require lib.foo)` and `(:require [lib.foo])` are both supported and mean the same thing
