@@ -41,7 +41,7 @@ hello-world        # Our project folder
 └─ deps.edn        # (Mac/Linux only) A file for listing our dependencies
 ----
 
-If you are on OS X or Linux your `deps.edn` file should contain the following:
+If you are on macOS or Linux your `deps.edn` file should contain the following:
 
 [source,clojure]
 ----
