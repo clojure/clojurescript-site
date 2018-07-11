@@ -28,7 +28,7 @@ Same as Clojure. Clojure's identity model is simpler and more robust than mutabl
 
 == Dynamic Development
 
-ClojureScript's REPL can be launched from within the Clojure REPL. See <<xref/../../guides/quick-start#,Quick Start>> for details.
+As with Clojure, ClojureScript supports REPL-driven development, providing easily-launched REPLs for various JavaScript environments. See <<xref/../../guides/quick-start#,Quick Start>> for details.
 
 Additionally, ClojureScript's self-hosting capability supports extending the dynamic nature to 
 pure JavaScript environments where third-party REPLs and other dynamic facilities can be created.
