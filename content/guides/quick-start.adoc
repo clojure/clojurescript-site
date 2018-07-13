@@ -38,7 +38,7 @@ hello-world        # Our project folder
 │  └─ hello_world  # Our hello_world namespace folder
 │     └─ core.cljs # Our main file
 ├─ cljs.jar        # (Windows only) The standalone Jar you downloaded earlier
-└─ deps.edn        # (Mac/Linux only) A file for listing our dependencies
+└─ deps.edn        # (macOS/Linux only) A file for listing our dependencies
 ----
 
 If you are on OS X or Linux your `deps.edn` file should contain the following:
