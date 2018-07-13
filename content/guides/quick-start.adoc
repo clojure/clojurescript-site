@@ -137,7 +137,7 @@ On Windows:
 java -cp "cljs.jar;src" cljs.main --help
 ----
 
-One important thing to note is that so called main options like `--compile`,
+One important thing to note is that so-called main options like `--compile`,
 `--main`, `--repl` must always come last.
 
 [[production-builds]]
