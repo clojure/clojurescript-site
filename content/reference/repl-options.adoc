@@ -152,3 +152,22 @@ The port that the Node subprocess listens on for REPL traffic.
 ----
 :port 49152
 ----
+
+== Graal.JS REPL Options
+
+Executing `js --help:languages` will display a list of Graal.JS-specific options.
+Any REPL option with a string key starting with `"js."` will be passed through
+to the Graal.JS engine. Such entries should have string values.
+
+Here is an example enabling and using the ECMAScript Internationalization API:
+
+----
+$ clj -m cljs.main -re graaljs -ro '{"js.intl-402" "true"}' -r
+cljs.user=> (def gas-price (js/Intl.NumberFormat. "en-US" 
+                             #js {:style "currency" 
+                                  :currency "USD" 
+                                  :minimumFractionDigits 3}))
+#'cljs.user/gas-price
+cljs.user=> (.format gas-price 5.259)
+"$5.259"
+----
