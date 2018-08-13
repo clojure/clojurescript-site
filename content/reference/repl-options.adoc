@@ -13,6 +13,11 @@ ClojureScript REPLs can take nearly all the same options that can be
 supplied to `cljs.closure/build`, for details see <<compiler-options#,Compiler Options>>.
 This page documents additional supported options.
 
+Note that options presented below under General Options should be passed 
+as compiler options (via `-co` / `--compile-opts` if using `cljs.main`), while 
+REPL-environment-specific options should be passed as REPL options
+(via `-ro` / `repl-opts` if using `cljs.main`).
+
 == General Options
 
 [[analyze-path]]
