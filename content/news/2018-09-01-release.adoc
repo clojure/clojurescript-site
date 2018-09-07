@@ -149,3 +149,15 @@ Thanks to all of the community members who contributed to ClojureScript 1.10.xxx
 
 TODO: Populate this list
 * Mike Fikes
+
+## Grant Support
+
+Thanks to https://www.clojuriststogether.org[Clojurists Together] and its
+supporting members for funding a significant amount of work that went 
+into this release!
+
+For details see
+
+- https://www.clojuriststogether.org/news/july-2018-monthly-update/[July 2018 Monthly Update]
+- https://www.clojuriststogether.org/news/june-2018-monthly-update/[June 2018 Monthly Update]
+- https://www.clojuriststogether.org/news/may-2018-monthly-update/[May 2018 Monthly Update]
