@@ -5,7 +5,7 @@ David Nolen
 :toc: macro
 :icons: font
 
-Below is a partial list of some companies using ClojureScript. 
+Below is a partial list of some companies using ClojureScript. To add your company to the list, please submit a pull request to the https://github.com/clojure/clojurescript-site[ClojureScript.org repository].
 
 * http://www.8thlight.com[8th Light]
 * http://www.active-group.de/[Active Group]
