@@ -340,7 +340,7 @@ preloads to work.
 Declare NPM dependencies. A map of NPM package names (keywords or strings)
 to the desired versions or the Boolean value `false`. If `false` then any 
 existing `node_modules` directory will not be indexed nor used.
-See also `:install-deps`.
+Defaults to `false`. See also `:install-deps`.
 
 [source,clojure]
 ----
