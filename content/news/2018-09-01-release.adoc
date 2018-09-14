@@ -124,7 +124,7 @@ you will now see a warning that properly reflects the type:
 WARNING: cljs.core/+, all arguments must be numbers, got [number string] instead
 ----
 
-Previously, without an explcit type hint on `foo`, the compiler would produce a 
+Previously, without a type hint on `foo`, the compiler would produce a 
 warning that indicates a type of `any` instead of `number`.
 
 ## Graal.JS REPL Environment
