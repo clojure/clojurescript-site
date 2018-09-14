@@ -156,6 +156,11 @@ warmed up and the JVM has had an opportunity to optimize hotspots.
 Since GraalVM hasn't yet been released and things could still change, this new REPL environment
 should be considered beta. We encourage you to give it a try!
 
+## Updates to Spec
+
+This release includes many updates to Spec, bringing changes and fixes that have been made to the
+Clojure implementation of Spec to ClojureScript.
+
 For a complete list of updates in ClojureScript 1.10.xxx see
 https://github.com/clojure/clojurescript/blob/master/changes.md#xxxxx[Changes].
 
