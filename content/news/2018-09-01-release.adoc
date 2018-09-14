@@ -144,6 +144,13 @@ cljs.user=> (.eval js/Polyglot "ruby" "(1..100).reduce(:+)")
 5050
 ----
 
+In addition to Polyglot support, the Graal.JS engine is much faster than Nashorn,
+approaching the performance of the other leading JavaScript engines, especially when
+warmed up and the JVM has had an opportunity to optimize hot spots.
+
+Since GraalVM hasn't yet been released and things could still change, this new REPL environment
+should be considered beta. We'd encourage you to give it a try!
+
 For a complete list of updates in ClojureScript 1.10.xxx see
 https://github.com/clojure/clojurescript/blob/master/changes.md#xxxxx[Changes].
 
