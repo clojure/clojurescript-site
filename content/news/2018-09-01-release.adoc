@@ -9,6 +9,11 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 Closure Compiler has been upgraded to v20180805.
 
+## Improved Compiler Performance
+
+The compiler is now much faster when compared with the 1.10.339 release for both regular builds 
+and when `:parallel-build` is set to `true`. 
+
 ## Warnings on Private Var Use
 
 ClojureScript will now warn on private var use.
