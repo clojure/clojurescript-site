@@ -13,7 +13,7 @@ Closure Compiler has been upgraded to v20180805.
 
 ClojureScript will now warn on private var use.
 
-Let's say you have a funtion intended for private use in a namespace:
+Let's say you have a function intended for private use in a namespace:
 
 [source,clojure]
 ----
@@ -40,9 +40,9 @@ The compiler will now emit a helpful diagnostic:
 WARNING: var: foo.core/some-impl is not public
 ----
 
-This is only a warning; the ClojureScript compiler continues to not prevent private var use, but now emits a new analysis warning, controllable via `:private-var-access`.
+This is only a warning; the ClojureScript compiler continues to allow private var use, but now emits a new analysis warning, controllable via `:private-var-access`.
 
-If instead var indirection is used, as in the following, no warning will be emitted:
+If var indirection is used instead, no warning will be emitted:
 
 [source, clojure]
 ----
@@ -91,7 +91,7 @@ value, and therefore so does `big?`, and emits more efficient code:
 ((cljs.user.big_QMARK_.call(null,(11)))?"hi":"bye")
 ----
 
-With this inference, it is no longer necessary to manually add a `^boolean`
+With inference like this, it is no longer necessary to manually add a `^boolean`
 type hint to a predicate used in performance-critical code, so long as
 the return value can be infered from the predicate function body.
 
@@ -120,18 +120,18 @@ WARNING: cljs.core/+, all arguments must be numbers, got [number string] instead
 ----
 
 Previously, without an explcit type hint on `foo`, the compiler would produce a 
-warning that indicateis a type of `any` instead of `number`.
+warning that indicates a type of `any` instead of `number`.
 
 ## Graal.JS REPL Environment
 
 ClojureScript now ships with a Graal.JS REPL environment. This is a new Java-based REPL
-environemnt which is similar to the existing Nashorn REPL environment, but instead uses
-the new Graal.JS JavaScript engine that ships as part of GraalVM.
+environment which is similar to the existing Nashorn REPL environment, but instead uses
+the new https://github.com/graalvm/graaljs[Graal.JS] JavaScript engine that ships as part of GraalVM.
 
 The Graal.JS REPL environment automatically configures the Graal.JS engine to allow
 Polyglot calls to other languages that may be installed.
 
-If you are using the GraalVM version of Java, to use this new REPL environment 
+If you have the GraalVM version of Java on your path, to use this new REPL environment 
 with `cljs.main`, simply specify `--repl-env graaljs`:
 
 [source]
@@ -146,10 +146,10 @@ cljs.user=> (.eval js/Polyglot "ruby" "(1..100).reduce(:+)")
 
 In addition to Polyglot support, the Graal.JS engine is much faster than Nashorn,
 approaching the performance of the other leading JavaScript engines, especially when
-warmed up and the JVM has had an opportunity to optimize hot spots.
+warmed up and the JVM has had an opportunity to optimize hotspots.
 
 Since GraalVM hasn't yet been released and things could still change, this new REPL environment
-should be considered beta. We'd encourage you to give it a try!
+should be considered beta. We encourage you to give it a try!
 
 For a complete list of updates in ClojureScript 1.10.xxx see
 https://github.com/clojure/clojurescript/blob/master/changes.md#xxxxx[Changes].
