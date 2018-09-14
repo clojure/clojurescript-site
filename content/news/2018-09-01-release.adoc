@@ -5,6 +5,10 @@ ClojureScript Team
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+## Closure Upgrade
+
+Closure Compiler has been upgraded to v20180805.
+
 ## Warnings on Private Var Use
 
 ClojureScript will now warn on private var use.
