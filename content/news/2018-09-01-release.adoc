@@ -5,9 +5,12 @@ ClojureScript Team
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-## Closure Upgrade
+## Noteworthy Changes
 
 Closure Compiler has been upgraded to v20180805.
+
+The https://clojurescript.org/reference/compiler-options#npm-deps[`:npm-deps`]
+compiler option now defaults to `false`. Previously, `:npm-deps` defaulted to `{}`.
 
 ## Improved Compiler Performance
 
