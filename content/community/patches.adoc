@@ -36,6 +36,11 @@ confirm the patch works for you.
 Attach `CLJS-NNNN.patch` to the associated JIRA ticket, providing
 additional commentary that may be useful for understanding the patch.
 
+If submitting follow-on patches in order to address comments raised
+during review or defects found in a patch, name them `CLJS-NNNN-2.patch`,
+`CLJS-NNNN-3.patch`, and so on. Subsequent patches should be stand-alone
+(squashed and not dependent on earlier patches).
+
 Edit the ticket's Patch field to indicate either "Code" or "Code and
 Test". This makes it easier for others to find patches in need of review
 (appearing in the
