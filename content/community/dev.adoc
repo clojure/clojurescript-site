@@ -11,7 +11,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 == Contributing
 
 ClojureScript is developed using the same
-https://clojure.org/contributing[Contributor Agreement and development
+https://clojure.org/community/contributing[Contributor Agreement and development
 process] as Clojure.
 
 [[dev-docs]]
