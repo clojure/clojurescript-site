@@ -179,11 +179,12 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#xxxxx[Changes].
 Thanks to all of the community members who contributed to ClojureScript 1.10.xxx:
 
 * Ambrose Bonnaire-Sergeant
-* Eric Assum
+* Erik Assum
 * Henry Widd
 * Juho Teperi
 * Mike Fikes
 * Oliver Eidel
+* Ray McDermott
 * Thomas Spellman
 
 ## Grant Support
