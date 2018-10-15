@@ -337,10 +337,10 @@ preloads to work.
 [[npm-deps]]
 === :npm-deps
 
-Declare NPM dependencies. A map of NPM package names (keywords or strings)
-to the desired versions or the Boolean value `false`. If `false` then any 
-existing `node_modules` directory will not be indexed nor used. Defaults
-to `false`. (In ClojureScript 1.10.339 and earlier, defaulted to `{}`.)
+Control NPM dependencies. A map of NPM package names (keywords or strings)
+to the desired versions, or a Boolean value. A `node_modules` directory will 
+be indexed and used if set to a truthy value. Defaults to `false`. (In 
+ClojureScript 1.10.339 and earlier, defaulted to `true`.)
 See also `:install-deps`.
 
 [source,clojure]
