@@ -105,6 +105,7 @@ cousins: `if`, `do`, `let`, `letfn`, `quote`, `loop`, `recur`, `throw`, and `try
 * `def` notes
 ** `def` produces ordinary JS variables
 ** `:private` metadata is not enforced by the compiler
+*** Private var access triggers an analysis warning
 ** `:const` metadata:
 *** will cause inlining of compile-time static EDN values
 *** causes `case` test constants which are symbols resolving to `^:const` Vars to be inlined with their values 
