@@ -995,3 +995,13 @@ Whether to elide `use strict` statements in JavaScript output. Defaults to `true
 ----
 :elide-strict false
 ----
+
+[[spec-skip-macros]]
+=== :spec-skip-macros
+
+Whether to disable spec macro checking. Defaults to `false`.
+
+[source,clojure]
+----
+:spec-skip-macros true
+----
