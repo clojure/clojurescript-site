@@ -219,7 +219,7 @@ namespace to which the symbol refers if it is not yet loaded.
 If value is keyword, it is used as dispatch value for `cljs.clojure/js-transforms`
 multimethod. For more info see <<xref/../javascript-library-preprocessing#,JavaScript Library Preprocessing>>.
 * `:global-exports` (Optional) used to map provided namespaces to globally
-exported values. If present the foreign library can be used idiomatically
+exported values. The keys may be symbols or strings. If present the foreign library can be used idiomatically
 when required, i.e. support for `:refer`, `:rename`, `:as`, etc.
 
 [[externs]]
