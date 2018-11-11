@@ -15,7 +15,7 @@ part of this tutorial are a web browser and an installation of
 https://clojure.org/guides/getting_started[Clojure]. On Windows you will need
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Java
 8] and the
-https://github.com/clojure/clojurescript/releases/download/r1.10.339/cljs.jar[standalone
+https://github.com/clojure/clojurescript/releases/download/r1.10.439/cljs.jar[standalone
 ClojureScript JAR]. Note that the requirement of a web browser excludes
 headless environments, and we then recommend skimming to the Node.js portion of the
 tutorial.
@@ -45,7 +45,7 @@ If you are on macOS or Linux your `deps.edn` file should contain the following:
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.339"}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.439"}}}
 ----
 
 In your favorite text editor edit the `src/hello_world/core.cljs` to
@@ -299,7 +299,7 @@ Modify your `deps.edn` file:
 
 [source,clojure]
 ----
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.339"}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.439"}
         cljsjs/react-dom {:mvn/version "16.2.0-3"}}}
 ----
 
