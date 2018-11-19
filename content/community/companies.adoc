@@ -28,7 +28,6 @@ Below is a partial list of some companies using ClojureScript.
 * http://cicayda.com/[cïcayda]
 * https://circleci.com[CircleCI]
 * http://www.threatgrid.com[Cisco]
-* https://clubhouse.io[Clubhouse]
 * http://www.cognesys.de[cognesys]
 * https://www.cognician.com[Cognician]
 * http://cognitect.com[Cognitect]
