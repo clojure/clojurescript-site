@@ -210,9 +210,11 @@ When a REPL starts, it automatically loads any `user.cljs` or `user.cljc`
 file present on your classpath. This is an ideal location to place code
 that is useful for development time.
 
-The file may contain an `ns` form to load required namespaces or to establish 
-the namespace for any `def` forms that appear in the file. If no namespace 
-is specified, `cljs.user` is assumed.
+The file may optionally contain an `ns` form in order to load required 
+namespaces or to establish the namespace for any `def` forms that appear 
+in the file. 
+
+If no namespace is specified, `cljs.user` is assumed.
 
 [[implementation]]
 == Implementation
