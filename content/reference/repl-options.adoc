@@ -50,8 +50,8 @@ automatically loaded when launching a REPL. Defaults to specs that refer
 
 [source,clojure]
 ----
-:repl-requires ['[cljs.repl :refer-macros [source doc find-doc apropos dir pst]]
-                '[cljs.pprint :refer [pprint] :refer-macros [pp]]]
+:repl-requires [[cljs.repl :refer-macros [source doc find-doc apropos dir pst]]
+                [cljs.pprint :refer [pprint] :refer-macros [pp]]]
 ----
 
 [[repl-verbose]]
