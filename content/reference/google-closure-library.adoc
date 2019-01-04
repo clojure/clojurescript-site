@@ -28,7 +28,7 @@ You may first want to consider the following ClojureScript libraries
 which wrap some functionality from Google Closure Library. Their source
 code also serves as good examples of how to use Closure directly.
 
-[cols="<*,", options="header", role="table"]
+[cols="<*", options="header", role="table"]
 |=======================================================================
 |ClojureScript wrapper |Closure Libraries
 |https://github.com/andrewmcveigh/cljs-time[cljs-time]
