@@ -969,7 +969,7 @@ Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false` o
 [[infer-externs]]
 === :infer-externs
 
-Enables automatically generating externs for interop calls to JavaScript. Defaults to `false`. For more info see <<xref/../../guides/externs#externs-inference#,Externs (Alpha)>>
+Enables automatically generating externs for interop calls to JavaScript. Defaults to `false`. For more info see <<xref/../../guides/externs#externs-inference,Externs (Alpha)>>
 
 [source,clojure]
 ----
