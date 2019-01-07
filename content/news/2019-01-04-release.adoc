@@ -7,9 +7,15 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 ## Noteworthy Changes
 
-Keywords used in the `cljs.spec.test.alpha/check` API pertaining to Spec's 
-use of `test.check` are now qualified with `clojure.spec.test.check` instead 
-of `clojure.test.check` (thus aligning with Clojure).
+Spec instrumentation no longer requires a dependency on `clojure.test.check`. To
+enable data generation by `clojure.test.check`, e.g. by using `stest/check`, you
+now need to manually require `clojure.test.check` and
+`clojure.test.check.properties`.
+
+Keywords used in the `cljs.spec.test.alpha/check` API pertaining to Spec's use
+of `test.check` are now qualified with `clojure.spec.test.check, thus aligning
+with Clojure. The old way of qualifying with `clojure.test.check` is still
+supported.  
 
 ## Clojure 1.10 Features
 
