@@ -62,6 +62,41 @@ In addition to core predicates, predicte-induced type inference also works
 for `instance?` checks. So, for example testing `(instance? Atom x)` will
 result in `x` to be inferred to be of type `cljs.core/Atom`.
 
+### Truthy-Induced Inference
+
+In situations where a value could potentially be `nil` (represented by the
+symbol `clj-nil` in type tags), if a simple symbol referring to such a value
+is used as the test in a conditional, the type inference algorithm will
+infer that the value cannot be `nil` in the then branch.
+
+This is perhaps best illustrated by way of example. Let's say you have 
+the following function:
+
+[source,clojure]
+----
+(defn f [x]
+  (when (even? x)
+    (inc x)))
+----
+
+This function's return type is `#{number clj-nil}`, meaning that the
+either a number of `nil` can be returned.
+
+The following function, which uses `f` and would previously be inferred as
+returning `#{number clj-nil}`, is now inferred as returning `number`:
+
+[source,clojure]
+----
+(defn g [y] 
+  (let [z (f y)] 
+    (if z
+      z
+      17)))
+----
+
+In fact, owing to the way the `or` macro expands, the expression
+`(or (f 1) 17)` is now inferred as being simply `number`.
+
 ### Improved `loop` / `recur` Inference
 
 The type-inferrence algorithm will now consider `recur` parameter types
