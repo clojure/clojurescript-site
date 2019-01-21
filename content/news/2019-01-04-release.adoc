@@ -9,8 +9,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 Spec instrumentation no longer requires a dependency on `clojure.test.check`. To
 enable data generation by `clojure.test.check`, e.g. by using `stest/check`, you
-now need to manually require `clojure.test.check` and
-`clojure.test.check.properties`.
+now need to manually require `clojure.test.check`.
 
 Keywords used in the `cljs.spec.test.alpha/check` API pertaining to Spec's use
 of `test.check` are now qualified with `clojure.spec.test.check, thus aligning
