@@ -168,9 +168,9 @@ in JavaScriptCore.
 ### Optimized String Expression Concatenation
 
 Generally, arguments supplied to the `str` function are first coerced
-to strings and then concatenated. With this release, unnecessary
+to strings before being concatenated. With this release, unnecessary
 coercion is eliminated for arguments that are inferred to be of string
-type.
+type, leading to more compact codegen as well as a speed boost.
 
 For example, in
 
