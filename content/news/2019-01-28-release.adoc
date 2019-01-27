@@ -37,9 +37,9 @@ along with associated protocols in the `clojure.core.protocols` namespace.
 
 ## clojure.edn Namespace
 
-A new `clojure.edn` is added with this release which delegates to 
+A new `clojure.edn` namespace is added with this release which delegates to 
 `cljs.reader` for functionality. This facilitates writing portable
-Clojure / ClojureScript source that makes use of `clojure.edn/read` and
+Clojure / ClojureScript source making use of `clojure.edn/read` and
 `clojure.edn/read-string`.
 
 ## Type Inference Improvements
