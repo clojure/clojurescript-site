@@ -130,7 +130,7 @@ ClojureScript 1.10.439 added https://clojurescript.org/news/news#_function_retur
 only worked for single-arity functions. This release extends this capability
 to multi-arity and variadic functions.
 
-In particular, the inferred return type will properly vary if different
+Furthermore, the inferred return type will properly vary if different
 arities return different types. For example, 
 
 [source,clojure]
