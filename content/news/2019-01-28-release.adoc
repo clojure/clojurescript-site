@@ -24,7 +24,7 @@ supported.
 The https://www.clojure.org/reference/repl_and_main#_error_printing[improved exception infrastructure] added in Clojure 1.10
 has been ported to ClojureScript with this release.
 
-### Protocol via Metadata
+### Protocols via Metadata
 
 The ability to add protocols via metadata (for protocols defined with 
 the `:extend-via-metadata true` directive) has been ported to ClojureScript 
