@@ -46,7 +46,7 @@ Clojure / ClojureScript source making use of `clojure.edn/read` and
 
 ### Predicate-Induced Type Inference
 
-The type inference algorithm will now consider core predicates in when
+The type inference algorithm will now consider core predicates when
 inferring the types of locals used in conditional expressions.
 
 For example, in
@@ -67,7 +67,7 @@ inference also works as expected for expressions involving `cond` and `when`.
 
 In addition to core predicates, predicte-induced type inference also works
 for `instance?` checks. So, for example testing `(instance? Atom x)` will
-result in `x` to be inferred to be of type `cljs.core/Atom`.
+result in `x` being inferred of type `cljs.core/Atom`.
 
 ### Truthy-Induced Inference
 
