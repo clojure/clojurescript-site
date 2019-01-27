@@ -1,6 +1,6 @@
 = 1.10.zzz Release
 ClojureScript Team
-2019-01-04
+2019-01-28
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
