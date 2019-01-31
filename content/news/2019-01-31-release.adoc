@@ -1,6 +1,6 @@
-= 1.10.zzz Release
+= 1.10.514 Release
 ClojureScript Team
-2019-01-28
+2019-01-31
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -187,12 +187,12 @@ faster in JavaSriptCore as a result of the improved codgen.
 
 ## Change List
 
-For a complete list of updates in ClojureScript 1.10.zzz see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.zzz[Changes].
+For a complete list of updates in ClojureScript 1.10.514 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.514[Changes].
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.10.zzz:
+Thanks to all of the community members who contributed to ClojureScript 1.10.514:
 
 * Anton Fonarev
 * Enzzo Cavallo
