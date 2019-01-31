@@ -86,7 +86,7 @@ the following function:
     (inc x)))
 ----
 
-This function's return type is `#{number clj-nil}`, meaning that the
+This function's return type is `#{number clj-nil}`, meaning that 
 either a number or `nil` can be returned.
 
 The following function, which uses `f` and would previously be inferred as
