@@ -165,6 +165,10 @@ capability improves performance is
 which is evaluated 5 times faster in V8, 7 times in SpiderMonkey, and 2 times
 in JavaScriptCore.
 
+### Improved `re-seq` Performance
+
+`re-seq` performance has been improved, with a speedup of 1.5 or more under major JavaScript engines.
+
 ### Optimized String Expression Concatenation
 
 Generally, arguments supplied to the `str` function are first coerced
