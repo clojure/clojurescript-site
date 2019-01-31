@@ -87,7 +87,7 @@ the following function:
 ----
 
 This function's return type is `#{number clj-nil}`, meaning that the
-either a number of `nil` can be returned.
+either a number or `nil` can be returned.
 
 The following function, which uses `f` and would previously be inferred as
 returning `#{number clj-nil}`, is now inferred as returning `number`:
