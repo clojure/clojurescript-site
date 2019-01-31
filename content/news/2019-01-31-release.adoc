@@ -209,3 +209,4 @@ Thanks to all of the community members who contributed to ClojureScript 1.10.514
 * Thomas Heller
 * Thomas Mulvaney
 * Timothy Pratley
+* Will Acton
