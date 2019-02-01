@@ -65,7 +65,7 @@ is being applied to it).
 Because `cond` and `when` are macros built on top of `if`, predicate-induced
 inference also works as expected for expressions involving `cond` and `when`.
 
-In addition to core predicates, predicte-induced type inference also works
+In addition to core predicates, predicate-induced type inference also works
 for `instance?` checks. So, for example testing `(instance? Atom x)` will
 result in `x` being inferred of type `cljs.core/Atom`.
 
