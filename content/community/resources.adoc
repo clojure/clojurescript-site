@@ -50,6 +50,7 @@ View & more…)
 * http://clojurians.net/[you can get invite here]
 * http://clojurians-log.mantike.pro/clojurescript/index.html[searchable
 chat logs]
+* Zulip: `#clojurescript` on https://clojurians.zulipchat.com/#narrow/stream/151762-clojurescript[Clojurians Zulip Chat]
 
 [[mailing-lists]]
 === Mailing Lists
