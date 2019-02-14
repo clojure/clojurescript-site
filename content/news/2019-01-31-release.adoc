@@ -10,7 +10,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 Spec instrumentation (`cljs.spec.test.alpha/instrument` and related functionality)
 no longer requires `test.check`. If you use `cljs.spec.test.alpha/check`, the data 
 generation functionality of `test.check` is needed; in that case you need to require
-the `clojure.test.check` namespace.
+the `clojure.test.check` and `clojure.test.check.properties` namespaces.
 
 Keywords used in the `cljs.spec.test.alpha/check` API pertaining to Spec's use
 of `test.check` are now qualified with `clojure.spec.test.check`, thus aligning
