@@ -25,37 +25,40 @@ How to setup the important JavaScript runtimes.
 [[google-v8]]
 === Google V8
 
-http://code.google.com/p/v8/[Checkout the V8 project]. Following the
-build instructions https://developers.google.com/v8/build[here]
+Follow https://v8.dev/docs/build[Google V8 checkout and build instructions].
 
-Set the V8_HOME environment variable to the path where d8 lives.
+Set the V8_HOME environment variable to the path where https://v8.dev/docs/d8[d8] was built, for example:
 
-`export V8_HOME="$HOME/v8/out/native"`
+`export V8_HOME="$HOME/v8/out/x64.release"`
+
+Verify via:
+
+`echo quit | $V8_HOME/d8`
 
 [[spidermonkey]]
-=== Spidermonkey
+=== Mozilla SpiderMonkey
 
-Get the js-shell from here
+Get the JavaScript shell (jsshell) from
 http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-central/.
-Set your SPIDERMONKEY_HOME environment variable.
+Set your SPIDERMONKEY_HOME environment variable to installation location.
+
+Verify via:
+
+`$SPIDERMONKEY_HOME/js --version`
 
 [[javascriptcore]]
-=== JavaScriptCore
+=== WebKit JavaScriptCore
 
-On macOS download a http://webkit.org[WebKit nightly] and put it in your
-Applications folder. Update your shell profile to include the following:
+On macOS we test with JavaScriptCore. JavaScriptCore (jsc) should be on your system, but needs to
+be added to your `PATH` environment variable so that it will be found, for example:
 
-[source,bash]
-----
-DYLD_FRAMEWORK_PATH=/Applications/WebKit.app/Contents/Frameworks/10.12/
-export DYLD_FRAMEWORK_PATH
-PATH=$PATH:/Applications/WebKit.app/Contents/Frameworks/10.12/JavaScriptCore.framework/Resources
-----
+`export PATH="$PATH:/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources"`
 
-_NOTE:_ Sub in the correct macOS version if you're not running `10.12`
+Verify that `jsc` brings up a prompt.
+
 
 [[nashorn]]
-=== Nashorn
+=== Java Nashorn
 
 Setup the `$NASHORN_HOME` environment variable so that
 
@@ -64,21 +67,32 @@ Setup the `$NASHORN_HOME` environment variable so that
 prompts a JavaScript Console. Nashorn is usually under `$JAVA_HOME/bin`,
 so you can write:
 
-`export NASHORN_HOME="$JAVA_HOME/bin/"`
+`export NASHORN_HOME="$JAVA_HOME/bin"`
+
+Verify via:
+
+`echo 'quit()' | $NASHORN_HOME/jjs -fv`
 
 [[graalvm]]
-=== GraalVM
+=== Oracle GraalVM
 
-Get GraalVM from here
-http://www.graalvm.org.
+Get GraalVM from http://www.graalvm.org.
 Set your GRAALVM_HOME environment variable so that `$GRAALVM_HOME/js` executes Graal.js.
 
-[[chakracore]]
-=== ChakraCore
+Verify via:
 
-Get ChakraCore from here
-https://github.com/Microsoft/ChakraCore/releases.
+`$GRAALVM_HOME/js --version`
+
+
+[[chakracore]]
+=== Microsoft ChakraCore
+
+Get ChakraCore from https://github.com/Microsoft/ChakraCore/releases.
 Set your CHAKRACORE_HOME environment variable so that `$CHAKRACORE_HOME/ch` executes ChakraCore.
+
+Verify via:
+
+`$CHAKRACORE_HOME/ch -version`
 
 [[setting-up-dependencies]]
 === Setting up dependencies
@@ -95,6 +109,8 @@ Set your CHAKRACORE_HOME environment variable so that `$CHAKRACORE_HOME/ch` exec
 ----
 ./script/test
 ----
+
+Will run tests for each JavaScript runtime that you setup as described above, runtimes that you did not setup will be skipped.
 
 [[running-bootstrapped-clojurescript-tests]]
 === Running bootstrapped ClojureScript tests
@@ -126,7 +142,15 @@ You can run tests exercising the ClojureScript CLI by running
 ./script/test-cli repl-env [repl-env-opts-edn]
 ----
 
-where `repl-env` is any of the built-in REPL environments (`node`, `browser`, _etc._). This will be passed to `cljs.main` 's `-re` option. You can also specify a non-built-in REPL environment, but you would have to revise `script/test-cli` to include the downstream REPL environment on the classpath. You can also pass optional `repl-env-opts-edn`, which will be passed to `cljs.main` 's `-ro` option. 
+where `repl-env` is any of the built-in REPL environments (`node`, `browser`, _etc._). This will be passed to `cljs.main` 's `-re` option.
+
+Note that testing with `graaljs` REPL environment requires GRAALVM_HOME to be found early in your PATH. You can test via:
+[source,bash]
+----
+(export PATH="$GRAALVM_HOME:$PATH"; ./script/test-cli graaljs)
+----
+
+You can also specify a non-built-in REPL environment, but you would have to revise `script/test-cli` to include the downstream REPL environment on the classpath. You can also pass optional `repl-env-opts-edn`, which will be passed to `cljs.main` 's `-ro` option.
 
 [[dont-forget]]
 === Don't forget
