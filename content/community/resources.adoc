@@ -23,7 +23,7 @@ ClojureScript + Reagent.
 [[learning-tools]]
 == Learning Tools
 
-* http://planck-repl.org[Planck] Stand-alone ClojureScript REPL for macOS and Linux
+* https://planck-repl.org[Planck] Stand-alone ClojureScript REPL for macOS and Linux
 * https://replete-repl.org[Replete] ClojureScript REPL iOS, macOS, and Android app
 * https://github.com/priyatam/replify[Replify] Standalone Clojurescript
 REPL and minimalist build tool
