@@ -35,7 +35,7 @@ View & more…)
 == Online Clojurescript REPLs
 
 * http://app.klipse.tech[KLIPSE]
-* http://clojurescript.io/[clojurescript.io]
+* https://clojurescript.io/[clojurescript.io]
 * http://clojurescript.net/[clojurescript.net]
 
 [[getting-help]]
@@ -62,10 +62,11 @@ chat logs]
 ClojureScript does not take pull requests. Please follow the links below
 to contribute to ClojureScript.
 
-* https://dev.clojure.org/jira/browse/CLJS[Bug Reports]
+* https://clojure.atlassian.net/browse/CLJS[Bug Reports]
 * https://archive.clojure.org/design-wiki/display/design/Home.html[Design Docs archive]
 * https://groups.google.com/group/clojure-dev[Dev Mailing List] -
 membership restricted to those who have submitted a signed
-https://clojure.org/contributing[Clojure CA] (Contributor Agreement)
+https://clojure.org/dev/contributor_agreement[Clojure CA] (Contributor Agreement)
 * https://groups.google.com/group/clojurescript[ClojureScript Mailing List]
-* Become a https://clojure.org/contributing[Contributor]
+* Become a https://clojure.org/dev/contributor_agreement[Contributor]
+

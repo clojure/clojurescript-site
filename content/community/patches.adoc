@@ -38,8 +38,7 @@ additional commentary that may be useful for understanding the patch.
 
 Edit the ticket's Patch field to indicate either "Code" or "Code and
 Test". This makes it easier for others to find patches in need of review
-(appearing in the
-http://dev.clojure.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=10707[CLJS
+(appearing in the https://clojure.atlassian.net/issues/?filter=10017[CLJS
 Screenable] preset filter).
 
 [[a-note-about-patches-for-windows-files]]

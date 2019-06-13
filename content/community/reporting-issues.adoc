@@ -7,14 +7,14 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-To report an issue please use the http://dev.clojure.org/jira/browse/CLJS[ClojureScript issue tracker].
+To report an issue please use the https://clojure.atlassian.net/browse/CLJS[ClojureScript issue tracker].
 
 It's important that before submitting any issue that you have a thorough
 understanding of the <<xref/../../../guides/quick-start#,Quick Start>> first. Even if you are an
 experienced ClojureScript developer this is required reading.
 
 It's helpful, but not essential, to first check the
-http://dev.clojure.org/jira/browse/CLJS[existing bug reports], the
+https://clojure.atlassian.net/browse/CLJS[existing bug reports], the
 https://groups.google.com/forum/#!forum/clojurescript[mailing list], or
 the Freenode #clojurescript IRC channel or Slack channels and ensure
 that the issue hasn't been reported before.
