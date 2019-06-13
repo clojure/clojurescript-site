@@ -343,6 +343,15 @@ be indexed and used if set to a truthy value. Defaults to `false`. (In
 ClojureScript 1.10.339 and earlier, defaulted to `true`.)
 See also `:install-deps`.
 
+[CAUTION]
+====
+The `:npm-deps` feature is in alpha status. Additionally, NPM dependencies
+configured in this manner are passed through Closure Compiler and not all NPM
+libraries contain Closure-compatible code.
+
+A reliable alternative can be found with <<xref/../../guides/webpack#,ClojureScript with Webpack>>.
+====
+
 [source,clojure]
 ----
 :npm-deps {"lodash" "4.17.4"}
