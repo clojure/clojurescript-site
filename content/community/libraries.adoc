@@ -45,6 +45,7 @@ Clojure(Script) reader
 * https://github.com/weavejester/brutha[brutha] Simple ClojureScript interface to React
 * https://github.com/r0man/sablono[sablono] Hiccup style wrapper for React DOM Elements
 * https://github.com/bhauman/cljs-react-reload[cljs-react-reload] Writing reloadable React Classes
+* https://github.com/peterhudec/cljsx[cljsx] JSX for Clojure and ClojureScript
 
 === HTML Templating
 
