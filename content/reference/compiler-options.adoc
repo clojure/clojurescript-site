@@ -345,11 +345,12 @@ See also `:install-deps`.
 
 [CAUTION]
 ====
-The `:npm-deps` feature is in alpha status. Additionally, NPM dependencies
-configured in this manner are passed through Closure Compiler and not all NPM
-libraries contain Closure-compatible code.
+The `:npm-deps` feature is in alpha status for optimized builds. When applying
+Closure optimizations, NPM dependencies are passed through Closure Compiler and
+not all NPM libraries contain Closure-compatible code.
 
-A reliable alternative can be found with <<xref/../../guides/webpack#,ClojureScript with Webpack>>.
+A reliable alternative can be found with
+<<xref/../../guides/webpack#,ClojureScript with Webpack>>.
 ====
 
 [source,clojure]
@@ -477,6 +478,13 @@ This option emits slightly different code that can speed up your code
 around 10-30%. Higher order function that don't implement the `IFn` protocol 
 are normally called with `f.call(null, arg0, arg1 ...)`. With this option
 enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
+
+[CAUTION]
+====
+The `:fn-invoke-direct` feature is in alpha status. For some libraries such
+as Reagent, `:fn-invoke-direct` is known to generate incorrect code.
+====
+
 
 [source,clojure]
 ----
