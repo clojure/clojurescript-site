@@ -1,0 +1,139 @@
+= Promise interop
+Filipe Silva
+2019-10-03
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+[[using-javascript-promises-directly]]
+== Using JavaScript promises directly
+
+Promises are a common way of handling asynchronous operations in JavaScript. 
+You can just as easily use them in ClojureScript by calling the promise methods.
+
+*JavaScript:*
+[source,javascript]
+----
+Promise.resolve(42)
+  .then(val => console.log(val));
+----
+
+*ClojureScript:*
+[source,clojure]
+----
+(.then (js/Promise.resolve 42)
+       #(js/console.log %))
+----
+
+However, chained promise methods in ClojureScript results in cascading code.
+Using the https://cljs.github.io/api/cljs.core/#-GT[thread-first macro] we can can get back to more 
+elegant code.
+
+*JavaScript:*
+[source,clojure]
+----
+Promise.resolve(42)
+  .then(val => console.log(val))
+  .catch(err => console.log(err))
+  .finally(() => console.log('cleanup'));
+----
+
+*ClojureScript:*
+[source,javascript]
+----
+(.finally 
+  (.catch 
+  (.then (js/Promise.resolve 42)
+          #(js/console.log %))
+  #(js/console.log %))
+  #(js/console.log "cleanup"))
+
+; same as above
+(-> (js/Promise.resolve 42)
+    (.then #(js/console.log %))
+    (.catch #(js/console.log %))
+    (.finally #(js/console.log "cleanup")))
+----
+
+Promise-heavy code that uses `await` results in more complicated code structures that aren't very 
+friendly.
+Take this example from https://github.com/GoogleChrome/puppeteer#usage[Puppeteer usage]:
+
+*JavaScript:*
+[source,javascript]
+----
+const puppeteer = require('puppeteer');
+
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  try {
+    await page.goto('https://example.com');
+    await page.screenshot({path: 'example.png'});
+  } catch (err) {
+    console.log(err);
+  }
+
+  await browser.close();
+})();
+----
+
+*ClojureScript:*
+[source,clojure]
+----
+(def puppeteer (js/require "puppeteer"))
+
+(-> (.launch puppeteer)
+    (.then (fn [browser]
+             (-> (.newPage browser)
+                 (.then (fn [page]
+                          (-> (.goto page "https://clojure.org")
+                              (.then #(.screenshot page #js{:path "screenshot.png"}))
+                              (.catch #(js/console.log %))
+                              (.then #(.close browser)))))))))
+----
+
+To tame this sort of code we turn to `core.async`.
+
+
+[[using-promises-with-core-async]]
+== Using Promises with core.async
+
+ClojureScript offers excellent facilities for async programming in https://github.com/clojure/core.async[core.async].
+One especially handy tool is the `<p!` macro, that consumes a promise inside a https://clojure.github.io/core.async/#clojure.core.async/go[`go` block].
+
+Using `go` blocks allows us to write code that looks synchronous even though it's actually 
+asynchronous, exactly like `await` and `async` do in JavaScript.
+
+*ClojureScript:*
+[source,clojure]
+----
+(:require
+   [cljs.core.async :refer [go]]
+   [cljs.core.async.interop :refer-macros [<p!]])
+
+(def puppeteer (js/require "puppeteer"))
+
+(go
+  (let [browser (<p! (.launch puppeteer))
+        page (<p! (.newPage browser))]
+    (try
+      (<p! (.goto page "https://clojure.org"))
+      (<p! (.screenshot page #js{:path "screenshot.png"}))
+      (catch js/Error err (js/console.log (ex-cause err))))
+    (.close browser)))
+----
+
+This is just scratching the surface. 
+`core.async` gives you very powerful queue-like channels that can do much more than handle one-off
+promises.
+
+You can read more about `core-async` in the https://github.com/clojure/core.async[repository], 
+https://clojure.org/news/2013/06/28/clojure-clore-async-channels[rationale],
+https://github.com/clojure/core.async/blob/master/examples/walkthrough.clj[code walkthrough],
+and https://swannodette.github.io/2013/07/12/communicating-sequential-processes[blog post].
+
