@@ -1,4 +1,4 @@
-= 1.10.xxxx Release
+= 1.10.597 Release
 ClojureScript Team
 2019-11-18
 :jbake-type: post
@@ -156,12 +156,12 @@ of source maps, improving the performance by 17% in one of our measurements.
 
 ## Change List
 
-For a complete list of updates in ClojureScript 1.10.xxxx see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.xxxx[Changes].
+For a complete list of updates in ClojureScript 1.10.597 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.597[Changes].
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.10.xxxx:
+Thanks to all of the community members who contributed to ClojureScript 1.10.597:
 
 * Dieter Komendera
 * Erik Assum
