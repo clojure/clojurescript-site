@@ -1,0 +1,174 @@
+= 1.10.597 Release
+ClojureScript Team
+2019-11-18
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+## Noteworthy Changes
+
+* The behavior of `set/union` and `into` is now aligned with Clojure.
+* `subvec` argument checking is now aligned with Clojure.
+* `apply` `vector` on an array now properly clones the array.
+
+## Google Closure Namespace Analysis
+
+The compiler now produces analysis metadata for Google Closure namespaces.
+This means that for these namespaces:
+
+* REPL facilities like `doc`, `dir`, `apropos`, _etc._, will now work.
+* Argument lists are available, thus enabling arity checking.
+* Return types are available, enhancing type inference.
+* Warnings on private var usage will be generated.
+
+To illustrate, let's `(require '[goog.crypt :as crypt])` and explore it 
+at the REPL:
+
+Now, `(dir crypt)` will list the functions in that namespace:
+
+----
+byteArrayToHex
+byteArrayToString
+hexToByteArray
+...
+----
+
+
+Docstrings are available; `(doc crypt/hexToByteArray)` produces:
+
+----
+-------------------------
+goog.crypt/hexToByteArray
+([hexString])
+  /**
+ * Converts a hex string into an integer array.
+...
+----
+
+Arity information is available. Passing an incorrect argument count to one
+of the functions, produces an arity warning. For example,
+`(crypt/hexToByteArray "abc" 123)` generates:
+
+----
+WARNING: Wrong number of args (2) passed to goog.crypt/hexToByteArray at line 1 <cljs repl>
+----
+
+## Type Inference Improvements
+
+Several improvements to ClojureScript's type inference are in this release.
+
+### Direct field access for keyword lookup on records
+
+This is easily explained by way of example:
+
+[source,clojure]
+----
+(defrecord Complex [re im])
+
+(let [x (->Complex 1.1 2.7)]
+   (:re x))
+----
+
+The code generated for the last expression will be `x.re`. This can be 
+anywhere between 66% and 450% faster.
+
+### `count` specializations for string and array
+
+If you apply `count` to a value that is statically inferred to be
+either a string or an array, the JavaScript generated will
+involve direct access to the `length` field instead of a runtime
+call to `count`.
+
+For example `(count "abc")` will cause `"abc".length` to be emitted.
+Depending on context, this could be several orders of magnitude faster.
+
+### `simple-*` / `qualified-*` predicate-induced inference
+
+If `simple-keyword?` or `qualified-keyword?` is satisfied for a
+local then that local is inferred to be a keyword. Similarly
+`simple-symbol?` or `qualified-symbol?` results in a local being
+as a symbol.
+
+This essentially broadens the existing predicate-induced inferrence
+for `keyword?` and `symbol?` to these additional core predicates.
+
+### Thread predicate-induced inference through `and`
+
+This type inference improvement is perhaps best explained by way
+of an example. For the following code
+
+[source,clojure]
+----
+(and (string? x) (zero? (count x)))
+----
+
+the compiler will now know that, if the first clause in the `and` above
+is satisfied, then, in the second clause, `x` must be of type string.
+Combined with the `count` specialization mentioned above, this causes
+efficient JavaScript to be generated:
+
+[source,javascript]
+----
+typeof x === "string" && x.length === 0
+----
+
+### Not inferring on `implements?`
+
+This is an internal, yet important, optimization for the standard library: 
+When the `implements?` predicate is satisfied on a local, the compiler 
+generates more efficient function dispatch code for expressions involving 
+that local.
+
+### Improperly widened cross-param `loop` / `recur` inference
+
+A corner-case involving `loop` / `recur` widening inference was fixed where
+incorrect inferrence can occur if a `loop`-bound local is used as a `recur`
+target.
+
+### Dynamic Vars are now properly inferred as having type `any`
+
+An inference bug was fixed where dynamic Vars were incorrectly inferred
+as having the type of their initialization value. This was incorrect
+because dynamic Vars can be re-bound at runtime with values of types
+that differ from the initialization value type.
+
+## Performance Improvements
+
+### Optimize `assoc` on `IAssociative` values
+
+An optimization in the core `assoc` function makes it faster when `assoc` ing
+onto `IAssociative` values (the common case).
+
+For example, `assoc` ing a key-value onto a map can be 24% faster in V8 and
+11% faster in JavaScript core, a great perf boost for this frequently
+used core function.
+
+### Tag `coll` as `not-native` in `ci-reduce`
+
+This is an important internal optimization affecting the standard library
+which improves performance when reducing collections which are `IIndexed`
+and `ICounted`.
+
+### Improve perf of `cljs.source-map.base64/encode`
+
+This improves the performance of a function heavily used in the generation
+of source maps, improving the performance by 17% in one of our measurements.
+
+## Change List
+
+For a complete list of updates in ClojureScript 1.10.597 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.597[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.597:
+
+* Dieter Komendera
+* Erik Assum
+* Herald
+* Martin Kavalar
+* Martin Kučera
+* Michiel Borkent
+* Roman Liutikov
+* Seçkin Kükrer
+* Thomas Mulvaney
