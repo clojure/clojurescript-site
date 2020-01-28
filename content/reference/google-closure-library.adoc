@@ -18,8 +18,6 @@ rich-text editing, and UI widgets/controls.
 
 * http://google.github.io/closure-library/api/[Google Closure Library
 API Reference]
-* http://www.closurecheatsheet.com/[Closure Cheatsheet] - abridged API
-with usage examples
 
 [[try-the-wrapper-libraries-first]]
 === Try the wrapper libraries first!
