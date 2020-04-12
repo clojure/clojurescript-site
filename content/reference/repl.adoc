@@ -9,6 +9,10 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
+> **NOTE**: This reference is intended for people who would like to
+> launch REPLs programmatically from Clojure for some reason. The recommended
+> way to start REPL is documented in the <<xref/../../guides/quick-start#,Quick Start>>.
+
 One of the reasons for creating ClojureScript is that JavaScript
 reaches. There are many interesting environments in which JavaScript can
 run. Each of these environments has something unique about it. One of
