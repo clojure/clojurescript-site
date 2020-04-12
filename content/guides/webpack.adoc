@@ -9,13 +9,15 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-This page documents how to use http://webpack.js.org[Webpack] and externs
-inference to easily integrate popular libraries from the JavaScript ecosystem
-into your ClojureScript project. You should have http://nodejs.org[Node.js] and
-http://yarnpkg.com[yarn] installed. This guide assumes you have read through the
-Quick Start. This guide borrows liberally from this
+This page documents how to integrate ClojureScript with a typical JavaScript
+bundler such as http://webpack.js.org[Webpack]. You should have
+http://nodejs.org[Node.js] installed. This guide assumes you have read through the Quick
+Start. This guide borrows liberally from this
 https://scotch.io/tutorials/setup-a-react-environment-using-webpack-and-babel[excellent
 guide on Webpack 2].
+
+While we happen to use Webpack here, these instructions are easily adapted
+to other bundlers like Metro which is used when developing React Native.
 
 [[setting-up]]
 == Setting Up Your Project
@@ -24,16 +26,21 @@ First create a project directory and initialize yarn:
 
 [source,bash]
 ```
-mkdir hello-webpack
-cd hello-webpack
-yarn init -y
+mkdir hello-bundler
+cd hello-bundler
 ```
 
-Add webpack and its command line tools:
+Create an empty `package.json` file:
 
 [source,bash]
 ```
-yarn add webpack webpack-cli
+echo "{}" > package.json
+```
+
+Add webpack and its command line tools:
+[source,bash]
+```
+npm --save-dev webpack webpack-cli
 ```
 
 Create a `webpack.config.js` file:
@@ -41,9 +48,10 @@ Create a `webpack.config.js` file:
 [source,javascript]
 ```
 module.exports = {
-  entry: './src/js/index.js',
+  entry: './out/index.js',
   output: {
-    filename: 'index_bundle.js'
+    path: __dirname + "/out",
+    filename: 'out/main.js'
   }
 }
 ```
@@ -57,46 +65,14 @@ Install react and react-dom:
 
 [source,json]
 ```
-yarn add react react-dom
+npm --save react react-dom
 ```
 
-Now we need to import and export them so that ClojureScript can use them. Create
-`src/js/index.js` with the following content:
-
-[source,json]
-```
-import React from 'react';
-import ReactDOM from 'react-dom';
-window.React = React;
-window.ReactDOM = ReactDOM;
-```
-
-Now build your foreign library!
-
-[source,bash]
-```
-yarn webpack
-```
-
-You should now have a file in `dist/index_bundle.js`. Let's do the ClojureScript
-bits now.
-
-[[using-your-foreign-lib]]
-== Using Your Foreign Library
-
-Create a `deps.edn` file:
+Now create `src/cljs/hello_bundler/core.cljs` with the following contents:
 
 [source,clojure]
 ```
-{:paths ["src/cljs"]
- :deps {org.clojure/clojurescript {:mvn/version "1.10.312"}}}
-```
-
-Now create `src/cljs/hello_webpack/core.cljs` with the following contents:
-
-[source,clojure]
-```
-(ns hello-webpack.core
+(ns hello-bundler.core
   (:require [react]))
 
 (.log js/console react/Component)
@@ -110,32 +86,24 @@ a `build.edn` file with the following:
 
 [source,clojure]
 ```
-{:main hello-webpack.core
+{:main hello-bundler.core
  :output-to "out/main.js"
  :output-dir "out"
- :infer-externs true
- :npm-deps false
- :foreign-libs [{:file "dist/index_bundle.js"
-                 :provides ["react" "react-dom"]
-                 :global-exports {react React
-                                  react-dom ReactDOM}}]}
+ :target :bundle
+ :bundle-cmd {:none ["npx" "webpack" "--mode=development"]
+              :default ["npx" "webpack"]}}
 ```
 
-We turn on externs inference and we disable reading from `node_modules` since
-we're managing that on our own. We then state what our foreign lib provides
-and what global JavaScript variables will have the library objects. This is why
-we exported to `window` in `index.js`. Note that our foreign library can provide
-as many libraries as we like and we can define exactly where they will be found.
-This also allows us to use foreign libraries as if they were normal
-ClojureScript namespaces. However, ClojureScript knows these are foreign libraries
-and will treat any function calls and property accesses as things to be considered
-for externing.
+Note the new `:target :bundle` option. This ensures that the generated code
+is compatible with popular JavaScript bundlers that can handle Node.js style
+`require`. It also sets a bunch of other sensible default like externs
+inference, so that advanced compilation will just work.
 
-Let's see this in action.
+Let's see this in action, the following will build then start a webserver.
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -v -c
+clj -m cljs.main -co build.edn -v -c -s
 ```
 
 Let's verify that it worked:
@@ -148,9 +116,6 @@ clj -m cljs.main -s
 Open your browser to http://localhost:9000. Open the Developer Console, you
 should see that `React.Component` got logged.
 
-Check `out/inferred_externs.js`. You should see that `Object.Component` was
-inferred.
-
 [[overriding-foreign-lib]]
 == Overriding a Foreign Library
 
@@ -162,16 +127,15 @@ To demonstrate this change your `deps.edn` to the following:
 
 [source,clojure]
 ```
-{:paths ["src/cljs"]
- :deps {org.clojure/clojurescript {:mvn/version "1.10.312"}
-        reagent {:mvn/version "0.8.1" :exclusions [cljsjs/react]}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.312"}
+        reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react]}}}
 ```
 
 Change your source file to following:
 
 [source,clojure]
 ```
-(ns hello-webpack.core
+(ns hello-bundler.core
   (:require [goog.dom :as gdom]
             [reagent.core :as r]))
 
