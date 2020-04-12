@@ -841,11 +841,11 @@ setting `goog.DEBUG` to false:
 :closure-defines {"goog.DEBUG" false}
 ----
 
-or
+You can also use symbols:
 
 [source,clojure]
 ----
-:closure-defines {goog.DEBUG false}
+:closure-defines {my.cool-ns/some-def true}
 ----
 
 Note when using Lein the quote is unnecessary due to implicit quoting.
