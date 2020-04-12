@@ -246,8 +246,7 @@ supports splitting up an optimized build into N different modules. If
 `:modules` is supplied it replaces the single `:output-to`. A module
 needs a name, an individual `:output-to` file path, `:entries` a set of
 namespaces, and `:depends-on` a set of modules on which the module
-depends. Modules are only supported with `:simple` and `:advanced`
-optimizations. An example follows:
+depends. An example follows:
 
 [source,clojure]
 ----
