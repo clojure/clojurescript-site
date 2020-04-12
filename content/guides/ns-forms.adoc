@@ -130,9 +130,13 @@ The above desugars into the more repetitively verbose primitive form:
 
 ## Implicit Sugar
 
-In cases where a runtime namespace being required _internally_ requires its own macro namespace (meaning a namespace with the same name), then you implicitly get the `:include-macros` sugar for free.
+In cases where a runtime namespace being required _internally_ requires its own
+macro namespace (meaning a namespace with the same name), then you implicitly
+get the `:include-macros` sugar for free. This is recommended if you are
+developing a library, users can then simplify their require form.
 
-To illustrate this, let's say our `src/foo/core.cljs` file instead looked like this:
+To illustrate this, let's say our `src/foo/core.cljs` file instead looked like
+this:
 
 [source,clojure]
 ```
