@@ -56,7 +56,10 @@ module.exports = {
 }
 ```
 
-We're now ready to setup our JS dependencies:
+The bundler will use our ClojureScript output file as the entry. We'll write
+back bundler result back into the output directory.
+
+We're now ready to setup our JS dependencies.
 
 [[javascript-dependencies]]
 === JavaScript Dependencies
@@ -93,6 +96,9 @@ a `build.edn` file with the following:
  :bundle-cmd {:none ["npx" "webpack" "--mode=development"]
               :default ["npx" "webpack"]}}
 ```
+
+Our build will generate `out/index.js` which is exactly the entry file that
+Webpack is looking for.
 
 Note the new `:target :bundle` option. This ensures that the generated code
 is compatible with popular JavaScript bundlers that can handle Node.js style
