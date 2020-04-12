@@ -1023,3 +1023,13 @@ Whether to disable spec macro checking. Defaults to `false`.
 ----
 :spec-skip-macros true
 ----
+
+[[fingerprint]]
+=== :fingerprint
+
+Defaults to `false`. Whether to enable fingerprinting, which will append a content SHA to output file names. An `manifest.edn` is generated to `:output-dir` for mapping fingerprinted file names. This is especially useful when using `:modules` and `:source-map` options, as the fingerprinted file names will be appropriately referenced.
+
+[source,clojure]
+----
+:fingerprint true
+----
