@@ -10,9 +10,24 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
+> **NOTE**: This reference requires ClojureScript 1.10.238 or later and assumes
+> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
+
 == The cljs.main namespace
 
-The `cljs.main` namespace provides functions that allow ClojureScript programs and interactive sessions to be launched via Java's application launcher tool `java`.
+The `cljs.main` namespace provides functions that allow ClojureScript programs
+and interactive sessions to be launched via Java's application launcher tool
+`java`.
+
+This guide is also easily used with any other Clojure build tool that
+supports the Clojure CLI `-m` flag.
+
+For example with `clj`:
+
+[source,bash]
+----
+clj -m cljs.main ...
+----
 
 == cljs.main --help
 
