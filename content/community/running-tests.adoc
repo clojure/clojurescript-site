@@ -153,8 +153,21 @@ Note that testing with `graaljs` REPL environment requires GRAALVM_HOME to be fo
 You can also specify a non-built-in REPL environment, but you would have to revise `script/test-cli` to include the downstream REPL environment on the classpath. You can also pass optional `repl-env-opts-edn`, which will be passed to `cljs.main` 's `-ro` option.
 
 [[dont-forget]]
-=== Don't forget
+=== Don't forget the Browser REPL
 
-Besides the tests it's important to make sure that the Browser REPL
-hasn't accidentally been broken. Double-check using the sample found in
-the repository.
+It is important to make sure that the Browser REPL hasn't accidentally been broken.
+
+You may have already run tests against the browser REPL via `./script/test-cli browser`. If not, now is a good time to do so.
+Note: It is normal for this test to launch plenty of browser windows/tabs.
+
+In addition, you might only be comfortable after some manual verification - if only to try a sanity `(js/alert "Hello CLJS!")`:
+
+. You can launch a browser REPL by running `clj -m cljs.main` from the clojurescript project root dir.
+. Or from a new empty dir, create a `deps.edn` that points to your <<building#,build of the ClojureScript compiler>> replacing `1.10.123`
+  with your local version:
++
+[source,clojure]
+----
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.123"}}}
+----
+and then from this dir, run `cljs -m cljs.main`.
