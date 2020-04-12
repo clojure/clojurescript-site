@@ -8,7 +8,7 @@ David Nolen
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 > **NOTE**: This guide requires ClojureScript 1.10.238 or later and assumes
-> familiarity with the Quick Start.
+> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
 
 As client applications become larger it becomes desirable to load only the code
 actually required to run a particular logical screen. Previously ClojureScript
