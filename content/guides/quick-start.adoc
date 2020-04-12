@@ -76,6 +76,14 @@ Your default web browser will open to a page that looks like the following:
 
 image::/images/content/guides/quick-start/browser.png[Browser REPL Serving Default index.html,450]
 
+If you are running Linux and the REPL does not start, try disabling browser
+auto-launch and opening `http://localhost:9000` manually:
+
+[source,bash]
+----
+clj --main cljs.main --compile hello-world.core --repl-options "{:launch-browser false}" --repl
+----
+
 After a couple of seconds you will see `Hello world!` print at the terminal and
 you will be given a REPL prompt. Try evaluating some expressions like
 the following:
