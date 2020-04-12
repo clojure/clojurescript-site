@@ -97,7 +97,8 @@ a `build.edn` file with the following:
 Note the new `:target :bundle` option. This ensures that the generated code
 is compatible with popular JavaScript bundlers that can handle Node.js style
 `require`. It also sets a bunch of other sensible default like externs
-inference, so that advanced compilation will just work.
+inference, so that advanced compilation will just work. `:bundle-cmd` is just
+an arbitrary shell command to run after the ClojureScript build completes.
 
 Let's see this in action, the following will build then start a webserver.
 
