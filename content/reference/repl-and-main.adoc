@@ -10,8 +10,8 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-> **NOTE**: This reference requires ClojureScript 1.10.238 or later and assumes
-> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
 
 == The cljs.main namespace
 

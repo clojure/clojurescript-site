@@ -9,8 +9,8 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-> **NOTE**: This guide requires ClojureScript 1.10.238 or later and assumes
-> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
 
 This page documents how to write externs for third party JavaScript libraries
 that do not conform to Google Closure Compiler conventions

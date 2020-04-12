@@ -5,8 +5,8 @@ David Nolen
 :toc: macro
 :icons: font
 
-> **NOTE**: This guide requires ClojureScript 1.10.238 or later and assumes
-> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
 
 Assuming you already have `clojure-mode`, run `M-x package-list-packages` and
 install `inf-clojure`. If you are using Emacs on OS X be sure to install
