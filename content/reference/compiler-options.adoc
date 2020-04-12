@@ -535,6 +535,7 @@ exist
 * `:protocol-duped-method`, duplicate protocol method implementation
 * `:protocol-multiple-impls`, protocol implemented multiple times
 * `:protocol-with-variadic-method`, protocol declares variadic signature
+* `:protocol-with-overwriting-method`, protocol method overwrites other protocol method
 * `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
 * `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
 * `:single-segment-namespace`, single segment namespace
