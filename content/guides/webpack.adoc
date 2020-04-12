@@ -48,7 +48,7 @@ echo "{}" > package.json
 Add webpack and its command line tools:
 [source,bash]
 ```
-npm --save-dev webpack webpack-cli
+npm install --save-dev webpack webpack-cli
 ```
 
 Create a `webpack.config.js` file:
@@ -79,7 +79,7 @@ Install react and react-dom:
 npm install --save react react-dom
 ```
 
-Now create `src/cljs/hello_bundler/core.cljs` with the following contents:
+Now create `src/hello_bundler/core.cljs` with the following contents:
 
 [source,clojure]
 ```
