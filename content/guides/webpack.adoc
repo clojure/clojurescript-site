@@ -30,6 +30,14 @@ mkdir hello-bundler
 cd hello-bundler
 ```
 
+Create a `deps.edn` file the following contents:
+
+[source,clojure]
+```
+{:deps {org.clojure/clojurescript {:git/url "https://github.com/clojure/clojurescript.git"
+                                   :sha "7792adf10e8961cbd5b0267a30a7d9655c770086"}}}
+```
+
 Create an empty `package.json` file:
 
 [source,bash]
@@ -127,7 +135,8 @@ To demonstrate this change your `deps.edn` to the following:
 
 [source,clojure]
 ```
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.312"}
+{:deps {org.clojure/clojurescript {:git/url "https://github.com/clojure/clojurescript.git"
+                                   :sha "7792adf10e8961cbd5b0267a30a7d9655c770086"}
         reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react]}}}
 ```
 
