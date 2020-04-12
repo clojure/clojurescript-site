@@ -56,7 +56,7 @@ externs] may also serve as useful examples.
 
 When the <<compiler-options#main,`:main` option>> is not used, `:none` requires manual code loading and hence a separate HTML from the other options.
 
-Defaults to `:none`. 
+Defaults to `:none`.
 
 [source,clojure]
 ----
@@ -198,7 +198,7 @@ all `.js` files within the directory and automatically assign a
 results in computed `:provides` `["your.js.deps"]`, and your custom
 `:provides` will be overwritten by the generated `:provides`.
 * `:file-min` (Optional) Indicates the URL to the minified variant of
-the library. This will be used in preference to `:file` if 
+the library. This will be used in preference to `:file` if
 <<compiler-options#optimizations,`:optimizations`>> is set to either
 `:simple` or `:advanced`.
 * `:provides` A synthetic namespace that is associated with the library.
@@ -338,8 +338,8 @@ preloads to work.
 === :npm-deps
 
 Control NPM dependencies. A map of NPM package names (keywords or strings)
-to the desired versions, or a Boolean value. A `node_modules` directory will 
-be indexed and used if set to a truthy value. Defaults to `false`. (In 
+to the desired versions, or a Boolean value. A `node_modules` directory will
+be indexed and used if set to a truthy value. Defaults to `false`. (In
 ClojureScript 1.10.339 and earlier, defaulted to `true`.)
 See also `:install-deps`.
 
@@ -475,7 +475,7 @@ To enable static dispatch for calls to declared functions, supply `:arglists` me
 
 Requires `:static-fns true`.
 This option emits slightly different code that can speed up your code
-around 10-30%. Higher order function that don't implement the `IFn` protocol 
+around 10-30%. Higher order function that don't implement the `IFn` protocol
 are normally called with `f.call(null, arg0, arg1 ...)`. With this option
 enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
 
@@ -845,7 +845,7 @@ or
 
 [source,clojure]
 ----
-:closure-defines {'goog.DEBUG false}
+:closure-defines {goog.DEBUG false}
 ----
 
 Note when using Lein the quote is unnecessary due to implicit quoting.
