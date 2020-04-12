@@ -17,12 +17,12 @@ https://scotch.io/tutorials/setup-a-react-environment-using-webpack-and-babel[ex
 guide on Webpack 2].
 
 While we happen to use Webpack here, these instructions are easily adapted
-to other bundlers like Metro which is used when developing React Native.
+to other bundlers like Metro for React Native.
 
 [[setting-up]]
 == Setting Up Your Project
 
-First create a project directory and initialize yarn:
+First create a project directory:
 
 [source,bash]
 ```
@@ -106,13 +106,6 @@ Let's see this in action, the following will build then start a webserver.
 clj -m cljs.main -co build.edn -v -c -s
 ```
 
-Let's verify that it worked:
-
-[source,bash]
-```
-clj -m cljs.main -s
-```
-
 Open your browser to http://localhost:9000. Open the Developer Console, you
 should see that `React.Component` got logged.
 
@@ -131,7 +124,7 @@ To demonstrate this change your `deps.edn` to the following:
         reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react]}}}
 ```
 
-Change your source file to following:
+Change your source file to the following:
 
 [source,clojure]
 ```
@@ -164,3 +157,4 @@ let's make an advanced build:
 clj -m cljs.main -co build.edn -O advanced -v -c -s
 ```
 
+That's it!
