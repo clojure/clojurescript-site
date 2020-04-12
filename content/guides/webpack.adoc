@@ -76,7 +76,7 @@ Install react and react-dom:
 
 [source,json]
 ```
-npm --save react react-dom
+npm install --save react react-dom
 ```
 
 Now create `src/cljs/hello_bundler/core.cljs` with the following contents:
