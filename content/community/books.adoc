@@ -36,6 +36,8 @@ November 2015
 
 === Videos
 
+* https://www.learnreframe.com/[Learn re-frame]
+* https://www.learnreagent.com/[Learn Reagent]
 * https://lambdaisland.com[Lambda Island]
 * https://purelyfunctional.tv[PurelyFunctional.tv]
 * http://shop.oreilly.com/product/0636920040316.do[Learning ClojureScript]
