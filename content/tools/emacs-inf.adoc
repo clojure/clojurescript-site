@@ -5,35 +5,30 @@ David Nolen
 :toc: macro
 :icons: font
 
-The following instructions are for ClojureScript >= 0.0-3165.
+> **NOTE**: This guide requires ClojureScript 1.10.238 or later and assumes
+> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
 
-Assuming you already have `clojure-mode`, run `M-x package-list-packages` and install `inf-clojure`. If you are using Emacs on OS X be sure to install `exec-path-from-shell` so that the Node.js REPL will work correctly. If you need `exec-path-from-shell` make sure to follow the https://github.com/purcell/exec-path-from-shell#usage[Usage] instructions.
+Assuming you already have `clojure-mode`, run `M-x package-list-packages` and
+install `inf-clojure`. If you are using Emacs on OS X be sure to install
+`exec-path-from-shell` so that the Node.js REPL will work correctly. If you need
+`exec-path-from-shell` make sure to follow the
+https://github.com/purcell/exec-path-from-shell#usage[Usage] instructions.
 
-Create a REPL file that starts whatever REPL you like (refer to the <<xref/../../../guides/quick-start#,Quick Start>>) and put it in your current directory. For example a `repl.clj` file for the Node.js REPL would look like the following:
-
-[source,clojure]
-----
-(require 'cljs.repl)
-(require 'cljs.repl.node)
-(cljs.repl/repl (cljs.repl.node/repl-env))
-----
-
-Edit your `.emacs` or `init.el` and add a function like the following if you are using the JAR in your current directory:
+Edit your `.emacs` or `init.el` and add a function like the following if you are
+using the JAR in your current directory:
 
 [source,clojure]
 ----
 (defun cljs-node-repl ()
   (interactive)
-  (inf-clojure "java -cp cljs.jar clojure.main repl.clj"))
+  (inf-clojure "clj -m cljs.main -co build.edn -re node -r"))
 ----
 
-If you are using Leiningen:
-
-[source,clojure]
-----
-(defun cljs-node-repl ()
-  (interactive)
-  (inf-clojure "lein trampoline run -m clojure.main repl.clj"))
-----
-
-Open your ClojureScript file and run `M-x cljs-node-repl`. You'll get a new buffer with the REPL. Switch back to your file and run `M-x inf-clojure-minor-mode`. `C-c C-l` will load the file. `C-c Meta-n` will switch your namespace. If you place your cursor at the end of a s-expression, `C-x C-e` will evaluate that expression. `C-c C-v` will show the docs. `C-c C-s` will show the source. `C-c <return>` will macroexpand. Refer to https://github.com/clojure-emacs/inf-clojure[inf-clojure] for more documentation.
+Open your ClojureScript file and run `M-x cljs-node-repl`. You'll get a new
+buffer with the REPL. Switch back to your file and run `M-x
+inf-clojure-minor-mode`. `C-c C-l` will load the file. `C-c Meta-n` will switch
+your namespace. If you place your cursor at the end of a s-expression, `C-x C-e`
+will evaluate that expression. `C-c C-v` will show the docs. `C-c C-s` will show
+the source. `C-c <return>` will macroexpand. Refer to
+https://github.com/clojure-emacs/inf-clojure[inf-clojure] for more
+documentation.
