@@ -324,7 +324,31 @@ To access object properties (including functions that you want as a value, rathe
 
 While `^long` and `^double`—when used on function parameters—are type _declarations_ in Clojure, they are type _hints_ in ClojureScript.
 
-Type hinting is primarily used to avoid reflection in Clojure. In ClojureScript, the only type hint of significance is the `^boolean` type hint: It is used to avoid checked `if` evaluation (which copes with the fact that, for example, `0` and `""` are false in JavaScript and true in ClojureScript). 
+Type hinting is primarily used to avoid reflection in Clojure. In ClojureScript, type hints are used to avoid checked `if` evaluation (which copes with the fact that, for example, `0` and `""` are false in JavaScript and true in ClojureScript) and help type inference to generate optimal JavaScript code. 
+
+For example knowing that function arguments are always going to be strings we can specify this information via `^string` type hint and compiler will emit specialized code for `str` function.
+
+[source,clojure]
+----
+(defn concat-str [^string a ^string b]
+  (str a b))
+
+; cljs.user.concat_str = (function cljs$user$concat_str(a,b){
+;   return [a,b].join('');
+; });
+----
+
+Rather than less efficient variant that involves type coercion.
+
+[source,clojure]
+----
+(defn concat-str [a b]
+  (str a b))
+
+; cljs.user.concat_str = (function cljs$user$concat_str(a,b){
+;   return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(a),cljs.core.str.cljs$core$IFn$_invoke$arity$1(b)].join('');
+; });
+----
 
 == Compilation and Class Generation
 
