@@ -87,7 +87,7 @@ a `build.edn` file with the following:
 [source,clojure]
 ```
 {:main hello-bundler.core
- :output-to "out/main.js"
+ :output-to "out/index.js"
  :output-dir "out"
  :target :bundle
  :bundle-cmd {:none ["npx" "webpack" "--mode=development"]
