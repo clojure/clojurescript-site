@@ -35,7 +35,7 @@ issuing a couple forms in the shipping Node REPL:
 
 [source,bash]
 ----
-$ java -jar cljs.jar -m cljs.repl.node
+$ clj -m cljs.main cljs.repl.node
 To quit, type: :cljs/quit
 cljs.user=> (require 'cljs.js)
 nil

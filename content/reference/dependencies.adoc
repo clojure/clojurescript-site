@@ -9,6 +9,9 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
+> **NOTE**: This guide requires ClojureScript 1.10.238 or later and assumes
+> familiarity with the <<xref/../../guides/quick-start#,Quick Start>>.
+
 Every non-trivial ClojureScript application will eventually need to
 consume code created by others. ClojureScript developers can of course
 take advantage of code authored using ClojureScript. However,
@@ -43,7 +46,7 @@ basic usage:
             [goog.dom.classes :as classes]
             [goog.events :as events])
   (:import [goog Timer]))
-    
+
 (let [element (dom/createDom "div" "some-class" "Hello, World!")]
   (classes/enable element "another-class" true)
   (-> (dom/getDocument)
@@ -98,7 +101,7 @@ message in your JavaScript console.
 [source,clojure]
 ----
 (ns hello-world.core)
-  
+
 (let [yay (js/yayQuery)]
   (.sayHello yay (.getMessage yay)))
 ----
@@ -138,14 +141,13 @@ yayQuery.getMessage = function() {}
 ....
 
 Assuming this file is named as `yayquery-externs.js`, you can reference
-it as follows in your `build.clj` file:
+it as follows in your `build.edn` file:
 
 [source,clojure]
 ----
-(cljs.build.api/build "src" 
-  {:output-to "out/main.js"
-   :externs ["yayquery-externs.js"]
-   :optimizations :advanced})
+{:output-to "out/main.js"
+ :externs ["yayquery-externs.js"]
+ :optimizations :advanced})
 ----
 
 It is important to understand that all paths referenced in the
@@ -156,7 +158,7 @@ script with the following:
 
 [source,bash]
 ----
-java -cp cljs.jar:resources:src clojure.main build.clj
+clj -m cljs.main -co build.edn -c
 ----
 
 Recompile with the externs file referenced, and your code should work
@@ -205,9 +207,9 @@ previous examples, as below:
 
 ....
 goog.provide('yq');
-    
+
 yq.debugMessage = 'Dead Code';
-  
+
 yq.yayQuery = function() {
     var yay = {};
     yay.sayHello = function(message) {
@@ -228,19 +230,16 @@ can be referenced easily in ClojureScript:
 ----
 (ns hello-world.core
   (:require [yq]))
-    
+
 (let [yay (yq/yayQuery)]
   (.sayHello yay (.getMessage yay)))
 ----
 
-To build the bundled output, use the following in your `build.clj` file.
+To build the bundled output, use the following command:
 
 [source,clojure]
 ----
-(cljs.build.api/build "src" 
-  {:output-to "out/main.js"
-   :libs ["yayquery.js"]
-   :optimizations :advanced})
+clj -m cljs.main -co build.edn -O advanced -c
 ----
 
 Because this code is compatible with advanced compilation, there is no
@@ -281,7 +280,7 @@ tag, with one key difference:
 ----
 (ns hello-world.core
   (:require [yq]))
-    
+
 (let [yay (js/yayQuery)]
   (.sayHello yay (.getMessage yay)))
 ----
@@ -295,12 +294,10 @@ across referenced libraries, you can name it anything you please:
 
 [source,clojure]
 ----
-(cljs.build.api/build "src" 
-  {:output-to "out/main.js"
-   :externs ["yayquery-externs.js"]
-   :foreign-libs [{:file "yayquery.js"
-                   :provides ["yq"]}]
-   :optimizations :advanced})
+{:output-to "out/main.js"
+ :externs ["yayquery-externs.js"]
+ :foreign-libs [{:file "yayquery.js"
+                 :provides ["yq"]}]}
 ----
 
 Note that we have re-introduced our externs file here. Though the
@@ -351,7 +348,7 @@ reference this code:
 ----
 (ns hello-world.core
   (:require [cljsjs.jquery]))
-    
+
 (.text (js/$ "body") "Hello, World!")
 ----
 
@@ -361,9 +358,7 @@ invoke the script:
 
 [source,clojure]
 ----
-(cljs.build.api/build "src" 
-  {:output-to "out/main.js"
-   :optimizations :advanced})
+{:output-to "out/main.js"}
 ----
 
 Compile the code as below (note the addition of the JAR in our class
@@ -372,8 +367,8 @@ browser:
 
 [source,bash]
 ----
-java -cp cljs.jar:jquery-1.9.0-0.jar:src clojure.main build.clj
-----
+clj -m cljs.main -co build.edn -O advanced -c
+---
 
 [[replacing-a-transitive-cljsjs-dependency-with-another-build-of-the-library]]
 ==== Replacing a (transitive) CLJSJS dependency with another build of the library
@@ -437,9 +432,9 @@ macros are packaged in the same library:
 ----
 (ns hello-world.core
   (:require [schema.core :as s :include-macros true]))
-    
+
 (def Data {:a {:b s/Str :c s/Int}})
-    
+
 (s/validate Data {:a {:b "Hello" :c "World"}})
 ----
 
@@ -447,152 +442,16 @@ Our build script is even simpler:
 
 [source,clojure]
 ----
-(cljs.build.api/build "src" 
-  {:output-to "out/main.js"
-   :optimizations :advanced})
+{:output-to "out/main.js"}
 ----
 
 Now, we can run the build. Simply reference the JAR as below:
 
 [source,bash]
 ----
-java -cp cljs.jar:schema-0.4.0.jar:src clojure.main build.clj
+clj -m cljs.main -co build.edn -c
 ----
 
 Load up your browser, and you'll see a helpful validation error from
 Schema in your JavaScript console. Change the `:c` key to an integer
 value and rebuild if you'd like to see this error go away.
-
-[[using-leiningen]]
-=== Using Leiningen
-
-In practice, it's somewhat rare to use ClojureScript libraries directly
-as in the previous section. Most popular ClojureScript libraries contain
-other dependencies, and it can be quite a challenge to chase down all of
-a library's dependencies by hand and reference them in your build
-command. Fortunately, this task can be handled automatically by
-http://leiningen.org/[Leiningen], a popular build tool for Clojure and
-ClojureScript projects.
-
-Let's use Leiningen to build a project which uses
-https://github.com/JulianBirch/cljs-ajax[cljs-ajax], a ClojureScript
-library which provides convenience functions for sending remote "AJAX"
-requests (ignore for a moment the fact that only the "A"s are relevant
-in our case). To start, we need to create a `project.clj` file:
-
-[source,clojure]
-----
-(defproject hello_world "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-3149"]
-                 [cljs-ajax "0.3.10"]]
-  :plugins [[lein-cljsbuild "1.0.5"]]
-  :cljsbuild {:builds
-              {:min {:source-paths ["src"]
-               :compiler {:output-to "out/main.js"
-                          :optimizations :advanced}}}})
-----
-
-This project file is read by Leiningen, which then uses the information
-within it to fetch all of the relevant dependencies automatically. In
-addition, it includes configuration for a `cljsbuild` plugin. We've
-created a single profile under the `:min` key. The compiler options
-should look quite familiar by now! Fortunately everything we've learned
-already translates perfectly to our new Leiningen based workflow.
-
-Let's modify our `core.cljs` file to make use of our library:
-
-[source,clojure]
-----
-(ns hello-world.core
-  (:require [ajax.core :refer [GET]]))
-    
-(GET "https://api.github.com/emojis")
-----
-
-Now, we are ready to build! http://leiningen.org/#install[Install
-Leiningen] and run the following command:
-
-[source,bash]
-----
-$ lein cljsbuild auto
-----
-
-After running this command, you will likely see Leiningen spend a few
-moments downloading the required dependencies. Without Leiningen, we'd
-have to track all of these down ourselves! After some crunching, you
-should eventually see some green text announcing that the build was
-successful! Because we chose to use the `auto` option, Leiningen will
-continue running in the background looking for changes. You can confirm
-this by making a trivial edit to `core.cljs`, notice that the change is
-automatically recognized and a new build is produced!
-
-Load `index.html` in your web browser with your JavaScript console open,
-and you should see a successful "XHR" request!
-
-[[using-maven]]
-=== Using Maven
-
-Install https://maven.apache.org/[Maven]. On OS X this is easily done
-through http://brew.sh/[brew].
-
-Once installed you can create a skeleton project template with the
-following:
-
-[source,bash]
-----
-mvn archetype:generate
-----
-
-The only answers you need supply are `groupId`, `artifactId` and
-`version`. For the others you can simply select the default by pressing
-enter.
-
-Maven will create a project folder based on the `artifactId`. Inside
-there will be a `pom.xml` and a `src` directory. You can remove
-everything under the `src` directory:
-
-Edit the `pom.xml` and add Clojars as a repository and ClojureScript as
-a dependency:
-
-[source,xml]
-----
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <!-- ... -->
-  <repositories>
-    <repository>
-      <id>clojars.org</id>
-      <url>http://clojars.org/repo</url>
-    </repository>
-  </repositories>
-  <!-- ... -->
-  <dependencies>
-    <!-- ... -->
-    <dependency>
-      <groupId>org.clojure</groupId>
-      <artifactId>clojurescript</artifactId>
-      <version>0.0-3178</version>
-    </dependency>
-  </dependencies>
-</project>
-----
-
-Then we can use Maven to compute the classpath for us:
-
-[source,bash]
-----
-mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
-----
-
-We can launch Clojure now with the following:
-
-[source,bash]
-----
-java -cp `< cp.txt` clojure.main
-----
-
-You can add dependencies from Maven Central and Clojars the same as for
-Leiningen described above, the format is simply a little more verbose.
