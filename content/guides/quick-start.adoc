@@ -227,9 +227,8 @@ npm install source-map-support
 
 Let's build your Node project. We can specify that we want to generate code for
 a specific JavaScript target with `--target`. If no `--target` flag is supplied,
-ClojureScript generates code for browsers. Other valid but less common options
-are `nashorn` and `rhino`. We're also using `--output-to` here for specifying the
-`--output-to` file:
+ClojureScript generates code for browsers. We're also using `--output-to`
+here for specifying the `--output-to` file:
 
 [source,bash]
 ----

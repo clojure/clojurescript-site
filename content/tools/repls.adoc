@@ -22,7 +22,7 @@ if your cljsbuild entry looks like the following:
    :output-to "hello_world.js"
    :output-dir "out"
    :optimizations :none
-   :cache-analysis true                
+   :cache-analysis true
    :source-map true}}
 ----
 
@@ -37,22 +37,7 @@ Then your *repl.clj* file should look like the following for Node.js:
 (repl/repl* (node/repl-env)
   {:output-dir "out"
    :optimizations :none
-   :cache-analysis true                
-   :source-map true})
-----
-
-Or for Rhino:
-
-[source,clojure]
-----
-(require
-  '[cljs.repl :as repl]
-  '[cljs.repl.rhino :as rhino])
-
-(repl/repl* (rhino/repl-env)
-  {:output-dir "out"
-   :optimizations :none
-   :cache-analysis true                
+   :cache-analysis true
    :source-map true})
 ----
 
@@ -87,7 +72,7 @@ Your `browser_repl.clj` should look like the following:
 (repl/repl* (browser/repl-env)
   {:output-dir "out"
    :optimizations :none
-   :cache-analysis true                
+   :cache-analysis true
    :source-map true})
 ----
 

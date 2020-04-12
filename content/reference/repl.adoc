@@ -25,8 +25,8 @@ cross-environment testing.
 Most projects will target a specific environment. These changes will
 allow developers to have the full benefit of a REPL in their target
 environment. Currently there are implementations for multiple
-environments: Rhino, Node.js, and the browser. By implementing one
-protocol, one may easily support additional environments.
+environments. By implementing one protocol, one may easily support additional
+environments.
 
 [[using-the-repl]]
 == Using the REPL
@@ -42,20 +42,6 @@ environment
 Using the REPL will also feel the same in each environment; forms are
 entered, results are printed and side-effects happen where they make the
 most sense.
-
-[[using-the-rhino-environment]]
-=== Using the Rhino Environment
-
-[source,clojure]
-----
-(require '[cljs.repl :as repl])
-(require '[cljs.repl.rhino :as rhino]) ;; require the rhino implementation of IJavaScriptEnv
-(def env (rhino/repl-env)) ;; create a new environment
-(repl/repl env) ;; start the REPL
-----
-
-This is very much the same as it was before and will behave the same as
-the old ClojureScript REPL.
 
 [[using-the-browser-as-an-evaluation-environment]]
 === Using the browser as an Evaluation Environment
@@ -206,13 +192,13 @@ These functions are available in every evaluation environment.
 [[auto-loaded-user-code]]
 === Auto-loaded user code
 
-When a REPL starts, it automatically loads any `user.cljs` or `user.cljc` 
+When a REPL starts, it automatically loads any `user.cljs` or `user.cljc`
 file present on your classpath. This is an ideal location to place code
 that is useful for development time.
 
-The file may optionally contain an `ns` form in order to load required 
-namespaces or to establish the namespace for any `def` forms that appear 
-in the file. 
+The file may optionally contain an `ns` form in order to load required
+namespaces or to establish the namespace for any `def` forms that appear
+in the file.
 
 If no namespace is specified, `cljs.user` is assumed.
 

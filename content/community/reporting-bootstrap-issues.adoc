@@ -31,22 +31,19 @@ that exercises `cljs.js`, demonstrating the issue.
 
 Frequently it is possible to do this with a couple of lines in a REPL.
 Here is an example exercising the `cljs.js/eval-str` API by simply
-issuing a couple forms in the shipping Nashorn REPL:
+issuing a couple forms in the shipping Node REPL:
 
 [source,bash]
 ----
-$ java -jar cljs.jar -m cljs.repl.nashorn
+$ java -jar cljs.jar -m cljs.repl.node
 To quit, type: :cljs/quit
 cljs.user=> (require 'cljs.js)
 nil
-cljs.user=> (cljs.js/eval-str (cljs.js/empty-state) 
+cljs.user=> (cljs.js/eval-str (cljs.js/empty-state)
   "(+ 1 2)" nil {:eval cljs.js/js-eval :context :expr} prn)
 {:ns cljs.user, :value 3}
 nil
 ----
-
-(Note: If you have Node installed, you can do the same by replacing
-`cljs.repl.nashorn` with `cljs.repl.node` in the above.)
 
 For more complex situations, reproduction could involve additional code,
 or even a new self-host unit test that exhibits the problem. Information
