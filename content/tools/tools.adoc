@@ -13,9 +13,9 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 == Editors
 
-* <<atom#,Atom>>
 * <<cursive#,Cursive>>
-* <<emacs#,Emacs Inferior Clojure>>
-* <<emacs#,Light Table>>
-* <<emacs#,Sublime Text 2>>
-* <<emacs#,Vim>>
+* <<emacs-inf#,Emacs Inferior Clojure>>
+* <<light-table#,Light Table>>
+* <<sublime#,Sublime Text 2>>
+* <<vim#,Vim>>
+* <<atom#,Atom>>
