@@ -116,24 +116,33 @@ an arbitrary shell command to run after the ClojureScript build completes.
 In the case of watching bundlers like Metro you probably won't bother with
 `:bundle-cmd`.
 
-Let's see this in action, the following will build then start a webserver.
+Let's see this in action, the following will build your project then start
+a REPL:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -v -c -s
+clj -m cljs.main -co build.edn -v -c -r
 ```
 
-Open your browser to http://localhost:9000. Open the Developer Console, you
-should see that `React.Component` got logged.
+Your default browser will open http://localhost:9000. Open the Developer Console,
+you should see that `React.Component` got logged.
+
+At the REPL you can require `react` and interact with it:
+
+[source, bash]
+```
+user> (require 'react)
+```
 
 [[overriding-foreign-lib]]
 == Overriding a Foreign Library
 
-Occasionally you may find that you need to provide a custom build of React but
-you still want to use some ClojureScript React binding like Reagent.
-ClojureScript supports this out of the box.
+You may find that you want to use React from `node_modules` perhaps because
+the latest bundled version hasn't yet appeared on CLJSJS. Yet, you still want to
+use some ClojureScript React binding like Reagent. ClojureScript supports this
+out of the box.
 
-To demonstrate this change your `deps.edn` to the following:
+To demonstrate this, change your `deps.edn` to the following:
 
 [source,clojure]
 ```
@@ -160,15 +169,16 @@ Change your source file to the following:
 (r/render [simple-component] (gdom/getElement "app"))
 ```
 
-Rebuild your project, run the webserver and open http://localhost:9000:
+Rebuild your project, run the REPL:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -v -c -s
+clj -m cljs.main -co build.edn -v -c -r
 ```
 
 To verify that externs inference allows advanced compilation to work,
-let's make an advanced build:
+let's make an advanced build. REPLs don't work under advanced compilation
+so you'll have to manually open htt://localhost:9000:
 
 [source,bash]
 ```
