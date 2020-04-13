@@ -6,8 +6,6 @@ Alex Miller
 :icons: font
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
-atom.adoc		emacs-inf.adoc		sublime.adoc		vim.adoc
-cursive.adoc		light-table.adoc	testing.adoc
 
 == Testing
 
