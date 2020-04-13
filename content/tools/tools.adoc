@@ -1,0 +1,23 @@
+= Tools
+Alex Miller
+2020-04-13
+:type: tools
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+atom.adoc		emacs-inf.adoc		sublime.adoc		vim.adoc
+cursive.adoc		light-table.adoc	testing.adoc
+
+== Testing
+
+* <<testing#,Testing>>
+
+== Editors
+
+* <<atom#,Atom>>
+* <<cursive#,Cursive>>
+* <<emacs#,Emacs Inferior Clojure>>
+* <<emacs#,Light Table>>
+* <<emacs#,Sublime Text 2>>
+* <<emacs#,Vim>>
