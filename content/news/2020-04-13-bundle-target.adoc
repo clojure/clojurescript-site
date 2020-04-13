@@ -54,9 +54,9 @@ dependency resolution is either Node.js `require` or ES6 import.
 
 Still, this only solves part of the problem. We need to apply advanced
 optimizations to ClojureScript generated JavaScript. Which leads us to something
-we call "externs inference". One of the tradeoffs with Closure compilation model
+we call "externs inference". One of the tradeoffs with Closure's compilation model
 is that integrating libraries not intended for Closure consumption requires a
-manual and error prone process of writing externs - files which prevent Closure
+manual and error-prone process of writing externs - files which prevent Closure
 from renaming properties and declarations from libraries it will not actually
 see. Because of an early decision by Rich Hickey to mark global variables in
 ClojureScript as such, and the fact that Clojure provides a simple but effective
