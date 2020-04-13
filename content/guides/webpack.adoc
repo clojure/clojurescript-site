@@ -65,7 +65,7 @@ module.exports = {
 ```
 
 The bundler will use our ClojureScript output file as the entry. We'll write
-back bundler result back into the output directory.
+the bundler result back into the output directory.
 
 We're now ready to setup our JS dependencies.
 
