@@ -35,7 +35,7 @@ Create a `deps.edn` file the following contents:
 [source,clojure]
 ```
 {:deps {org.clojure/clojurescript {:git/url "https://github.com/clojure/clojurescript.git"
-                                   :sha "7792adf10e8961cbd5b0267a30a7d9655c770086"}}}
+                                   :sha "c1cf559a74760436babe016b9bae55b70b5c8495"}}}
 ```
 
 Create an empty `package.json` file:
@@ -136,8 +136,8 @@ To demonstrate this change your `deps.edn` to the following:
 [source,clojure]
 ```
 {:deps {org.clojure/clojurescript {:git/url "https://github.com/clojure/clojurescript.git"
-                                   :sha "7792adf10e8961cbd5b0267a30a7d9655c770086"}
-        reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react]}}}
+                                   :sha "c1cf559a74760436babe016b9bae55b70b5c8495"}
+        reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react cljsjs/react-dom]}}}
 ```
 
 Change your source file to the following:
