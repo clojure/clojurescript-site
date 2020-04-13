@@ -1,7 +1,67 @@
-= Integrating with JavaScript Tools
+= Embracing JavaScript Tools
 ClojureScript Team
 2020-04-13
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+We're happy to announce a new streamlined way to integrate with the existing
+JavaScript ecosystem - the bundle target. With this target, the output of the
+ClojureScript compiler can be immediately handed off to a JavaScript
+bundler like Webpack, or Metro. ClojureScript projects using this new target can
+can integrate libraries from `node_modules` freely without boilerplate or
+non-portable configuration.
+
+While the impact for ease of development on ClojureScript applications is
+obviously significant, we believe that the benefits for the ClojureScript
+ecosystem are even more exciting. You can now publish ClojureScript libraries
+that depend directly on the JavaScript ecosystem without packaging externs
+or any other boilerplate configuration.
+
+If you want to cut to the chase and walk through a tutorial, head over to the
+<<xref/../../guides/webpack#,new guide>>. For some history and context, read on.
+
+Over the years we've implemented and shipped a variety of
+features to help in this area, but the end result has, in truth, felt more
+like a patchwork of solutions rather than something cut from whole cloth.
+Some of this can be attributed to trying to work around JavaScript existing
+tooling rather than embracing it. ClojureScript has invested heavily in
+the advanced compilation capabilities of the decade-old Google Closure Compiler
+and it was only natural to attempt to funnel Node libaries through it.
+
+But after nearly three years since we first shipped Node module processing via
+Closure, it's apparent that simply too few of the most popular libraries can be
+subjected to advanced optimizations. We still believe there's promise here, but
+likely the ClojureScript community will have to lead the way by developing
+compelling JavaScript libraries that can be readily consumed by popular
+JavaScript tools, yet still be subjected to Closure's phenomenal tree shaking and
+code splitting when building with ClojureScript. In the meantime we need a simpler
+and, yes, easier way to get things done.
+
+Which leads us to something we call "externs inference". One of the tradeoffs
+with Closure compilation model is that integrating libraries not intended for
+Closure consumption requires a manual and error prone process of writing externs
+- files which prevent Closure from renaming properties and declarations from
+libraries it will not actually see. Because of an early decision by Rich
+Hickey to mark global variables in ClojureScript as such, and the fact that
+Clojure provides a simple but effective type propagation algorithm across a
+local scope which ClojureScript also implements, tracking the usage of "foreign"
+values is not as tricky as it would seem.
+
+In
+https://clojurescript.org/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[António
+Nuno Monteiro's original post] about Node module processing there's a fairly
+short paragraph about how under Node.js we actually generate Node.js `require`
+statements for libaries we know are coming from Node.js. If we combine this
+feature with "externs inference" then we end up at the bundle target. When
+a ClojureScript namespace uses a library from `node_modules` we'll emit
+`require` but we'll also taint usage to generate externs for you. When you
+run Webpack, or Metro they will resolve the `require` statements for you.
+
+Now it all probably seems pretty obvious - but juggling various design goals can
+easily obscure the simple answer. By taking two distinct things - on the one
+hand, ClojureScript, on the other, JavaScript tools - and actually allowing them
+to remain distinct - we can arrive at something more than the sum of the parts.
+
+This feature is the result of many discussions and some great projects in the
+ClojureScript community - in particular re-natal and shadow-cljs.
