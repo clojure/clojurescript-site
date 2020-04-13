@@ -157,7 +157,7 @@ Change your source file to the following:
 ```
 (ns hello-bundler.core
   (:require [goog.dom :as gdom]
-            [reagent.core :as r]))
+            [reagent.dom :as dom]))
 
 (defn simple-component []
   [:div
@@ -166,7 +166,7 @@ Change your source file to the following:
     "I have " [:strong "bold"]
     [:span {:style {:color "red"}} " and red "] "text."]])
 
-(r/render [simple-component] (gdom/getElement "app"))
+(dom/render [simple-component] (gdom/getElement "app"))
 ```
 
 Rebuild your project, run the REPL:
