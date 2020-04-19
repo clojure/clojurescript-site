@@ -1,0 +1,88 @@
+= 1.10.xxx Release
+ClojureScript Team
+2020-04-22
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+## Noteworthy Changes
+
+* Nashorn, Rhino, and GraalJS REPLs have been removed
+* Clojure Compiler has been updated to `v20200112`
+* Closure Library has been updated to `0.0-20191016-6ae1f72f`
+
+## New Core Features
+
+### Iterator Support
+
+It is now possible to `seq` on any object implementing JavaScript's
+Iterator protocol. A new core predicate, `cljs.core/js-iterable?`
+is introduced with this feature.
+
+For example, `(js-iterable? (js/Set.))` is `true` and 
+
+[source,clojure]
+----
+(-> (doto (js/Set.) (.add 1) (.add 2)) 
+  seq)
+----
+
+can now produce `(1 2)`.
+
+### Symbol Support
+
+A new core predicate `cljs.core/js-symbol?` has been added 
+and printing has been revised to allow printing of symbols:
+
+----
+cljs.user=> (js/Symbol "abc")
+#object[Symbol(abc)]
+----
+
+## More Flexable Build Support
+
+* `:bundle-cmd`
+* `:target-fn`
+* A new `--install-deps` CLI option
+* several new helper methods and facilities have
+been added to the compiler API.
+
+## Warning Improvements
+
+Single arity arithmetic operations will now warn on bad arguments:
+
+----
+cljs.user=> (+ "foo")
+WARNING: cljs.core/+, all arguments must be numbers, got [string] instead at line 1 <cljs repl>
+----
+
+`clj-nil` is no longer considered a numeric type, so, for example `(+ nil 1)` will warn
+
+Incorrect function with fixed arity of more params than variatic now causes a warning. For example:
+
+----
+cljs.user=> (defn foo ([x] 1) ([& xs] 2))
+WARNING: foo: Can't have fixed arity function with more params than variadic function in file <cljs repl>
+----
+
+## Performance Improvements
+
+* `re-pattern`, `re-matches`, and `re-find` are now faster
+* Code gen better facilitates protocol static dispatch inlining
+* Fast initial prompt for browser REPL
+* Output size minimized for trivial "Hello World" programs
+
+## Change List
+
+For a complete list of updates in ClojureScript 1.10.xxx see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.xxx[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.xxx:
+
+* Camilo Polymeris
+* Colin Kahn
+* Dieter Komendera
+* Dominic Monroe
+* Roman Liutikov
