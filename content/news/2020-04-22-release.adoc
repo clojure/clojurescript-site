@@ -6,11 +6,12 @@ ClojureScript Team
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 We're happy to announce a new release of ClojureScript. If you're an existing
-user of ClojureScript please read over the following notes carefully. There are
-two very significant changes. First, ClojureScript now ships with greatly
-enhanced support for integration with popular JavaScript bundling tools such as
-Webpack and Metro. Second, due to changes to Google Closure Compiler and
-Library, we've decided to drop support for the Rhino and Nashorn REPLs.
+user of ClojureScript please read over the following release notes carefully,
+there are two very significant changes. First, ClojureScript now ships with
+greatly enhanced support for integration with popular JavaScript bundling tools
+such as Webpack and Metro. Second, due to continuing changes to Google Closure
+Compiler and Library, we've decided to drop support for the Rhino and Nashorn
+REPLs to lower the maintenance burden around releases.
 
 ## Noteworthy Changes
 
@@ -20,9 +21,9 @@ Library, we've decided to drop support for the Rhino and Nashorn REPLs.
 
 The latest Closure Compiler & Library releases included a number of breaking
 changes which significantly increased the maintenance burden for this release.
-Given Closure Compiler & Library's recent pace of change, we've decided to
-focus our energies on the essential browser and Node.js REPLs and enrichen the
-CLI & REPL APIs to ease third party implementations targeting other JavaScript
+Given Closure Compiler & Library's recent pace of change, we've decided to focus
+our energies on the essential browser and Node.js REPLs as well enrichen the CLI
+& REPL APIs to ease third party efforts to target these other JavaScript
 environments.
 
 ## New Core Features
