@@ -22,9 +22,9 @@ REPLs to lower the maintenance burden around releases.
 The latest Closure Compiler & Library releases included a number of breaking
 changes which significantly increased the maintenance burden for this release.
 Given Closure Compiler & Library's recent pace of change, we've decided to focus
-our energies on the essential browser and Node.js REPLs as well enrichen the CLI
-& REPL APIs to ease third party efforts to target these other JavaScript
-environments.
+our energies on the essential browser and Node.js REPLs. We've also begun
+enrichening the CLI & REPL APIs to ease third party efforts to target these
+JavaScript environments.
 
 ## New Core Features
 
@@ -42,7 +42,7 @@ greatly ease usage of Node modules, library creators can now distribute
 ClojureScript artifacts that depend on Node modules and be confident that users
 can consume these artifacts regardless of which build tool they may prefer.
 
-There's much more to say about the `:bundle` targetl, and we'll be releasing a
+There's much more to say about the `:bundle` target, and we'll be releasing a
 separate post and guide soon.
 
 ### Iterator Support
