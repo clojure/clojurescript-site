@@ -99,12 +99,12 @@ WARNING: foo: Can't have fixed arity function with more params than variadic fun
 
 ## Change List
 
-For a complete list of updates in ClojureScript 1.10.xxx see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.xxx[Changes].
+For a complete list of updates in ClojureScript 1.10.738 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.738[Changes].
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.10.xxx:
+Thanks to all of the community members who contributed to ClojureScript 1.10.738:
 
 * Camilo Polymeris
 * Colin Kahn
