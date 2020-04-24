@@ -5,7 +5,7 @@ ClojureScript Team
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-We're happy to announce a new, streamlined way to integrate with the existing
+ClojureScript 1.10.739 includes a streamlined way to integrate with the existing
 JavaScript ecosystem - the bundle target. With this target, the output of the
 ClojureScript compiler can be immediately handed off to a JavaScript bundler
 like Webpack, Metro, or any other build tool that understands Node.js `require`.
