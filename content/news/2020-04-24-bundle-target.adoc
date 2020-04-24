@@ -1,0 +1,86 @@
+= Embracing JavaScript Tools
+ClojureScript Team
+2020-04-24 10:35:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+ClojureScript 1.10.739 includes a new streamlined way to integrate with the
+existing JavaScript ecosystem - the bundle target. With this target, the output
+of the ClojureScript compiler can be immediately handed off to a JavaScript
+bundler like https://webpack.js.org[Webpack],
+https://facebook.github.io/metro/[Metro], or any other build tool that
+understands Node.js `require`. ClojureScript projects using this new target can
+freely integrate libraries from `node_modules` without handwritten externs or
+additional configuration, yet still fully leverage REPL-driven development and
+advanced compilation for the optimizable parts of their application.
+
+While the impact on ease of development for ClojureScript projects is
+obviously significant, we believe that the benefits for the ClojureScript
+ecosystem are even more exciting. You can now publish ClojureScript libraries
+that depend directly on the JavaScript ecosystem without additional ceremony
+and be confident that the whole community can benefit regardless of what
+other JavaScript and ClojureScript build tools they may prefer.
+
+If you want to cut to the chase and walk through a tutorial, head over to the
+<<xref/../../guides/webpack#,new guide>>. For some history and context, read on.
+
+Over the years we've implemented and shipped a variety of features to help
+integration with the JavaScript ecosystem, but the end result has, in truth,
+felt more like a patchwork of solutions than something cut from whole cloth.
+Some of this can be attributed to trying to work around JavaScript existing
+tooling rather than embracing it. ClojureScript has invested heavily in the
+advanced compilation capabilities of the decade-old
+(https://developers.google.com/closure/compiler)[Google Closure Compiler]
+project, and it seemed natural to pursue processing Node modules through it.
+
+But after nearly three years since we first shipped Node module processing via
+Closure, it's apparent that too few of the most popular libraries can be
+subjected to advanced optimizations. While we still believe there's promise
+here, the ClojureScript community will have to show the rest of the world the
+way by developing compelling JavaScript libraries that can be readily consumed
+by popular JavaScript tools, yet still be subjected to Closure's phenomenal tree
+shaking and code splitting when building with ClojureScript. The success of
+projects like https://rollupjs.org/guide/en/[Rollup.js] has shown that
+JavaScript developers are not adverse to adhering to a stricter style if it
+leads to significant benefits. In the meantime we need a simpler and, yes,
+easier way to get things done.
+
+In
+https://clojurescript.org/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[António
+Nuno Monteiro's original post] about Node module processing there's a fairly
+short paragraph about how under Node.js we actually generate Node.js `require`
+statements for libaries we know are coming from `node_modules`. This was a
+fantastic idea resulting in a very idiomatic experience when interacting
+with Node.js. Over the next couple of years it became apparent that using
+ClojureScript for Node.js was often simpler than web development. No longer, the
+bundle target approach embraces the fact that nearly all modern JavaScript
+dependency resolution is either Node.js `require` or ES6 import.
+
+Still, this only solves part of the problem. We need to apply advanced
+optimizations to ClojureScript generated JavaScript. Which leads us to something
+we call "externs inference". One of the tradeoffs with Closure's compilation model
+is that integrating libraries not intended for Closure consumption requires a
+manual and error-prone process of writing externs - files which prevent Closure
+from renaming properties and declarations from libraries it will not actually
+see. Because of an early decision by Rich Hickey to mark global variables in
+ClojureScript as such, and the fact that Clojure provides a simple but effective
+type propagation algorithm across a local scope which ClojureScript also
+implements, tracking the usage of "foreign" values is not as tricky as it would
+seem.
+
+Combining our approach for Node.js and externs inference leads us directly to
+the bundle target. Of course now it all probably seems pretty obvious - but
+juggling various design goals can easily obscure the simple answer. By taking
+two distinct things - on the one hand, ClojureScript, on the other, JavaScript
+tools - and actually allowing them to remain distinct - we can arrive at
+something more than the sum of the parts. At the same time, none of these choices
+precludes passing everything through Closure Compiler if more JavaScript
+libraries begin adopting a code style amenable to aggressive dead code
+elimination.
+
+This feature is the result of many discussions and inspiration from some great
+projects in the ClojureScript community - in particular https://github.com/drapanjanas/re-natal[re-natal] and
+https://shadow-cljs.org[shadow-cljs].
+
+Happy hacking!
