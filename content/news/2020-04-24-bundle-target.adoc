@@ -27,10 +27,11 @@ If you want to cut to the chase and walk through a tutorial, head over to the
 
 Over the years we've implemented and shipped a variety of features to help
 integration with the JavaScript ecosystem, but the end result has, in truth,
-felt more like a patchwork of solutions than something cut from whole
-cloth. Some of this can be attributed to trying to work around JavaScript
-existing tooling rather than embracing it. ClojureScript has invested heavily in
-the advanced compilation capabilities of the decade-old Google Closure Compiler
+felt more like a patchwork of solutions than something cut from whole cloth.
+Some of this can be attributed to trying to work around JavaScript existing
+tooling rather than embracing it. ClojureScript has invested heavily in the
+advanced compilation capabilities of the decade-old
+(https://developers.google.com/closure/compiler)[Google Closure Compiler]
 project, and it seemed natural to pursue processing Node modules through it.
 
 But after nearly three years since we first shipped Node module processing via
