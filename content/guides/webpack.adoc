@@ -9,7 +9,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
-*This guide requires ClojureScript 1.10.740 or later and assumes
+*This guide requires ClojureScript 1.10.741 or later and assumes
 familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
 
 This page documents how to integrate ClojureScript with a typical JavaScript
@@ -37,7 +37,7 @@ Create a `deps.edn` file the following contents:
 
 [source,clojure]
 ```
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.740"}}}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.741"}}}
 ```
 
 Create an empty `package.json` file:
@@ -148,7 +148,7 @@ To demonstrate this, change your `deps.edn` to the following:
 
 [source,clojure]
 ```
-{:deps {org.clojure/clojurescript {:mvn/version "1.10.740"}
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.741"}
         reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react cljsjs/react-dom]}}}
 ```
 
