@@ -74,7 +74,10 @@ the bundle target. Of course now it all probably seems pretty obvious - but
 juggling various design goals can easily obscure the simple answer. By taking
 two distinct things - on the one hand, ClojureScript, on the other, JavaScript
 tools - and actually allowing them to remain distinct - we can arrive at
-something more than the sum of the parts.
+something more than the sum of the parts. At the same time, none of these choices
+precludes passing everything through Closure Compiler if more JavaScript
+libraries begin adopting a code style amenable to aggressive dead code
+elimination.
 
 This feature is the result of many discussions and inspiration from some great
 projects in the ClojureScript community - in particular https://github.com/drapanjanas/re-natal[re-natal] and
