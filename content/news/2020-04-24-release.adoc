@@ -1,4 +1,4 @@
-= 1.10.739 Release
+= 1.10.740 Release
 ClojureScript Team
 2020-04-24 10:30:00
 :jbake-type: post
@@ -89,12 +89,12 @@ WARNING: cljs.core/+, all arguments must be numbers, got [string] instead at lin
 
 ## Change List
 
-For a complete list of updates in ClojureScript 1.10.739 see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.739[Changes].
+For a complete list of updates in ClojureScript 1.10.740 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.740[Changes].
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.10.739:
+Thanks to all of the community members who contributed to ClojureScript 1.10.740:
 
 * Camilo Polymeris
 * Colin Kahn
