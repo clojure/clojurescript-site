@@ -1,0 +1,103 @@
+= 1.10.739 Release
+ClojureScript Team
+2020-04-24
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully,
+there are two very significant changes. First, ClojureScript now ships with
+greatly enhanced support for integration with popular JavaScript bundling tools
+such as Webpack and Metro. Second, due to continuing changes to Google Closure
+Compiler and Library, we've decided to drop support for the Rhino and Nashorn
+REPLs to lower the maintenance burden around releases.
+
+## Noteworthy Changes
+
+* Closure Compiler has been updated to `v20200112`
+* Closure Library has been updated to `0.0-20191016-6ae1f72f`
+* Rhino, Nashorn, and GraalJS REPLs have been removed
+
+The latest Closure Compiler & Library releases included a number of breaking
+changes which significantly increased the maintenance burden for this release.
+Given Closure Compiler & Library's recent pace of change, we've decided to focus
+our energies on the essential browser and Node.js REPLs. We've also begun
+enrichening the CLI & REPL APIs to ease third party efforts to target these
+JavaScript environments.
+
+## New Core Features
+
+## JavaScript Bundler Support
+
+* `:target :bundle`
+* `:bundle-cmd`
+* `:target-fn`
+* A new `--install-deps` CLI option
+
+We're happy to announce a significant new feature - the `:bundle` target. This
+target generates output that can be fed directly into popular JavaScript
+bundlers such as Webpack and Metro (for React Native). Not only does this
+greatly ease usage of Node modules, library creators can now distribute
+ClojureScript artifacts that depend on Node modules and be confident that users
+can consume these artifacts regardless of which build tool they may prefer.
+
+There's much more to say about the `:bundle` target, and we'll be releasing a
+separate post and guide soon.
+
+### Iterator Support
+
+#It# is now possible to call `seq` on any object implementing JavaScript's
+Iterator protocol. A new core predicate, `cljs.core/js-iterable?`
+is introduced with this feature.
+
+For example, `(js-iterable? (js/Set.))` is `true` and
+
+[source,clojure]
+----
+(-> (doto (js/Set.) (.add 1) (.add 2))
+  seq)
+----
+
+can now produce `(1 2)`.
+
+### Symbol Support
+
+A new core predicate `cljs.core/js-symbol?` has been added
+and printing has been revised to allow printing of symbols:
+
+----
+cljs.user=> (js/Symbol "abc")
+#object[Symbol(abc)]
+----
+
+## Warning Improvements
+
+Single arity arithmetic operations will now warn on bad arguments:
+
+----
+cljs.user=> (+ "foo")
+WARNING: cljs.core/+, all arguments must be numbers, got [string] instead at line 1 <cljs repl>
+----
+
+## Performance Improvements
+
+* `re-pattern`, `re-matches`, and `re-find` are now faster
+* Code gen better facilitates protocol static dispatch inlining
+* Fast initial prompt for browser REPL
+* Output size minimized for trivial "Hello World" programs
+
+## Change List
+
+For a complete list of updates in ClojureScript 1.10.739 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.739[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.739:
+
+* Camilo Polymeris
+* Colin Kahn
+* Dieter Komendera
+* Dominic Monroe
+* Roman Liutikov

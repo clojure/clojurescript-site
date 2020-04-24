@@ -27,3 +27,4 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<source-maps#,Source Maps>>
 * <<javascript-module-support#,JavaScript Module Support (Alpha)>>
 * <<javascript-library-preprocessing#,JavaScript Library Preprocessing>>
+* <<javascript-api#,JS API>>
