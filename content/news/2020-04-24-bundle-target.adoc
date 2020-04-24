@@ -40,8 +40,11 @@ subjected to advanced optimizations. While we still believe there's promise
 here, the ClojureScript community will have to show the rest of the world the
 way by developing compelling JavaScript libraries that can be readily consumed
 by popular JavaScript tools, yet still be subjected to Closure's phenomenal tree
-shaking and code splitting when building with ClojureScript. In the meantime we
-need a simpler and, yes, easier way to get things done.
+shaking and code splitting when building with ClojureScript. The success of
+projects like https://rollupjs.org/guide/en/[Rollup.js] has shown that
+JavaScript developers are not adverse to adhering to a stricter style if it
+leads to significant benefits. In the meantime we need a simpler and, yes,
+easier way to get things done.
 
 In
 https://clojurescript.org/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[António
