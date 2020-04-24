@@ -8,11 +8,12 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 ClojureScript 1.10.739 includes a new streamlined way to integrate with the
 existing JavaScript ecosystem - the bundle target. With this target, the output
 of the ClojureScript compiler can be immediately handed off to a JavaScript
-bundler like Webpack, Metro, or any other build tool that understands Node.js
-`require`. ClojureScript projects using this new target can freely integrate
-libraries from `node_modules` without handwritten externs or additional
-configuration, yet still fully leverage REPL-driven development and advanced
-compilation for the optimizable parts of their application.
+bundler like https://webpack.js.org[Webpack],
+https://facebook.github.io/metro/[Metro], or any other build tool that
+understands Node.js `require`. ClojureScript projects using this new target can
+freely integrate libraries from `node_modules` without handwritten externs or
+additional configuration, yet still fully leverage REPL-driven development and
+advanced compilation for the optimizable parts of their application.
 
 While the impact on ease of development for ClojureScript projects is
 obviously significant, we believe that the benefits for the ClojureScript
@@ -72,7 +73,7 @@ tools - and actually allowing them to remain distinct - we can arrive at
 something more than the sum of the parts.
 
 This feature is the result of many discussions and inspiration from some great
-projects in the ClojureScript community - in particular re-natal and
-shadow-cljs.
+projects in the ClojureScript community - in particular https://github.com/drapanjanas/re-natal[re-natal] and
+https://shadow-cljs.org[shadow-cljs].
 
 Happy hacking!
