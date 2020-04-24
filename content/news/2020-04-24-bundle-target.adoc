@@ -11,7 +11,7 @@ of the ClojureScript compiler can be immediately handed off to a JavaScript
 bundler like Webpack, Metro, or any other build tool that understands Node.js
 `require`. ClojureScript projects using this new target can freely integrate
 libraries from `node_modules` without handwritten externs or additional
-configuraiton, yet still fully leverage REPL-driven development and advanced
+configuration, yet still fully leverage REPL-driven development and advanced
 compilation for the optimizable parts of their application.
 
 While the impact on ease of development for ClojureScript projects is
