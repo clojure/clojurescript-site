@@ -1,6 +1,6 @@
 = Embracing JavaScript Tools
 ClojureScript Team
-2020-04-13
+2020-04-24
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
