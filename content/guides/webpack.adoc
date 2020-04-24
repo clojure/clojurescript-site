@@ -179,7 +179,7 @@ clj -m cljs.main -co build.edn -v -c -r
 
 To verify that externs inference allows advanced compilation to work,
 let's make an advanced build. REPLs don't work under advanced compilation
-so you'll have to manually open htt://localhost:9000:
+so you'll have to manually open http://localhost:9000:
 
 [source,bash]
 ```
