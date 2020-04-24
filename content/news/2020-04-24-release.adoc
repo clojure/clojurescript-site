@@ -1,4 +1,4 @@
-= 1.10.738 Release
+= 1.10.739 Release
 ClojureScript Team
 2020-04-24
 :jbake-type: post
@@ -47,7 +47,7 @@ separate post and guide soon.
 
 ### Iterator Support
 
-It is now possible to `seq` on any object implementing JavaScript's
+#It# is now possible to call `seq` on any object implementing JavaScript's
 Iterator protocol. A new core predicate, `cljs.core/js-iterable?`
 is introduced with this feature.
 
@@ -80,16 +80,6 @@ cljs.user=> (+ "foo")
 WARNING: cljs.core/+, all arguments must be numbers, got [string] instead at line 1 <cljs repl>
 ----
 
-`clj-nil` is no longer considered a numeric type, so, for example `(+ nil 1)` will warn
-
-Incorrect function with fixed arity of more params than variatic now causes a
-warning. For example:
-
-----
-cljs.user=> (defn foo ([x] 1) ([& xs] 2))
-WARNING: foo: Can't have fixed arity function with more params than variadic function in file <cljs repl>
-----
-
 ## Performance Improvements
 
 * `re-pattern`, `re-matches`, and `re-find` are now faster
@@ -99,12 +89,12 @@ WARNING: foo: Can't have fixed arity function with more params than variadic fun
 
 ## Change List
 
-For a complete list of updates in ClojureScript 1.10.738 see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.738[Changes].
+For a complete list of updates in ClojureScript 1.10.739 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.739[Changes].
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.10.738:
+Thanks to all of the community members who contributed to ClojureScript 1.10.739:
 
 * Camilo Polymeris
 * Colin Kahn
