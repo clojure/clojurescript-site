@@ -50,7 +50,7 @@ In
 https://clojurescript.org/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules[António
 Nuno Monteiro's original post] about Node module processing there's a fairly
 short paragraph about how under Node.js we actually generate Node.js `require`
-statements for libaries we know are coming from `node_modules`. This was a
+statements for libraries we know are coming from `node_modules`. This was a
 fantastic idea resulting in a very idiomatic experience when interacting
 with Node.js. Over the next couple of years it became apparent that using
 ClojureScript for Node.js was often simpler than web development. No longer, the
