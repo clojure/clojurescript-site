@@ -172,10 +172,11 @@ generated for these dependencies.
 [[bundle-cmd]]
 ==== :bundle-cmd
 
-When using `:target :bundle`, set shell commands to be run after a build.
-This command is not parameterizable. You should provide both `:none` which
-will be run after dev builds, and `:default` which will be run after builds
-passed through Closure Compiler.
+When using `:target :bundle`, set shell commands to be run after a build. This
+command is not parameterizable. You should provide both `:none` which will be
+run after dev builds, and `:default` which will be run after builds passed
+through Closure Compiler. The command should be one that exits, i.e. you cannot
+use this to launch a watcher.
 
 [source,clojure]
 ----
