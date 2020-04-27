@@ -47,7 +47,7 @@ separate post and guide soon.
 
 ### Iterator Support
 
-#It# is now possible to call `seq` on any object implementing JavaScript's
+It is now possible to call `seq` on any object implementing JavaScript's
 Iterator protocol. A new core predicate, `cljs.core/js-iterable?`
 is introduced with this feature.
 
