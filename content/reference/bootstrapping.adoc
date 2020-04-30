@@ -26,21 +26,21 @@ ClojureScript JVM (varying perf between engines).
 ** https://github.com/mfikes/replete[iOS REPL: Replete]
 ** https://github.com/tahmidsadik112/Replicator[Android REPL: Replicator]
 ** https://github.com/mfikes/planck[OS X REPL: Planck]
-** http://jellea.github.io/QuilFiddle/[QuilFiddle]
-** http://roman01la.github.io/threejs-cljs-playground/[Threejs
+** https://jellea.github.io/QuilFiddle/[QuilFiddle]
+** https://roman01la.github.io/threejs-cljs-playground/[Threejs
 playground]
 ** https://github.com/ScalaConsultants/replumb[Library for bootstrapped
 REPLs: Replumb]
 ** http://crepl.thegeez.net[crepl: collaborative repl]
 ** https://github.com/anmonteiro/lumo[Desktop REPL: Lumo]
 ** https://github.com/viebel/klipse[Embeddable clojurescript repl: KLIPSE]
-** http://ctford.github.io/klangmeister[Musical live coding environment: Klangmeister]
+** http//ctford.github.io/klangmeister[Musical live coding environment: Klangmeister]
 
 The following enumerates the remaining tasks:
 
 * Ensure perf is good.
 * Ensure defects are addressed. Many have `bootstrap` label:
-http://dev.clojure.org/jira/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+10040+AND+labels+%3D+bootstrap[JIRA
+https://clojure.atlassian.net/issues/?jql=%20project%20%3D%20CLJS%20AND%20labels%20%3Dbootstrap[JIRA
 Query]
 * Determine if shared bootstrap REPL code will be included and
 implement.

@@ -36,7 +36,7 @@ and symbols in your source will be compiled into a single lookup table.
 
 `:static-fns true` is especially important if you are targeting Safari /
 JavaScriptCore. (See
-http://dev.clojure.org/jira/browse/CLJS-1381[CLJS-1381] for details.)
+https://clojure.atlassian.net/browse/CLJS-1381[CLJS-1381] for details.)
 
 By default for ease of use `cljs.js/empty-state` will dump the analysis
 cache for `cljs.core` directly into the `cljs.js` namespace. This

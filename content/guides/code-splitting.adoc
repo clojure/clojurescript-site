@@ -7,7 +7,8 @@ David Nolen
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-> **NOTE**: This guide requires ClojureScript 1.9.854 or later.
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
 
 As client applications become larger it becomes desirable to load only the code
 actually required to run a particular logical screen. Previously ClojureScript
@@ -32,37 +33,20 @@ cd hello-modules
 mkdir src
 ```
 
-Copy the `cljs.jar` into this directory.
-
-Create a REPL script:
-
-[source,bash]
-```
-touch repl.clj
-```
-
-Edit this script to look like the following:
+Create a `build.edn` file that looks like the following:
 
 [source,clojure]
 ```
-(require '[cljs.repl :as r])
-(require '[cljs.build.api :as b])
-(require '[cljs.repl.browser :as rb])
-
-(def opts
-  {:watch "src"
-   :output-dir "out"
-   :asset-path "/out"
-   :optimizations :none
-   :modules {:foo {:entries '#{foo.core}
-                   :output-to "out/foo.js"}
-             :bar {:entries '#{bar.core}
-                   :output-to "out/bar.js"}}
-   :browser-repl true
-   :verbose true})
-
-(b/build "src" opts)
-(r/repl* (rb/repl-env) opts)
+{:watch "src"
+ :output-dir "out"
+ :asset-path "/out"
+ :optimizations :none
+ :modules {:foo {:entries #{foo.core}
+                 :output-to "out/foo.js"}
+           :bar {:entries #{bar.core}
+                 :output-to "out/bar.js"}}
+ :browser-repl true
+ :verbose true})
 ```
 
 Now make an `index.html` file:
@@ -155,55 +139,19 @@ Run the REPL script:
 
 [source,bash]
 ```
-rlwrap java -cp cljs.jar:src clojure.main repl.clj
+clj -m cljs.main -co build.edn -r
 ```
-
-You will be prompted to connect via browser. Navigate to
-http://localhost:9000/index.html.
 
 Click the button. You will see that the `:bar` module gets loaded and the
 function in the other namespace gets invoked.
 
 === Release Builds
 
-Make a new script `release.clj`:
-
-[source,bash]
-```
-touch release.clj
-```
-
-Make it look like the following:
-
-[source,clojure]
-```
-(require '[cljs.build.api :as b])
-
-(b/build "src"
-  {:output-dir "out"
-   :asset-path "/out"
-   :optimizations :advanced
-   :verbose true
-   :modules {:foo {:entries '#{foo.core}
-                   :output-to "out/foo.js"}
-             :bar {:entries '#{bar.core}
-                   :output-to "out/bar.js"}}})
-
-(System/exit 0)
-```
-
 Build your project:
 
 [source,bash]
 ```
-java -cp cljs.jar:src clojure.main release.clj
-```
-
-Start a browser REPL just for serving content from current directory:
-
-[source,bash]
-```
-java -jar cljs.jar -m cljs.repl.browser
+clj -m cljs.main -co build.edn -O advanced -c -s
 ```
 
 Navigate to http://localhost:9000/index.html. Your application should function
@@ -219,4 +167,8 @@ than `bar.js`.
 
 === Additional Notes
 
-Because the code in splits is running in JavaScript's global scope, sometimes it may interfere with other JavaScript loaded on the same page, which may result in unpredictable behaviour. To make sure this will not happen, it's recommended to prefix all variables in generated JavaScript by specifiyng `:rename-prefix` compiler option. While the output size for each split may increase significantly due to longer variable names, this cost is usually removed by gzipping the assets.
+Because the code in splits is running in JavaScript's global scope, sometimes it
+may interfere with other JavaScript loaded on the same page (i.e. analytics),
+which may result in unpredictable behaviour. If this is a problem for your
+application prefix all variables in generated JavaScript by specifiyng
+`:rename-prefix` compiler option.

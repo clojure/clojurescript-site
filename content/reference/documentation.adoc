@@ -23,8 +23,8 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<repl#,REPL and Evaluation Environments>>
 * <<advanced-compilation#,Advanced Compilation>>
 * <<bootstrapping#,Bootstrapping the Compiler>>
-* <<compile-time-type-checking#,Compile Time Type Checking>>
 * <<google-closure-library#,Google Closure Library>>
 * <<source-maps#,Source Maps>>
 * <<javascript-module-support#,JavaScript Module Support (Alpha)>>
 * <<javascript-library-preprocessing#,JavaScript Library Preprocessing>>
+* <<javascript-api#,JS API>>

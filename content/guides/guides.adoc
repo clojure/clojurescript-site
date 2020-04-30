@@ -15,3 +15,4 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<project-templates#,Project Templates>>
 * <<self-hosting#,Optional Self-hosting>>
 * <<native-executables#,Native Executables>>
+* <<promise-interop#,Promise Interop>>

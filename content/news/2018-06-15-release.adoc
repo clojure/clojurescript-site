@@ -1,0 +1,41 @@
+= 1.10.312 Release
+ClojureScript Team
+2018-06-15
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+## Improved Externs Inference
+
+Externs inference has been significantly improved in this release. See https://clojurescript.org/guides/webpack[ClojureScript with Webpack] for details on what this improved support enables.
+
+## Closure Upgrades
+
+Closure Compiler has been upgraded to v20180610.
+
+Additionally, changes have been made so that it is possible to upgrade to the latest Google Closure Library. (The revised code is simultaneously compatible with the latest Closure Library and the version that ClojureScript 1.10.238 depends on.)
+
+## Optimized `node_modules` Indexing
+
+If you use `:npm-deps`, the indexing of `node_modules` should be much faster. (One test showed a 6-fold improvement in indexing speed.)
+
+## Improvements in Testing
+
+Several improvements have been made to ensure that the compiler test suite passes on Windows. Additionally, Graal.js, the new JavaScript engine that ships with GraalVM is included in the test suite.
+
+For a complete list of updates in ClojureScript 1.10.312 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#110312[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.312:
+
+* Andre Rauh
+* Dieter Komendera
+* Erik Assum
+* Jannis Pohlmann
+* Juho Teperi
+* Mike Fikes
+* Petter Eriksson
+* Pieter du Toit
+* Roman Scherer

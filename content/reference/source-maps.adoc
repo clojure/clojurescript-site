@@ -37,10 +37,9 @@ would look something like:
                 :source-map true}}]})
 ----
 
-After compilation, you may then open a HTML file linking to the
-generated js file in Chrome. Make sure that source maps in
-https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[Chrome
-are enabled via the Chrome Developer Tools settings].
+After compilation, you may then open an HTML file linking to the
+generated js file in Chrome. Make sure that source maps in Chrome are enabled via 
+https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[the Chrome Developer Tools settings].
 
 Source maps also work with `:optimizations` set to `:none`. In this case
 the `:source-map` value doesn't control file names. So long as the value

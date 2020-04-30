@@ -10,7 +10,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 [[ns-forms-toc]]
 toc::[]
 
-The ClojureScript `ns` form can, in most usage, be quite simple and similar to Clojure, especially with affordances that have been recenty added to ClojureScript.
+The ClojureScript `ns` form can, in most usage, be quite simple and similar to Clojure, especially with affordances that have been recently added to ClojureScript.
 
 But, there is a rich set of options that underlie the `ns` form and you may encounter their use in the wild. This guide aims to walk through these options and provide some clarity.
 
@@ -130,9 +130,13 @@ The above desugars into the more repetitively verbose primitive form:
 
 ## Implicit Sugar
 
-In cases where a runtime namespace being required _internally_ requires its own macro namespace (meaning a namespace with the same name), then you implicitly get the `:include-macros` sugar for free.
+In cases where a runtime namespace being required _internally_ requires its own
+macro namespace (meaning a namespace with the same name), then you implicitly
+get the `:include-macros` sugar for free. This is recommended if you are
+developing a library, users can then simplify their require form.
 
-To illustrate this, let's say our `src/foo/core.cljs` file instead looked like this:
+To illustrate this, let's say our `src/foo/core.cljs` file instead looked like
+this:
 
 [source,clojure]
 ```

@@ -9,6 +9,9 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
+
 This page documents how to mix modern JavaScript source files seamlessly into
 an existing ClojureScript project. The features documented should be considered
 of alpha quality and subject to change.
@@ -53,8 +56,7 @@ to http://boot-clj.com[Boot] or https://maven.apache.org[Maven].
 [[javascript-modules]]
 == JavaScript Modules
 
-First let's see how JavaScript modules can be a part of your build. We'll focus
-on ES6, but the instructions are the same for CommonJS and AMD.
+First let's see how JavaScript modules can be a part of your build.
 
 ----
 mkdir -p hello-es6
@@ -62,36 +64,17 @@ cd hello-es6
 touch project.clj
 ----
 
-Edit the `project.clj` file to look like the following:
+Create a `build.edn` file with the following contents:
 
 [source,clojure]
 ----
-(defproject hello-es6 "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.908"]]
-  :jvm-opts ^:replace ["-Xmx1g" "-server"])
-----
-
-Create a watch script:
-
-----
-touch watch.clj
-----
-
-Edit it to look like the following:
-
-[source,clojure]
-----
-(require '[cljs.build.api :as b])
-
-(b/watch "src"
-  {:output-to    "main.js"
-   :output-dir   "out"
-   :main         'hello-es6.core
-   :target       :nodejs
-   :foreign-libs [{:file "src"
-                   :module-type :es6}] ;; or :commonjs / :amd
-   :verbose      true})
+{:output-to    "main.js"
+ :output-dir   "out"
+ :main         hello-es6.core
+ :target       :nodejs
+ :foreign-libs [{:file "src"
+                 :module-type :es6}]
+ :verbose      true})
 ----
 
 Notice that a `:foreign-libs` entry may now specify a directory for `:file`.
@@ -150,7 +133,7 @@ export var sayHello = function() {
 Let's check that our watch script works:
 
 ----
-lein trampoline run -m clojure.main watch.clj
+cljs -m cljs.main -co build.edn -w -c
 ----
 
 You can verify the script works as intended by invoking Node on `main.js`:
@@ -169,28 +152,10 @@ automatic hot-loading of your ES6 source files just use https://github.com/bhaum
 
 We'll demonstrate manual hot-loading with the standard Node.js REPL.
 
-Create a repl file:
-
-----
-touch repl.clj
-----
-
-Edit `repl.clj` to look like the following:
-
-[source,clojure]
-----
-(require '[cljs.repl :as repl])
-(require '[cljs.repl.node :as node])
-
-(repl/repl* (node/repl-env)
-  {:watch "src"
-   :foreign-libs [{:file "src" :module-type :es6}]})
-----
-
 Start the REPL:
 
 ----
-rlwrap lein trampoline run -m clojure.main repl.clj
+clj -m cljs.main -co build.edn -r
 ----
 
 Require the `js.hello` namespace and try it out:
@@ -238,36 +203,29 @@ In this case we will want to leverage Nashorn.
 [[babel-transforms]]
 == Babel Transforms
 
-Change your project.clj to the following:
+Change your `deps.edn` file to the following:
 
 [source,clojure]
 ----
-(defproject hello-es6 "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.854"]
-                 [cljsjs/react "15.4.2-0"]
-                 [cljsjs/react-dom "15.4.2-0"]
-                 [cljsjs/react-dom-server "15.4.2-0"]
-                 [cljsjs/babel-standalone "6.18.1-3"]]
-  :jvm-opts ^:replace ["-Xmx1g" "-server"])
+{:deps {org.clojure/clojurescript {:mvn/version "1.9.854"}
+        cljsjs/react {:mvn/version "15.4.2-0"}
+        cljsjs/react-dom {:mvn/version "15.4.2-0"}
+        cljsjs/react-dom-server {:mvn/version "15.4.2-0"}
+        cljsjs/babel-standalone {:mvn/version "6.18.1-3"}}}
 ----
 
-Change your `watch.clj` to look like the following:
+Change your `build.edn` to look like the following:
 
 [source,clojure]
 ----
-(require '[cljs.build.api :as b])
-(require '[cljsjs.babel-standalone])
-
-(b/watch "src"
-  {:output-to    "main.js"
-   :output-dir   "out"
-   :main         'hello-es6.core
-   :target       :nodejs
-   :foreign-libs [{:file "src"
-                   :module-type :es6
-                   :preprocess 'cljsjs.babel-standalone/transform}] ;; CHANGED
-   :verbose      true})
+{:output-to    "main.js"
+ :output-dir   "out"
+ :main         hello-es6.core
+ :target       :nodejs
+ :foreign-libs [{:file "src"
+                 :module-type :es6
+                 :preprocess cljsjs.babel-standalone/transform}] ;; CHANGED
+ :verbose      true})
 ----
 
 https://github.com/cljsjs/packages/tree/master/babel-standalone[Babel-standalone] package
@@ -376,188 +334,16 @@ Create a new `src/hello_es6/babel.clj` file:
       (.eval engine (str "Babel.transform("code", {presets: ['react', 'es2016']}).code")))))
 ----
 
-Change your `watch.clj` to look like the following:
+Change your `build.edn` to look like the following and rebuild:
 
 [source,clojure]
 ----
-(require '[clojure.java.io :as io])
-(require '[cljs.build.api :as b])
-
-(b/watch "src"
-  {:output-to    "main.js"
-   :output-dir   "out"
-   :main         'hello-es6.core
-   :target       :nodejs
-   :foreign-libs [{:file "src"
-                   :module-type :es6
-                   :preprocess 'hello-es6.babel/transform-jsx}] ;; CHANGED
-   :verbose      true})
+{:output-to    "main.js"
+ :output-dir   "out"
+ :main         hello-es6.core
+ :target       :nodejs
+ :foreign-libs [{:file "src"
+                 :module-type :es6
+                 :preprocess 'hello-es6.babel/transform-jsx}] ;; CHANGED
+ :verbose      true})
 ----
-
-[[node-modules]]
-== Node Modules
-
-ClojureScript now has support for building dependencies from NPM. Like
-everything else in this guide this support should be considered experimental
-and subject to change. Even when consuming dependencies from NPM all the usual
-caveats around Google Closure Compiler apply. You may in some cases, as we will
-see, need to supply externs for library internals in order to compile
-successfully.
-
-We will see how we can successfully compile React and ReactDOM server NPM
-module packages.
-
-First lets create a new project:
-
-----
-mkdir hello-cjs
-cd hello-cjs
-touch project.clj
-touch package.json
-----
-
-Edit `project.clj` to look like the following:
-
-[source, clojure]
-----
-(defproject hello-cjs "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/clojurescript "1.9.854"]
-                 [cljsjs/react "15.4.2-2"]
-                 [cljsjs/react-dom "15.4.2-2"]
-                 [cljsjs/react-dom-server "15.4.2-2"]]
-  :jvm-opts ^:replace ["-Xmx1g" "-server"])
-----
-
-Notice that we've declared a bunch of CLJSJS dependencies. We're not going to
-actually use them, we're only pulling them in to get the externs.
-
-Edit `package.json` to look like the following:
-
-[source,javascript]
-----
-{
-  "devDependencies": {
-    "module-deps": "4.0.8",
-    "resolve": "1.3.3",
-    "browser-resolve": "1.11.2"
-  },
-  "dependencies": {
-    "react": "15.4.2",
-    "react-dom": "15.4.2"
-  }
-}
-----
-
-The ClojureScript compiler needs the `module-deps`, `resolve` and 
-`browser-resolve` development time packages to build the project.
-
-Install the deps:
-
-----
-npm install
-----
-
-Let's write a simple program. First the ClojureScript:
-
-----
-mkdir -p src/hello_cjs
-touch src/hello_cjs/core.cljs
-----
-
-Edit `src/hello_cjs/core.cljs` to look like the following:
-
-[source,clojures]
-----
-(ns hello-cjs.core
-  (:require [libs.npm-stuff :as npm-stuff]))
-
-(enable-console-print!)
-
-(println (npm-stuff/renderSomething))
-----
-
-Now let's make a CommonJS file that will load deps from `node_modules`:
-
-----
-mkdir src/libs
-touch src/libs/npm_stuff.js
-----
-
-Edit `src/libs/npm_stuff.js` to look like the following:
-
-[source,javascript]
-----
-var React = require("react");
-var ReactDOMServer = require("react-dom/server");
-
-function renderSomething() {
-    return ReactDOMServer.renderToString(React.createElement("div", {}, "Hello world!"));
-};
-
-module.exports = {
-    renderSomething: renderSomething
-};
-----
-
-Now let's make our build file.
-
-----
-touch build.clj
-----
-
-Edit `build.clj` to look like the following:
-
-[source,clojure]
-----
-(require '[clojure.java.io :as io]
-         '[cljs.build.api :as b])
-
-(b/build (b/inputs "src")
-  {:main       'hello-cjs.core
-   :target     :nodejs
-   :output-to  "main.js"
-   :output-dir "out"
-   :verbose    true
-   :externs    ["process.js"]
-   :foreign-libs (let [entry {:file (.getAbsolutePath (io/file "src/libs/npm_stuff.js"))
-                              :provides ["libs.npm-stuff"]
-                              :module-type :commonjs}]
-                   (into [entry] (b/node-inputs [entry])))
-   :optimizations :advanced
-   :closure-warnings {:non-standard-jsdoc :off
-                      :global-this :off}})
-
-(System/exit 0)
-----
-
-Notice the new helper, `cljs.build.api/node-inputs`, which takes a sequence
-of JavaScript entry points. The ClojureScript compiler will now invoke a Node.js
-script to figure out all the `node_module` dependencies needed by these entry
-points and return a vector of CommonJS foreign lib entries.
-
-Also notice the presence of a extern file. To get `process.js`:
-
-----
-curl -O https://raw.githubusercontent.com/dcodeIO/node.js-closure-compiler-externs/master/process.js
-----
-
-We need these additional externs because internally React refers to the
-`process` module.
-`:pseudo-names true` is a good way to figure out cases like this. In the future
-hopefully these externs will be covered by CLJSJS.
-
-We're now ready to build our project:
-
-----
-lein trampoline run -m clojure.main build.clj
-----
-
-You might see a couple of warnings about the CommonJS files that can be ignored.
-Once the compilation process is complete run `main.js`:
-
-----
-node main.js
-----
-
-You should see some server rendered HTML.

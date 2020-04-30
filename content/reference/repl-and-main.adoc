@@ -10,9 +10,24 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
+
 == The cljs.main namespace
 
-The `cljs.main` namespace provides functions that allow ClojureScript programs and interactive sessions to be launched via Java's application launcher tool `java`.
+The `cljs.main` namespace provides functions that allow ClojureScript programs
+and interactive sessions to be launched via Java's application launcher tool
+`java`.
+
+This guide is also easily used with any other Clojure build tool that
+supports the Clojure CLI `-m` flag.
+
+For example with `clj`:
+
+[source,bash]
+----
+clj -m cljs.main ...
+----
 
 == cljs.main --help
 
@@ -22,9 +37,9 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 * init options:
 ** `-co`, `--compile-opts` _edn_ Options to configure the build, can be an EDN string or system-dependent path-separated list of EDN files / classpath resources. Options will be merged left to right.
 ** `-d`, `--output-dir` _path_ Set the output directory to use. If supplied, `cljsc_opts.edn` in that directory will be used to set ClojureScript compiler options
-** `-re`, `--repl-env` _env_ The REPL environment to use. Built-in supported values: `nashorn`, `node`, `browser`, `rhino`. Defaults to `browser`
+** `-re`, `--repl-env` _env_ The REPL environment to use. Built-in supported values: `node`, `browser`. Defaults to `browser`
 ** `-ro`, `--repl-opts` _edn_ Options to configure the repl-env, can be an EDN string or system-dependent path-separated list of EDN files / classpath resources. Options will be merged left to right.
-** `-t`, `--target` _name_ The JavaScript target. Configures environment bootstrap and defaults to `browser`. Supported values: `node` or `nodejs`, `nashorn`, `webworker`, `none`
+** `-t`, `--target` _name_ The JavaScript target. Configures environment bootstrap and defaults to `browser`. Supported values: `node` or `nodejs`, `webworker`, `none`
 * init options only for `--main` and `--repl`:
 ** `-e`, `--eval` _string_ Evaluate expressions in string; print non-`nil` values
 ** `-i`, `--init` _path_ Load a file or resource
@@ -32,7 +47,7 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 * init options only for `--compile`:
 ** `-O`, `--optimizations` _level_ Set optimization level, only effective with `--compile` main option. Valid values are: `none`, `whitespace`, `simple`, `advanced`
 ** `-o`, `--output-to` _file_ Set the output compiled file
-** `-w`, `--watch` _path_ Continuously build, only effective with the `--compile` main option
+** `-w`, `--watch` _path_ Continuously build, only effective with the `--compile` main option. Specifies a system-dependent path-separated list of directories to watch.
 * main options:
 ** `-` Run a script from standard input
 ** `-c`, `--compile` _[ns]_ Run a compile. If optional namespace specified, use as the main entry point. If `--repl` follows, will launch a REPL after the compile completes. If `--server` follows, will start a web server that serves the current directory after the compile completes.
@@ -48,7 +63,7 @@ The `cljs.main/main` entry point accepts a variety of arguments and flags.
 ** Calls a `-main` function or runs a repl or script if requested
 
 The init options may be repeated and mixed freely, but must appear before
-any main option. 
+any main option.
 
 In the case of `--compile` you may supply `--repl` or `--serve` options afterwards.
 
@@ -72,15 +87,14 @@ init options:
                               cljsc_opts.edn in that directory will be used to
                               set ClojureScript compiler options
   -re, --repl-env env         The REPL environment to use. Built-in supported
-                              values: nashorn, node, browser, rhino. Defaults
-                              to browser
+                              values: node, browser. Defaults to browser
   -ro, --repl-opts edn        Options to configure the repl-env, can be an EDN
                               string or system-dependent path-separated list of
                               EDN files / classpath resources. Options will be
                               merged left to right.
    -t, --target name          The JavaScript target. Configures environment
                               bootstrap and defaults to browser. Supported
-                              values: node or nodejs, nashorn, webworker, none
+                              values: node or nodejs, webworker, none
 
 init options only for --main and --repl:
    -e, --eval string          Evaluate expressions in string; print non-nil
@@ -93,8 +107,9 @@ init options only for --compile:
                               compile main option. Valid values are: none,
                               whitespace, simple, advanced
    -o, --output-to file       Set the output compiled file
-   -w, --watch path           Continuously build, only effective with the --
-                              compile main option
+   -w, --watch paths          Continuously build, only effective with the --
+                              compile main option. Specifies a system-dependent
+                              path-separated list of directories to watch.
 
 main options:
    -                          Run a script from standard input

@@ -39,3 +39,8 @@ with support for Reagent
 * https://github.com/martinklepsch/tenzing[tenzing] Clojurescript application template using Boot
 * https://github.com/pandeiro/jamal[jamal] Basic ClojureScript frontend repo with testing using Boot
 * https://github.com/Deraen/saapas[saapas] A complete frontend and backend example using Boot
+
+[[shadow-cljs]]
+== Shadow CLJS
+
+* https://github.com/filipesilva/create-cljs-app[create-cljs-app] Set up a modern CLJS web app by running one command.

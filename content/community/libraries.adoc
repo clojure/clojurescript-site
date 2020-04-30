@@ -101,7 +101,7 @@ Clojure(Script) reader
 === iOS/Android
 
 * https://github.com/omcljs/ambly[Ambly]
-* https://github.com/dmotz/natal[natal]
+* https://github.com/drapanjanas/re-natal[re-natal]
 * https://github.com/mfikes/goby[goby]
 
 === FRP

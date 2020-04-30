@@ -9,6 +9,9 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 toc::[]
 
+*This guide requires ClojureScript 1.10.238 or later and assumes
+familiarity with the <<xref/../../guides/quick-start#,Quick Start>>*.
+
 This page documents how to write externs for third party JavaScript libraries
 that do not conform to Google Closure Compiler conventions
 https://developers.google.com/closure/compiler/docs/limitations.
@@ -38,18 +41,17 @@ externs will be automatically generated or the compiler will notify us of
 externs we must additionally supply.
 
 To enable externs inference, we specify the `:infer-externs true` in our compiler
-configuration:
+configuration.
+
+Create a `build.edn` file with the following content:
 
 [source,clojure]
 ----
-(require '[cljs.build.api :as b])
-
-(b/build "src"
-  {:main 'my-project.core
-   :output-to "out/main.js"
-   :output-dir "out"
-   :optimizations :none
-   :infer-externs true})
+{:main my-project.core
+ :output-to "out/main.js"
+ :output-dir "out"
+ :optimizations :none
+ :infer-externs true})
 ----
 
 However this alone isn't enough to have the compiler generate warnings around

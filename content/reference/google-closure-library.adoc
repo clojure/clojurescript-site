@@ -18,8 +18,6 @@ rich-text editing, and UI widgets/controls.
 
 * http://google.github.io/closure-library/api/[Google Closure Library
 API Reference]
-* http://www.closurecheatsheet.com/[Closure Cheatsheet] - abridged API
-with usage examples
 
 [[try-the-wrapper-libraries-first]]
 === Try the wrapper libraries first!
@@ -28,23 +26,26 @@ You may first want to consider the following ClojureScript libraries
 which wrap some functionality from Google Closure Library. Their source
 code also serves as good examples of how to use Closure directly.
 
-[cols="<*,", options="header", role="table"]
+[cols="<*", options="header", role="table"]
 |=======================================================================
 |ClojureScript wrapper |Closure Libraries
 |https://github.com/andrewmcveigh/cljs-time[cljs-time]
-|http://google.github.io/closure-library/api/namespace_goog_date.html[goog.date]
+|https://google.github.io/closure-library/api/goog.date.html[goog.date]
 
 |https://github.com/r0man/cljs-http[cljs-http]
-|http://google.github.io/closure-library/api/namespace_goog_net.html[goog.net],
-http://google.github.io/closure-library/api/class_goog_Uri.html[goog.uri]
+|https://google.github.io/closure-library/api/goog.net.XhrIo.html[goog.net.XhrIo],
+https://google.github.io/closure-library/api/goog.Uri.html[goog.uri]
 
 |https://github.com/JulianBirch/cljs-ajax[cljs-ajax]
-|http://google.github.io/closure-library/api/namespace_goog_net.html[goog.net],
-http://google.github.io/closure-library/api/class_goog_Uri.html[goog.uri],
-http://google.github.io/closure-library/api/namespace_goog_json.html[goog.json]
+|http://google.github.io/closure-library/api/goog.net.XhrIo.html[goog.net.XhrIo],
+http://google.github.io/closure-library/api/goog.Uri.html[goog.uri],
+http://google.github.io/closure-library/api/goog.json.html[goog.json]
 
 |https://funcool.github.io/cuerdas/latest/[cuerdas]
-|http://google.github.io/closure-library/api/namespace_goog_string.html[goog.string]
+|https://google.github.io/closure-library/api/goog.string.html[goog.string]
+
+|https://github.com/lambdaisland/glogi[glögi]
+|https://google.github.io/closure-library/api/goog.log.html[goog.log]
 |=======================================================================
 
 _* included in ClojureScript's core library_
