@@ -77,10 +77,10 @@ version when it scrolls by. Use this as appropriate for your tooling.
 [[pinpointing-regressions-with-git-bisect]]
 === Pinpointing Regressions with git bisect
 
-If you've discovered a regression, it is helpful to identify and information
+If you've discovered a regression, it is helpful to identify information
 regarding the first bad commit when reporting issues. This is easy to do by
 first depending on a checkout of ClojureScript as a local root dependency and
-then using git bisect.
+then using `git bisect`.
 
 For this example, let's say you've discovered a regression that is reproducible
 directly in the REPL (variations on the below can be employed if not).
@@ -97,7 +97,8 @@ git bisect bad HEAD
 git bisect good r1.10.748
 ----
 
-Then start up a REPL against the current state of the checkout tree by issuing
+Then (in another directory) start up a REPL against the current state of the 
+checkout tree by issuing:
 
 [source,bash]
 ----
@@ -106,26 +107,27 @@ clj -Srepro -Sdeps '{:deps {org.clojure/clojurescript {:local/root "/<path-to-ch
 
 Test to see if you can reproduce the issue in the REPL and then exit the REPL.
 
-If you couldn't reproduce the issue:
+If you couldn't reproduce the problem, issue this in the ClojureScript 
+checkout tree:
 
 [source,bash]
 ----
 git bisect good
 ----
 
-Or, if you were able to reproduce the issue:
+Or, if you were able to reproduce the problem:
 
 [source,bash]
 ----
 git bisect bad
 ----
 
-If the bisect is complete, git will indicate that a certain commit hash 
-"is the first bad commit". Copy all of this text for JIRA.
+If the bisect is complete, `git` will indicate that a certain commit hash 
+"is the first bad commit." Copy all of this text for JIRA.
 
 Otherwise restart the REPL and repeat the above steps until done.
 
-When finished, you can do this to restore your git checkout:
+When finished, you can issue this to restore your ClojureScript checkout:
 
 [source,bash]
 ----
