@@ -73,3 +73,63 @@ run the following:
 
 This will install ClojureScript into your local Maven. Make note of the
 version when it scrolls by. Use this as appropriate for your tooling.
+
+[[pinpointing-regressions-with-git-bisect]]
+=== Pinpointing Regressions with git bisect
+
+If you've discovered a regression, it is helpful to identify information
+regarding the first bad commit when reporting issues. This is easy to do by
+first depending on a checkout of ClojureScript as a local root dependency and
+then using `git bisect`.
+
+For this example, let's say you've discovered a regression that is reproducible
+directly in the REPL (variations on the below can be employed if not).
+
+First checkout ClojureScript master and `cd` to the top of the checkout tree.
+
+Assuming you can reproduce the issue on master, but that things worked with
+ClojureScript 1.10.748, issue these commands at the top of the checkout tree:
+
+[source,bash]
+----
+git bisect start
+git bisect bad HEAD
+git bisect good r1.10.748
+----
+
+Then (in another directory) start up a REPL against the current state of the 
+checkout tree by issuing:
+
+[source,bash]
+----
+clj -Srepro -Sdeps '{:deps {org.clojure/clojurescript {:local/root "/<path-to-checkout>/clojurescript"}}}' -m cljs.main -r
+----
+
+Test to see if you can reproduce the issue in the REPL and then exit the REPL.
+
+If you couldn't reproduce the problem, issue this in the ClojureScript 
+checkout tree:
+
+[source,bash]
+----
+git bisect good
+----
+
+Or, if you were able to reproduce the problem:
+
+[source,bash]
+----
+git bisect bad
+----
+
+If the bisect is complete, `git` will indicate that a certain commit hash 
+"is the first bad commit." Copy all of this text for JIRA.
+
+Otherwise restart the REPL and repeat the above steps until done.
+
+When finished, you can issue this to restore your ClojureScript checkout:
+
+[source,bash]
+----
+git bisect reset
+----
