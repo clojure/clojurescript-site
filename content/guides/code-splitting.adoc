@@ -37,16 +37,12 @@ Create a `build.edn` file that looks like the following:
 
 [source,clojure]
 ```
-{:watch "src"
- :output-dir "out"
+{:output-dir "out"
  :asset-path "/out"
- :optimizations :none
  :modules {:foo {:entries #{foo.core}
                  :output-to "out/foo.js"}
            :bar {:entries #{bar.core}
-                 :output-to "out/bar.js"}}
- :browser-repl true
- :verbose true}
+                 :output-to "out/bar.js"}}}
 ```
 
 Now make an `index.html` file:
@@ -81,8 +77,6 @@ Edit this file to look like the following:
             [goog.events :as events]
             [cljs.loader :as loader])
   (:import [goog.events EventType]))
-
-(enable-console-print!)
 
 (println "I'm foo!")
 
@@ -123,8 +117,6 @@ touch src/bar/core.cljs
 (ns bar.core
   (:require [cljs.loader :as loader]))
 
-(enable-console-print!)
-
 (println "I'm bar!")
 
 (defn woz []
@@ -135,12 +127,14 @@ touch src/bar/core.cljs
 
 === Build the Project
 
-Run the REPL script:
+Build your project and start the builtin HTTP server:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -r
+clj -m cljs.main -co build.edn -c -s
 ```
+
+Navigate to http://localhost:9000/index.html.
 
 Click the button. You will see that the `:bar` module gets loaded and the
 function in the other namespace gets invoked.
