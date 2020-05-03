@@ -131,7 +131,7 @@ Build your project and start the builtin HTTP server:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -c -s
+clj -m cljs.main -v -co build.edn -c -s
 ```
 
 Navigate to http://localhost:9000/index.html.
