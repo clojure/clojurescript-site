@@ -104,7 +104,8 @@ a `build.edn` file with the following:
  :output-dir "out"
  :target :bundle
  :bundle-cmd {:none ["npx" "webpack" "--mode=development"]
-              :default ["npx" "webpack"]}}
+              :default ["npx" "webpack"]}
+ :closure-defines {cljs.core/*global* "window"}} ;; needed for advanced
 ```
 
 Our build will generate `out/index.js` which is exactly the entry file that
