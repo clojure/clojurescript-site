@@ -368,7 +368,7 @@ browser:
 [source,bash]
 ----
 clj -m cljs.main -co build.edn -O advanced -c
----
+----
 
 [[replacing-a-transitive-cljsjs-dependency-with-another-build-of-the-library]]
 ==== Replacing a (transitive) CLJSJS dependency with another build of the library
