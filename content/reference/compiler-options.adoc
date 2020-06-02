@@ -170,7 +170,7 @@ generated for these dependencies.
 ----
 
 [[bundle-cmd]]
-==== :bundle-cmd
+=== :bundle-cmd
 
 When using `:target :bundle`, set shell commands to be run after a build. This
 command is not parameterizable. You should provide both `:none` which will be
@@ -180,8 +180,8 @@ use this to launch a watcher.
 
 [source,clojure]
 ----
-:bundle-cmd {:none ["npx" "webpack" "--mode=development"]
-             :default ["npx" "webpack"]}
+:bundle-cmd {:none ["npx" "webpack@4.43.0" "--mode=development"]
+             :default ["npx" "webpack@4.43.0"]}
 ----
 
 [[foreign-libs]]
