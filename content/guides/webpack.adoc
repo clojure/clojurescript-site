@@ -53,22 +53,6 @@ Add webpack and its command line tools:
 npm install --save-dev webpack webpack-cli
 ```
 
-Create a `webpack.config.js` file:
-
-[source,javascript]
-```
-module.exports = {
-  entry: './out/index.js',
-  output: {
-    path: __dirname + "/out",
-    filename: 'main.js'
-  }
-}
-```
-
-The bundler will use our ClojureScript output file as the entry. We'll write
-the bundler result back into the output directory.
-
 We're now ready to setup our JS dependencies.
 
 [[javascript-dependencies]]
@@ -103,13 +87,14 @@ a `build.edn` file with the following:
  :output-to "out/index.js"
  :output-dir "out"
  :target :bundle
- :bundle-cmd {:none ["npx" "webpack" "--mode=development"]
-              :default ["npx" "webpack"]}
+ :bundle-cmd {:none ["npx" "webpack" "out/index.js" "-o" "out/main.js" "--mode=development"]
+              :default ["npx" "webpack" "out/index.js" "-o" "out/main.js"]}
  :closure-defines {cljs.core/*global* "window"}} ;; needed for advanced
 ```
 
 Our build will generate `out/index.js` which is exactly the entry file that
-Webpack is looking for.
+Webpack is looking for.  We'll write the bundler result back into the output
+directory.
 
 Note the new `:target :bundle` option. This ensures that the generated code
 is compatible with popular JavaScript bundlers that can handle Node.js style
