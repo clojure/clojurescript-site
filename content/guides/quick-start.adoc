@@ -25,7 +25,7 @@ tutorial.
 
 In this tutorial we will guide you through compiling and running a simple ClojureScript
 project, as well as running REPLs to interactively develop and test your code. The
-tutorial only assumes basic familiarity with the command line.rror
+tutorial only assumes basic familiarity with the command line.
 
 First set up a project folder for our Hello World program. Here’s a list of the
 files and folders you’ll need. Note that the directory structure and the underscores
