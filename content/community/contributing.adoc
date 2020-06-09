@@ -7,6 +7,52 @@ Rich Hickey
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
+== Ways to Contribute
+
+There are many ways to make a meaningful contribution to the ClojureScript community:
+
+* Advocate for the use of ClojureScript in your organization
+* Use ClojureScript and share your experience via talks, blogs, etc
+* Start or join a local meetup
+* Help new ClojureScript users in Slack or other forums
+* Create or provide patches to open source libraries
+* Create or improve ClojureScript tools
+* Write guides or reference documentation for libraries
+* Write intros or getting started guides for tools
+* Create ClojureScript podcasts, screencasts, or videos
+* Give a talk at a conference
+* Write an article or book
+* Start a ClojureScript podcast
+* Test alpha or beta releases of ClojureScript on your code base and provide feedback
+
+=== Editing this Site
+
+If you are writing a guide, making an event, or creating a resource, please
+consider contributing to this web site, clojurescript.org. All of the content is
+https://github.com/clojure/clojurescript-site[stored in GitHub] and pull requests and
+issues are accepted. For more information on how to contribute, see the page on
+<<contributing_site#,contributing to the site>>. Every page has a link to the
+corresponding source file in the bottom right corner. If you have an idea for a
+new guide or updated documentation, please
+https://github.com/clojure/clojurescript-site/issues[file an issue] for discussion.
+
+== Reporting Problems and Requesting Enhancements
+
+The Clojure team provides a <<ask#,forum>> where users can ask questions, submit
+potential problems, and request enhancements to Clojure, ClojureScript, or
+Clojure contrib libraries. For all of these cases, please ask a question on the
+<<ask#,forum>>. Mark the question with tag `problem` for potential problems and
+`request` for enhancements. The community and core team will assess the issue
+and determine whether to file an issue in the jira tracker. If an issue is
+filed, the link will be added to the question and it will be tagged with `jira`.
+
+If you are looking to provide feedback on an issue in jira, please search the
+https://ask.clojure.org[forum] for the equivalent issue by title and add your
+feedback there as an "answer" instead.
+
+The development teams for these languages and libs will use the question votes
+to prioritize their work in jira towards the next release.
+
 == Making a contribution
 
 If you have a proposal for ClojureScript, please post it as a question on
