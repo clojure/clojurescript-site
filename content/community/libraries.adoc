@@ -45,6 +45,8 @@ Clojure(Script) reader
 * https://github.com/weavejester/brutha[brutha] Simple ClojureScript interface to React
 * https://github.com/r0man/sablono[sablono] Hiccup style wrapper for React DOM Elements
 * https://github.com/bhauman/cljs-react-reload[cljs-react-reload] Writing reloadable React Classes
+* https://github.com/Lokeh/helix[helix] Modern React development with low runtime overhead
+* https://roman01la.gitbook.io/uix[uix] Idiomatic interface into modern React
 
 === HTML Templating
 
@@ -54,6 +56,7 @@ Clojure(Script) reader
 * https://github.com/jeluard/hipo/[hipo], Hiccup style templating
 * https://github.com/ckirkendall[enfocus], Enlive templating for ClojureScript
 * https://github.com/davidsantiago/hickory[hickory] parses HTML into Hiccup vectors
+* https://github.com/rauhs/hicada[hicada] macro-based Hiccup compiler for React
 
 === CSS Generation
 
