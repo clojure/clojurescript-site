@@ -60,7 +60,7 @@ We're now ready to setup our JS dependencies.
 
 Install react and react-dom:
 
-[source,json]
+[source,bash]
 ```
 npm install --save react react-dom
 ```
