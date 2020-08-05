@@ -58,7 +58,9 @@ look like the following:
 (println "Hello world!")
 ----
 
-Now that we have a simple program, let's build and run some ClojureScript:
+Now that we have a simple program, let's build and run some ClojureScript.
+Make sure you are in the `hello-world` project directory and run the following
+command:
 
 [source,bash]
 ----
