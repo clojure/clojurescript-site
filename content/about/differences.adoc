@@ -85,8 +85,8 @@ See <<xref/../../guides/quick-start#,Quick Start>>
 
 == The REPL and main
 
-* See <<xref/../../guides/quick-start#,Quick Start>> for instructions the ClojureScript REPL.
-* `main` support is currently not implemented
+* See the <<xref/../../guides/quick-start#,Quick Start>> for ClojureScript REPL usage.
+* The standard ClojureScript REPLs support the Clojure main pattern.
 
 == Evaluation
 
