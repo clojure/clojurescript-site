@@ -131,7 +131,7 @@ JavaScript ones. This makes debugging a lot nicer.
 
 You can easily explore the options provided by the ClojureScript compiler
 by using `--help`. You will see there are abbreviated flags for all the options
-we used thus far, `-m` for `--main`, etc.
+we used thus far.
 
 [source,bash]
 ----
