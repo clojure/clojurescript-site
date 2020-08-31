@@ -86,6 +86,7 @@ Below is a partial list of some companies using ClojureScript. To add your compa
 * http://numerical.co.nz[Numerical Brass Computing,opts=nofollow]
 * http://obsidian-innovations.com/[Obsidian Innovations,opts=nofollow]
 * https://omnimemory.com/[Omnimemory,opts=nofollow]
+https://www.omnyway.com[Omnyway,opts=nofollow] - https://github.com/omnyway-labs[Github,opts=nofollow]
 * http://company.ona.io[Ona,opts=nofollow]
 * https://opensensors.io/[OpenSensors,opts=nofollow]
 * https://www.orkli.com/en[Orkli,opts=nofollow]
