@@ -95,6 +95,7 @@ https://www.omnyway.com[Omnyway,opts=nofollow] - https://github.com/omnyway-labs
 * http://www.pros.com/[PROS,opts=nofollow]
 * https://paddleguru.com[PaddleGuru,opts=nofollow]
 * http://pandanet-igs.com/[Pandanet,opts=nofollow]
+* http://pitch.com/[Pitch,opts=nofollow]
 * http://postspectacular.com/[PostSpectacular,opts=nofollow]
 * https://precursorapp.com/[Precursor,opts=nofollow]
 * http://getprismatic.com/home[Prismatic,opts=nofollow]
