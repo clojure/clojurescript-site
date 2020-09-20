@@ -34,7 +34,7 @@ REPLs: Replumb]
 ** http://crepl.thegeez.net[crepl: collaborative repl]
 ** https://github.com/anmonteiro/lumo[Desktop REPL: Lumo]
 ** https://github.com/viebel/klipse[Embeddable clojurescript repl: KLIPSE]
-** http//ctford.github.io/klangmeister[Musical live coding environment: Klangmeister]
+** https://ctford.github.io/klangmeister[Musical live coding environment: Klangmeister]
 
 The following enumerates the remaining tasks:
 
