@@ -35,7 +35,8 @@ Below is a partial list of some companies using ClojureScript. To add your compa
 * http://cognitect.com[Cognitect,opts=nofollow]
 * http://www.condense.com.au/[Condense,opts=nofollow]
 * http://www.consumerreports.org/[Consumer Reports,opts=nofollow]
-* http://www.cybershopsystems.com[Cybershop Systems,opts=nofollow] (No marketing mumbo jumbo yet, but we are live)
+* http://www.cybershopsystems.com[Cybershop Systems,opts=nofollow]
+* https://www.cycognito.com[CyCognito,opts=nofollow]
 * http://democracy.works/[Democracy Works,opts=nofollow]
 * http://designed.ly/[Designed.ly,opts=nofollow]
 * http://dive-networks.com[DIVE Networks,opts=nofollow]
