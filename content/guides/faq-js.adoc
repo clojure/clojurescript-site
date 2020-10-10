@@ -284,7 +284,7 @@ immediately if you've made a mistake with parentheses.
 **<<faq-js#can-i-call-javascript-from-clojurescript,Can I call JavaScript from ClojureScript?>>**
 
 ClojureScript has very good JavaScript interoperability. ClojureScript
-function are regular JavaScript functions. The language provides
+functions are regular JavaScript functions. The language provides
 primitives to access native browser objects, access and set properties
 of objects, create and manipulate JavaScript objects and arrays, and
 call any JavaScript function or method.
