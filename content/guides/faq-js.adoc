@@ -139,7 +139,7 @@ called `my-macro` is like saying to ClojureScript: 'when I write
 out parts of the execution of your programs, macros factor out parts of
 the writing of your code.
 
-As a consequence, when you have macros, you can always make your calling
+As a consequence, when you have macros, you can always make calling
 your code as comfortable as possible, because the syntax will never get
 in your way.
 
