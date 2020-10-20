@@ -47,6 +47,7 @@ Below is a partial list of some companies using ClojureScript. To add your compa
 * http://www.facjure.com[Facjure,opts=nofollow]
 * http://fikesfarm.com/cc/[FikesFarm,opts=nofollow] (iOS app)
 * http://fincite.com[Fincite,opts=nofollow]
+* https://flexiana.com[Flexiana,opts=nofollow]
 * https://floatingpoint.io/[Floating Point,opts=nofollow]
 * http://www.formcept.com/[Formcept,opts=nofollow]
 * http://framed.io[Framed Data,opts=nofollow]
