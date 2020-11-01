@@ -106,7 +106,7 @@ For each exported Var, an additional un-renamed alias is established which point
 Munged names continue to be used internally within the optimized code.
 
 The `^:export` facility is for (and only for) providing external access to Vars via un-renamed aliases. 
-If instead you'd like to debug optimized code which is using shortened names, consider `:pesudo-names` and `:pretty-print`, which are described in the following section.
+If instead you'd like to debug optimized code which is using shortened names, consider `:pseudo-names` and `:pretty-print`, which are described in the following section.
 ====
 
 You can individually export the Vars associated with protocol methods. In this example, `bar` and `quux` will be exported:
