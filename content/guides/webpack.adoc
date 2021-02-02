@@ -173,3 +173,29 @@ clj -m cljs.main -co build.edn -O advanced -v -c -s
 ```
 
 That's it!
+
+[[webworkers]]
+== Building Webworkers
+
+When building webworkers with `:target :bundle`, you use webpack (or your
+preferred bundler) to add the webworker bootstrap.
+
+So your build's `:target` will still be `:bundle` (not `:webworker`), but you
+will tell your bundler to build a webworker. For example, with webpack you add the
+`--target=webworker` argument to your `:bundle-cmd` entries.
+
+You also need to define `cljs.core/*global*` as `"self"` (as opposed to 
+`"window"` in browser builds).
+
+An example `build-webworker.edn` might look like:
+
+[source,clojure]
+```
+{:main hello-bundler.webworker
+ :output-to "out/worker/index.js"
+ :output-dir "out/worker"
+ :target :bundle
+ :bundle-cmd {:none ["npx" "webpack" "out/worker/index.js" "-o" "out/worker/main.js" "--target=webworker" "--mode=development"]
+              :default ["npx" "webpack" "out/worker/index.js" "-o" "out/worker/main.js" "--target=webworker"]}
+ :closure-defines {cljs.core/*global* "self"}} ;; needed for advanced
+```
