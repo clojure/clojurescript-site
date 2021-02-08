@@ -173,3 +173,34 @@ clj -m cljs.main -co build.edn -O advanced -v -c -s
 ```
 
 That's it!
+
+== Known Issues
+
+1. If you see the below error, prefix all the relative paths in `build.edn` with `./`.
+
+[source,clojure]
+```
+  11   │  {:via
+  12   │   [{:type clojure.lang.ExceptionInfo,
+  13   │     :message ":bundle-cmd :none failed",
+  14   │     :data
+  15   │     {:cmd
+  16   │      ["npx" "webpack" "out/index.js" "-o" "out" "--mode=development"],
+  17   │      :exit-code 1,
+  18   │      :stdout
+  19   │      "asset main.js 640 bytes [compared for emit] (name: main)\n\nERROR in main\nModule not found: Error: Can't
+       │  resolve 'out/index.js' in ...
+```
+
+The final `build.edn` should look like this,
+
+[source,clojure]
+```
+{:main hello-bundler.core
+ :output-to "out/index.js"
+ :output-dir "out"
+ :target :bundle
+ :bundle-cmd {:none ["npx" "webpack" "./out/index.js" "-o" "./out" "--mode=development"]
+              :default ["npx" "webpack" "./out/index.js" "-o" "./out"]}
+ :closure-defines {cljs.core/*global* "window"}} ;; needed for advanced
+```
