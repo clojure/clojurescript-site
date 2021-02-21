@@ -19,6 +19,7 @@ started with Figwheel]
 * https://github.com/vvvvalvalval/reagent-phonecat-tutorial/wiki[Reagent
 Phonecat] : official AngularJS 1.X tutorial, re-written for
 ClojureScript + Reagent.
+* https://blog.klipse.tech/tags/#clojurescript[A series of articles with interactive code snippets in ClojureScript]
 
 [[learning-tools]]
 == Learning Tools
