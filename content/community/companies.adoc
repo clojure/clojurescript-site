@@ -136,6 +136,7 @@ https://www.omnyway.com[Omnyway,opts=nofollow] - https://github.com/omnyway-labs
 * http://www.uswitch.com[uSwitch,opts=nofollow]
 * https://www.vincit.com[Vincit,opts=nofollow]
 * http://vitallabs.co[Vital Labs,opts=nofollow]
+* https://vouch.io/[Vouch.io,opts=nofollow]
 * https://workframe.com[Workframe,opts=nofollow]
 * http://yetanalytics.com[Yet Analytics,opts=nofollow]
 * http://xnlogic.com[XN Logic,opts=nofollow]
