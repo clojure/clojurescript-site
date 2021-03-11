@@ -12,11 +12,6 @@ Please support these fine books and videos about ClojureScript.
 [width="50", cols="<.^30a,.^70", role="table"]
 |===
 
-| image::http://ecx.images-amazon.com/images/I/51KgF%2B-38WL._SL160.jpg[ClojureScript: Up and Running,link="https://amzn.com/1449327435"]
-| https://amzn.com/1449327435[ClojureScript: Up and Running] +
-by Stuart Sierra, Luke VanderHart +
-Nov 10, 2012
-
 | image::https://www.learn-clojurescript.com/img/learn-clojurescript-cover.jpg[Learn ClojureScript, link="https://gum.co/learn-cljs"]
 | https://gum.co/learn-cljs[Learn ClojureScript] +
 by Andrew Meredith +
@@ -36,6 +31,11 @@ June 25, 2016
 | http://shop.oreilly.com/product/0636920043584.do[Etudes for ClojureScript] +
 by J. Eisenberg +
 November 2015
+
+| image::http://ecx.images-amazon.com/images/I/51KgF%2B-38WL._SL160.jpg[ClojureScript: Up and Running,link="https://amzn.com/1449327435"]
+| https://amzn.com/1449327435[ClojureScript: Up and Running] +
+by Stuart Sierra, Luke VanderHart +
+Nov 10, 2012
 
 |===
 
