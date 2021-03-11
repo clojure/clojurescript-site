@@ -17,6 +17,11 @@ Please support these fine books and videos about ClojureScript.
 by Stuart Sierra, Luke VanderHart +
 Nov 10, 2012
 
+| image::https://www.learn-clojurescript.com/img/learn-clojurescript-cover.jpg[Learn ClojureScript, link="https://gum.co/learn-cljs"]
+| https://gum.co/learn-cljs[Learn ClojureScript] +
+by Andrew Meredith +
+March 2021
+
 | image::https://www.packtpub.com/sites/default/files/7635cov_.jpg[Learning ClojureScript, link="https://www.packtpub.com/web-development/learning-clojurescript"]
 | https://www.packtpub.com/web-development/learning-clojurescript[Learning ClojureScript] +
 by W. David Jarvis, Rafik Naccache, Allen Rohner +
