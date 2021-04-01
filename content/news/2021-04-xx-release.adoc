@@ -35,7 +35,7 @@ You can now use `goog$global.<global name>`. For example:
   (:require [goog$global.Math :refer [max]]))
 ----
 
-This disciplied approach will also work for many other contexts, say a JavaScriptCore
+This disciplined approach will also work for many other contexts, say a JavaScriptCore
 application embedded in iOS:
 
 [source,clojure]
@@ -51,7 +51,7 @@ when available.
 
 ### Accurate file name and line numbers in `cljs.test`
 
-Instead of inaccurately inferring file name and lne numbers from the call stack
+Instead of inaccurately inferring file name and line numbers from the call stack
 in `do-report`, they are now captured during macro-expansion based on metadata.
 
 ### `sort` and `sort-by` retain meta
@@ -95,7 +95,7 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.844[Changes
 Thanks to all of the community members who contributed to ClojureScript 1.10.844:
 
 * Arne Brasseur
-* Eric Assum
+* Erik Assum
 * Hyunwoo Nam
 * Matthew Huebert
 * Thomas Heller
