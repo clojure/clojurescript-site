@@ -28,29 +28,43 @@ impact your code:
 
 ### Library Property Namespaces
 
-Previously there was no disciplined way to interact with global libraries. Access
-was always via `js/foo`. ClojureScript now provide a non-clashing convention for
-naming global libraries.
+When consuming a foreign JavaScript library which is exposed as a JavaScript
+object, you can now specify a property of this object to be used as a 
+first-class namespce in ClojureScript. To do this, you use the `$` delimiter.
 
-You can now use `goog$global.<global name>`. For example:
-
-[source,clojure]
-----
-(ns my-ns.core
-  (:require [goog$global.Math :refer [max]]))
-----
-
-This disciplined approach will also work for many other contexts, say a JavaScriptCore
-application embedded in iOS:
+For example, the `SubLib` property of a library object provided by `npm-lib` 
+can be treated as a namespce like so:
 
 [source,clojure]
 ----
-(ns my-ns.core
-  (:require [goog$global.NativeBridge :refer [bar]]))
+(ns foo
+  (:require [npm-lib$SubLib :as sub-lib :refer [...]]))
 ----
 
-Benefits of this new capability include the ability to validate via externs
-when available.
+If needed, you can also employ "string requires":
+
+[source,clojure]
+----
+(ns foo
+  (:require ["@npm/lib$SubLib" :as sub-lib :refer [...]]))  
+----
+
+This feature can also be used to access `default` exports:
+
+[source,clojure]
+----
+(ns foo
+  (:require [npm-lib$default :as npm-lib :refer [...]]))
+----
+
+The `$` delimeter is only needed to access the top-level object property;
+any nested properties are accessed via `.` as in the following example:
+
+[source,clojure]
+----
+(ns foo
+  (:require [react-native$NativeModules.SomeBridge :as woz]))
+----
 
 ## Notable Fixes
 
