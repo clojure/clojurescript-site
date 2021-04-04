@@ -33,7 +33,7 @@ object, you can now specify a property of this object to be used as a
 first-class namespace in ClojureScript. To do this, you use the `$` delimiter.
 
 For example, the `SubLib` property of a library object provided by `npm-lib` 
-can be treated as a namespce like so:
+can be treated as a namespace like so:
 
 [source,clojure]
 ----
