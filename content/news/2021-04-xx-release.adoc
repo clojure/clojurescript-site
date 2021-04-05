@@ -57,7 +57,7 @@ This feature can also be used to access `default` exports:
   (:require [npm-lib$default :as npm-lib :refer [...]]))
 ----
 
-The `$` delimeter is only needed to access the top-level object property;
+The `$` delimiter is only needed to access the top-level object property;
 any nested properties are accessed via `.` as in the following example:
 
 [source,clojure]
