@@ -1,6 +1,6 @@
 = 1.10.844 Release
 ClojureScript Team
-2021-04-05 10:30:00
+2021-04-06 10:30:00
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -29,10 +29,10 @@ impact your code:
 ### Library Property Namespaces
 
 When consuming a JavaScript library which is exposed as a JavaScript
-object, you can now specify a property of this object to be used as a 
+object, you can now specify a property of this object to be used as a
 first-class namespace in ClojureScript. To do this, you use the `$` delimiter.
 
-For example, the `SubLib` property of a library object provided by `npm-lib` 
+For example, the `SubLib` property of a library object provided by `npm-lib`
 can be treated as a namespace like so:
 
 [source,clojure]
@@ -46,7 +46,7 @@ If needed, you can also employ string-based requires:
 [source,clojure]
 ----
 (ns foo
-  (:require ["@npm/lib$SubLib" :as sub-lib :refer [...]]))  
+  (:require ["@npm/lib$SubLib" :as sub-lib :refer [...]]))
 ----
 
 This feature can also be used to access `default` exports:
