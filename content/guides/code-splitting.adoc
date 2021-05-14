@@ -39,6 +39,7 @@ Create a `build.edn` file that looks like the following:
 ```
 {:output-dir "out"
  :asset-path "/out"
+ :browser-repl false
  :modules {:foo {:entries #{foo.core}
                  :output-to "out/foo.js"}
            :bar {:entries #{bar.core}
