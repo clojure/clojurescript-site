@@ -64,7 +64,7 @@ command:
 
 [source,bash]
 ----
-clj --main cljs.main --compile hello-world.core --repl
+clj -M --main cljs.main --compile hello-world.core --repl
 ----
 
 On Windows:
@@ -83,7 +83,7 @@ auto-launch and opening `http://localhost:9000` manually:
 
 [source,bash]
 ----
-clj --main cljs.main --repl-opts "{:launch-browser false}" --compile hello-world.core --repl
+clj -M --main cljs.main --repl-opts "{:launch-browser false}" --compile hello-world.core --repl
 ----
 
 After a couple of seconds you will see `Hello world!` print at the terminal and
