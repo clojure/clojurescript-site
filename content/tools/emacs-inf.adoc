@@ -21,7 +21,7 @@ using the JAR in your current directory:
 ----
 (defun cljs-node-repl ()
   (interactive)
-  (inf-clojure "clj -m cljs.main -co build.edn -re node -r"))
+  (inf-clojure "clj -M -m cljs.main -co build.edn -re node -r"))
 ----
 
 Open your ClojureScript file and run `M-x cljs-node-repl`. You'll get a new

@@ -155,7 +155,7 @@ We'll demonstrate manual hot-loading with the standard Node.js REPL.
 Start the REPL:
 
 ----
-clj -m cljs.main -co build.edn -r
+clj -M -m cljs.main -co build.edn -r
 ----
 
 Require the `js.hello` namespace and try it out:

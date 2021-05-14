@@ -137,7 +137,7 @@ we used thus far.
 
 [source,bash]
 ----
-clj -m cljs.main --help
+clj -M -m cljs.main --help
 ----
 
 On Windows:
@@ -178,7 +178,7 @@ commonly used:
 
 [source,clojure]
 ----
-clj -m cljs.main --optimizations advanced -c hello-world.core
+clj -M -m cljs.main --optimizations advanced -c hello-world.core
 ----
 
 On Windows:
@@ -203,7 +203,7 @@ server via the `--serve` flag:
 
 [source,bash]
 ----
-clj -m cljs.main --serve
+clj -M -m cljs.main --serve
 ----
 
 On Windows:
@@ -242,7 +242,7 @@ here for specifying the `--output-to` file:
 
 [source,bash]
 ----
-clj -m cljs.main --target node --output-to main.js -c hello-world.core
+clj -M -m cljs.main --target node --output-to main.js -c hello-world.core
 ----
 
 On Windows:
@@ -278,7 +278,7 @@ this case we want to specify `node`.
 
 [source,bash]
 ----
-clj -m cljs.main --repl-env node
+clj -M -m cljs.main --repl-env node
 ----
 
 On Windows:
@@ -329,7 +329,7 @@ Let's build and run:
 
 [source,bash]
 ----
-clj -m cljs.main -c hello-world.core -r
+clj -M -m cljs.main -c hello-world.core -r
 ----
 
 When the browser launches you should momentarily see the default page

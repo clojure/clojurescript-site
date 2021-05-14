@@ -162,7 +162,7 @@ Note: It is normal for this test to launch plenty of browser windows/tabs.
 
 In addition, you might only be comfortable after some manual verification - if only to try a sanity `(js/alert "Hello CLJS!")`:
 
-. You can launch a browser REPL by running `clj -m cljs.main` from the clojurescript project root dir.
+. You can launch a browser REPL by running `clj -M -m cljs.main` from the clojurescript project root dir.
 . Or from a new empty dir, create a `deps.edn` that points to your <<building#,build of the ClojureScript compiler>> replacing `1.10.123`
   with your local version:
 +

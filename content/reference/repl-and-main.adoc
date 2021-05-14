@@ -26,7 +26,7 @@ For example with `clj`:
 
 [source,bash]
 ----
-clj -m cljs.main ...
+clj -M -m cljs.main ...
 ----
 
 == cljs.main --help

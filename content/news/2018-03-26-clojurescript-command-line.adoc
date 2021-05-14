@@ -40,7 +40,7 @@ Let's jump right in! You can start up a browser REPL by running the following co
 
 [source,bash]
 ----
-clj -m cljs.main
+clj -M -m cljs.main
 ----
 
 On Windows:
@@ -109,7 +109,7 @@ Now, let's use `cljs.main` to first compile this source (using `-c`), and, when 
 
 [source,bash]
 ----
-clj -m cljs.main -w src -c my-app.core -r
+clj -M -m cljs.main -w src -c my-app.core -r
 ----
 
 On Windows:
@@ -121,7 +121,7 @@ java -cp "cljs.jar;src" cljs.main -w src -c my-app.core -r
 
 Note that we are also adding our `src` directory to the classpath.
 
-When this launches, you should see a blue circle in your browser. 
+When this launches, you should see a blue circle in your browser.
 
 image::/images/content/news/2018-03-26-clojurescript-command-line/blue-circle.png[Browser REPL Showing Blue Circle,400]
 
@@ -145,7 +145,7 @@ For example, if have Node installed, you can use `cljs.main` to launch a Node-ba
 
 [source,bash]
 ----
-clj -m cljs.main -re node
+clj -M -m cljs.main -re node
 ----
 
 On Windows:
@@ -183,7 +183,7 @@ With this in place, let's run this app using `cljs.main` to run `-main` in a spe
 
 [source,bash]
 ----
-clj -m cljs.main -re node -m my-app.core 5
+clj -M -m cljs.main -re node -m my-app.core 5
 ----
 
 On Windows:
@@ -204,12 +204,12 @@ First, add one helper to the end of `my-app.core`:
 (set! *main-cli-fn* -main)
 ----
 
-Now we are going to compile a `simple` (using `-O`) build, targeting 
+Now we are going to compile a `simple` (using `-O`) build, targeting
 Node (using `-t`), specifying where we'd like our final output file (using `-o`):
 
 [source,bash]
 ----
-clj -m cljs.main -t node -O simple -o main.js -c my-app.core
+clj -M -m cljs.main -t node -O simple -o main.js -c my-app.core
 ----
 
 On Windows:
@@ -250,7 +250,7 @@ Let's run these tests under Nashorn (by specifying `-re nashorn`). To do things 
 
 [source,bash]
 ----
-clj -m cljs.main -re nashorn -i src/my_app/core_test.cljs -e "(cljs.test/run-tests 'my-app.core-test)"
+clj -M -m cljs.main -re nashorn -i src/my_app/core_test.cljs -e "(cljs.test/run-tests 'my-app.core-test)"
 ----
 
 On Windows
@@ -277,7 +277,7 @@ The above took you through a quick tour covering most of the options available i
 
 [source,bash]
 ----
-clj -m cljs.main -h
+clj -M -m cljs.main -h
 ----
 
 On Windows:
@@ -292,7 +292,7 @@ For example, the following will apply the `:repl-verbose` option (thus showing t
 
 [source,bash]
 ----
-clj -m cljs.main -co "{:repl-verbose true}" -re node -r
+clj -M -m cljs.main -co "{:repl-verbose true}" -re node -r
 ----
 
 On Windows:
@@ -304,4 +304,4 @@ java -cp cljs.jar cljs.main -co "{:repl-verbose true}" -re node -r
 
 You can specify EDN directly on the command line, as shown above, or you can supply the names of files containing EDN. With this capability, you can pretty much use `cljs.main` to do anything you'd like with the ClojureScript compiler.
 
-We hope you find the new `cljs.main` feature useful and that it simplifies many of the common tasks you need to accomplish with the ClojureScript compiler! 
+We hope you find the new `cljs.main` feature useful and that it simplifies many of the common tasks you need to accomplish with the ClojureScript compiler!

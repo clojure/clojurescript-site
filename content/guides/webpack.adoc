@@ -109,7 +109,7 @@ a REPL:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -v -c -r
+clj -M -m cljs.main -co build.edn -v -c -r
 ```
 
 Your default browser will open http://localhost:9000. Open the Developer Console,
@@ -160,7 +160,7 @@ Rebuild your project, run the REPL:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -v -c -r
+clj -M -m cljs.main -co build.edn -v -c -r
 ```
 
 To verify that externs inference allows advanced compilation to work,
@@ -169,7 +169,7 @@ so you'll have to manually open http://localhost:9000:
 
 [source,bash]
 ```
-clj -m cljs.main -co build.edn -O advanced -v -c -s
+clj -M -m cljs.main -co build.edn -O advanced -v -c -s
 ```
 
 That's it!

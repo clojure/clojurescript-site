@@ -13,8 +13,8 @@ ClojureScript REPLs can take nearly all the same options that can be
 supplied to `cljs.closure/build`, for details see <<compiler-options#,Compiler Options>>.
 This page documents additional supported options.
 
-Note that options presented below under General Options should be passed 
-as compiler options (via `-co` / `--compile-opts` if using `cljs.main`), while 
+Note that options presented below under General Options should be passed
+as compiler options (via `-co` / `--compile-opts` if using `cljs.main`), while
 REPL-environment-specific options should be passed as REPL options
 (via `-ro` / `repl-opts` if using `cljs.main`).
 
@@ -81,7 +81,7 @@ cljs.user=> (+ 1 2)
 [[warn-on-undeclared]]
 === :warn-on-undeclared
 
-Overrides warnings related to the use of undeclared vars and non-existent 
+Overrides warnings related to the use of undeclared vars and non-existent
 namespaces at the REPL (specifically `:unprovided`, `:undeclared-var`,
 `:undeclared-ns`, and `:undeclared-ns-form`). Defaults to `true`.
 
@@ -179,10 +179,10 @@ to the Graal.JS engine. Such entries should have string values.
 Here is an example enabling and using the ECMAScript Internationalization API:
 
 ----
-$ clj -m cljs.main -re graaljs -ro '{"js.intl-402" "true"}' -r
-cljs.user=> (def gas-price (js/Intl.NumberFormat. "en-US" 
-                             #js {:style "currency" 
-                                  :currency "USD" 
+$ clj -M -m cljs.main -re graaljs -ro '{"js.intl-402" "true"}' -r
+cljs.user=> (def gas-price (js/Intl.NumberFormat. "en-US"
+                             #js {:style "currency"
+                                  :currency "USD"
                                   :minimumFractionDigits 3}))
 #'cljs.user/gas-price
 cljs.user=> (.format gas-price 5.259)

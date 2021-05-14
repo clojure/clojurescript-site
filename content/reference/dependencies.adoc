@@ -158,7 +158,7 @@ script with the following:
 
 [source,bash]
 ----
-clj -m cljs.main -co build.edn -c
+clj -M -m cljs.main -co build.edn -c
 ----
 
 Recompile with the externs file referenced, and your code should work
@@ -239,7 +239,7 @@ To build the bundled output, use the following command:
 
 [source,clojure]
 ----
-clj -m cljs.main -co build.edn -O advanced -c
+clj -M -m cljs.main -co build.edn -O advanced -c
 ----
 
 Because this code is compatible with advanced compilation, there is no
@@ -367,7 +367,7 @@ browser:
 
 [source,bash]
 ----
-clj -m cljs.main -co build.edn -O advanced -c
+clj -M -m cljs.main -co build.edn -O advanced -c
 ----
 
 [[replacing-a-transitive-cljsjs-dependency-with-another-build-of-the-library]]
@@ -449,7 +449,7 @@ Now, we can run the build. Simply reference the JAR as below:
 
 [source,bash]
 ----
-clj -m cljs.main -co build.edn -c
+clj -M -m cljs.main -co build.edn -c
 ----
 
 Load up your browser, and you'll see a helpful validation error from
