@@ -87,8 +87,8 @@ a `build.edn` file with the following:
  :output-to "out/index.js"
  :output-dir "out"
  :target :bundle
- :bundle-cmd {:none ["npx" "webpack" "out/index.js" "-o" "out/main.js" "--mode=development"]
-              :default ["npx" "webpack" "out/index.js" "-o" "out/main.js"]}
+ :bundle-cmd {:none ["npx" "webpack" "./out/index.js" "-o" "out" "--mode=development"]
+              :default ["npx" "webpack" "./out/index.js" "-o" "out"]}
  :closure-defines {cljs.core/*global* "window"}} ;; needed for advanced
 ```
 
