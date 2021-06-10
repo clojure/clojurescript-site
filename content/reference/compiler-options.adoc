@@ -1089,3 +1089,20 @@ conventions
 ----
 :nodejs-rt false
 ----
+
+[[warning-handlers]]
+=== :warning-handlers
+
+Set a vector of handlers to customize handling of emitted warnings.
+A handler should be either a symbol (to be resolved as a function) or a function.
+The signature of each function is `[warn-type env warn-info]`.
+`warn-type` is a keyword describing the <<#warnings,warning>>,
+`env` is the analysis environment,
+and `warn-info` is a map of extra useful information for a particular warning type.
+
+Defaults to:
+
+[source,clojure]
+----
+:warning-handlers [cljs.analyzer/default-warning-handler]
+----
