@@ -28,11 +28,11 @@ by Andrey Antukh and Alejandro Gómez +
 June 25, 2016
 
 | image::https://covers.oreillystatic.com/images/0636920043584/cat.gif[Etudes for ClojureScript]
-| http://shop.oreilly.com/product/0636920043584.do[Etudes for ClojureScript] +
+| https://shop.oreilly.com/product/0636920043584.do[Etudes for ClojureScript] +
 by J. Eisenberg +
 November 2015
 
-| image::http://ecx.images-amazon.com/images/I/51KgF%2B-38WL._SL160.jpg[ClojureScript: Up and Running,link="https://amzn.com/1449327435"]
+| image::https://ecx.images-amazon.com/images/I/51KgF%2B-38WL._SL160.jpg[ClojureScript: Up and Running,link="https://amzn.com/1449327435"]
 | https://amzn.com/1449327435[ClojureScript: Up and Running] +
 by Stuart Sierra, Luke VanderHart +
 Nov 10, 2012
@@ -45,4 +45,4 @@ Nov 10, 2012
 * https://www.learnreagent.com/[Learn Reagent]
 * https://lambdaisland.com[Lambda Island]
 * https://purelyfunctional.tv[PurelyFunctional.tv]
-* http://shop.oreilly.com/product/0636920040316.do[Learning ClojureScript]
+* https://shop.oreilly.com/product/0636920040316.do[Learning ClojureScript]

@@ -39,7 +39,7 @@ Verify via:
 === Mozilla SpiderMonkey
 
 Get the JavaScript shell (jsshell) from
-http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-central/.
+https://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-central/.
 Set your SPIDERMONKEY_HOME environment variable to installation location.
 
 Verify via:
@@ -76,7 +76,7 @@ Verify via:
 [[graalvm]]
 === Oracle GraalVM
 
-Get GraalVM from http://www.graalvm.org.
+Get GraalVM from https://www.graalvm.org.
 Set your GRAALVM_HOME environment variable so that `$GRAALVM_HOME/js` executes Graal.js.
 
 Verify via:

@@ -13,7 +13,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * https://github.com/magomimmo/modern-cljs[modern-cljs]
 * https://funcool.github.io/clojurescript-unraveled/[ClojureScript
 Unraveled] (book)
-* http://clojurescriptmadeeasy.com/[ClojureScript Made Easy] (blog)
+* https://clojurescriptmadeeasy.com/[ClojureScript Made Easy] (blog)
 * https://github.com/bhauman/lein-figwheel/wiki/Quick-Start[Getting
 started with Figwheel]
 * https://github.com/vvvvalvalval/reagent-phonecat-tutorial/wiki[Reagent
@@ -34,9 +34,9 @@ View & more…)
 [[online-clojurescript-repls]]
 == Online Clojurescript REPLs
 
-* http://app.klipse.tech[KLIPSE]
+* https://app.klipse.tech[KLIPSE]
 * https://clojurescript.io/[clojurescript.io]
-* http://clojurescript.net/[clojurescript.net]
+* https://clojurescript.net/[clojurescript.net]
 
 [[getting-help]]
 == Getting Help
@@ -45,7 +45,7 @@ View & more…)
 === Chat
 
 * IRC: `#clojurescript` on https://freenode.net/[freenode.net]
-* Slack: `#clojurescript` on http://clojurians.slack.com/[Clojurians Slack] (http://clojurians.net/[get an invite here])
+* Slack: `#clojurescript` on https://clojurians.slack.com/[Clojurians Slack] (https://clojurians.net/[get an invite here])
 ** searchable chat logs can be found https://clojurians.zulipchat.com/#narrow/stream/180378-slack-archive/topic/clojurescript[here], and https://clojurians-log.clojureverse.org/[here]
 * Zulip: `#clojurescript` on https://clojurians.zulipchat.com/#narrow/stream/151762-clojurescript[Clojurians Zulip Chat]
 

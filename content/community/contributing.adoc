@@ -60,7 +60,7 @@ https://ask.clojure.org[https://ask.clojure.org] using the ClojureScript
 category and label it `request`. ClojureScript developers will help you
 determine whether this idea is a good fit for ClojureScript and a patch is
 wanted. If you would prefer to have a real time discussion before investing in
-a more considered proposal, the #cljs-dev http://clojurians.slack.com/[Clojurians Slack]
+a more considered proposal, the #cljs-dev https://clojurians.slack.com/[Clojurians Slack]
 channel is very active.
 
 If the ClojureScript developers indicate this is a useful thing to do, please
@@ -79,11 +79,11 @@ to Rich Hickey as the open source project sponsor.
 
 The CA is derived from the Oracle Contributor Agreement (OCA), used for OpenJDK,
 Netbeans and OpenSolaris projects and others. There is a good
-http://www.oracle.com/technetwork/oca-faq-405384.pdf[OCA FAQ] answering many
+https://www.oracle.com/technetwork/oca-faq-405384.pdf[OCA FAQ] answering many
 questions.
 
 The CA does not change the rights or responsibilities of the Clojure community
-under the http://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License
+under the https://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License
 (EPL)]. By executing the CA, contributors protect the Clojure code base, enable
 alternative licensing models, and protect the flexibility to adapt the project
 to the changing demands of the community. In order for the CA to be effective,
