@@ -65,7 +65,8 @@ This setting does not apply if `:optimizations` is set to `:advanced`.
 [[externs]]
 === :externs
 
-Configure externs files for external libraries. The files are searched for in the current working directory and on the classpath.
+Configure externs files for external libraries. The files are searched for in
+the current working directory and on the classpath.
 
 For this option, and those below, you can find a very good explanation
 at:
@@ -240,6 +241,34 @@ A reliable alternative can be found with
 :npm-deps {"lodash" "4.17.4"}
 ----
 
+[[optimizations]]
+=== :optimizations
+
+The optimization level. May be `:none`, `:whitespace`, `:simple`, or
+`:advanced`. Only `:none` and `:simple` are supported for bootstrapped
+ClojureScript.
+
+`:none` is the recommended setting for development, while `:advanced` is
+the recommended setting for production, unless something prevents it
+(incompatible external library, bug, etc.).
+
+For a detailed explanation of the different optimization modes see
+https://developers.google.com/closure/compiler/docs/compilation_levels[Closure
+Compiler Compilation Levels].
+
+The https://github.com/dcodeIO/node.js-closure-compiler-externs[node.js
+externs] may also serve as useful examples.
+
+When the <<compiler-options#main,`:main` option>> is not used, `:none` requires
+manual code loading and hence a separate HTML from the other options.
+
+Defaults to `:none`.
+
+[source,clojure]
+----
+:optimizations :none
+----
+
 [[output-to]]
 === :output-to
 
@@ -259,33 +288,6 @@ Defaults to "out".
 [source,clojure]
 ----
 :output-dir "resources/public/js/out"
-----
-
-[[optimizations]]
-=== :optimizations
-
-The optimization level. May be `:none`, `:whitespace`, `:simple`, or
-`:advanced`. Only `:none` and `:simple` are supported for bootstrapped
-ClojureScript.
-
-`:none` is the recommended setting for development, while `:advanced` is
-the recommended setting for production, unless something prevents it
-(incompatible external library, bug, etc.).
-
-For a detailed explanation of the different optimization modes see
-https://developers.google.com/closure/compiler/docs/compilation_levels[Closure
-Compiler Compilation Levels].
-
-The https://github.com/dcodeIO/node.js-closure-compiler-externs[node.js
-externs] may also serve as useful examples.
-
-When the <<compiler-options#main,`:main` option>> is not used, `:none` requires manual code loading and hence a separate HTML from the other options.
-
-Defaults to `:none`.
-
-[source,clojure]
-----
-:optimizations :none
 ----
 
 [[preloads]]
@@ -375,7 +377,9 @@ Valid options are `:nodejs`, `:webworker`, `:bundle`, and `:none`.
 The default (no `:target` specified) implies browsers are being
 targeted.
 
-Have a look <<xref/../../../guides/quick-start#running-clojurescript-on-nodejs,here>> for more information on how to run your code in nodejs.
+Have a look
+<<xref/../../../guides/quick-start#running-clojurescript-on-nodejs,here>> for
+more information on how to run your code in nodejs.
 
 `:webworker` produces a bootstrap script suitable for loading with Web Workers.
 
@@ -405,41 +409,50 @@ Emit details and measurements from compiler activity.
 [[less-common-options]]
 == Less Common Options
 
-[[source-map-path]]
-=== :source-map-path
+[[anon-fn-naming-policy]]
+=== :anon-fn-naming-policy
 
-Set the path to source files references in source maps to avoid further
-web server configuration.
-
-[source,clojure]
-----
-:source-map-path "public/js"
-----
-
-This option affects the `sources` entry of the emitted source map V3
-JSON file.
-
-[[source-map-asset-path]]
-=== :source-map-asset-path
-
-Provides fine grained control over the `sourceMappingURL` comment that
-is appended to generated JavaScript files when source mapping is
-enabled.
+Strategies for how the Google Closure compiler does naming of anonymous
+functions that occur as r-values in assignments and variable
+declarations. Defaults to `:off`.
 
 [source,clojure]
 ----
-:source-map-asset-path "http://foo.com/public/js/out"
+:anon-fn-naming-policy :unmapped
 ----
 
-[[source-map-timestamp]]
-=== :source-map-timestamp
+The following values are supported:
 
-Add cache busting timestamps to source map urls. This is helpful for
-keeping source maps up to date when live reloading code.
+* `:off` Don't give anonymous functions names.
+* `:unmapped` Generates names that are based on the left-hand side of
+the assignment. Runs after variable and property renaming, so that the
+generated names will be short and obfuscated.
+* `:mapped` Generates short unique names and provides a mapping from
+them back to a more meaningful name that's based on the left-hand side
+of the assignment.
+
+[[aot-cache]]
+=== :aot-cache
+
+Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false`
+otherwise or if ClojureScript is being used as a
+https://clojure.org/guides/deps_and_cli#_using_git_libraries[git dep]. Controls
+whether the shared AOT cache is used for compiler artifacts produced from JARs.
 
 [source,clojure]
 ----
-:source-map-timestamp true
+:aot-cache true
+----
+
+[[browser-repl]]
+=== :browser-repl
+
+Automatically inject components required by the standard browser REPL. When
+launching the browser REPL this default to true.
+
+[source,clojure]
+----
+:browser-repl true
 ----
 
 [[cache-analysis]]
@@ -456,281 +469,63 @@ if `:optimizations` is `:none`.
 :cache-analysis true
 ----
 
-[[recompile-dependents]]
-=== :recompile-dependents
+[[closure-defines]]
+=== :closure-defines
 
-For correctness the ClojureScript compiler now always recompiles
-dependent namespaces when a parent namespace changes. This prevents
-corrupted builds and swallowed warnings. However this can impact compile
-times depending on the structure of the application. This option
-defaults to `true`.
-
-[source,clojure]
-----
-:recompile-dependents false
-----
-
-[[static-fns]]
-=== :static-fns
-
-Employs static dispatch to specific function arities in emitted
-JavaScript, as opposed to making use of the `call` construct. Defaults
-to false except under advanced optimizations. Useful to have set to
-false at REPL development to facilitate function redefinition, and
-useful to set to true for release for performance.
-
-This setting does not apply to the standard library, which is always
-compiled with `:static-fns` implicitly set to true.
+Set the values of Closure libraries' variables annotated with
+https://developers.google.com/closure/compiler/docs/js-for-compiler#tag-define[@define]
+or with the `cljs.core/goog-define` helper macro. A common usage is
+setting `goog.DEBUG` to false:
 
 [source,clojure]
 ----
-:static-fns true
+:closure-defines {"goog.DEBUG" false}
 ----
+
+You can also use symbols:
+
+[source,clojure]
+----
+:closure-defines {my.cool-ns/some-def true}
+----
+
+Note when using Lein the quote is unnecessary due to implicit quoting.
 
 [NOTE]
 ====
-To enable static dispatch for calls to declared functions, supply `:arglists` meta. For example, if `(declare foo)` preceeds `(foo 1 2)`, dynamic dispatch will be employed. If instead `(declare ^{:arglists '([x y])} foo)` preceeds `(foo 1 2)`, static dispatch will be employed if `:static-fns` is enabled.
+For `:optimizations :none`, a `:main` option must be specified for
+defines to work, and only `goog-define` defines are affected.
+`:closure-defines` currently does not have any effect with
+`:optimizations :whitespace`.
 ====
 
-[[fn-invoke-direct]]
-=== :fn-invoke-direct
+You can use the variables set in `:closure-defines` to eliminate parts
+of your code at compile time (DCE). However, to do so you must use `if`
+or `cond` in combination with an `identical?` comparison. Any other
+forms (such as `case` or `condp`) will work correctly at runtime, but
+the javascript output will contain the dead code branches.
 
-Requires `:static-fns true`.
-This option emits slightly different code that can speed up your code
-around 10-30%. Higher order function that don't implement the `IFn` protocol
-are normally called with `f.call(null, arg0, arg1 ...)`. With this option
-enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
-
-[CAUTION]
-====
-The `:fn-invoke-direct` feature is in alpha status. For some libraries such
-as Reagent, `:fn-invoke-direct` is known to generate incorrect code.
-====
-
+For example, if you want to make a localized build of your application
+which only contains the translation messages relevant for the locale:
 
 [source,clojure]
 ----
-:fn-invoke-direct true
+(def messages
+  (cond
+    (identical? js/goog.LOCALE "nl") i18n.nl/messages
+    (identical? js/goog.LOCALE "fr") i18n.fr/messages
+    :else i18n.en/messages))
 ----
 
-[[warnings]]
-=== :warnings
+[[closure-extra-annotations]]
+=== :closure-extra-annotations
 
-This flag will turn on/off compiler warnings for references to
-undeclared vars, wrong function call arities, etc. Can be a boolean for
-enabling/disabling common warnings, or a map of specific warning keys
-with associated booleans. Defaults to true.
+Define extra JSDoc annotations that a closure library might use so that
+they don't trigger compiler warnings.
 
 [source,clojure]
 ----
-:warnings true
-;; OR
-:warnings {:fn-deprecated false} ;; suppress this warning
-----
-
-The following warnings are supported:
-
-* `:preamble-missing`, missing preamble
-* `:unprovided`, required namespace not provided
-* `:undeclared-var`, undeclared var
-* `:private-var-access`, private var access from another namespace
-* `:undeclared-ns`, var references non-existent namespace
-* `:undeclared-ns-form`, namespace reference in ns form that does not
-exist
-* `:redef`, var redefinition
-* `:dynamic`, dynamic binding of non-dynamic var
-* `:fn-var`, var previously bound to fn changed to different type
-* `:fn-arity`, invalid invoke arity
-* `:fn-deprecated`, deprecated function usage
-* `:declared-arglists-mismatch`, declared `:arglists` mismatch defined
-* `:protocol-deprecated`, deprecated protocol usage
-* `:undeclared-protocol-symbol`, undeclared protocol referred
-* `:invalid-protocol-symbol`, invalid protocol symbol
-* `:multiple-variadic-overloads`, multiple variadic arities
-* `:variadic-max-arity`, arity greater than variadic arity
-* `:overload-arity`, duplicate arities
-* `:extending-base-js-type`, JavaScript base type extension
-* `:invoke-ctor`, type constructor invoked as function
-* `:invalid-arithmetic`, invalid arithmetic
-* `:invalid-array-access`, invalid use of `aget` or `aset`
-* `:protocol-invalid-method`, protocol method does not match declaration
-* `:protocol-duped-method`, duplicate protocol method implementation
-* `:protocol-multiple-impls`, protocol implemented multiple times
-* `:protocol-with-variadic-method`, protocol declares variadic signature
-* `:protocol-with-overwriting-method`, protocol method overwrites other protocol method
-* `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
-* `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
-* `:single-segment-namespace`, single segment namespace
-* `:munged-namespace`, namespace name contains a reserved JavaScript keyword
-* `:ns-var-clash`, namespace clashes with var
-* `:extend-type-invalid-method-shape`, method arities must be grouped together
-* `:unsupported-js-module-type`, unsupported JavaScript module type
-* `:unsupported-preprocess-value`, unsupported foreign lib preprocess value
-* `:js-shadowed-by-local`, name shadowed by a local
-* `:infer-warning`, warnings related to externs inference
-
-[[elide-asserts]]
-=== :elide-asserts
-
-This flag will cause all `(assert` _x_ `)` calls to be removed during
-compilation, including implicit ``assert``s associated with `:pre` and
-`:post` conditions. Useful for production. Default is always false even
-in advanced compilation. Does NOT specify `goog.asserts.ENABLE_ASSERTS`,
-which is different and used by the Closure library.
-
-[NOTE]
-====
-Note that, with JVM ClojureScript, it is not possible to dynamically set
-`pass:[*assert*]` to false at runtime; this compiler flag must explicitly be
-used to effect the elision. With self-hosted ClojureScript, on the other
-hand, setting `pass:[*assert*]` will cause `asserts` to be elided as in
-Clojure.
-====
-
-[source,clojure]
-----
-:elide-asserts true
-----
-
-[[pseudo-names]]
-=== :pseudo-names
-
-With `:advanced` mode optimizations, determines whether readable names
-are emitted. This can be useful when debugging issues in the optimized
-JavaScript and can aid in finding missing <<compiler-options#externs,externs>>.
-Defaults to false.
-
-[source,clojure]
-----
-:pseudo-names true
-----
-
-[[print-input-delimiter]]
-=== :print-input-delimiter
-
-Determines whether comments will be output in the JavaScript that can be
-used to determine the original source of the compiled code.
-
-Defaults to false.
-
-[source,clojure]
-----
-:print-input-delimiter false
-----
-
-[[output-wrapper]]
-=== :output-wrapper
-
-Wrap the Javascript output to avoid clobbering globals. There are four
-possible value types:
-
-1. Function - Takes one argument, the compiled javascript output. Should
-              return some other valid javascript output. For the simplest
-              case, just string concatenate the javascript output with
-              something akin to #3 (the default wrapper)
-2. String - Some `format` interpolation compatible string. For example,
-            `"(function(){%s};)()"`. `format` receives the compiled
-            javascript output as the second argument and nothing else.
-3. Truthy - Wrap with the default `(function(){...};)()`
-4. Falsey - Don't wrap. This is the default.
-
-[source,clojure]
-----
-;; function
-(fn [js-output]
-  (str "(function(){" js-output "};).call(window);"))
-
-;; string
-"(function(){%s};).call(window);"
-
-;; truthy
-true
-
-;; falsey
-false
-----
-
-[[libs]]
-=== :libs
-
-Adds dependencies on external js libraries, i.e. Google
-Closure-compatible javascript files with correct `goog.provides()` and
-`goog.requires()` calls. Note that files in these directories will be
-watched and a rebuild will occur if they are modified.
-
-Paths or filenames can be given. Relative paths are relative to the
-current working directory (usually project root).
-
-Defaults to the empty vector `[]`
-
-[source,clojure]
-----
-:libs ["closure/library/third_party/closure"
-       "src/js"
-       "src/org/example/example.js"]
-----
-
-[[preamble]]
-=== :preamble
-
-Prepends the contents of the given files to each output file.  Files
-should reside on the classpath. Only valid with optimizations other
-than `:none`.
-
-Defaults to the empty vector `[]`
-
-[source,clojure]
-----
-:preamble ["license.js"]
-----
-
-[[hashbang]]
-=== :hashbang
-
-When using `:target :nodejs` the compiler will emit a shebang as the
-first line of the compiled source, making it executable. When your
-intention is to build a node.js module, instead of executable, use this
-option to remove the shebang.
-
-[source,clojure]
-----
-:hashbang false
-----
-
-[[compiler-stats]]
-=== :compiler-stats
-
-Report basic timing measurements on compiler activity.
-
-Defaults to `false`.
-
-[source,clojure]
-----
-:compiler-stats true
-----
-
-[[language-in-and-language-out]]
-=== :language-in and :language-out
-
-Configure the input and output languages for the closure library. May be:
-
-* `:ecmascript-next` identical to `:es-next`
-* `:ecmascript-2017` identical to `:es-2017`
-* `:ecmascript-2016` identical to `:es-2016`
-* `:ecmascript-2015` identical to `:es-2015`, `:ecmascript6`, `:es6`, `:ecmascript6-strict`, `:es6-strict`
-* `:ecmascript6-typed` identical to `:es6-typed`
-* `:ecmascript5` identical to `:es5`
-* `:ecmascript5-strict` identical to `:es5-strict`
-* `:ecmascript3` identical to `:es3`
-* `:no-transpile`
-
-`:language-in` defaults to `:ecmascript5`
-`:language-out` defaults to `:no-transpile`
-
-[source,clojure]
-----
-:language-in  :ecmascript5
-:language-out :no-transpile
+:closure-extra-annotations #{"api"}
 ----
 
 [[closure-output-charset]]
@@ -750,20 +545,6 @@ Defaults to `utf-8`
 [source,clojure]
 ----
 :closure-output-charset "iso-8859-1"
-----
-
-[[rewrite-polyfills]]
-=== :rewrite-polyfills
-
-If set to true, the google closure compiler will add polyfills
-(for example when you use native javascript `Promise`).
-*This requires `:language-in` to be set to `:es6` or higher or it will
-silently be ignored!*
-
-[source,clojure]
-----
-:language-in  :es6
-:rewrite-polyfills true
 ----
 
 [[closure-warnings]]
@@ -850,86 +631,175 @@ The following Closure warning options are exposed to ClojureScript:
 See the https://github.com/google/closure-compiler/wiki/Warnings[Closure
 Compiler Warning wiki] for detailed descriptions.
 
-[[closure-defines]]
-=== :closure-defines
+[[compiler-stats]]
+=== :compiler-stats
 
-Set the values of Closure libraries' variables annotated with
-https://developers.google.com/closure/compiler/docs/js-for-compiler#tag-define[@define]
-or with the `cljs.core/goog-define` helper macro. A common usage is
-setting `goog.DEBUG` to false:
+Report basic timing measurements on compiler activity.
 
-[source,clojure]
-----
-:closure-defines {"goog.DEBUG" false}
-----
-
-You can also use symbols:
+Defaults to `false`.
 
 [source,clojure]
 ----
-:closure-defines {my.cool-ns/some-def true}
+:compiler-stats true
 ----
 
-Note when using Lein the quote is unnecessary due to implicit quoting.
+[[deps-cmd]]
+=== :deps-cmd
+
+Set the command to install `node_modules`. Only `"npm"` and `"yarn"` supported.
+
+[source,clojure]
+----
+:deps-cmd "yarn"
+----
+
+[[elide-asserts]]
+=== :elide-asserts
+
+This flag will cause all `(assert` _x_ `)` calls to be removed during
+compilation, including implicit ``assert``s associated with `:pre` and
+`:post` conditions. Useful for production. Default is always false even
+in advanced compilation. Does NOT specify `goog.asserts.ENABLE_ASSERTS`,
+which is different and used by the Closure library.
 
 [NOTE]
 ====
-For `:optimizations :none`, a `:main` option must be specified for
-defines to work, and only `goog-define` defines are affected.
-`:closure-defines` currently does not have any effect with
-`:optimizations :whitespace`.
+Note that, with JVM ClojureScript, it is not possible to dynamically set
+`pass:[*assert*]` to false at runtime; this compiler flag must explicitly be
+used to effect the elision. With self-hosted ClojureScript, on the other
+hand, setting `pass:[*assert*]` will cause `asserts` to be elided as in
+Clojure.
 ====
 
-You can use the variables set in `:closure-defines` to eliminate parts
-of your code at compile time (DCE). However, to do so you must use `if`
-or `cond` in combination with an `identical?` comparison. Any other
-forms (such as `case` or `condp`) will work correctly at runtime, but
-the javascript output will contain the dead code branches.
+[[elide-strict]]
+=== :elide-strict
 
-For example, if you want to make a localized build of your application
-which only contains the translation messages relevant for the locale:
+Whether to elide `use strict` statements in JavaScript output. Defaults to `true`.
 
 [source,clojure]
 ----
-(def messages
-  (cond
-    (identical? js/goog.LOCALE "nl") i18n.nl/messages
-    (identical? js/goog.LOCALE "fr") i18n.fr/messages
-    :else i18n.en/messages))
+:elide-strict false
 ----
 
-[[closure-extra-annotations]]
-=== :closure-extra-annotations
+[[fingerprint]]
+=== :fingerprint
 
-Define extra JSDoc annotations that a closure library might use so that
-they don't trigger compiler warnings.
+Defaults to `false`. Whether to enable fingerprinting, which will append a
+content SHA to output file names. An `manifest.edn` is generated to
+`:output-dir` for mapping fingerprinted file names. This is especially useful
+when using `:modules` and `:source-map` options, as the fingerprinted file names
+will be appropriately referenced.
 
 [source,clojure]
 ----
-:closure-extra-annotations #{"api"}
+:fingerprint true
 ----
 
-[[anon-fn-naming-policy]]
-=== :anon-fn-naming-policy
+[[fn-invoke-direct]]
+=== :fn-invoke-direct
 
-Strategies for how the Google Closure compiler does naming of anonymous
-functions that occur as r-values in assignments and variable
-declarations. Defaults to `:off`.
+Requires `:static-fns true`.
+This option emits slightly different code that can speed up your code
+around 10-30%. Higher order function that don't implement the `IFn` protocol
+are normally called with `f.call(null, arg0, arg1 ...)`. With this option
+enabled the compiler calls them with a faster `f(arg0, arg1 ...` instead.
+
+[CAUTION]
+====
+The `:fn-invoke-direct` feature is in alpha status. For some libraries such
+as Reagent, `:fn-invoke-direct` is known to generate incorrect code.
+====
 
 [source,clojure]
 ----
-:anon-fn-naming-policy :unmapped
+:fn-invoke-direct true
 ----
 
-The following values are supported:
+[source,clojure]
+----
+:elide-asserts true
+----
 
-* `:off` Don't give anonymous functions names.
-* `:unmapped` Generates names that are based on the left-hand side of
-the assignment. Runs after variable and property renaming, so that the
-generated names will be short and obfuscated.
-* `:mapped` Generates short unique names and provides a mapping from
-them back to a more meaningful name that's based on the left-hand side
-of the assignment.
+[[hashbang]]
+=== :hashbang
+
+When using `:target :nodejs` the compiler will emit a shebang as the
+first line of the compiled source, making it executable. When your
+intention is to build a node.js module, instead of executable, use this
+option to remove the shebang.
+
+[source,clojure]
+----
+:hashbang false
+----
+
+[[infer-externs]]
+=== :infer-externs
+
+Enables automatically generating externs for interop calls to JavaScript.
+Defaults to `false`. For more info see
+<<xref/../../guides/externs#externs-inference,Externs (Alpha)>>
+
+[source,clojure]
+----
+:infer-externs true
+----
+
+[[language-in-and-language-out]]
+=== :language-in and :language-out
+
+Configure the input and output languages for the closure library. May be:
+
+* `:ecmascript-next` identical to `:es-next`
+* `:ecmascript-2017` identical to `:es-2017`
+* `:ecmascript-2016` identical to `:es-2016`
+* `:ecmascript-2015` identical to `:es-2015`, `:ecmascript6`, `:es6`, `:ecmascript6-strict`, `:es6-strict`
+* `:ecmascript6-typed` identical to `:es6-typed`
+* `:ecmascript5` identical to `:es5`
+* `:ecmascript5-strict` identical to `:es5-strict`
+* `:ecmascript3` identical to `:es3`
+* `:no-transpile`
+
+`:language-in` defaults to `:ecmascript5`
+`:language-out` defaults to `:no-transpile`
+
+[source,clojure]
+----
+:language-in  :ecmascript5
+:language-out :no-transpile
+----
+
+[[libs]]
+=== :libs
+
+Adds dependencies on external js libraries, i.e. Google
+Closure-compatible javascript files with correct `goog.provides()` and
+`goog.requires()` calls. Note that files in these directories will be
+watched and a rebuild will occur if they are modified.
+
+Paths or filenames can be given. Relative paths are relative to the
+current working directory (usually project root).
+
+Defaults to the empty vector `[]`
+
+[source,clojure]
+----
+:libs ["closure/library/third_party/closure"
+       "src/js"
+       "src/org/example/example.js"]
+----
+
+[[nodejs-rt]]
+=== :nodejs-rt
+
+Flag to disable Node.js runtime support. Useful when not targeting Node.js but
+rather targeting JavaScript tools which understand Node.js style `require`
+conventions
+
+[source,clojure]
+----
+:nodejs-rt false
+----
 
 [[optimize-constants]]
 === :optimize-constants
@@ -947,6 +817,51 @@ it can increase performance due to decreased allocation. Defaults to
 :optimize-constants true
 ----
 
+[[output-wrapper]]
+=== :output-wrapper
+
+Wrap the Javascript output to avoid clobbering globals. There are four
+possible value types:
+
+1. Function - Takes one argument, the compiled javascript output. Should
+return some other valid javascript output. For the simplest
+case, just string concatenate the javascript output with
+something akin to #3 (the default wrapper)
+2. String - Some `format` interpolation compatible string. For example,
+`"(function(){%s};)()"`. `format` receives the compiled
+javascript output as the second argument and nothing else.
+3. Truthy - Wrap with the default `(function(){...};)()`
+4. Falsey - Don't wrap. This is the default.
+
+[source,clojure]
+----
+;; function
+(fn [js-output]
+  (str "(function(){" js-output "};).call(window);"))
+
+;; string
+"(function(){%s};).call(window);"
+
+;; truthy
+true
+
+;; falsey
+false
+----
+
+[[package-json-resolution]]
+=== :package-json-resolution
+
+Configures which `package.json` entries (e.g. `"browser"`, `"module"` or `"main"`)
+are used in which order when resolving dependencies on (and between) NPM packages.
+
+Defaults to
+
+* `:nodejs` (`["main"]`) if the `:target` is `:nodejs`
+* `:webpack` (`["browser", "module", "main"]`) else
+
+Can also take a custom vector of entries such as `["browser", "main"]`.
+
 [[parallel-build]]
 === :parallel-build
 
@@ -958,16 +873,31 @@ cores.
 :parallel-build true
 ----
 
-[[watch-fn]]
-=== :watch-fn
+[[preamble]]
+=== :preamble
 
-Is a function that will be called after a successful build.
+Prepends the contents of the given files to each output file.  Files
+should reside on the classpath. Only valid with optimizations other
+than `:none`.
 
-*Only available for `cljs.build.api/watch`*
+Defaults to the empty vector `[]`
 
 [source,clojure]
 ----
-:watch-fn (fn [] (println "Updated build"))
+:preamble ["license.js"]
+----
+
+[[print-input-delimiter]]
+=== :print-input-delimiter
+
+Determines whether comments will be output in the JavaScript that can be
+used to determine the original source of the compiled code.
+
+Defaults to false.
+
+[source,clojure]
+----
+:print-input-delimiter false
 ----
 
 [[process-shim]]
@@ -983,57 +913,94 @@ containing a single Google Closure define, `NODE_ENV` with `"development"`
 as the default value. In production `NODE_ENV` will be set to `"production"`.
 If set to `false` all of the stated behavior is disabled.
 
-[[package-json-resolution]]
-=== :package-json-resolution
+[[pseudo-names]]
+=== :pseudo-names
 
-Configures which `package.json` entries (e.g. `"browser"`, `"module"` or `"main"`)
-are used in which order when resolving dependencies on (and between) NPM packages.
-
-Defaults to
-
-* `:nodejs` (`["main"]`) if the `:target` is `:nodejs`
-* `:webpack` (`["browser", "module", "main"]`) else
-
-Can also take a custom vector of entries such as `["browser", "main"]`.
-
-[[aot-cache]]
-=== :aot-cache
-
-Defaults to `true` if ClojureScript is being used via `cljs.main`, and `false` otherwise or if ClojureScript is being used as a https://clojure.org/guides/deps_and_cli#_using_git_libraries[git dep]. Controls whether the shared AOT cache is used for compiler artifacts produced from JARs.
+With `:advanced` mode optimizations, determines whether readable names
+are emitted. This can be useful when debugging issues in the optimized
+JavaScript and can aid in finding missing <<compiler-options#externs,externs>>.
+Defaults to false.
 
 [source,clojure]
 ----
-:aot-cache true
+:pseudo-names true
 ----
 
-[[infer-externs]]
-=== :infer-externs
+[[recompile-dependents]]
+=== :recompile-dependents
 
-Enables automatically generating externs for interop calls to JavaScript. Defaults to `false`. For more info see <<xref/../../guides/externs#externs-inference,Externs (Alpha)>>
+For correctness the ClojureScript compiler now always recompiles
+dependent namespaces when a parent namespace changes. This prevents
+corrupted builds and swallowed warnings. However this can impact compile
+times depending on the structure of the application. This option
+defaults to `true`.
 
 [source,clojure]
 ----
-:infer-externs true
+:recompile-dependents false
 ----
 
 [[rename-prefix]]
 === :rename-prefix
 
-Specifies a prefix that will be prepended to all variables. Can be used when <<xref/../../guides/code-splitting#,Code Splitting>> to prevent interference with other code in JavaScript's global scope.
+Specifies a prefix that will be prepended to all variables. Can be used when
+<<xref/../../guides/code-splitting#,Code Splitting>> to prevent interference
+with other code in JavaScript's global scope.
 
 [source,clojure]
 ----
 :rename-prefix "prefix"
 ----
 
-[[elide-strict]]
-=== :elide-strict
+[[rewrite-polyfills]]
+=== :rewrite-polyfills
 
-Whether to elide `use strict` statements in JavaScript output. Defaults to `true`.
+If set to true, the google closure compiler will add polyfills
+(for example when you use native javascript `Promise`).
+*This requires `:language-in` to be set to `:es6` or higher or it will
+silently be ignored!*
 
 [source,clojure]
 ----
-:elide-strict false
+:language-in  :es6
+:rewrite-polyfills true
+----
+
+[[source-map-asset-path]]
+=== :source-map-asset-path
+
+Provides fine grained control over the `sourceMappingURL` comment that
+is appended to generated JavaScript files when source mapping is
+enabled.
+
+[[source-map-path]]
+=== :source-map-path
+
+Set the path to source files references in source maps to avoid further
+web server configuration.
+
+[source,clojure]
+----
+:source-map-path "public/js"
+----
+
+This option affects the `sources` entry of the emitted source map V3
+JSON file.
+
+[source,clojure]
+----
+:source-map-asset-path "http://foo.com/public/js/out"
+----
+
+[[source-map-timestamp]]
+=== :source-map-timestamp
+
+Add cache busting timestamps to source map urls. This is helpful for
+keeping source maps up to date when live reloading code.
+
+[source,clojure]
+----
+:source-map-timestamp true
 ----
 
 [[spec-skip-macros]]
@@ -1046,25 +1013,30 @@ Whether to disable spec macro checking. Defaults to `false`.
 :spec-skip-macros true
 ----
 
-[[fingerprint]]
-=== :fingerprint
+[[static-fns]]
+=== :static-fns
 
-Defaults to `false`. Whether to enable fingerprinting, which will append a content SHA to output file names. An `manifest.edn` is generated to `:output-dir` for mapping fingerprinted file names. This is especially useful when using `:modules` and `:source-map` options, as the fingerprinted file names will be appropriately referenced.
+Employs static dispatch to specific function arities in emitted
+JavaScript, as opposed to making use of the `call` construct. Defaults
+to false except under advanced optimizations. Useful to have set to
+false at REPL development to facilitate function redefinition, and
+useful to set to true for release for performance.
 
-[source,clojure]
-----
-:fingerprint true
-----
-
-[[deps-cmd]]
-=== :deps-cmd
-
-Set the command to install `node_modules`. Only `"npm"` and `"yarn"` supported.
+This setting does not apply to the standard library, which is always
+compiled with `:static-fns` implicitly set to true.
 
 [source,clojure]
 ----
-:deps-cmd "yarn"
+:static-fns true
 ----
+
+[NOTE]
+====
+To enable static dispatch for calls to declared functions, supply `:arglists`
+meta. For example, if `(declare foo)` preceeds `(foo 1 2)`, dynamic dispatch
+will be employed. If instead `(declare ^{:arglists '([x y])} foo)` preceeds
+`(foo 1 2)`, static dispatch will be employed if `:static-fns` is enabled.
+====
 
 [[target-fn]]
 === :target-fn
@@ -1078,14 +1050,70 @@ a namespace on the classpath. Only used under `:optimization :none`.
 :target-fn 'some.custom.dev-bootstrap
 ----
 
-[[nodejs-rt]]
-=== :nodejs-rt
+[[warnings]]
+=== :warnings
 
-Flag to disable Node.js runtime support. Useful when not targeting Node.js but
-rather targeting JavaScript tools which understand Node.js style `require`
-conventions
+This flag will turn on/off compiler warnings for references to
+undeclared vars, wrong function call arities, etc. Can be a boolean for
+enabling/disabling common warnings, or a map of specific warning keys
+with associated booleans. Defaults to true.
 
 [source,clojure]
 ----
-:nodejs-rt false
+:warnings true
+;; OR
+:warnings {:fn-deprecated false} ;; suppress this warning
+----
+
+The following warnings are supported:
+
+* `:preamble-missing`, missing preamble
+* `:unprovided`, required namespace not provided
+* `:undeclared-var`, undeclared var
+* `:private-var-access`, private var access from another namespace
+* `:undeclared-ns`, var references non-existent namespace
+* `:undeclared-ns-form`, namespace reference in ns form that does not
+exist
+* `:redef`, var redefinition
+* `:dynamic`, dynamic binding of non-dynamic var
+* `:fn-var`, var previously bound to fn changed to different type
+* `:fn-arity`, invalid invoke arity
+* `:fn-deprecated`, deprecated function usage
+* `:declared-arglists-mismatch`, declared `:arglists` mismatch defined
+* `:protocol-deprecated`, deprecated protocol usage
+* `:undeclared-protocol-symbol`, undeclared protocol referred
+* `:invalid-protocol-symbol`, invalid protocol symbol
+* `:multiple-variadic-overloads`, multiple variadic arities
+* `:variadic-max-arity`, arity greater than variadic arity
+* `:overload-arity`, duplicate arities
+* `:extending-base-js-type`, JavaScript base type extension
+* `:invoke-ctor`, type constructor invoked as function
+* `:invalid-arithmetic`, invalid arithmetic
+* `:invalid-array-access`, invalid use of `aget` or `aset`
+* `:protocol-invalid-method`, protocol method does not match declaration
+* `:protocol-duped-method`, duplicate protocol method implementation
+* `:protocol-multiple-impls`, protocol implemented multiple times
+* `:protocol-with-variadic-method`, protocol declares variadic signature
+* `:protocol-with-overwriting-method`, protocol method overwrites other protocol method
+* `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
+* `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
+* `:single-segment-namespace`, single segment namespace
+* `:munged-namespace`, namespace name contains a reserved JavaScript keyword
+* `:ns-var-clash`, namespace clashes with var
+* `:extend-type-invalid-method-shape`, method arities must be grouped together
+* `:unsupported-js-module-type`, unsupported JavaScript module type
+* `:unsupported-preprocess-value`, unsupported foreign lib preprocess value
+* `:js-shadowed-by-local`, name shadowed by a local
+* `:infer-warning`, warnings related to externs inference
+
+[[watch-fn]]
+=== :watch-fn
+
+Is a function that will be called after a successful build.
+
+*Only available for `cljs.build.api/watch`*
+
+[source,clojure]
+----
+:watch-fn (fn [] (println "Updated build"))
 ----
