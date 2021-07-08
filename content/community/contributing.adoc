@@ -96,9 +96,9 @@ web page listing authorized contributors that is accessible via a public URL.
 
 == Instructions for submitting the agreement
 
-* Fill out and submit the
-* https://secure.echosign.com/public/hostedForm?formid=95YMDL576B336E[Contributor
-* Agreement] (an online e-form)
+Fill out and submit the
+https://secure.echosign.com/public/hostedForm?formid=95YMDL576B336E[Contributor
+Agreement] (an online e-form)
 
 Please see the https://clojure.org/community/contributing[Contributing] page for
 a collection of resources on tickets, builds, patches, source, and more. If
