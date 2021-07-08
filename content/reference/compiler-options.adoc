@@ -1067,44 +1067,43 @@ with associated booleans. Defaults to true.
 
 The following warnings are supported:
 
-* `:preamble-missing`, missing preamble
-* `:unprovided`, required namespace not provided
-* `:undeclared-var`, undeclared var
-* `:private-var-access`, private var access from another namespace
-* `:undeclared-ns`, var references non-existent namespace
-* `:undeclared-ns-form`, namespace reference in ns form that does not
-exist
-* `:redef`, var redefinition
+* `:declared-arglists-mismatch`, declared `:arglists` mismatch defined
 * `:dynamic`, dynamic binding of non-dynamic var
-* `:fn-var`, var previously bound to fn changed to different type
+* `:extend-type-invalid-method-shape`, method arities must be grouped together
+* `:extending-base-js-type`, JavaScript base type extension
 * `:fn-arity`, invalid invoke arity
 * `:fn-deprecated`, deprecated function usage
-* `:declared-arglists-mismatch`, declared `:arglists` mismatch defined
-* `:protocol-deprecated`, deprecated protocol usage
-* `:undeclared-protocol-symbol`, undeclared protocol referred
-* `:invalid-protocol-symbol`, invalid protocol symbol
-* `:multiple-variadic-overloads`, multiple variadic arities
-* `:variadic-max-arity`, arity greater than variadic arity
-* `:overload-arity`, duplicate arities
-* `:extending-base-js-type`, JavaScript base type extension
-* `:invoke-ctor`, type constructor invoked as function
+* `:fn-var`, var previously bound to fn changed to different type
+* `:infer-warning`, warnings related to externs inference
 * `:invalid-arithmetic`, invalid arithmetic
 * `:invalid-array-access`, invalid use of `aget` or `aset`
-* `:protocol-invalid-method`, protocol method does not match declaration
-* `:protocol-duped-method`, duplicate protocol method implementation
-* `:protocol-multiple-impls`, protocol implemented multiple times
-* `:protocol-with-variadic-method`, protocol declares variadic signature
-* `:protocol-with-overwriting-method`, protocol method overwrites other protocol method
-* `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
-* `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
-* `:single-segment-namespace`, single segment namespace
+* `:invalid-protocol-symbol`, invalid protocol symbol
+* `:invoke-ctor`, type constructor invoked as function
+* `:js-shadowed-by-local`, name shadowed by a local
+* `:multiple-variadic-overloads`, multiple variadic arities
 * `:munged-namespace`, namespace name contains a reserved JavaScript keyword
 * `:ns-var-clash`, namespace clashes with var
-* `:extend-type-invalid-method-shape`, method arities must be grouped together
+* `:overload-arity`, duplicate arities
+* `:preamble-missing`, missing preamble
+* `:private-var-access`, private var access from another namespace
+* `:protocol-deprecated`, deprecated protocol usage
+* `:protocol-duped-method`, duplicate protocol method implementation
+* `:protocol-impl-recur-with-target`, target passed in recur to protocol method head
+* `:protocol-impl-with-variadic-method`, protocol impl employs variadic signature
+* `:protocol-invalid-method`, protocol method does not match declaration
+* `:protocol-multiple-impls`, protocol implemented multiple times
+* `:protocol-with-overwriting-method`, protocol method overwrites other protocol method
+* `:protocol-with-variadic-method`, protocol declares variadic signature
+* `:redef`, var redefinition
+* `:single-segment-namespace`, single segment namespace
+* `:variadic-max-arity`, arity greater than variadic arity
+* `:undeclared-ns`, var references non-existent namespace
+* `:undeclared-ns-form`, namespace reference in ns form that does not exist
+* `:undeclared-protocol-symbol`, undeclared protocol referred
+* `:undeclared-var`, undeclared var
+* `:unprovided`, required namespace not provided
 * `:unsupported-js-module-type`, unsupported JavaScript module type
 * `:unsupported-preprocess-value`, unsupported foreign lib preprocess value
-* `:js-shadowed-by-local`, name shadowed by a local
-* `:infer-warning`, warnings related to externs inference
 
 [[watch-fn]]
 === :watch-fn
