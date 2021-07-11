@@ -1,0 +1,13 @@
+= Visual Studio Code
+Denis Baudinot
+2021-07-11
+:type: tools
+:toc: macro
+:icons: font
+
+https://code.visualstudio.com/[Visual Studio Code] has Clojure and ClojureScript support via the https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva[Calva] extension.
+
+From the https://calva.io/[calva documentation]:
+
+[quote]
+Calva is an integrated REPL powered environment for enjoyable and productive Clojure and ClojureScript development in Visual Studio Code. It includes inline code evaluation, Paredit, code formatting, a test runner, syntax highlighting, linting, and more. Calva is open source and free to use.
