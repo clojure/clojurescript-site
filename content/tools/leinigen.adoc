@@ -1,0 +1,13 @@
+= Leinigen
+Denis Baudinot
+2021-07-11
+:type: tools
+:toc: macro
+:icons: font
+
+https://leiningen.org/[Leinigen] is a build tool for Clojure and ClojureScript with an extensible plugin and template system.
+
+[[plugins]]
+== Plugins
+
+https://github.com/emezeske/lein-cljsbuild[lein-cljsbuild] provides ClojureScript compilation and file watching. For a more feature rich experience with browser hot reloading and CSS support head to https://github.com/bhauman/lein-figwheel[lein-figwheel].
