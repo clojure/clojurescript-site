@@ -19,3 +19,10 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<sublime#,Sublime Text 2>>
 * <<vim#,Vim>>
 * <<atom#,Atom>>
+
+== Build Tools
+
+* <<shadow-cljs#,shadow-cljs>>
+* <<leiningen#,Leiningen>>
+* https://github.com/emezeske/lein-cljsbuild[lein-cljsbuild]
+* https://github.com/bhauman/lein-figwheel[lein-figwheel]
