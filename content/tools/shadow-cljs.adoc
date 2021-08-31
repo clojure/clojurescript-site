@@ -1,0 +1,13 @@
+= shadow-cljs
+Denis Baudinot
+2021-07-11
+:type: tools
+:toc: macro
+:icons: font
+
+https://github.com/thheller/shadow-cljs[shadow-cljs] compiles, watches, hot reloads ClojureScript projects and provides targets and integration within the larger JavaScript ecosystem such as Nodejs, NPM and browser modules. It can be used as a standalone npm package to be run from the command line and a Clojure library to be integrated with other build tooling.
+
+From the shadow-cljs https://shadow-cljs.github.io/docs/UsersGuide.html[user guide]:
+
+[quote]
+shadow-cljs provides everything you need to compile your ClojureScript projects with a focus on simplicity and ease of use. The provided build targets abstract away most of the manual configuration so that you only have to configure the essentials for your build. Each target provides optimal defaults for each environment and get an optimized experience during development and in release builds.
