@@ -15,6 +15,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 * <<cursive#,Cursive>>
 * <<emacs-inf#,Emacs Inferior Clojure>>
+* <<vscode#,VS Code>>
 * <<light-table#,Light Table>>
 * <<sublime#,Sublime Text 2>>
 * <<vim#,Vim>>
