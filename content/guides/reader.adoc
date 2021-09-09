@@ -1,0 +1,64 @@
+= The Reader
+Henry Widd
+2021-05-25
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+The behaviour of Clojurescript's reader is mostly the same as the https://clojure.org/reference/reader[Clojure Reader]
+but with notable differences with respect to tagged literals.
+
+[[tagged_literals]]
+== Tagged Literals
+
+Tagged Literals allow users to extend the reader. See https://Clojure.org/reference/reader#tagged_literals[the Clojure guide]
+on tagged literals for an introduction.
+
+To put tagged literals in Clojurescript source, namespaced symbols are associated with reader 
+functions in a data_readers.cljc file. See info on data_readers.clj in the Tagged Literals link above for details - despite the suffix difference (clj vs cljc) the syntax is the same
+
+== Reader functions 
+
+There is a fundamental difference between reader functions targeting Clojure vs Clojurescript. Separate from language target, we also need to consider the context in which reader functions execute, ie in Clojure during cljs compilation vs in a js runtime when reading EDN vs self-hosted cljs.
+
+=== Targeting Clojurescript
+
+Reader function should return a form which represents valid Clojurescript. This is similar to how macros work.
+
+[source,Clojure]
+----
+(defn my-cljs-targeting-reader-fn [form]
+  `(.foo ~form)) 
+----
+
+=== Targeting Clojure
+
+The reader function should return a result which will not be read. Any evaluation of the form should happen in the 
+reader function.
+
+[source,Clojure]
+----
+(defn my-clj-targeting-reader-fn [form]
+  (.foo form)) 
+
+----
+ 
+== Reader function execution
+
+A reader function targeting just Clojure is just a regular Clojure function.
+
+A symbol in data_readers.cljc referring to a reader function targeting Clojurescript resolve to:
+* be a Clojure function that runs during Clojurescript compilation
+* potentially also a Clojurescript function that will run when self-hosted, and/or when reading edn using cljs.reader.
+
+These functions may appear unconditionally in a .cljc file if the code is the same for both.
+
+== Cross platform Tagged Literals (ie a literal to target both clj and cljs)
+
+These are not currently supported as the Clojurescript compiler does not support conditional read in data_readers.cljc, despite its suffix.  https://Clojure.atlassian.net/jira/software/c/projects/CLJS/issues/CLJS-3294 is fixed.
+
+As a workaround, have 2 data_readers.cljc files one pointing to a clj-targeting reader and one pointing to a cljs-targeting reader. For cljs compilation, include only the cljs-targeting one (via classpath) and for clj, again restrict the classpath to just the clj-targeting one.
