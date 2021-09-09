@@ -37,7 +37,7 @@ Reader function should return a form which represents valid Clojurescript. This 
 
 === Targeting Clojure
 
-The reader function should return a result which will not be read. Any evaluation of the form should happen in the 
+Unlike Clojurescript, a reader function should return a result which will not be read/compiled further. Any evaluation of the form should happen in the 
 reader function.
 
 [source,Clojure]
