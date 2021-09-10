@@ -19,11 +19,12 @@ Tagged Literals allow users to extend the reader. See https://Clojure.org/refere
 on tagged literals for an introduction.
 
 To put tagged literals in Clojurescript source, namespaced symbols are associated with reader 
-functions in a data_readers.cljc file. See info on data_readers.clj in the Tagged Literals link above for details - despite the suffix difference (clj vs cljc) the syntax is the same
+functions in a data_readers.cljc file. See info on data_readers.clj (note the suffix difference) in the Tagged Literals link above for 
+details.
 
 == Reader functions 
 
-There is a fundamental difference between reader functions targeting Clojure vs Clojurescript. Separate from language target, we also need to consider the context in which reader functions execute, ie in Clojure during cljs compilation vs in a js runtime when reading EDN vs self-hosted cljs.
+There is a fundamental difference between reader functions targeting Clojure vs Clojurescript. Separate from language target, we also need to consider the context in which reader functions execute, ie in Clojure during Clojurescript compilation vs in a js runtime when reading EDN vs self-hosted Clojurescript.
 
 === Targeting Clojurescript
 
@@ -51,14 +52,21 @@ reader function.
 
 A reader function targeting just Clojure is just a regular Clojure function.
 
-A symbol in data_readers.cljc referring to a reader function targeting Clojurescript resolve to:
-* be a Clojure function that runs during Clojurescript compilation
-* potentially also a Clojurescript function that will run when self-hosted, and/or when reading edn using cljs.reader.
+A symbol in data_readers.cljc referring to a reader function targeting Clojurescript should resolve to:
+* a Clojure function that runs during Clojurescript compilation
+* potentially also a Clojurescript function that will run is a js runtime when self-hosted, and/or 
+when reading edn using `cljs.reader`. 
 
 These functions may appear unconditionally in a .cljc file if the code is the same for both.
 
-== Cross platform Tagged Literals (ie a literal to target both clj and cljs)
+== Cross platform Tagged Literals (ie a literal to target both Clojure and Clojurescript)
 
-These are not currently supported as the Clojurescript compiler does not support conditional read in data_readers.cljc, despite its suffix.  https://Clojure.atlassian.net/jira/software/c/projects/CLJS/issues/CLJS-3294 is fixed.
+These are not currently supported as the Clojurescript compiler does not support conditional read in 
+data_readers.cljc, despite its suffix.  
+https://Clojure.atlassian.net/jira/software/c/projects/CLJS/issues/CLJS-3294 is the issue relating to this
+bug. Note that the Clojure compiler reads both data_readers.clj and data_readers.cljc (and unlike the 
+Clojurescript compiler does respect conditional read) so to avoid confusion just use data_readers.cljc when
+defining your own reader literals.
 
-As a workaround, have 2 data_readers.cljc files one pointing to a clj-targeting reader and one pointing to a cljs-targeting reader. For cljs compilation, include only the cljs-targeting one (via classpath) and for clj, again restrict the classpath to just the clj-targeting one.
+As a workaround, it is possible to have 2 data_readers.cljc files: one pointing to a Clojure-targeting reader and one pointing to a Clojurescript-targeting reader. 
+For Clojurescript compilation, include only the Clojurescript-targeting one (via classpath) and for Clojure, again restrict the classpath to just the Clojure-targeting file. 
