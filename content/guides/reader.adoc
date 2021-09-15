@@ -18,13 +18,19 @@ but with notable differences with respect to tagged literals.
 Tagged Literals allow users to extend the reader. See https://Clojure.org/reference/reader#tagged_literals[the Clojure guide]
 on tagged literals for an introduction.
 
-To put tagged literals in Clojurescript source, namespaced symbols are associated with reader 
+In order to read custom tagged literals in Clojurescript source, namespaced symbols are associated with reader 
 functions in a data_readers.cljc file. See info on data_readers.clj (note the suffix difference) in the Tagged Literals link above for 
 details.
 
 == Reader functions 
 
-There is a fundamental difference between reader functions targeting Clojure vs Clojurescript. Separate from language target, we also need to consider the context in which reader functions execute, ie in Clojure during Clojurescript compilation vs in a js runtime when reading EDN vs self-hosted Clojurescript.
+There is a fundamental difference between reader functions targeting Clojure vs Clojurescript. 
+Separate from language target, we also need to consider the context in which reader functions execute,
+which can be:
+
+* in Clojure during Clojurescript compilation 
+* in a js runtime when reading EDN 
+* self-hosted Clojurescript compiler read.
 
 === Targeting Clojurescript
 
