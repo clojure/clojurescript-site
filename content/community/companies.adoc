@@ -102,6 +102,7 @@ https://www.omnyway.com[Omnyway,opts=nofollow] - https://github.com/omnyway-labs
 * https://pitch.com/[Pitch,opts=nofollow]
 * https://postspectacular.com/[PostSpectacular,opts=nofollow]
 * https://precursorapp.com/[Precursor,opts=nofollow]
+* https://practitest.com/[PractiTest,opts=nofollow]
 * https://getprismatic.com/home[Prismatic,opts=nofollow]
 * https://www.purposefly.com/[PurposeFly,opts=nofollow]
 * https://qficonsulting.com[QFI Consulting LLP,opts=nofollow]
