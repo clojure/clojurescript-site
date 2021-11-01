@@ -52,6 +52,7 @@ Below is a partial list of some companies using ClojureScript. To add your compa
 * https://floatingpoint.io/[Floating Point,opts=nofollow]
 * https://www.formcept.com/[Formcept,opts=nofollow]
 * https://framed.io[Framed Data,opts=nofollow]
+* https://freshcodeit.com[Freshcode,opts=nofollow]
 * https://jobs.functionalworks.com[Functional Works,opts=nofollow]
 * https://www.fundingcircle.com[Funding Circle,opts=nofollow]
 * https://www.getcontented.com.au[GetContented,opts=nofollow] (for content editor, not on public site)
