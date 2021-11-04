@@ -36,7 +36,7 @@ namespace.
 To ease the transition for the most common cases, ClojureScript has a new
 compiler flag to restore the old behavior - `:global-goog-object&array`.
 
-Note the above guidance does not apply at to ClojureScript libraries. To
+Note the above guidance does not apply to ClojureScript libraries. To
 understand why, we briefly answer some related questions.
 
 ### Will ClojureScript use `goog.module`?
