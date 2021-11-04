@@ -26,7 +26,7 @@ require. This pattern can be useful in the writing of macros so that users can
 elide a require. However, this is now an anti-pattern and will
 fail.
 
-Google has slowly been converting various namespaces to `goog.module`
+Google has slowly been converting various namespaces to the `goog.module`
 format which does not export globally as `goog.provide` does. In order to future
 proof - ClojureScript now always loads `goog.module` in accordance with
 Closure's guidelines as Closure Library may decide to convert any namespace into
