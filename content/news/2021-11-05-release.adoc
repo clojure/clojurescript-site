@@ -44,7 +44,8 @@ understand why, we briefly answer some related questions.
 No. Clojure style REPL driven development is best supported by the original
 Google Closure namespace conventions. By representing namespaces as nested
 JavaScript objects, we effectively get late bound environments that are
-semantically close to Clojure's vars with respect to REPL driven development.
+semantically close to Clojure's vars which permit highly interactive development
+workflows.
 
 Like ES modules, the `goog.module` format is simply incompatible with REPL driven
 development. Because namespaces are effectively function closures, precise
