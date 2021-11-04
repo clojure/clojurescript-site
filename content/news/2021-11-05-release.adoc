@@ -49,6 +49,14 @@ is simply not a part of the design. The complexities and tradeoffs for interacti
 development are easily apparent when comparing typical JavaScript "hot-reloading"
 workflows and the development experience available to Clojure developers.
 
+### What if Closure Compiler deprecates `goog.provide`?
+
+Fortunately Google Closure Compiler is very mature. Unlike currently popular JavaScript
+tools it does not need exports to understand what to tree-shake. Closure Compiler
+works on objects and their properties. Even if Closure Compiler removed `goog.provide`,
+we could simply provide our own analogous constructs and Closure Compiler would
+still be able to provide all the usual advanced optimizations.
+
 ## Change List
 
 For a complete list of updates in ClojureScript 1.10.891 see
