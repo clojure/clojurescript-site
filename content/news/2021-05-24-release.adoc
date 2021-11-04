@@ -18,7 +18,7 @@ user of ClojureScript please read over the following release notes carefully.
 
 ClojureScript generates efficient JavaScript for `and` / `or`,
 employing `&&` / `||` when applied to Boolean values. Previously these
-optimizations were implemented directly by the `and` / `or` macros. With 
+optimizations were implemented directly by the `and` / `or` macros. With
 this release they are instead implemented during a compiler pass.
 
 A consequence of moving these optimizations to the code generation phase
@@ -26,6 +26,10 @@ is that the resulting simplified `and` / `or` macros are compatibile with
 code walking libraries like `core.async`.
 
 ### Support Macros that Expand to `require` Statements
+
+> **NOTE:** this change been reverted in following releases as it was discovered
+> later (after many tests, including ClojureScript Canary) that there are many
+> scenarios which cannot work. It will not be reintroduced.
 
 This release allows macros that expand to `require` statements
 to be present in the code as is illustrated in the following example:
@@ -41,14 +45,14 @@ to be present in the code as is illustrated in the following example:
 
 ### Support `IAssociative` `-contains-key?` Protocol Check in `contains?`
 
-The `IAssociative` protocol defines `-contains-key?`, which facilitates 
+The `IAssociative` protocol defines `-contains-key?`, which facilitates
 directly testing whether a key is in an associative collection. The core
 `contains?` function has been revised with this release to make such a
 call for collections that implement the `IAssociative` protocol.
 
 ### Higher-Order Checked Arrays
 
-With this release, the 
+With this release, the
 https://clojurescript.org/news/2017-07-14-checked-array-access[checked array access]
 feature is extended for higher-order uses of `aget` and `aset`. For example,
 
