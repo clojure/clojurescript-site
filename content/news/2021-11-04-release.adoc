@@ -1,6 +1,6 @@
 = 1.10.891 Release
 ClojureScript Team
-2021-11-05 10:30:00
+2021-11-04 10:30:00
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -48,7 +48,7 @@ semantically close to Clojure's vars which permit highly interactive development
 workflows.
 
 Like ES modules, the `goog.module` format is simply incompatible with REPL driven
-development. Because namespaces are effectively function closures, precise
+development. In both cases the module is effectively a function closure, precise
 redefinition is simply not a part of the design. The complexities and tradeoffs for interactive
 development are readily apparent when comparing typical JavaScript "hot-reloading"
 workflows and the development experience available to Clojure developers.
