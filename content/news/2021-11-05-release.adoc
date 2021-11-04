@@ -1,0 +1,73 @@
+= 1.10.891 Release
+ClojureScript Team
+2021-11-05 10:30:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+## Noteworthy Changes
+
+* Closure Compiler has been updated to `v20210808`
+* Google Closure has been updated to `0.0-20211011-0726fdeb`
+
+## Google Closure Library, goog.module & global access
+
+You should no longer assume that Google Closure Library namespaces can be
+reached globally because some dependency may have already loaded it. For
+proper usage of Google Closure Library namespaces, an explicit require is always
+necessary.
+
+Some ClojureScript libraries assume that because `cljs.core` loaded `goog.object`,
+it would be safe to refer to such definitions directly, i.e. `goog.object/get` without the necessary
+require. This pattern can be useful in the writing of macros so that users can
+elide a require. However, this is now an anti-pattern and will
+fail.
+
+Google has slowly been converting various namespaces to the `goog.module`
+format which does not export globally as `goog.provide` does. In order to future
+proof - ClojureScript now always loads `goog.module` in accordance with
+Closure's guidelines as Closure Library may decide to convert any namespace into
+a `goog.module` at any time and simply drop support for global definition for that
+namespace.
+
+To ease the transition for the most common cases, ClojureScript has a new
+compiler flag to restore the old behavior - `:global-goog-object&array`.
+
+Note the above guidance does not apply to ClojureScript libraries. To
+understand why, we briefly answer some related questions.
+
+### Will ClojureScript use `goog.module`?
+
+No. Clojure style REPL driven development is best supported by the original
+Google Closure namespace conventions. By representing namespaces as nested
+JavaScript objects, we effectively get late bound environments that are
+semantically close to Clojure's vars which permit highly interactive development
+workflows.
+
+Like ES modules, the `goog.module` format is simply incompatible with REPL driven
+development. Because namespaces are effectively function closures, precise
+redefinition is simply not a part of the design. The complexities and tradeoffs for interactive
+development are readily apparent when comparing typical JavaScript "hot-reloading"
+workflows and the development experience available to Clojure developers.
+
+### What if Closure Compiler deprecates `goog.provide`?
+
+Fortunately Google Closure Compiler is very mature. Unlike currently popular JavaScript
+tools it does not need exports to understand what to tree-shake. Closure Compiler
+works on objects and their properties. Even if Closure Compiler removed `goog.provide`,
+we could simply provide our own analogous constructs and Closure Compiler would
+still be able to provide all the usual advanced optimizations.
+
+## Change List
+
+For a complete list of updates in ClojureScript 1.10.891 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.891[Changes].
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.10.891:
+
+* Chance Russell
