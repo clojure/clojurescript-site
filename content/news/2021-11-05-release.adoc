@@ -47,8 +47,8 @@ JavaScript objects, we effectively get late bound environments that are
 semantically close to Clojure's vars with respect to REPL driven development.
 
 Like ES modules, the `goog.module` format is simply incompatible with REPL driven
-development. Because namespaces are effectively function closures, redefinition
-is simply not a part of the design. The complexities and tradeoffs for interactive
+development. Because namespaces are effectively function closures, precise
+redefinition is simply not a part of the design. The complexities and tradeoffs for interactive
 development are easily apparent when comparing typical JavaScript "hot-reloading"
 workflows and the development experience available to Clojure developers.
 
