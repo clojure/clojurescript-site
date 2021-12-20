@@ -1,0 +1,22 @@
+= 1.10.914 Release
+ClojureScript Team
+2021-12-04 10:30:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+## Noteworthy Changes
+
+* Handle Node.js package.json exports (fixes Firebase 9.X.X usage)
+* Fix regression around requiring `goog`
+* Fix regression around the Node.js REPL related to `goog.module` changes
+* Fix Windows platform issues
+
+## Change List
+
+For a complete list of updates in ClojureScript 1.10.914 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.914[Changes]
+as well as https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.896[Changes]
