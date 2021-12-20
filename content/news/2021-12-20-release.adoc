@@ -18,5 +18,5 @@ user of ClojureScript please read over the following release notes carefully.
 ## Change List
 
 For a complete list of updates in ClojureScript 1.10.914 see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.914[Changes]
-as well as https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.896[Changes]
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.914[here]
+as well as https://github.com/clojure/clojurescript/blob/master/changes.md#1.10.896[here]
