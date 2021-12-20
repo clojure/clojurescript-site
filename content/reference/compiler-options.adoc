@@ -137,7 +137,7 @@ multimethod. For more info see <<xref/../javascript-library-preprocessing#,JavaS
 exported values. The keys may be symbols or strings. If present the foreign library can be used idiomatically
 when required, i.e. support for `:refer`, `:rename`, `:as`, etc.
 
-[[:global-goog-object&array]]
+[[global-goog-object-ampersand-array]]
 === :global-goog-object&array
 
 Defaults to `false`. If `true` load `goog.object` and `goog.array` as global
