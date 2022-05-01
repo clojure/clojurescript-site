@@ -23,7 +23,8 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 == Build Tools
 
+
 * <<shadow-cljs#,shadow-cljs>>
+* https://figwheel.org[figwheel]
 * <<leiningen#,Leiningen>>
 * https://github.com/emezeske/lein-cljsbuild[lein-cljsbuild]
-* https://github.com/bhauman/lein-figwheel[lein-figwheel]
