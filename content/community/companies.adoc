@@ -94,6 +94,7 @@ Below is a partial list of some companies using ClojureScript. To add your compa
 https://www.omnyway.com[Omnyway,opts=nofollow] - https://github.com/omnyway-labs[Github,opts=nofollow]
 * https://company.ona.io[Ona,opts=nofollow]
 * https://opensensors.io/[OpenSensors,opts=nofollow]
+* https://orgpad.com/[OrgPad,opts=nofollow]
 * https://www.orkli.com/en[Orkli,opts=nofollow]
 * https://oursky.com[Oursky,opts=nofollow]
 * https://www.outpace.com/[Outpace,opts=nofollow]
