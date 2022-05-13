@@ -1,0 +1,60 @@
+= 1.11.51 Release
+ClojureScript Team
+2022-05-13 17:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+## Clojure 1.11 parity
+
+This release includes support for `:as-alias`. It adds `update-vals` and
+`update-keys`. It introduces the `cljs.math` namespace, providing portability
+for code using `clojure.math`. `iteration`,`NaN?`, `parse-long`, `parse-double`,
+`parse-boolean`, and `parse-uuid` have also been added.
+
+This release also ports CLJ-2608, which adds support for trailing, conj-able
+element in map-destructuring support for seqs.
+
+## Vendorization of tools.reader, data.json, and transit-clj
+
+ClojureScript is one of the largest libraries in the Clojure ecosystem. Having to
+compile some 20,000+ lines of Clojure code every time is a significant hit to
+REPL start times and other typical tasks. Thus ClojureScript is ahead-of-time (AOT)
+compiled.
+
+However, due to some subtle aspects of AOT this can lead to unresolveable
+dependency conflicts. Users have hit this issue with nearly all of the declared
+dependencies: transit-clj, data.json, and tools.reader.
+
+After conferring with the Clojure Team, we decided to vendorize all these
+dependencies. This way we can AOT everything and be confident that we won't
+create a conflict that can't easily be fixed via normal dependency management.
+ClojureScript no longer depends on transit-clj, only transit-java. The dependance
+on data.json has been removed. ClojureScript dependance on tools.reader is
+for a less common use case - bootstrapping the compiler to JavaScript.
+
+Some care was taken to ensure backwards compatibility, and we are particularly
+interested in any issues that people may encounter.
+
+## Other Changes
+
+The minimum Clojure version for ClojureScript is now 1.10. Google Closure
+Compiler has been updated to the May release.
+
+For a complete list of updates in ClojureScript 1.11.51 see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.11.51[here]
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.11.51:
+
+* Tom Connors
+* Roland Thiolliere
+* David Frese
+* Paula Gearon
+* Matthew Huebert
+* Hyun-woo Nam
+* Timothy Pratley
