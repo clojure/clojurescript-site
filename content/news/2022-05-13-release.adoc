@@ -42,7 +42,7 @@ interested in any issues that people may encounter.
 ## Other Changes
 
 The minimum Clojure version for ClojureScript is now 1.10. Google Closure
-Compiler has been update to the May release.
+Compiler has been updated to the May release.
 
 For a complete list of updates in ClojureScript 1.11.51 see
 https://github.com/clojure/clojurescript/blob/master/changes.md#1.11.51[here]
