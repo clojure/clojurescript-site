@@ -32,7 +32,7 @@ dependencies: transit-clj, data.json, and tools.reader.
 After conferring with the Clojure Team, we decided to vendorize all these
 dependencies. This way we can AOT everything and be confident that we won't
 create a conflict that can't easily be fixed via normal dependency management.
-ClojureScript no longer depends on transit-clj only transit-java. The dependance
+ClojureScript no longer depends on transit-clj, only transit-java. The dependance
 on data.json has been removed. ClojureScript dependance on tools.reader is
 for a less common use case - bootstrapping the compiler to JavaScript.
 
