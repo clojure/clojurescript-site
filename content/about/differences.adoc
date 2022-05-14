@@ -83,9 +83,8 @@ See <<xref/../../guides/quick-start#,Quick Start>>
 * `read`
 ** The `read` and `read-string` functions are located in the `cljs.reader` namespace
 * Tagged Literals 
-** Similar to https://clojure.org/reference/reader[Clojure Tagged Literals], except that a reader function
-should return a valid Clojurescript code form (which will be compiled to Javascript) whereas in Clojure
-no further reading/compilation is done to the result.
+** The same as https://clojure.org/reference/reader[Clojure Tagged Literals], except that reader functions are similar to a Clojurescript macros, in that they
+should return a valid Clojurescript code form or a literal (string, number).
 ** The Clojure compiler does not automatically require reader functions referred to in data_readers.clj/c,
 but the Clojurescript compiler does.
 ** see reader.adoc[The Reader] for more details
