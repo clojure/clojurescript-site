@@ -82,6 +82,12 @@ See <<xref/../../guides/quick-start#,Quick Start>>
 ** Because there is no character type in ClojureScript, ``\`` produces a single-character string.
 * `read`
 ** The `read` and `read-string` functions are located in the `cljs.reader` namespace
+* Tagged Literals 
+** The same as https://clojure.org/reference/reader[Clojure Tagged Literals], except that reader functions used at the compilation stage are similar to a Clojurescript macros, in that they
+should return a Clojurescript code form (or a literal such as a string or number).
+** The Clojure compiler does not automatically require reader functions referred to in data_readers.clj/c,
+but the Clojurescript compiler does.
+** see reader.adoc[The Reader] for more details
 
 == The REPL and main
 

@@ -1,0 +1,75 @@
+= The Reader
+Henry Widd
+2022-05-14
+:type: guides
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+The behaviour of Clojurescript's reader is mostly the same as the https://clojure.org/reference/reader[Clojure Reader]
+but with notable differences with respect to tagged literals.
+
+[[tagged_literals]]
+== Tagged Literals
+
+Tagged Literals allow users to extend the reader. See the Clojure https://Clojure.org/reference/reader#tagged_literals[Reader guide]
+on tagged literals for an introduction.
+
+== Reader functions 
+
+Imagine we have a custom tagged literal `#foo/bar`. We need to define reader functions for the contexts where we 
+want to read it, which will be one or both of:
+
+* Clojurescript source code or REPL input
+* in a JS runtime when reading (EDN) data 
+
+=== Clojurescript compilation
+
+In this situation Reader functions execute in Clojure and should return either a form which represents valid Clojurescript (similar to a Clojurescript macro) or 
+a literal such as a string or number.
+
+[source,Clojure]
+----
+(defn my-cljs-targeting-reader-fn [form]
+  `(.foo ~form)) 
+----
+
+This contrasts with Clojure reader functions, which execute like a normal function.
+
+[source,Clojure]
+----
+(defn my-clj-targeting-reader-fn [form]
+  (.foo form)) 
+
+----
+
+In order to read custom tagged literals in Clojurescript source, namespaced symbols are associated with reader
+functions in a data_readers.cljc file as described in the Clojure https://Clojure.org/reference/reader#tagged_literals[Reader guide]. If the same tagged literal is to be used for both Clojure and Clojurescript, https://clojure.org/reference/reader#_reader_conditionals[reader conditionals] may be used in data_readers.cljc if the reader functions
+will be different for targeting Clojure vs Clojurescript.
+
+=== Reading data 
+
+When using the EDN reader, reader functions are just regular Clojurescript functions (meaning not macro-like as when reading source).
+
+[source,Clojure]
+----
+(def custom-tag-map {'foo/bar (fn [x] (.foo x))})
+
+
+(cljs.edn/read-string
+    {:readers custom-tag-map}
+    "#foo/bar \"abc\"")
+----
+
+An alternative to `cljs.edn/read-string` is `cljs.reader/read-string`. This just calls `cljs.edn/read-string`, but note
+that the default tag mapping includes mappings read from data_readers.cljc. For the following to work, data_readers.cljc
+must contain and entry with key `'foo/bar` and a value that resolves to a regular Clojurescript function.
+
+[source,Clojure]
+----
+(cljs.reader/read-string "#foo/bar \"abc\"")
+----
+
