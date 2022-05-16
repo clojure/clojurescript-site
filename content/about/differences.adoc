@@ -87,7 +87,7 @@ See <<xref/../../guides/quick-start#,Quick Start>>
 should return a Clojurescript code form (or a literal such as a string or number).
 ** The Clojure compiler does not automatically require reader functions referred to in data_readers.clj/c,
 but the Clojurescript compiler does.
-** see reader.adoc[The Reader] for more details
+** see <<xref/../../guides/reader#,The Reader>>  for more details
 
 == The REPL and main
 
