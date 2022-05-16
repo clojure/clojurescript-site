@@ -16,3 +16,4 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<self-hosting#,Optional Self-hosting>>
 * <<native-executables#,Native Executables>>
 * <<promise-interop#,Promise Interop>>
+* <<reader#,The Reader>>
