@@ -58,3 +58,4 @@ Thanks to all of the community members who contributed to ClojureScript 1.11.51:
 * Matthew Huebert
 * Hyun-woo Nam
 * Timothy Pratley
+* Henry Widd
