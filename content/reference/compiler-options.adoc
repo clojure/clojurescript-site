@@ -158,6 +158,16 @@ JavaScript file that will import **goog/base.js**, the JavaScript file
 for the namespace, and emit the required `goog.require` statement. This
 permits leaving HTML markup identical between dev and production.
 
+Normally provided as a symbol. In an EDN config file you do not need to quote
+the symbol.
+
+[source,clojure]
+----
+:main foo.bar
+----
+
+`:main` can also be provided as a string, but the former is preferred.
+
 [source,clojure]
 ----
 :main "foo.bar"
@@ -336,7 +346,7 @@ preloads to work.
 === :pretty-print
 
 Determines whether the JavaScript output will be tabulated in a
-human-readable manner. Defaults to true.
+human-readable manner. Defaults to `false`.
 
 [source,clojure]
 ----
