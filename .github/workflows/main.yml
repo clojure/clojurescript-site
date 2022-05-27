@@ -1,6 +1,8 @@
 name: CI
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -8,8 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
     - name: Trigger publish
-      run: scripts/trigger
-      env:
-        TOKEN: ${{ secrets.TRIGGER_TOKEN }}
+      run: curl -X POST -H "Authorization:token ${{ secrets.TRIGGER_TOKEN }}" -H "Accept:application/vnd.github.v3+json" --data '{"event_type":"publish"}'  https://api.github.com/repos/clojure/clojurescript-org-style/dispatches
