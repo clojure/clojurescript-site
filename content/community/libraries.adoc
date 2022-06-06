@@ -121,7 +121,7 @@ Clojure(Script) reader
 * https://github.com/pleasetrythisathome/bardo[bardo], transitions
 * https://github.com/jeluard/lucuma/[lucuma], WebComponents
 * https://github.com/Skinney/differ[differ], data structure diffing
-* https://github.com/quile/component-cljs[component-cljs], port of Stuart Sierra's Component library
+* https://github.com/quile/component-cljs[component-cljs], port of Alessandra Sierra's Component library
 * https://github.com/niwibe/cats[cats], Monads
 * https://github.com/immoh/lively[lively], Client-side live programming support
 * https://wilker-dev.com/patterny/[patterny], Extract imagine patterns
