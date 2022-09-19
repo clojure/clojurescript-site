@@ -627,7 +627,6 @@ The following Closure warning options are exposed to ClojureScript:
 :too-many-type-params
 :tweaks
 :type-invalidation
-:undefined-names
 :undefined-variables
 :underscore
 :unknown-defines
