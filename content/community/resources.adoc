@@ -45,7 +45,7 @@ View & more…)
 === Chat
 
 * IRC: `#clojurescript` on https://freenode.net/[freenode.net]
-* Slack: `#clojurescript` on https://clojurians.slack.com/[Clojurians Slack] (https://clojurians.net/[get an invite here])
+* Slack: `#clojurescript` on https://clojurians.slack.com/[Clojurians Slack] (http://clojurians.net/[get an invite here])
 ** searchable chat logs can be found https://clojurians.zulipchat.com/#narrow/stream/180378-slack-archive/topic/clojurescript[here], and https://clojurians-log.clojureverse.org/[here]
 * Zulip: `#clojurescript` on https://clojurians.zulipchat.com/#narrow/stream/151762-clojurescript[Clojurians Zulip Chat]
 
