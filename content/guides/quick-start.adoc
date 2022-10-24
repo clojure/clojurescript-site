@@ -15,7 +15,7 @@ part of this tutorial are a web browser and an installation of
 https://clojure.org/guides/getting_started[Clojure]. On Windows you will need
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Java
 8] and the
-https://github.com/clojure/clojurescript/releases/download/r1.11.54/cljs.jar[standalone
+https://github.com/clojure/clojurescript/releases/download/r1.11.60/cljs.jar[standalone
 ClojureScript JAR]. Note that the requirement of a web browser excludes
 headless environments, and we then recommend skimming to the Node.js portion of the
 tutorial.
