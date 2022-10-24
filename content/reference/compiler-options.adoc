@@ -580,9 +580,7 @@ The following Closure warning options are exposed to ClojureScript:
 [source,clojure]
 ----
 :access-controls
-:ambiguous-function-decl
 :analyzer-checks
-:check-eventful-object-disposal
 :check-regexp
 :check-types
 :check-useless-code
@@ -596,14 +594,11 @@ The following Closure warning options are exposed to ClojureScript:
 :deprecated-annotations
 :duplicate-message
 :duplicate-vars
-:es3
 :es5-strict
 :externs-validation
 :extra-require
-:fileoverview-jsdoc
 :function-params
 :global-this
-:internet-explorer-checks
 :invalid-casts
 :j2cl-checks
 :jsdoc-missing-type
@@ -632,7 +627,6 @@ The following Closure warning options are exposed to ClojureScript:
 :too-many-type-params
 :tweaks
 :type-invalidation
-:undefined-names
 :undefined-variables
 :underscore
 :unknown-defines
