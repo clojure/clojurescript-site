@@ -34,6 +34,7 @@ Below is a partial list of some companies using ClojureScript. To add your compa
 * https://www.cognesys.de[cognesys,opts=nofollow]
 * https://www.cognician.com[Cognician,opts=nofollow]
 * https://cognitect.com[Cognitect,opts=nofollow]
+* https://composer.trade/[Composer,opts=nofollow]
 * https://www.condense.com.au/[Condense,opts=nofollow]
 * https://www.consumerreports.org/[Consumer Reports,opts=nofollow]
 * https://www.cybershopsystems.com[Cybershop Systems,opts=nofollow]
