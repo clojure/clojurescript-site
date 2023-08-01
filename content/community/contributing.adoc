@@ -72,8 +72,7 @@ ClojureScript jira account.
 
 Following the lead of other open source projects, the ClojureScript project
 requires contributors to jointly assign their copyright on contributed code. The
-https://secure.echosign.com/public/hostedForm?formid=95YMDL576B336E[Contributor
-Agreement] (CA) gives Rich Hickey and the contributor joint copyright interests
+https://na1.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhCosNUT5B8zx-HcOuj4okMO3a_2BCBfEsDwBu4Gi5iazVfgy9rFxWAKKy-9iMr42lo*[Contributor Agreement] (CA) gives Rich Hickey and the contributor joint copyright interests
 in the code: the contributor retains copyrights while also granting those rights
 to Rich Hickey as the open source project sponsor.
 
@@ -96,9 +95,7 @@ web page listing authorized contributors that is accessible via a public URL.
 
 == Instructions for submitting the agreement
 
-Fill out and submit the
-https://secure.echosign.com/public/hostedForm?formid=95YMDL576B336E[Contributor
-Agreement] (an online e-form)
+Fill out and submit the https://na1.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhCosNUT5B8zx-HcOuj4okMO3a_2BCBfEsDwBu4Gi5iazVfgy9rFxWAKKy-9iMr42lo*[Contributor Agreement] (an online e-form)
 
 Please see the https://clojure.org/community/contributing[Contributing] page for
 a collection of resources on tickets, builds, patches, source, and more. If
