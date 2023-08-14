@@ -82,7 +82,7 @@ https://www.oracle.com/technetwork/oca-faq-405384.pdf[OCA FAQ] answering many
 questions.
 
 The CA does not change the rights or responsibilities of the Clojure community
-under the https://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License
+under the https://opensource.org/license/epl-1-0/[Eclipse Public License
 (EPL)]. By executing the CA, contributors protect the Clojure code base, enable
 alternative licensing models, and protect the flexibility to adapt the project
 to the changing demands of the community. In order for the CA to be effective,
