@@ -82,7 +82,7 @@ See <<xref/../../guides/quick-start#,Quick Start>>
 ** Because there is no character type in ClojureScript, ``\`` produces a single-character string.
 * `read`
 ** The `read` and `read-string` functions are located in the `cljs.reader` namespace
-* Tagged Literals 
+* Tagged Literals
 ** The same as https://clojure.org/reference/reader[Clojure Tagged Literals], except that reader functions used at the compilation stage are similar to a Clojurescript macros, in that they
 should return a Clojurescript code form (or a literal such as a string or number).
 ** The Clojure compiler does not automatically require reader functions referred to in data_readers.clj/c,
@@ -182,6 +182,8 @@ You may be wondering: “If that's the case, which one do I get?” ClojureScrip
 *** Ports of Clojure's implementations
 ** Transient support in place for persistent vectors, hash maps and hash sets
 ** Most but not all collection fns are implemented
+* StructMaps
+** ClojureScript does not implement `defstruct`, `create-struct`, `struct-map`, `struct`, or `accessor`.
 
 == Seqs
 
