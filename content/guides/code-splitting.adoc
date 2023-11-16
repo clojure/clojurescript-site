@@ -33,6 +33,13 @@ cd hello-modules
 mkdir src
 ```
 
+Create a `deps.edn` file that looks like the following:
+
+[source,clojure]
+```
+{:deps {org.clojure/clojurescript {:mvn/version "1.11.54"}}}
+```
+
 Create a `build.edn` file that looks like the following:
 
 [source,clojure]
