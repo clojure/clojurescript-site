@@ -761,10 +761,15 @@ Defaults to `false`. For more info see
 Configure the input and output languages for the closure library. May be:
 
 * `:ecmascript-next` identical to `:es-next`
+* `:ecmascript-2021` identical to `:es-2021`
+* `:ecmascript-2020` identical to `:es-2020`
+* `:ecmascript-2019` identical to `:es-2019`
+* `:ecmascript-2018` identical to `:es-2018`
 * `:ecmascript-2017` identical to `:es-2017`
 * `:ecmascript-2016` identical to `:es-2016`
-* `:ecmascript-2015` identical to `:es-2015`, `:ecmascript6`, `:es6`, `:ecmascript6-strict`, `:es6-strict`
-* `:ecmascript6-typed` identical to `:es6-typed`
+* `:ecmascript-2015` identical to `:es-2015`
+* `:ecmascript6` identical to `:es6`
+* `:ecmascript6-strict` identical to `:es6-strict`
 * `:ecmascript5` identical to `:es5`
 * `:ecmascript5-strict` identical to `:es5-strict`
 * `:ecmascript3` identical to `:es3`
