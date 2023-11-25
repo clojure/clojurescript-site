@@ -148,6 +148,10 @@ List of directories to search for static content. Defaults to
 The source directory containing user-defined cljs files. Used to
 support reflection. Defaults to `"src/"`.
 
+[[port]]
+=== :port
+Default port is 9000. To change use `:port N` where N is the desired port number. 
+
 == Node REPL Options
 
 [[host]]
