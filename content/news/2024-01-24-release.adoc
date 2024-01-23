@@ -24,7 +24,7 @@ Google has https://groups.google.com/g/closure-library-discuss/c/FijyNE6_kt4[sto
 What does this mean for the future of ClojureScript? Not a whole lot. Google
 Closure Library is a project distinct from the Compiler that provides a large
 set of reusable battle-tested libraries that are Closure-compatible. As browsers
-and the JavaScript ecosystem have evolved this project has become less
+and the JavaScript ecosystem have evolved, this project has become less
 important to Google.
 
 Google is not going to remove Google Closure Library (GCL), remove the API
