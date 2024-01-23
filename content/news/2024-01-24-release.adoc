@@ -20,7 +20,7 @@ Closure Compiler now requires Java 11.
 
 ## Google Closure Library Maintenance Mode & ClojureScript
 
-Google has [stopped developing Google Closure Library](https://groups.google.com/g/closure-library-discuss/c/FijyNE6_kt4).
+Google has https://groups.google.com/g/closure-library-discuss/c/FijyNE6_kt4[stopped developing Google Closure Library].
 What does this mean for the future of ClojureScript? Not a whole lot. Google
 Closure Library is a project distinct from the Compiler that provides a large
 set of reusable battle-tested libraries that are Closure-compatible. As browsers
@@ -43,7 +43,7 @@ could also be evolved gradually over time.
 None of the above changes that we generate Google Closure Compiler compatible
 JavaScript and will continue to do so. Google itself embraced the wider
 JavaScript ecosystem, but they also transpile everything into Google Closure Compiler
-compatible JS (via [tsickle](https://github.com/angular/tsickle)) before finally
+compatible JS (via https://github.com/angular/tsickle[tsickle]) before finally
 processing it with Google Closure Compiler.
 
 As usual we do not believe in creating meaningless churn for users. You can continue
