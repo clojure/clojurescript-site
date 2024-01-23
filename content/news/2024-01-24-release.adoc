@@ -46,7 +46,7 @@ JavaScript ecosystem, but they also transpile everything into Google Closure Com
 compatible JS (via https://github.com/angular/tsickle[tsickle]) before finally
 processing it with Google Closure Compiler.
 
-As usual we do not believe in creating meaningless churn for users. You can continue
+As always, we do not believe in creating meaningless churn for users. You can continue
 to rely on GCL in its current form for years. You can expect various base
 GCL namespaces (`goog.string`, `goog.object`, etc.) to be available as before.
 
