@@ -56,7 +56,7 @@ provided by the JavaScript ecosystem.
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.11.51:
+Thanks to all of the community members who contributed to ClojureScript 1.11.132:
 
 * Will Cohen
 * Michiel Borkent
