@@ -27,9 +27,9 @@ set of reusable battle-tested libraries that are Closure-compatible. As browsers
 and the JavaScript ecosystem have evolved this project has become less
 important to Google.
 
-Google is not going to remove Google Closure Library (GCL) or remove the API
-docs or doing anything that would be detrimental to ClojureScript. Note that
-Google stopped provided regular releases many years ago - ClojureScript uses an
+Google is not going to remove Google Closure Library (GCL), remove the API
+docs, or doing anything that would be detrimental to ClojureScript. Note that
+Google stopped providing regular releases many years ago - ClojureScript uses an
 artifact that we release ourselves. Even if Google did remove GCL from the
 Internet, we could still continue to provide the artifact and docs ourselves.
 
