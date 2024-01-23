@@ -47,11 +47,12 @@ compatible JS (via https://github.com/angular/tsickle[tsickle]) before finally
 processing it with Google Closure Compiler.
 
 As usual we do not believe in creating meaningless churn for users. You can continue
-to rely on GCL in it's current form for years. You can expect various base
-GCL namespaces to be available as before.
+to rely on GCL in its current form for years. You can expect various base
+GCL namespaces (`goog.string`, `goog.object`, etc.) to be available as before.
 
-Looking towards the future, assessing Google's tsickle strategy for dealing
-with JavaScript dependencies is worth assessing deeply.
+Looking towards the future, it is worth assessing Google's approach with tsickle
+to get the benefits of Closure advanced compilation without losing the ease
+provided by the JavaScript ecosystem.
 
 ## Contributors
 
