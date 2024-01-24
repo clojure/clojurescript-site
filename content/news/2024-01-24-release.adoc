@@ -1,0 +1,68 @@
+= 1.11.132 Release
+ClojureScript Team
+2024-01-24 12:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+This is primarily a bugfix release.
+
+For a complete list of fixes, changes, and enhancements to ClojureScript see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.11.132[here]
+
+## Google Closure Compiler & Java 8
+
+This will probably be the last ClojureScript release to support Java 8 as Google
+Closure Compiler now requires Java 11.
+
+## Google Closure Library Maintenance Mode & ClojureScript
+
+Google has https://groups.google.com/g/closure-library-discuss/c/FijyNE6_kt4[stopped developing Google Closure Library].
+What does this mean for the future of ClojureScript? Not a whole lot. Google
+Closure Library is a project distinct from the Compiler that provides a large
+set of reusable battle-tested libraries that are Closure-compatible. As browsers
+and the JavaScript ecosystem have evolved, this project has become less
+important to Google.
+
+Google is not going to remove Google Closure Library (GCL), remove the API
+docs, or doing anything that would be detrimental to ClojureScript. Note that
+Google stopped providing regular releases many years ago - ClojureScript uses an
+artifact that we release ourselves. Even if Google did remove GCL from the
+Internet, we could still continue to provide the artifact and docs ourselves.
+
+The standard library, `cljs.core`, uses GCL in relatively simple ways, most of
+which could be replaced easily. This will likely happen over time and community
+contributions are welcome in this effort.
+
+The various built-in REPLs (Browser, Node) use a bit more GCL functionality and
+could also be evolved gradually over time.
+
+None of the above changes that we generate Google Closure Compiler compatible
+JavaScript and will continue to do so. Google itself embraced the wider
+JavaScript ecosystem, but they also transpile everything into Google Closure Compiler
+compatible JS (via https://github.com/angular/tsickle[tsickle]) before finally
+processing it with Google Closure Compiler.
+
+As always, we do not believe in creating meaningless churn for users. You can continue
+to rely on GCL in its current form for years. You can expect various base
+GCL namespaces (`goog.string`, `goog.object`, etc.) to be available as before.
+
+Looking towards the future, it is worth assessing Google's approach with tsickle
+to get the benefits of Closure advanced compilation without losing the ease
+provided by the JavaScript ecosystem.
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.11.132:
+
+* Will Cohen
+* Michiel Borkent
+* John Newman
+* Enzzo Cavallo
+* Allen Rohner
+* Adam Kalisz
+* Erik Assum
+* Nikita Prokopov
