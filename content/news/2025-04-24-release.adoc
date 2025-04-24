@@ -1,0 +1,34 @@
+= 1.12.35 Release
+ClojureScript Team
+2024-04-24 12:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+This release updates Google Closure Compiler to `v20250402` and now depends on the Clojure fork
+of Google Closure Library. More on that later.
+
+For a complete list of fixes, changes, and enhancements to ClojureScript see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.35[here]
+
+## Google Closure Compiler & Java 21
+
+Last year we noted that updating Google Closure Compiler would mean losing Java
+8 support. Google Closure now requires Java 21.
+
+## Clojure's Fork of Google Closure Library
+
+Google stopped contributing to Google Closure Library last August. But
+this is largely a blessing in disguise. As far as ClojureScript was
+the quality of maintenance for GCL had greatly declined with an
+increasing amount of churn over the past five years and Google sorted
+out their internal JavaScript strategy.
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.12.35:
+
+* Will Cohen
