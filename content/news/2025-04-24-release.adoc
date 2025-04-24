@@ -9,9 +9,11 @@ We're happy to announce a new release of ClojureScript. If you're an
 existing user of ClojureScript please read over the following release
 notes carefully.
 
-This release updates Google Closure Compiler to `v20250402` and now
-depends on the Clojure fork of Google Closure Library. More on that
-later.
+This release features two significant dependency changes. First,
+Google Closure Compiler has been updated to `v20250402`. This change
+makes Java 21 a requirement for ClojureScript. The other signficant
+change is that this release now depends on the Clojure fork of Google
+Closure Library. More on that later.
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
@@ -28,12 +30,13 @@ Google stopped contributing to Google Closure Library (GCL) last
 August. As far as ClojureScript was concerned, the stability of GCL
 had declined significantly over the past 5 years with an increasing
 amount of churn as Google sorted out their internal JavaScript
-strategy.
+strategy. Google stopping GCL development removes a consistent source
+of unexpected surprises between releases.
 
 We have forked Google Closure Library and have taken up maintenance.
 The very first changes made were simply backing out breaking changes
-to GCL which have no benefit for ClojureScript and aligning the
-codebase with the most recent Google Closure Compiler.
+aligning the codebase with the latest Google Closure Compiler
+release.
 
 ## Contributors
 
