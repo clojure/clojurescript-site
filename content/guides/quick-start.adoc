@@ -309,7 +309,7 @@ Modify your `deps.edn` file:
 [source,clojure]
 ----
 {:deps {org.clojure/clojurescript {:mvn/version "1.11.54"}
-        cljsjs/react-dom {:mvn/version "16.2.0-3"}}}
+        cljsjs/react-dom {:mvn/version "18.3.1-1"}}}
 ----
 
 Let's edit our simple program to look like the following so that React
