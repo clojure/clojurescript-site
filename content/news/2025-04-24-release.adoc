@@ -1,19 +1,18 @@
-nh.ki= 1.12.35 Release
+nh.ki= 1.12.38 Release
 ClojureScript Team
-2024-04-24 12:00:00
+2024-05-12 12:00:00
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-We're happy to announce a new release of ClojureScript. If you're an
-existing user of ClojureScript please read over the following release
-notes carefully.
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
 
-This release features two significant dependency changes. First,
-Google Closure Compiler has been updated to `v20250402`. This change
-makes Java 21 a requirement for ClojureScript. The other significant
-change is that this release now depends on the Clojure fork of Google
-Closure Library. Please read on for more details about these changes.
+This release features two significant dependency changes. First, Google Closure
+Compiler has been updated to `v20250402`. This change makes Java 21 a
+requirement for ClojureScript. The other significant change is that this release
+now depends on the Clojure fork of Google Closure Library. Please read on for
+more details about these changes.
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
@@ -21,33 +20,32 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.35[here]
 
 ## Google Closure Compiler & Java 21
 
-Last year we noted that updating Google Closure Compiler would mean
-losing Java 8 support. Google Closure now requires Java 21. From our
-perspective this change doesn't seem strictly necessary, but Google
-is a large organization and this change is probably to due to internal
-concerns which are hard to influence from the outside.
+Last year we noted that updating Google Closure Compiler would mean losing Java
+8 support. Google Closure now requires Java 21. From our perspective this change
+doesn't seem strictly necessary, but Google is a large organization and this
+change is likely to due to internal requirements which are hard to influence from
+the outside.
 
-So far, the burden of staying current with Google Closure has been
-manageable. If some reason that calculus changes, we could adopt
-the strategy we have taken with Google Closure Library.
+So far, the burden of staying current with Google Closure has been manageable.
+If some reason that calculus changes, we could adopt the strategy we have taken
+with Google Closure Library.
 
 ## Clojure's Fork of Google Closure Library
 
 Google stopped contributing to Google Closure Library (GCL) last August. As far
-as ClojureScript is concerned, the stability of certain critical portions of
+as ClojureScript is concerned, the stability of certain essential portions of
 GCL had declined significantly over the past 5 years. Google was clearly trying
-many things with respect to their internal JavaScript strategy, and this churn
-surfaced in the stability of the library. Google stopping GCL development
+many things with respect to their internal JavaScript strategy and it showed. Google stopping GCL development
 removes a consistent source of unexpected surprises between releases.
 
-We have forked Google Closure Library and have taken up maintenance. The very
+We have forked Google Closure Library and taken up maintenance. The very
 first changes made were simply backing out previously commited breaking changes,
 and aligning the codebase with the latest Google Closure Compiler release.
 
 One of the biggest benefits of GCL is that it makes ClojureScript a complete
 solution for writing ClojureScript for a variety of JavaScript contexts. You
-don't need to deal with Node modules, build tools, and various flavors of the
-month.
+don't need to deal with Node modules and dependencies, build tools, and other
+various flavors of the month.
 
 ## Contributors
 
