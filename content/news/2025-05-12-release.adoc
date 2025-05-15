@@ -45,21 +45,24 @@ first changes made were simply backing out previously commited breaking changes,
 and aligning the codebase with the latest Google Closure Compiler release.
 
 But why stick with an "aging" JavaScript library? Didn't Google themselves claim
-GCL was old-fashioned? Unfortunately for optics, Google avoiding enumerating the
-increasingly well-understood costs associated with mainstream JavaScript
-development practices. To be fair, this problem permeates contemporary
-software industry and highlights the systemic pitfalls that arise from
-optimizing ease against other equally valuable properties.
+GCL was old-fashioned? Unfortunately, for optics, Google avoided enumerating the
+now well-understood costs associated with mainstream JavaScript development
+practices. To be perfectly fair to JavaScript, these problems have permeated
+the software industry for years and they are cultural, not technical in nature.
 
 One of the biggest benefits of GCL is that it makes ClojureScript a complete
 solution for writing ClojureScript for a variety of JavaScript contexts,
 not limited to the browser. You don't need to deal with Node modules and
-dependencies, build tools, and other various flavors of the month.
+dependencies, build tools, build plugins, and other various flavors of the month
+to add some interactivity to a website. It rarely matter hows old a dependency
+is, take for example `domina`. Sure it generates a bunch of style warning from
+the ClojureScript compiler, but it compiles. If not for a Google Closure Library
+change you could use the entire API today.
 
 ## Contributors
 
 Thanks to all of the community members who contributed to
-ClojureScript 1.12.35:
+ClojureScript 1.12.38:
 
 * Michiel Borkent
 * Mike Fikes
