@@ -45,16 +45,18 @@ and aligning the codebase with the latest Google Closure Compiler release.
 
 One of the biggest benefits of GCL is that it makes ClojureScript a complete
 solution for writing ClojureScript for a variety of JavaScript contexts, not
-limited to the browser. While ClojureScript integrates well with wider JavaScript
-ecosystem these days, ClojureScript always provided a solid of set of tools
-out of the box as reliable as the standard library. That was true of GCL for a
-solid eight years from 2011-2019.
+limited to the browser. These days, ClojureScript integrates well with the wider
+JavaScript ecosystem these days, but ClojureScript always provided a solid of set of tools
+out of the box as reliable as the standard library. That was absolutely true from
+2011-2019 when GCL rigorously avoided breakage.
 
-We working on restoring that stability. With this release, you'll find that quite
-a few fine old ClojureScript libraries work again today as well as they did 14
-years ago.
+We working on restoring that original stability. With this release, you'll find
+that quite a few fine old ClojureScript libraries work again today as well as
+they did 14 years ago.
 
-And for users who are looking for a rich set of functionality but don't need
-need to build single page web apps, ClojureScript has a lot to offer without
-creating a large final artifact thanks to Google Closure Compiler advanced
-optimization.
+ClojureScript is not just for rich web applications. Many websites need rich
+DOM manipulation, robust internationalization, and compelling interactivity on
+a website without going to a framework. In these cases ClojureScript
+generates surprisingly compact output compared to the JavaScript alternatives.d
+
+Give it a try!
