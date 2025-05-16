@@ -24,7 +24,7 @@ Last year we noted that updating Google Closure Compiler would mean losing Java
 8 support. Google Closure now requires Java 21. From our perspective this change
 doesn't seem strictly necessary, but Google is a large organization and this
 change is likely to due to internal requirements which are hard to influence from
-the outside. The general enthusiasm in the Clojure community about adopting more
+the outside. The general enthusiasm in the Clojure community around adopting more
 recent Java releases hopefully softens the overall impact of this change.
 
 So far, the burden of staying current with Google Closure has been manageable.
@@ -39,8 +39,8 @@ JavaScript strategy as well becoming less concerned about the impact on outside
 consumers. Finally, Google stopped contributing to Google Closure Library
 last August.
 
-We have forked Google Closure Library and taken up maintenance. We backed out a
-few years of needlees breaking changes and aligned the codebase with the latest
+We have forked Google Closure Library (GCL) and taken up maintenance. We backed out a
+few years of needless breaking changes and aligned the codebase with the latest
 Google Closure Compiler release.
 
 One of the biggest benefits of GCL is that it makes ClojureScript a complete
@@ -49,15 +49,15 @@ Taking on additional dependencies always comes with a cost. One of
 ClojureScript's original value propositions was a rock solid set of readily
 available JavaScript tools as dependable as `clojure.core`.
 
-We are working on restoring that rock solid stability. With this release, you'll
-find that quite a few fine old ClojureScript libraries work again today as well
-as they did 14 years ago.
+We are working on restoring that original stability. With this release, you'll
+find that quite a few old ClojureScript libraries work again today as well
+as they did *14 years* ago.
 
 ClojureScript is and never was only just for rich web applications. Even in the
-post React-world, most of the web is (sensibly) still using jQuery. If you need
-non-trivial DOM manipulation, robust internationalization, data/time, color
-value manipulation, mathematics, programmatic animation, browser history,
-accessibility helpers, graphics, and more, all without committing to a framework
+post React-world, a large portion of the web is (sensibly) still using jQuery. If you need
+robust DOM manipulation, internationalization, date/time handling, color
+value manipulation, mathematics, programmatic animation, browser history management,
+accessibility support, graphics, and much more, all without committing to a framework
 and without bloating your final JavaScript artifact - ClojureScript is a one
 stop shop.
 
