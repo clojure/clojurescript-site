@@ -48,9 +48,9 @@ solution for writing ClojureScript for a variety of JavaScript contexts, not
 limited to the browser. These days, ClojureScript integrates well with the wider
 JavaScript ecosystem these days, but ClojureScript always provided a solid of set of tools
 out of the box as reliable as the standard library. That was absolutely true from
-2011-2019 when GCL rigorously avoided breakage.
+2011-2019 when GCL rigorously avoided breaking changes.
 
-We working on restoring that original stability. With this release, you'll find
+We are working on restoring that rock solid stability. With this release, you'll find
 that quite a few fine old ClojureScript libraries work again today as well as
 they did 14 years ago.
 
