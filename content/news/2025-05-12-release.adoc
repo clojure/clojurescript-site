@@ -16,7 +16,7 @@ more details about these changes.
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.38[here]
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.42[here]
 
 ## Google Closure Compiler & Java 21
 
@@ -28,41 +28,33 @@ the outside. The general enthusiasm in the Clojure community about adopting more
 recent Java releases hopefully softens the overall impact of this change.
 
 So far, the burden of staying current with Google Closure has been manageable.
-If some reason that calculus changes, we could adopt the strategy we have taken
+If for some reason that calculus changes, we could adopt the strategy we have taken
 with Google Closure Library.
 
 ## Clojure's Fork of Google Closure Library
 
 Google stopped contributing to Google Closure Library (GCL) last August. As far
 as ClojureScript is concerned, the stability of GCL had declined significantly
-over the past few years after a long period of stability. Google was clearly
-trying many things with respect to their internal JavaScript strategy and it
-showed. Google ending GCL development removes a consistent source of unexpected
-surprises between releases.
+over the past few years after a long period of stability. Google was both
+trying many things with respect to their internal JavaScript strategy as
+well becoming less concerned about the impact on outside consumers.
 
 We have forked Google Closure Library and taken up maintenance. The very
 first changes made were simply backing out previously commited breaking changes,
 and aligning the codebase with the latest Google Closure Compiler release.
 
-But why stick with an "aging" JavaScript library? Didn't Google themselves claim
-GCL was old-fashioned? Unfortunately, for optics, Google avoided enumerating the
-now well-understood costs associated with mainstream JavaScript development
-practices. To be perfectly fair to JavaScript, these problems have permeated
-the software industry for years and they are cultural, not technical in nature.
-
 One of the biggest benefits of GCL is that it makes ClojureScript a complete
-solution for writing ClojureScript for a variety of JavaScript contexts,
-not limited to the browser. You don't need to deal with Node modules and
-dependencies, build tools, build plugins, and other various flavors of the month
-to add some interactivity to a website. It rarely matter hows old a dependency
-is, take for example `domina`. Sure it generates a bunch of style warning from
-the ClojureScript compiler, but it compiles. If not for a Google Closure Library
-change you could use the entire API today.
+solution for writing ClojureScript for a variety of JavaScript contexts, not
+limited to the browser. While ClojureScript integrates well with wider JavaScript
+ecosystem these days, ClojureScript always provided a solid of set of tools
+out of the box as reliable as the standard library. That was true of GCL for a
+solid eight years from 2011-2019.
 
-## Contributors
+We working on restoring that stability. With this release, you'll find that quite
+a few fine old ClojureScript libraries work again today as well as they did 14
+years ago.
 
-Thanks to all of the community members who contributed to
-ClojureScript 1.12.38:
-
-* Michiel Borkent
-* Mike Fikes
+And for users who are looking for a rich set of functionality but don't need
+need to build single page web apps, ClojureScript has a lot to offer without
+creating a large final artifact thanks to Google Closure Compiler advanced
+optimization.
