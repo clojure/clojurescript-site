@@ -35,7 +35,7 @@ with Google Closure Library.
 
 The incredible stability of Google Closure Library started declining around
 2019. Google was both trying many things with respect to their internal
-JavaScript strategy as well becoming less concerned about the impact on outside
+JavaScript strategy as well as becoming less concerned about the impact on outside
 consumers. Finally, Google stopped contributing to Google Closure Library
 last August.
 
