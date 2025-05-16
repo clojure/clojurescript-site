@@ -1,4 +1,4 @@
-= 1.12.38 Release
+= 1.12.42 Release
 ClojureScript Team
 2024-05-12 12:00:00
 :jbake-type: post
