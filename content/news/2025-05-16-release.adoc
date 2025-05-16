@@ -1,6 +1,6 @@
 = 1.12.42 Release
 ClojureScript Team
-2024-05-12 12:00:00
+2024-05-16 12:00:00
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
@@ -46,8 +46,8 @@ Google Closure Compiler release.
 One of the biggest benefits of GCL is that it makes ClojureScript a complete
 solution for a variety of JavaScript contexts, not limited to the browser.
 Taking on additional dependencies always comes with a cost. One of
-ClojureScript's original value propositions was a rock solid set of standard
-JavaScript tool as dependable as `clojure.core`.
+ClojureScript's original value propositions was a rock solid set of readily
+available JavaScript tools as dependable as `clojure.core`.
 
 We are working on restoring that rock solid stability. With this release, you'll
 find that quite a few fine old ClojureScript libraries work again today as well
@@ -55,8 +55,10 @@ as they did 14 years ago.
 
 ClojureScript is and never was only just for rich web applications. Even in the
 post React-world, most of the web is (sensibly) still using jQuery. If you need
-non-trivial DOM manipulation, robust internationalization, and compelling
-interactivity without a framework, ClojureScript works well and generates
-surprisingly compact output compared to the JavaScript alternatives.
+non-trivial DOM manipulation, robust internationalization, data/time, color
+value manipulation, mathematics, programmatic animation, browser history,
+accessibility helpers, graphics, and more, all without committing to a framework
+and without bloating your final JavaScript artifact - ClojureScript is a one
+stop shop.
 
 Give it a try!
