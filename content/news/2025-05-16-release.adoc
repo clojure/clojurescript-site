@@ -1,0 +1,64 @@
+= 1.12.42 Release
+ClojureScript Team
+2024-05-16 16:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+This release features two significant dependency changes. First, Google Closure
+Compiler has been updated to `v20250402`. This change makes Java 21 a
+requirement for ClojureScript. The other significant change is that this release
+now depends on the Clojure fork of Google Closure Library. Please read on for
+more details about these changes.
+
+For a complete list of fixes, changes, and enhancements to
+ClojureScript see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.42[here]
+
+## Google Closure Compiler & Java 21
+
+Last year we noted that updating Google Closure Compiler would mean losing Java
+8 support. Google Closure now requires Java 21. From our perspective this change
+doesn't seem strictly necessary, but Google is a large organization and this
+change is likely to due to internal requirements which are hard to influence from
+the outside. The general enthusiasm in the Clojure community around adopting more
+recent Java releases hopefully softens the overall impact of this change.
+
+So far, the burden of staying current with Google Closure has been manageable.
+If for some reason that calculus changes, we could adopt the strategy we have taken
+with Google Closure Library.
+
+## Clojure's Fork of Google Closure Library
+
+The incredible stability of Google Closure Library started declining around
+2019. Google was both trying many things with respect to their internal
+JavaScript strategy as well becoming less concerned about the impact on outside
+consumers. Finally, Google stopped contributing to Google Closure Library
+last August.
+
+We have forked Google Closure Library (GCL) and taken up maintenance. We backed out a
+few years of needless breaking changes and aligned the codebase with the latest
+Google Closure Compiler release.
+
+One of the biggest benefits of GCL is that it makes ClojureScript a complete
+solution for a variety of JavaScript contexts, not limited to the browser.
+Taking on additional dependencies always comes with a cost. One of
+ClojureScript's original value propositions was a rock solid set of readily
+available JavaScript tools as dependable as `clojure.core`.
+
+We are working on restoring that original stability. With this release, you'll
+find that quite a few old ClojureScript libraries work again today as well
+as they did *14 years* ago.
+
+ClojureScript is and never was only just for rich web applications. Even in the
+post React-world, a large portion of the web is (sensibly) still using jQuery. If you need
+robust DOM manipulation, internationalization, date/time handling, color
+value manipulation, mathematics, programmatic animation, browser history management,
+accessibility support, graphics, and much more, all without committing to a framework
+and without bloating your final JavaScript artifact - ClojureScript is a one
+stop shop.
+
+Give it a try!
