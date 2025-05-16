@@ -53,7 +53,7 @@ We are working on restoring that original stability. With this release, you'll
 find that quite a few old ClojureScript libraries work again today as well
 as they did *14 years* ago.
 
-ClojureScript is and never was only just for rich web applications. Even in the
+ClojureScript is not and never was only just for rich web applications. Even in the
 post React-world, a large portion of the web is (sensibly) still using jQuery. If you need
 robust DOM manipulation, internationalization, date/time handling, color
 value manipulation, mathematics, programmatic animation, browser history management,
