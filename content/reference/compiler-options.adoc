@@ -819,9 +819,10 @@ Defaults to the empty vector `[]`
 [[lite-mode]]
 === :lite-mode
 
-EXPERIMENTAL. Clojure data literals will emit constructor calls to lighter weight
-copy-on-write data structures. Enable smaller advanced compiled artifacts
-for less complex programs.
+EXPERIMENTAL. Clojure data literals will emit constructor calls to
+lighter weight copy-on-write data structures. Results in smaller
+advanced compiled artifacts. Useful only for simpler programs. See
+also `:elide-to-string`.
 
 [source,clojure]
 ----
