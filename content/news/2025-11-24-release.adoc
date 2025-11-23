@@ -99,3 +99,11 @@ true.
 ```
 
 We're excited to hear feedback about all these new features!
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.12.108
+
+* Michel Borkent
+* Paula Gearon
+* Roman Liutikov
