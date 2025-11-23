@@ -12,13 +12,13 @@ This a major feature release with a significant number of enhancements. Before d
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.108[here]
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.110[here]
 
 ## ECMAScript 2016 Language Specification
 
-ClojureScript, outside of a few small exceptions, has generated ECMAScript 3rd edition (1999) compatible code. We avoided any newer constructs because historically they offered undesirable outcomes: increased code size due to polyfilling and decreased performance due to yet unoptimized paths in JavaScript virtual machines.
+ClojureScript, outside of a few small exceptions, has generated https://www.ecma-international.org/wp-content/uploads/ECMA-262_3rd_edition_december_1999.pdf[ECMAScript 3rd edition (1999)] compatible code. We avoided any newer constructs because historically they offered undesirable outcomes: increased code size due to polyfilling and decreased performance due to yet unoptimized paths in JavaScript virtual machines.
 
-Nine years have passed since the ECMAScript 2016 was released and the major JavaScript virtual machines now offer great performance across the specification. While language constructs like `let` surprisingly https://vincentrolfs.dev/blog/ts-var[fail] to deliver much value for ClojureScript, features like `Proxy` and `Reflect` solve real problems at low, low prices.
+Nine years have passed since the https://262.ecma-international.org/7.0/[ECMAScript 2016] was released and the major JavaScript virtual machines now offer great performance across the specification. While language constructs like `let` surprisingly https://vincentrolfs.dev/blog/ts-var[fail] to deliver much value for ClojureScript, features like https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy[Proxy] and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect[Reflect] solve real problems at low, low prices.
 
 ClojureScript will use ES2016 moving foward where it delivers value and performance benefits.
 
@@ -43,7 +43,7 @@ This feature needs commmunity tire kicking, but we believe this approach offers 
 
 ## Clojure Method Values
 
-ClojureScript now supports Clojure 1.12 method value syntax as well as static field syntax. `PersistentVector/EMPTY` works, but also `String/.toUpperCase` and `Object/new`. Thanks to ES2016 `Reflect` we do not need manual `:param-tags` for disambiguation, and it covers the many cases where type information will simply not be available to the ClojureScript compiler.
+ClojureScript now supports https://clojure.org/reference/java_interop#methodvalues[Clojure 1.12 method value] syntax as well as static field syntax. `PersistentVector/EMPTY` works, but also `String/.toUpperCase` and `Object/new`. Thanks to ES2016 `Reflect` we do not need manual `:param-tags` for disambiguation, and it covers the many cases where type information will simply not be available to the ClojureScript compiler.
 
 [source,clojure]
 ```
@@ -83,7 +83,7 @@ The other code size issue in ClojureScript programs is printing. While required 
 
 Combining these two new experimental flags cuts the starting artifact size by two thirds. However, it's important to understand these flags cannot be used to make *large* ClojureScript programs smaller - once you have enough dependencies or rely on enough features, the savings provided by `:lite-mode` are a wash.
 
-But for people who know that they want to build something very compact, yet not give up on the bits of `cljs.core` and Google Closure Library that they need, these two new flags offer great value.
+But for people who know that they want to build something very compact, yet not give up on useful bits of `cljs.core` and Google Closure Library, these two new flags deliver more control.
 
 The following program is 6K Brotli compressed with `:lite-mode` and `:elide-to-string`.
 
