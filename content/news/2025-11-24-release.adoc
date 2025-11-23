@@ -85,8 +85,7 @@ Combining these two new experimental flags cuts the starting artifact size by tw
 
 But for people who know that they want to build something very compact, yet not give up on the bits of `cljs.core` and Google Closure Library that they need, these two new flags offer great value.
 
-The following program is 6K Brotli compressed with `:lite-mode` + `:elide-to-string`
-true.
+The following program is 6K Brotli compressed with `:lite-mode` and `:elide-to-string`.
 
 [source,clojure]
 ```
