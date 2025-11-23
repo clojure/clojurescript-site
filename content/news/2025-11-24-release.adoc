@@ -75,7 +75,7 @@ ClojureScript now supports hypermedia-centric development approaches where you m
 
 Not all programs we might want to write require ambition. There are light scripting use cases, say for a blog, that are not currently well served by ClojureScript.
 
-How to break the 20K compressed wall? After some time in the hammock, we decided to travel back to 2011 and resurface the original data structures that Rich Hickey and co. included in the standard library. While not as efficient, they are decoupled and smaller. By having ClojureScript compiler to emit calls to the older constructors instead under the new `:lite-mode` compiler flag, tree-shaking can eliminate the heavier persistent implementations.
+How to break the 20K compressed wall? After some time in the hammock, we decided to travel back to 2011 and resurface the original data structures that Rich Hickey and co. included in the standard library. While not as efficient, they are decoupled and smaller. By having ClojureScript compiler to emit calls to the older constructors with the new `:lite-mode` compiler flag, tree-shaking can eliminate the heavier persistent implementations.
 
 Printing is another blocker for very compact artifacts. Many simpler programs will never recursively print EDN. The `:elide-to-string` compiler flag removes the `toString` implementations leading to better tree-shaking.
 
