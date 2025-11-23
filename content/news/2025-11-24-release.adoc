@@ -73,15 +73,13 @@ ClojureScript now supports hypermedia-centric development approaches where you m
 
 ## `:lite-mode` and `:elide-to-string`
 
-While ClojureScript enables writing ambitious programs for JavaScript targets, not all programs we might want to write require ambition. There are light scripting use cases, say for a blog, that are not currently well served by ClojureScript.
+Not all programs we might want to write require ambition. There are light scripting use cases, say for a blog, that are not currently well served by ClojureScript.
 
-ClojureScript always produced a reasonably small artifact, usually starting at 20K compressed. And thanks to Google Closure Compiler tree-shaking, you could leverage powerful functionality from Google Closure Library and expect the size of your final artifact to increase slowly.
+How to break the 20K compressed wall? After some time in the hammock, we decided to travel back to 2011 and resurface the original data structures that Rich Hickey and co. included in the standard library. While not as efficient, they are decoupled and smaller. By having ClojureScript compiler to emit calls to the older constructors instead under the new `:lite-mode` compiler flag, tree-shaking can eliminate the heavier persistent implementations.
 
-Still the hard 20K compressed wall remained. After some time in the hammock, we decided to travel all the way back to 2011 and bring back the original data structures that Rich Hickey and Think Relevance included in the standard library.  While not as efficient, they are decoupled and involve less code. By tweaking the ClojureScript compiler to emit calls to the older constructors instead under a new `:lite-mode` compiler flag, tree-shaking can eliminate the persistent implementations.
+Printing is another blocker for very compact artifacts. Many simpler programs will never recursively print EDN. The `:elide-to-string` compiler flag removes the `toString` implementations leading to better tree-shaking.
 
-The other code size issue in ClojureScript programs is printing. While required to deliver the LISP experience at the REPL, for less ambitious artifacts the machinery is just dead weight. The `:elide-to-string` compiler flag removes the `toString` implementations for collections types improving tree-shaking.
-
-Combining these two new experimental flags cuts the starting artifact size by two thirds. However, it's important to understand these flags cannot be used to make *large* ClojureScript programs smaller - once you have enough dependencies or rely on enough features, the savings provided by `:lite-mode` are a wash.
+Combining these two experimental flags cuts the starting artifact size by two thirds. It's important to understand these flags cannot be used to make *large* ClojureScript programs smaller - once you have enough dependencies or rely on enough features, the savings provided are a wash.
 
 But for people who know that they want to build something very compact, yet not give up on useful bits of `cljs.core` and Google Closure Library, these two new flags deliver more control.
 
