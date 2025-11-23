@@ -691,6 +691,18 @@ Whether to elide `use strict` statements in JavaScript output. Defaults to `true
 :elide-strict false
 ----
 
+[[elide-to-string]]
+=== :elide-to-string
+
+EXPERIMENTAL. Elide `.toString` implementations from ClojueScript
+collections. Intended to be paired with `:lite-mode`. Useful only for
+simpler programs.
+
+[source,clojure]
+----
+:elide-to-string true
+----
+
 [[fingerprint]]
 === :fingerprint
 
@@ -802,6 +814,18 @@ Defaults to the empty vector `[]`
 :libs ["closure/library/third_party/closure"
        "src/js"
        "src/org/example/example.js"]
+----
+
+[[lite-mode]]
+=== :lite-mode
+
+EXPERIMENTAL. Clojure data literals will emit constructor calls to lighter weight
+copy-on-write data structures. Enable smaller advanced compiled artifacts
+for less complex programs.
+
+[source,clojure]
+----
+:lite-mode true
 ----
 
 [[nodejs-rt]]
