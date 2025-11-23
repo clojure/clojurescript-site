@@ -8,7 +8,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 We're happy to announce a new release of ClojureScript. If you're an existing
 user of ClojureScript please read over the following release notes carefully.
 
-This a major feature release with a significant number of enhancements. Before diving in note that Google Closure Compiler has been updated to `v20250820`.
+This a major feature release with a significant number of enhancements. Before diving in, note that Google Closure Compiler has been updated to `v20250820`.
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
