@@ -43,7 +43,7 @@ This feature needs commmunity tire kicking, but we believe this approach offers 
 
 ## Clojure Method Values
 
-ClojureScript now supports Clojure 1.12 method value syntax as well as static field syntax. `PersistentVector/EMPTY` works, but also `String/.toUpperCase` and `Object/new`. Thanks to ES2016 `Reflect` we do not need manual `:param-tags` hinting for good performance, and it covers the many cases where type information will simply not be available to the ClojureScript compiler.
+ClojureScript now supports Clojure 1.12 method value syntax as well as static field syntax. `PersistentVector/EMPTY` works, but also `String/.toUpperCase` and `Object/new`. Thanks to ES2016 `Reflect` we do not need manual `:param-tags` for disambiguation, and it covers the many cases where type information will simply not be available to the ClojureScript compiler.
 
 [source,clojure]
 ```
