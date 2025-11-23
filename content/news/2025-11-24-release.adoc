@@ -61,7 +61,7 @@ ClojureScript now supports Clojure 1.12 method value syntax as well as static fi
 (my-date/new)
 ```
 
-`:require-global` lets you use JavaScript librares that you included as script tags on the page without any further build configuration. JavaScript build tooling brings a considerable amount of additional complexity and there is a growing population of developers moving to technologies that simplify tooling complexity. Hypermedia frameworks in particular have returned to more innocent times where at most you needed exactly one JavaScript dependency to be productive.
+`:require-global` lets you use JavaScript librares that you included as script tags on the page without any further build configuration. JavaScript build tooling brings a considerable amount of additional complexity and there is a growing population of developers moving to technologies that eliminate it. Hypermedia frameworks in particular have returned to more innocent times where at most you needed exactly one JavaScript dependency to be productive.
 
 ClojureScript now supports hypermedia-centric development approaches where you might have only one dependency and you are using ClojueScript / Google Closure Library primarily to build Web Components and want to side-step the JavaScript dependency churn and tooling burden entirely.
 
