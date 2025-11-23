@@ -1,0 +1,82 @@
+= 1.12.108 Release
+ClojureScript Team
+2025-11-25 12:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an existing
+user of ClojureScript please read over the following release notes carefully.
+
+This a major feature release with a significant number of enhancements. Before diving in note that Google Closure Compiler has been updated to `v20250820`.
+
+For a complete list of fixes, changes, and enhancements to
+ClojureScript see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.108[here]
+
+## ECMAScript 2016 Language Specification
+
+ClojureScript, outside of a few small exceptions, has generated ECMAScript 3rd edition (1999) compatible code. We avoided any newer constructs because they only presented two undesirable outcomes: increased code size due to polyfilling and decreased performance due to yet unoptimized paths in JavaScript virtual machines.
+
+Nine years have passed since the ECMAScript 2016 was released and the major JavaScript virtual machines now offer great performance across the specification. While language constructs like `let` https://vincentrolfs.dev/blog/ts-var[continue to fail] to deliver any value for ClojureScript, features like `Proxy` and `Reflect` solve real problems at low, low prices.
+
+ClojureScript will now generate ES2016.
+
+## `cljs.proxy`
+
+While ClojureScript always had a strong interop story, it was never as complete as Clojure on the JVM due to the lack of common interfaces, i.e. `java.util.Map`. ClojureScript values must be marshalled to JavaScript values, generating a significant amount of computational waste.
+
+Enter `cljs.proxy`. This new experimental namespace uses ES2016 Proxy to lazily bridge ClojureScript maps and vectors to JavaScript. JavaScript code can now see ClojureScript maps as objects and vectors as array likes. `cljs.proxy` was carefully written to add very little overhead for object access patterns over a direct `-lookup` call.
+
+[source,clojure]
+```
+(require '[cljs.proxy :refer [builder]]
+         '[goog.object :as gobj])
+
+(def proxy (builder))
+(def proxied-map (proxy {:foo 1 :bar 2}))
+
+(gobj/get proxied-map "foo") ;; => 1
+```
+
+The feature needs significant tire kicking, but we believe this approach offers considerable value over existing practice.
+
+## Clojure Method Values
+
+ClojureScript now supports Clojure 1.12 method value syntax as well as static field syntax. `PersistentVector/EMPTY` works, but also `String/.toUpperCase` and `Object/new`. Thanks to ES2016 `Reflect` we do not need `:param-tags` hinting or involved compiler analysis for good performance and  In many situations, like foreign libraries, the required type information would not be available.
+
+[source,clojure]
+```
+(refer-global :only '[String])
+(map String/.toUpperCase ["foo" "bar" "baz"]) ;; => ("FOO" "BAR" "BAZ")
+```
+
+## `:refer-global` and  `:require-global`
+
+`:refer-global` lets a namespace declare what thing from the global environment are needed without `js` prefixing. It can also be combined with `:rename`.
+
+[source,clojure]
+```
+(refer-global :only '[Date] :rename '{Date my-date})
+(my-date/new)
+```
+
+`:require-global` lets you use JavaScripy librares that you included as script tags on the page without any further build configuration. JavaScript build tooling brings a considerable amount of additional complexity. Hypermedia frameworks in particular  have returned to the simpler world where at most you needed exactly one dependency to be productive.
+
+Add the one script tag you need and use it from ClojureScript.
+
+## `:lite-mode` and `:elide-to-string`
+
+While ClojureScript enables writing ambitious programs for JavaScript targets, not allows are ambitious. There is light scripting, say for a blog, that is  not currentlt well served by ClojureScript.
+
+ClojureScript packs in a very large number of features and produces a small artifact, usually starting at 20K compressed. Thanks to Google Closure Compiler tree-shaking, you could use a lot functionality from Google Closure Library and expect your final artifact to increase slowly.
+
+Still the hard 20K compressed wall remained. After some time in the hammock we decided to travel all the way back to 2011 and bring back the original data structures that Rich Hickey and Think Relevance included in the standard library.  While not as efficient, they were more decoupled and involved less code. By tweaking the compiler to emit calls these instead under `:lite-mode` we could let tree-shaking sort it out.
+
+The other code issue in ClojureScript programs is printing. While necessary to deliver the LISP experience at the REPL, for many smaller programs, the machinery is dead weight. `:elide-to-string` removes the `toString` implementations for the ClojureScript collection.
+
+Combining these two new experimental flags cuts artifact size by a third. Note they cannot be used to make larger ClojureScript programs smaller - once you have enough dependencies or rely on enough features, the savings are a wash.
+
+However for people who know that they want to build something ver small, yet not give up on the bits of `cljs.core` and Google Closure Library that they, these two new flags offer great value.
+
+We're excited to hear feedback about all these new features!
