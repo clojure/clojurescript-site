@@ -26,7 +26,7 @@ ClojureScript will use ES2016 moving foward where it delivers value and performa
 
 ClojureScript's interop story, while strong, was never as complete as Clojure on the JVM due to the lack of common interfaces, i.e. `java.util.Map`. ClojureScript values had to be marshalled to JavaScript values via `clj->js`, generating a significant amount of computational waste.
 
-Enter `cljs.proxy`. This new experimental namespace uses ES2016 Proxy to lazily bridge ClojureScript maps and vectors to JavaScript. JavaScript code can now see ClojureScript maps as objects and vectors as array likes. `cljs.proxy` was carefully written to add very little overhead for object access patterns over a direct `-lookup` call.
+Enter `cljs.proxy`. This new experimental namespace uses ES2016 Proxy to lazily bridge ClojureScript maps and vectors to JavaScript. JavaScript code can now see ClojureScript maps as objects and vectors as array-likes. `cljs.proxy` was carefully written to add very little overhead for object access patterns over a direct `-lookup` call.
 
 [source,clojure]
 ```
