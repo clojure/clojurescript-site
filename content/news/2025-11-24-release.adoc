@@ -1,4 +1,4 @@
-= 1.12.110 Release
+= 1.12.112 Release
 ClojureScript Team
 2025-11-25 12:00:00
 :jbake-type: post
@@ -12,7 +12,7 @@ This a major feature release with a significant number of enhancements. Before d
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.110[here]
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.112[here]
 
 ## ECMAScript 2016 Language Specification
 
@@ -99,7 +99,7 @@ We're excited to hear feedback about all these new features!
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.12.110
+Thanks to all of the community members who contributed to ClojureScript 1.12.112
 
 * Michel Borkent
 * Paula Gearon
