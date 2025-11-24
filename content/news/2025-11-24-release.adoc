@@ -18,7 +18,7 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.110[here]
 
 ClojureScript, outside of a few small exceptions, has generated https://www.ecma-international.org/wp-content/uploads/ECMA-262_3rd_edition_december_1999.pdf[ECMAScript 3rd edition (1999)] compatible code. We avoided any newer constructs because historically they offered undesirable outcomes: increased code size due to polyfilling and decreased performance due to yet unoptimized paths in JavaScript virtual machines.
 
-Nine years have passed since the https://262.ecma-international.org/7.0/[ECMAScript 2016] was released and the major JavaScript virtual machines now offer great performance across the specification. While language constructs like `let` surprisingly https://vincentrolfs.dev/blog/ts-var[fail] to deliver much value for ClojureScript, features like https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy[Proxy] and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect[Reflect] solve real problems at low, low prices.
+Nine years have passed since the https://262.ecma-international.org/7.0/[ECMAScript 2016] was released and the major JavaScript virtual machines now offer great performance across the specification. While language constructs like `let` surprisingly https://vincentrolfs.dev/blog/ts-var[fail] to deliver much value for ClojureScript, features like https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy[Proxy] and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect[Reflect] solve real problems at low prices.
 
 ClojureScript will use ES2016 moving forward where it delivers value and performance benefits.
 
