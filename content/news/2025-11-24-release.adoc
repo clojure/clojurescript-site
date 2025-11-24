@@ -53,7 +53,7 @@ ClojureScript now supports https://clojure.org/reference/java_interop#methodvalu
 
 ## `:refer-global` and  `:require-global`
 
-`:refer-global` lets a namespace declare what definitions from the global environment should available in the current namespace without `js` prefixing. It can be combined with `:rename`.
+`:refer-global` lets a namespace declare what definitions from the global environment should be available in the current namespace without `js` prefixing. It can be combined with `:rename`.
 
 [source,clojure]
 ```
