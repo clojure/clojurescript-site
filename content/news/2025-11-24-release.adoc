@@ -79,7 +79,7 @@ How to break the 20K compressed wall? After some time in the hammock, we decided
 
 Printing is another blocker for very compact artifacts. Many simpler programs will never recursively print EDN. The `:elide-to-string` compiler flag removes the `toString` implementations leading to better tree-shaking.
 
-Combining these two experimental flags cuts the starting artifact size by two thirds. It's important to understand these flags cannot be used to make *large* ClojureScript programs smaller - once you have enough dependencies or rely on enough features, the savings provided are a wash.
+Combining these two experimental flags cuts the starting artifact size by two thirds. It's important to understand these flags cannot be used to make large ClojureScript programs smaller - once you have enough dependencies or rely on enough features, the savings provided are a wash.
 
 But for people who know that they want to build something very compact, yet not give up on useful bits of `cljs.core` and Google Closure Library, these two new flags deliver more control.
 
