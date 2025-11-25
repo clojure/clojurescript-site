@@ -1,0 +1,456 @@
+= Javascript Interop Reference
+Gregg Reynolds
+2017-06-25
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+WARNING: Work-in-Progress
+
+toc::[]
+
+
+[[sources]]
+== Dev Notes
+
+This section is temporary, and will be deleted when this page is finished.
+
+Goals:
+
+* concise, complete reference, parallel to https://clojure.org/reference/java_interop[Java Interop] for Clojure
+* consolidate here the interop-related info that is currently
+  scattered across this site (e.g. the https://github.com/clojure/clojurescript/wiki[wiki], link:../about/differences.adoc[Differences from Clojure])
+* adapt Java-oriented language in the Clojure docs to JS-oriented language:
+** type not class
+** object not instance
+** field property, not member
+** method property, not method member
+** etc.
+
+Non-goals:
+
+* user guide - that goes in link:../guides/javascript-interop-guide.adoc[Javascript Interop Guide]
+
+=== content
+
+checklist:
+
+* namespaces
+** cljs leverages Closure's mechanism
+** namespace does not necessarily correspond to a source path
+** js namespace
+* classes, types, & prototypes - e.g. what exactly does "type" mean in cljs/js?
+* "this" - this-as, (js* "this") (see https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods])
+* goog.object as "built-in external" in ECMAScript terms
+* #js
+* js- prefixed ops
+* array, make-array, aclone
+* object property access
+** goog.object/geet
+** dot notation
+** aget/aset (prefer goog.object/get)
+** js-delete
+* js* ?? referenced in http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[blog]
+* `instance?` equivalents: `array?`, `fn?` etc.
+* external libs
+** "legacy" js, embedded inline and out-of-line (i.e. non-modularized)
+** modules - goog, CommonJS, AMD, ES6, etc.
+* dealing with strings?
+* use of Object in deftype: it's treated as a Protocol (for arbitrary js methods)
+* debugging
+** :repl-verbose
+
+Add: table showing mapping from JS to CLJS?  e.g. intanceof -> instance, in -> js-in, etc.
+
+=== sources
+
+* https://dev.clojure.org/display/design/this[Problem 1: ClojureScript functions as object methods]
+* http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/[ClojureScript: JavaScript Interop] (Rafal Spacjer blog)
+* http://squirrel.pl/blog/2013/03/28/two-ways-to-access-properties-in-clojurescript/[Two Ways to Access Properties in ClojureScript]
+* https://github.com/cljs/api/issues/128[aget not to be used on objects]
+* http://clojurescriptmadeeasy.com/blog/when-do-i-use-require-vs-import.html[When do I use :require vs :import]
+* http://cljs.info/cheatsheet/[cljs cheatsheet]
+* https://clojure.org/reference/java_interop[Clojure Java Interop]
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects[MDN Standard built-in objects]
+
+
+
+[[overview]]
+== Overview
+
+TODO: something about dealing with different JS versions.
+
+See
+https://clojurescript.org/reference/compiler-options#language-in-and-language-out[:language-in
+and :language-out] on the Compiler Options reference page: "Configure
+the input and output languages for the closure library."
+
+
+
+[[cljs-to-js]]
+== Clojurescript to Javascript
+
+Clojurescript interop is similar to Clojure/Java interop; much of
+the information on Clojure's
+https://clojure.org/reference/java_interop[Java Interop] page applies
+to Clojurescript, with a few caveats:
+
+* Javascript has object types, not classes
+* Javascript "objects" are not class "instances"
+* Clojurescript defines two special namespaces, `js` and `Math`.  All
+  global variables are registered in the former; the latter is a
+  convenience namespace for the standard JS `Math` object.
+* Javascript comes with a collection of
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects[Standard
+  built-in objects] that correspond to Java library classes, such as
+  `Math` and `String`.  All except `Math` must be namespaced with `js`.
+* Javascript does not have static properties
+
+
+=== #js
+
+The `#js` "tagged literal" (i.e. reader tag) is the workhorse of
+interop; it creates arrays and objects.
+
+IMPORTANT:  The `#js` reader is _non-recursive_; it will not transform nested structures.
+
+TODO: a note about print syntax, e.g. cljs.user> #js {:a 1 :b 2} =>  #js {:a 1, :b 2}
+
+
+[source,clojurescript]
+----
+#js {"a" 9}
+-> #js {:a 9}
+#js [1 2]
+-> #js [1 2]
+----
+
+=== js*
+
+TODO: describe
+
+=== js-*
+
+TODO: describe the js- prefixed operators: js-arguments, js-comment, etc.
+
+=== JS value construction
+
+==== JS Arrays
+
+There are four ways to construct a JS array:
+
+* `#js [ ... ]`    ;;
+* `(array & args)` ;; `(array 1 2 3)` is equiv to `#js [1 2 3]`
+* `(make-array sz)` ;; construct an empty javascript array of size `sz`
+* `(aclone arr)`    ;; shallow-copy the javascript array `arr` 
+
+[source,clojurescript]
+----
+#js [1 2]
+-> #js [1 2]
+(array 1 2 3)
+-> #js [1 2 3]
+(make-array 3)      ;; create an empty array of length 3
+#js [nil nil nil]
+----
+
+==== JS Objects
+
+There are two basic ways to create a javascript object:
+
+* `#js { &keyvals }`
+* `(js-obj &keyvals)`: create JavaSript object from an even number arguments
+  representing interleaved keys and values.
+
+[source,clojurescript]
+----
+#js {:a 1 :b 2}
+-> #js {:a 1, :b 2}
+(js-obj :a 1 :b 2)
+-> #js {::a 1, ::b 2}
+----
+
+=== JS Object Property access
+
+Where Java has classes, instances, members, and methods, Javascript
+has (proto)types, objects, field properties, and method properties.
+In the following, we will drop "property" and refer to "fields" and
+"methods".
+
+[%hardbreaks]
+**(.methodProperty object args*)**
+**(.methodProperty Typename args*)** ;; FIXME:  does this make sense?
+**(.-fieldProperty object)**
+**(Classname/staticMethod args*)**  ;; FIXME: ???
+**Classname/staticField**           ;; FIXME: does not apply in js?
+
+[source,clojure]
+----
+(.toUpperCase "fred")  ;; 'toUpperCase' is a method of the JS String global object
+-> "FRED"
+(.charAt "fred" 2)
+-> "e"
+(.-length "fred")       ;; 'length' is a field of string "fred"
+-> 4
+
+Math/PI                 ;; Special namespace for object `Math`
+-> 3.141592653589793
+(js/Date.)              ;; Standard objects like `Date` are in the `js` namespace
+#inst "2017-06-25T17:07:43.567-00:00"
+(.getDate (js/Date.))
+25
+(.isInteger js/Number 3)  ;; `Number` is another standard object
+-> true
+----
+
+The preferred idiomatic forms for accessing field or method members
+are given above. The object member form works for both fields and
+methods. The objectField form is preferred for fields and required
+if both a field and a 0-argument method of the same name exist. They
+all expand into calls to the dot operator (described below) at
+macroexpansion time. The expansions are as follows:
+
+[source,clojurescript]
+----
+(.methodProperty object args*) ==> (. object methodProperty args*)
+(.methodProperty Typename args*) ==>
+    (. (identity Typename) methodProperty args*)
+(.-fieldProperty object) ==> (. objec -fieldProperty)
+(Typename/staticMethod args*) ==> (. Typename staticMethod args*)
+Typename/staticField ==> (. Typename staticField)
+----
+
+
+[[nested]]
+=== Compound (nested) Structures
+
+TODO: brief note on preferring #js and/or js-obj
+
+The `clj->js` function recursively transforms Clojurescript values to Javascript:
+
+WARNING:  `clj->js` is relatively inefficient; prefer other methods.
+
+.clj->js conversions
+[cols=4]
+|===
+2+| clojurescript 2+| javascript
+
+| set | #{} | Array | []
+| vector | [] | Array | []
+| list | () | Array | []
+| keyword | :foo | String | "foo"
+| Symbol | bar | String | "bar"
+| Map | {} | Object | {}
+|===
+
+TODO: examples
+
+=== goog.object
+
+TODO: make this readable
+
+For interacting with Javascript objects, use `goog.object` rather than `aget`
+
+Here are the types and the corresponding accessors you should be using:
+
+ILookup - get or get-in
+js/Array - aget
+js/Object - goog.object/get or goog.object/getValueByKeys
+
+Use the right function for the right type.
+
+(source: https://github.com/cljs/api/issues/128[aget is not to be used on objects]
+
+== The Dot special form
+
+TODO: this is from the Clojure interop page - adapt it to cljs
+
+[%hardbreaks]
+*(_._ object-expr member-symbol)*
+*(_._ Typename-symbol member-symbol)*  ;; FIXME clj only?
+*(_._ object-expr -field-symbol)*
+*(_._ object-expr (method-symbol args*)) or (_._ object-expr method-symbol args)
+*(_._ Typename-symbol (method-symbol args*))* or *(_._ Typename-symbol method-symbol args**) ;; FIXME clj only?
+;; FIXME: get the asterisks right
+
+Special form.
+
+The '.' special form is the basis for access to Javascript Object
+properties. It can be considered a property-access operator, and/or
+read as 'in the scope of'.
+
+WARNING: DELETE (clj only?): If the first operand is a symbol that
+resolves to a class name, the access is considered to be to a static
+member of the named class. Note that nested classes are named
+EnclosingClass$NestedClass, per the JVM spec. Otherwise it is presumed
+to be an object member and the first argument is evaluated to produce
+the target object.
+
+WARNING: DELETE (clj only?) For the special case of invoking an object member on a Class
+object, the first argument must be an expression that evaluates to
+the class object - note that the preferred form at the top expands
+`Classname` to `(identity Classname)`.
+
+If the second operand is a symbol it will resolve as either a field
+ property reference or a method property reference.  It it starts with
+ _`-`_, it will resolve only as field property access, never as a
+ 0-arity method. Otherwise it will resolve as a method property.
+
+NOTE: (Here's the original text from the clj docs) If the second
+operand is a symbol and no args are supplied it is taken to be a field
+property access - the name of the property is the name of the symbol,
+and the value of the expression is the value of the property, _unless_
+there is a no argument public method of the same name, in which case
+it resolves to a call to the method.
+
+If the second operand is a list, or args are supplied, it is taken to
+be a method call. The first element of the list must be a simple
+symbol, and the name of the method is the name of the symbol. The
+args, if any, are evaluated from left to right, and passed to the
+matching method, which is called, and its value returned. If the
+method has a void return type, the value of the expression will be
+_**nil**_. Note that placing the method name in a list with any args
+is optional in the canonic form, but can be useful to gather args in
+macros built upon the form.
+
+Note that boolean return values will be turned into Booleans, chars
+will become Characters, and numeric primitives will become Numbers
+unless they are immediately consumed by a method taking a primitive.
+
+The member access forms given at the top of this section are preferred
+for use in all cases other than in macros.
+
+''''
+
+[%hardbreaks]
+*(_.._ object-expr member+)*
+*(_.._ Classname-symbol member+)*
+
+member => fieldName-symbol or (objectMethodName-symbol args*)
+
+Macro. Expands into a member access (.) of the first member on the first argument, followed by the next member on the result, etc. For instance:
+
+`(.. System (getProperties) (get "os.name"))`
+
+expands to:
+
+`(. (. System (getProperties)) (get "os.name"))`
+
+but is easier to write, read, and understand. See also the https://clojure.github.com/clojure/clojure.core-api.html#clojure.core/%2d%3e[pass:[->]] macro which can be used similarly:
+
+`(pass:[->] (System/getProperties) (.get "os.name"))`
+
+''''
+
+*(_doto_ object-expr (objectMethodName-symbol args*)*)*
+
+Macro. Evaluates object-expr then calls all of the methods/functions with the supplied arguments in succession on the resulting object, returning it.
+
+NOTE: this example is from the https://cljs.github.io/api/cljs.core/#doto[cljs api ref] but it uses java; TODO: fix the api doc
+
+[source,clojure]
+----
+(doto (new java.util.HashMap) (.put "a" 1) (.put "b" 2))
+-> {a=1, b=2}
+----
+
+[[new]]
+''''
+
+[%hardbreaks]
+*(Typename. args*)*
+*(_new_ Typename args*)*
+
+Special form.
+
+The args, if any, are evaluated from left to right, and passed to the constructor of the class named by Classname. The constructed object is returned.
+
+=== Alternative Macro Syntax
+
+FIXME:  isn't this redundant?
+
+As shown, in addition to the canonic special form new, Clojure supports special macroexpansion of symbols containing '.':
+
+`(new Typename args*)`
+
+can be written
+
+`(Typename. args*) ;note trailing dot`
+
+the latter expanding into the former at macro expansion time.
+
+''''
+
+*(_instance?_ c x)*
+
+Clojurescript analog to Javascript `instanceof`.  Evaluates x and
+tests if it is an instance of the type c. Returns true or false
+
+FIXME: what exactly does "instance of type" mean in cljs/js?  express
+this in js langauge, e.g. (from MDN):
+
+"The `instanceof` operator tests whether an object in its prototype
+chain has the prototype property of a constructor."
+
+
+[[set]]
+''''
+
+[%hardbreaks]
+*(_set!_ (. object-expr fieldProperty-symbol) expr)*
+*(_set!_ (. Classname-symbol staticFieldName-symbol) expr)* ;; FIXME: not supported in cljs?
+
+Assignment special form.
+
+When the first operand is a field member access form, the assignment is to the corresponding field. If it is an object field, the object expr will be evaluated, then the expr.
+
+In all cases the value of expr is returned.
+
+Note - _you cannot assign to function params or local bindings. Only Java fields, Vars, Refs and Agents are mutable in Clojure_.
+
+FIXME: add aset, goog.object
+
+''''
+
+=== types and classes
+
+FIXME: clarify the relation between deftype/defrecord and JS
+types/objects (and contrast Java classes/objects?).  What is a JS "type", exactly?
+
+FIXME: can a deftype value be passed to JS code that expects an object?
+
+REFS:
+
+* https://github.com/clojure/clojurescript/wiki/Working-with-Javascript-classes[Working with Javascript classes]
+* https://stackoverflow.com/questions/9018326/how-do-i-create-an-js-object-with-methods-and-constructor-in-clojurescript[How do I create an JS Object with methods and constructor in ClojureScript] ]
+
+
+
+[[js-to-cljs]]
+== Javascript to Clojurescript
+
+=== Scopes and Namespaces
+
+TODO: brief overview of namespaces in Clojure and Clojurescript
+
+TODO: brief explication of Google Closure namespacing mechanism
+
+
+== Using Javascript Libraries
+
+=== Google Closure Library
+
+GCL is a massive collection of JavaScript code organized into
+namespaces much like ClojureScript code itself.  It is bundled with
+Clojurescript; thus, you can require a namespace from GCL in the same
+fashion as a ClojureScript namespace.
+
+TODO: a note on :require v. :import
+
+TODO: a few simple examples
+
+TODO: refer to Interop Guide for further info
+
+TODO: refer to https://clojurescript.org/reference/dependencies[Dependencies]
