@@ -1,0 +1,18 @@
+= 1.12.1NN Release
+ClojureScript Team
+2025-12-01 12:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+This is a follow up release to 1.12.116. It includes bug fixes and changes based on user feedback.
+
+For a complete list of fixes, changes, and enhancements to
+ClojureScript see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.1NN[here]
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.12.1NN
+
+* Michel Borkent
