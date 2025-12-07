@@ -1,6 +1,6 @@
 = 1.12.1NN Release
 ClojureScript Team
-2025-12-01 12:00:00
+2025-12-08 12:00:00
 :jbake-type: post
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
