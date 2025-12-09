@@ -1,4 +1,4 @@
-= 1.12.1NN Release
+= 1.12.134 Release
 ClojureScript Team
 2025-12-08 12:00:00
 :jbake-type: post
@@ -9,10 +9,10 @@ This is a follow up release to 1.12.116. It includes bug fixes and changes based
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.1NN[here]
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.134[here]
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.12.1NN
+Thanks to all of the community members who contributed to ClojureScript 1.12.134
 
 * Michel Borkent
