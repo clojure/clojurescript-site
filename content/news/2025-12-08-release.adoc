@@ -15,4 +15,4 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.134[here]
 
 Thanks to all of the community members who contributed to ClojureScript 1.12.134
 
-* Michel Borkent
+* Michiel Borkent
