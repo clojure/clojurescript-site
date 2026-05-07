@@ -15,9 +15,9 @@ Now that ClojureScript targets
 https://clojurescript.org/news/2025-11-24[ECMAScript 2016] we can
 carefully choose new areas of enhanced interop. Starting with this
 release hinting a function as `^:async` will make ClojureScript
-compiler emit
+compiler emit an
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function[JavaScript
-async functions]:
+async function]:
 
 [source,clojure]
 ```
@@ -26,7 +26,7 @@ async functions]:
         y (let [y (await (Promise/resolve 20))]
             (inc y))
         ;; not async
-
+        f (fn [] 20)]
     (+ n x y (f))))
 ```
 
@@ -44,10 +44,10 @@ This also works for tests:
 ```
 
 In the last Clojure survey, support for async functions dominated the
-list of desired enhancements for JavaScript interop. This enhancement
-greatly simplifies interacting with modern Browser APIs and popular
-libraries, eliminating the need for additional dependencies in the
-most typical scenarios.
+list of desired ClojureScript enhancements for JavaScript
+interop. This enhancement eliminates the need to take on additional
+dependencies for the common cases of interacting with modern Browser
+APIs and popular libraries.
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
@@ -55,6 +55,6 @@ https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.144[here]
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.12.134
+Thanks to all of the community members who contributed to ClojureScript 1.12.144
 
 * Michiel Borkent
