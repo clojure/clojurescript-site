@@ -21,6 +21,8 @@ async function]:
 
 [source,clojure]
 ```
+(refer-global :only '[Promise])
+
 (defn ^:async foo [n]
   (let [x (await (Promise/resolve 10))
         y (let [y (await (Promise/resolve 20))]
