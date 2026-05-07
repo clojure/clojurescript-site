@@ -14,7 +14,7 @@ notes carefully.
 Now that ClojureScript targets
 https://clojurescript.org/news/2025-11-24[ECMAScript 2016] we can
 carefully choose new areas of enhanced interop. Starting with this
-release, hinting a function as `^:async` will make ClojureScript
+release, hinting a function as `^:async` will make the ClojureScript
 compiler emit an
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function[JavaScript
 async function]:
@@ -43,7 +43,7 @@ This also works for tests:
     (catch :default _ (is false))))
 ```
 
-In the last Clojure survey, support for async functions dominated the
+In the last Clojure survey support for async functions dominated the
 list of desired ClojureScript enhancements for JavaScript
 interop. This enhancement eliminates the need to take on additional
 dependencies for the common cases of interacting with modern Browser
