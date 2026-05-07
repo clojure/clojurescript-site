@@ -1,4 +1,4 @@
-= 1.12.144 Release
+= 1.12.145 Release
 ClojureScript Team
 2026-05-07 12:00:00
 :jbake-type: post
@@ -51,10 +51,10 @@ APIs and popular libraries.
 
 For a complete list of fixes, changes, and enhancements to
 ClojureScript see
-https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.144[here]
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.145[here]
 
 ## Contributors
 
-Thanks to all of the community members who contributed to ClojureScript 1.12.144
+Thanks to all of the community members who contributed to ClojureScript 1.12.145
 
 * Michiel Borkent
