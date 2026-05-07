@@ -1,0 +1,60 @@
+= 1.12.144 Release
+ClojureScript Team
+2026-05-07 12:00:00
+:jbake-type: post
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+We're happy to announce a new release of ClojureScript. If you're an
+existing user of ClojureScript please read over the following release
+notes carefully.
+
+## Async Functions
+
+Now that ClojureScript targets
+https://clojurescript.org/news/2025-11-24[ECMAScript 2016] we can
+carefully choose new areas of enhanced interop. Starting with this
+release, hinting a function as `^:async` will make ClojureScript
+compiler emit an
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function[JavaScript
+async function]:
+
+[source,clojure]
+```
+(defn ^:async foo [n]
+  (let [x (await (Promise/resolve 10))
+        y (let [y (await (Promise/resolve 20))]
+            (inc y))
+        ;; not async
+        f (fn [] 20)]
+    (+ n x y (f))))
+```
+
+This also works for tests:
+
+[source,clojure]
+```
+(deftest ^:async defn-test
+  (try
+    (let [v (await (foo 10))]
+      (is (= 61 v)))
+    (let [v (await (apply foo [10]))]
+      (is (= 61 v)))
+    (catch :default _ (is false))))
+```
+
+In the last Clojure survey, support for async functions dominated the
+list of desired ClojureScript enhancements for JavaScript
+interop. This enhancement eliminates the need to take on additional
+dependencies for the common cases of interacting with modern Browser
+APIs and popular libraries.
+
+For a complete list of fixes, changes, and enhancements to
+ClojureScript see
+https://github.com/clojure/clojurescript/blob/master/changes.md#1.12.144[here]
+
+## Contributors
+
+Thanks to all of the community members who contributed to ClojureScript 1.12.144
+
+* Michiel Borkent
