@@ -12,7 +12,7 @@ notes carefully.
 ## Async Functions
 
 Now that ClojureScript targets
-https://clojurescript.org/news/2025-11-24[ECMAScript 2016] we can
+https://clojurescript.org/news/2025-11-24-release[ECMAScript 2016] we can
 carefully choose new areas of enhanced interop. Starting with this
 release, hinting a function as `^:async` will make the ClojureScript
 compiler emit an
