@@ -28,3 +28,4 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 * <<javascript-module-support#,JavaScript Module Support (Alpha)>>
 * <<javascript-library-preprocessing#,JavaScript Library Preprocessing>>
 * <<javascript-api#,JS API>>
+* <<async-functions#,Async Functions>>

@@ -132,8 +132,35 @@ This is just scratching the surface.
 `core.async` gives you very powerful queue-like channels that can do much more than handle one-off
 promises.
 
-You can read more about `core-async` in the https://github.com/clojure/core.async[repository], 
+You can read more about `core-async` in the https://github.com/clojure/core.async[repository],
 https://clojure.org/news/2013/06/28/clojure-clore-async-channels[rationale],
 https://github.com/clojure/core.async/blob/master/examples/walkthrough.clj[code walkthrough],
 and https://swannodette.github.io/2013/07/12/communicating-sequential-processes[blog post].
 
+[[async-functions]]
+== Async functions
+
+Since v1.12.145 ClojureScript supports JS async functions by using `:async` metadata and the `await` macro.
+The above examples can be rewritten as an async function like this:
+
+*ClojureScript:*
+[source,clojure]
+----
+;; optional, but lets you write Promise rather than js/Promise
+(refer-global :only '[Promise])
+
+(def puppeteer (js/require "puppeteer"))
+
+(defn ^:async fetch-page [url]
+  (let [browser (await (.launch puppeteer))
+        page    (await (.newPage browser))]
+    (try
+      (await (.goto page url))
+      (await (.screenshot page #js{:path "screenshot.png"}))
+      (catch :default e (js/console.log e)))
+    (await (.close browser))))
+----
+
+This compiles to a JavaScript async function and needs no extra dependencies.
+
+See also <<../reference/async-functions#,Async functions reference>>.

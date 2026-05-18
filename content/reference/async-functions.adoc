@@ -1,0 +1,123 @@
+= Async Functions
+Michiel Borkent
+2026-05-18
+:type: reference
+:toc: macro
+:icons: font
+
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+
+toc::[]
+
+Since v1.12.145, hinting a function with `^:async` makes the ClojureScript compiler emit a JavaScript async function.
+
+[[requirements]]
+== Requirements
+
+The `async/await` feature requires you to set `:language-out` to `:es6` or higher.
+
+[[defining-async-functions]]
+== Defining async functions
+
+Define an async function by placing `:async` metadata either on the `fn` symbol
+or on the name of the function. Inside the body, `await` suspends the function
+until the `Promise` resolves and yields its value.
+
+[source,clojure]
+----
+(^:async fn [n]
+  (let [x (await (js/Promise.resolve 10))]
+    (+ n x)))
+----
+
+[source,clojure]
+----
+(defn ^:async foo [n]
+  (let [x (await (js/Promise.resolve 10))]
+    (+ n x)))
+----
+
+[[error-handling]]
+== Error handling
+
+The `await` macro may be used anywhere in an `:async` function body, including
+inside `try/catch`. This makes error handling follow the same shape as non-async
+code.
+
+[source,clojure]
+----
+(defn ^:async fetch [url]
+  (try
+    (let [resp (await (js/fetch url))]
+      (await (.json resp)))
+    (catch :default e
+      (js/console.log "fetch failed" e)
+      nil)))
+----
+
+[[testing]]
+== Testing
+
+The `cljs.test` `deftest` macro supports `:async` on the name of the test.
+
+[source,clojure]
+----
+(deftest ^:async my-test
+  (let [v (await (foo 10))]
+    (is (= 20 v))))
+----
+
+[[caveats]]
+== Caveats
+
+The `await` macro may only be called inside an `:async` function and the return value of the function will always be a JS `Promise`.
+
+CLJS does not support top-level await.
+
+Functions created inside an `:async` function are non-async unless also annotated with `:async` metadata. So the following won't work:
+
+[source,clojure]
+----
+(refer-global :only '[Promise fetch])
+
+;; won't work: inner fn is not :async, so `await` is invalid there
+(defn ^:async fetch-statuses [urls]
+  (map (fn [url] (.-status (await (fetch url)))) urls))
+----
+
+In this case the compiler will throw an error with the message "Assert failed: await can only be used in async contexts".
+
+Marking the inner fn `^:async` will compile, but `map` is synchronous and now
+returns a seq of `Promise` values. The outer fn, `fetch-statuses`
+is now needlessly `:async`, since no `await` is even used inside it
+directly. The return value of this function will be a `Promise` resolving to a seq of
+`Promise` values.
+
+[source,clojure]
+----
+(defn ^:async fetch-statuses [urls]
+  (map (^:async fn [url] (.-status (await (fetch url)))) urls))
+----
+
+A possible solution is to use `Promise.all` to await all fetches in parallel:
+
+[source,clojure]
+----
+(defn ^:async fetch-statuses [urls]
+  (let [resps (await (Promise.all (mapv fetch urls)))]
+    (map #(.-status %) resps)))
+----
+
+The only valid placement of `^:async` metadata is on the `fn` symbol or on the name of a function.
+These placements are invalid:
+
+[source,clojure]
+----
+(defn fetch-statuses ^:async [urls]
+  ,,,)
+----
+
+[source,clojure]
+----
+^:async (fn fetch-statuses [urls] ,,,)
+----
