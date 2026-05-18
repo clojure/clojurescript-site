@@ -11,11 +11,6 @@ toc::[]
 
 Since v1.12.145, hinting a function with `^:async` makes the ClojureScript compiler emit a JavaScript async function.
 
-[[requirements]]
-== Requirements
-
-The `async/await` feature requires you to set `:language-out` to `:es6` or higher.
-
 [[defining-async-functions]]
 == Defining async functions
 
@@ -35,6 +30,20 @@ until the `Promise` resolves and yields its value.
 (defn ^:async foo [n]
   (let [x (await (js/Promise.resolve 10))]
     (+ n x)))
+----
+
+The only valid placement of `^:async` metadata is on the `fn` symbol or on the name of a function.
+These placements are invalid:
+
+[source,clojure]
+----
+(defn fetch-statuses ^:async [urls]
+  ,,,)
+----
+
+[source,clojure]
+----
+^:async (fn fetch-statuses [urls] ,,,)
 ----
 
 [[error-handling]]
@@ -106,18 +115,4 @@ A possible solution is to use `Promise.all` to await all fetches in parallel:
 (defn ^:async fetch-statuses [urls]
   (let [resps (await (Promise.all (mapv fetch urls)))]
     (map #(.-status %) resps)))
-----
-
-The only valid placement of `^:async` metadata is on the `fn` symbol or on the name of a function.
-These placements are invalid:
-
-[source,clojure]
-----
-(defn fetch-statuses ^:async [urls]
-  ,,,)
-----
-
-[source,clojure]
-----
-^:async (fn fetch-statuses [urls] ,,,)
 ----

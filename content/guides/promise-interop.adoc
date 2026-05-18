@@ -146,9 +146,6 @@ The above examples can be rewritten as an async function like this:
 *ClojureScript:*
 [source,clojure]
 ----
-;; optional, but lets you write Promise rather than js/Promise
-(refer-global :only '[Promise])
-
 (def puppeteer (js/require "puppeteer"))
 
 (defn ^:async fetch-page [url]
