@@ -37,13 +37,13 @@ These placements are invalid:
 
 [source,clojure]
 ----
-(defn fetch-statuses ^:async [urls]
+(defn foo ^:async [urls]
   ,,,)
 ----
 
 [source,clojure]
 ----
-^:async (fn fetch-statuses [urls] ,,,)
+^:async (fn foo [urls] ,,,)
 ----
 
 [[error-handling]]
