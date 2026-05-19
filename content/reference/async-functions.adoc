@@ -25,6 +25,7 @@ until the `Promise` resolves and yields its value.
     (+ n x)))
 ----
 
+[source,clojure]
 ----
 (fn ^:async [n]
   (let [x (await (js/Promise.resolve 10))]
