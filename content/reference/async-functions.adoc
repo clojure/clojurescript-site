@@ -23,14 +23,14 @@ until the `Promise` resolves and yields its value.
 (refer-global :only '[Promise console fetch]) ;; used in examples throughout this reference
 
 (^:async fn [n]
-  (let [x (await (Promise.resolve 10))]
+  (let [x (await (Promise/resolve 10))]
     (+ n x)))
 ----
 
 [source,clojure]
 ----
 (defn ^:async foo [n]
-  (let [x (await (Promise.resolve 10))]
+  (let [x (await (Promise/resolve 10))]
     (+ n x)))
 ----
 
@@ -62,7 +62,7 @@ code.
     (let [resp (await (fetch url))]
       (await (.json resp)))
     (catch :default e
-      (console.log "fetch failed" e)
+      (.log console "fetch failed" e)
       nil)))
 ----
 
@@ -117,11 +117,11 @@ directly. The return value of this function will be a `Promise` resolving to a s
   (map (^:async fn [url] (.-status (await (fetch url)))) urls))
 ----
 
-A possible solution is to use `Promise.all` to await all fetches in parallel:
+A possible solution is to use `Promise/all` to await all fetches in parallel:
 
 [source,clojure]
 ----
 (defn ^:async fetch-statuses [urls]
-  (let [resps (await (Promise.all (mapv fetch urls)))]
+  (let [resps (await (Promise/all (mapv fetch urls)))]
     (map #(.-status %) resps)))
 ----
