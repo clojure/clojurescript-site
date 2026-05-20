@@ -20,22 +20,17 @@ until the `Promise` resolves and yields its value.
 
 [source,clojure]
 ----
-(^:async fn [n]
-  (let [x (await (js/Promise.resolve 10))]
-    (+ n x)))
-----
+(refer-global :only '[Promise console fetch]) ;; used in examples throughout this reference
 
-[source,clojure]
-----
-(fn ^:async [n]
-  (let [x (await (js/Promise.resolve 10))]
+(^:async fn [n]
+  (let [x (await (Promise/resolve 10))]
     (+ n x)))
 ----
 
 [source,clojure]
 ----
 (defn ^:async foo [n]
-  (let [x (await (js/Promise.resolve 10))]
+  (let [x (await (Promise/resolve 10))]
     (+ n x)))
 ----
 
@@ -50,7 +45,7 @@ These placements are invalid:
 
 [source,clojure]
 ----
-^:async (fn foo [urls] ,,,)
+^:async (fn [urls] ,,,)
 ----
 
 [[error-handling]]
@@ -62,14 +57,18 @@ code.
 
 [source,clojure]
 ----
-(defn ^:async fetch [url]
+(defn ^:async fetch-json [url]
   (try
-    (let [resp (await (js/fetch url))]
+    (let [resp (await (fetch url))]
       (await (.json resp)))
     (catch :default e
-      (js/console.log "fetch failed" e)
+      (.log console "fetch failed" e)
       nil)))
 ----
+
+Note that even though the `await` call is in return position, it is necessary here to
+handle the rejection within the scope of the `try/catch`. Without it, the
+rejection would have to be handled by the caller of `fetch-json`.
 
 [[testing]]
 == Testing
@@ -78,6 +77,8 @@ The `cljs.test` `deftest` macro supports `:async` on the name of the test.
 
 [source,clojure]
 ----
+(require '[cljs.test :refer [deftest is]])
+
 (deftest ^:async my-test
   (let [v (await (foo 10))]
     (is (= 20 v))))
@@ -90,13 +91,14 @@ The `await` macro may only be called inside an `:async` function and the return 
 
 CLJS does not support top-level await.
 
+Multi-arity functions cannot be mixed sync and async. This is why CLJS doesn't let you put `:async` on the arg vector.
+
+The `await` macro in CLJS has nothing to do with the `await` function in JVM Clojure. CLJS does not have agents.
+
 Functions created inside an `:async` function are non-async unless also annotated with `:async` metadata. So the following won't work:
 
 [source,clojure]
 ----
-(refer-global :only '[Promise fetch])
-
-;; won't work: inner fn is not :async, so `await` is invalid there
 (defn ^:async fetch-statuses [urls]
   (map (fn [url] (.-status (await (fetch url)))) urls))
 ----
@@ -115,11 +117,11 @@ directly. The return value of this function will be a `Promise` resolving to a s
   (map (^:async fn [url] (.-status (await (fetch url)))) urls))
 ----
 
-A possible solution is to use `Promise.all` to await all fetches in parallel:
+A possible solution is to use `Promise/all` to await all fetches in parallel:
 
 [source,clojure]
 ----
 (defn ^:async fetch-statuses [urls]
-  (let [resps (await (Promise.all (mapv fetch urls)))]
+  (let [resps (await (Promise/all (mapv fetch urls)))]
     (map #(.-status %) resps)))
 ----
