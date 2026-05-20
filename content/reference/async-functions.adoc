@@ -66,7 +66,7 @@ code.
       nil)))
 ----
 
-Note that even though the `await` is in return position, it is necessary here to
+Note that even though the `await` call is in return position, it is necessary here to
 handle the rejection within the scope of the `try/catch`. Without it, the
 rejection would have to be handled by the caller of `fetch-json`.
 
