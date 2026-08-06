@@ -134,6 +134,7 @@ Clojure(Script) reader
 * https://github.com/reagent-project/historian) a drop-in atom-state-management (UNDOs!![historian] for your clojurescript projects
 * https://github.com/thi-ng/validate) Schema based validation of nested data (CLJX[thi.ng/validate]
 * https://github.com/rbrush/clara-rules[clara] Rete-based rule engine
+* https://github.com/kwladyka/form-validator-cljs[form-validator-cljs] Form validation by spec and fn
 
 === Testing
 
