@@ -9,13 +9,17 @@ We're happy to announce a new release of ClojureScript. If you're an
 existing user of ClojureScript please read over the following release
 notes carefully.
 
+## ECMAScript 2017 Language Specification
+
+Following the move to
+https://clojurescript.org/news/2025-11-24-release[ECMAScript 2016],
+ClojureScript now targets https://262.ecma-international.org/8.0/[ECMAScript 2017],
+which means we can carefully choose new areas of enhanced interop.
+
 ## Async Functions
 
-Now that ClojureScript targets
-https://clojurescript.org/news/2025-11-24-release[ECMAScript 2016] we can
-carefully choose new areas of enhanced interop. Starting with this
-release, hinting a function as `^:async` will make the ClojureScript
-compiler emit an
+Starting with this release, hinting a function as `^:async` will make the
+ClojureScript compiler emit an
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function[JavaScript
 async function]:
 

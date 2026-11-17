@@ -787,12 +787,12 @@ Configure the input and output languages for the closure library. May be:
 * `:ecmascript3` identical to `:es3`
 * `:no-transpile`
 
-`:language-in` defaults to `:ecmascript5`
+`:language-in` defaults to `:ecmascript-next`
 `:language-out` defaults to `:no-transpile`
 
 [source,clojure]
 ----
-:language-in  :ecmascript5
+:language-in  :ecmascript-next
 :language-out :no-transpile
 ----
 
