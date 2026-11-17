@@ -311,7 +311,9 @@ goog/LOCALE
     => "hello, world"
 ----
 
-In ClojureScript `Foo/bar` always means that `Foo` is a namespace. It cannot be used for the Java static field access pattern common in Clojure as there's no reflection information in JavaScript to determine this.
+In ClojureScript `Foo/bar` can refer to a var in a namespace or a static field
+such as `PersistentVector/EMPTY`. ClojureScript also supports method values such
+as `String/.toUpperCase` and constructor values such as `Object/new`.
 
 The special namespace `js` provides access to global properties:
 
