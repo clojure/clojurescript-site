@@ -301,8 +301,8 @@ or d3.
 [[how-does-clojurescript-compare-to-the-newer-ecmascript-versions]]
 **<<faq-js#how-does-clojurescript-compare-to-the-newer-ecmascript-versions,How does ClojureScript compare to the newer ECMAScript versions?>>**
 
-_ES2015, ES7, etc. bring a lot of expressiveness to JavaScript (arrows,
-generators, destructuring, ...) while addressing several of its
+_Recent ECMAScript versions bring a lot of expressiveness to JavaScript (arrows,
+generators, destructuring, async functions, ...) while addressing several of its
 shortcomings and deficiencies (modules, block scope, ...). Does this not
 make languages like ClojureScript pointless?_
 
@@ -343,7 +343,8 @@ default collections.
 |Sets and Maps |part of the standard library (as persistent data
 structures), allow for arbitrary keys.
 
-|Proxies |Not relevant
+|Proxies |The experimental `cljs.proxy` namespace uses JavaScript proxies to
+expose ClojureScript maps and vectors to JavaScript as objects and array-likes.
 
 |Symbols | By design, ClojureScript is against information hiding, so no
 private members. Keywords can be namespaced, reducing the potential for
@@ -356,9 +357,11 @@ the standard library and the Google Closure library.
 |Number literals |there are literals for any base, with special syntax
 for octal and hexadecimal (and of course decimal)
 
-|Promises |Available via libraries
+|Promises |Native JavaScript promises are available through interop.
+`^:async` functions and `await` provide built-in support for working with them.
 
-|Reflect API |Not relevant
+|Reflect API |Available through interop and used by ClojureScript to implement
+method values such as `String/.toUpperCase`.
 
 |Tail Calls |partially supported via the explicit `recur` construct.
 |=======================================================================
@@ -575,7 +578,7 @@ are no ready-made library solutions like Fluxible for this problem.
 [[does-clojurescript-work-in-old-browsers]]
 **<<faq-js#does-clojurescript-work-in-old-browsers,Does ClojureScript work in old browsers?>>**
 
-ClojureScript compiles to ES3-compliant code. It requires less
+ClojureScript compiles to ECMAScript 2017-compliant code. It requires less
 discipline to write portable code in ClojureScript than in vanilla JS.
 
 [[practical-use]]
